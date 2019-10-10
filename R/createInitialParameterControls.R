@@ -10,7 +10,8 @@
 
 
 
-createInitialParameterControls<-function(file.output.list,batch_mode){
+
+createInitialParameterControls<-function(file.output.list,if_Bayesian,batch_mode){
   exit <- function() {
     .Internal(.invokeRestart(list(NULL, NULL), NULL))
   }
@@ -68,9 +69,20 @@ createInitialParameterControls<-function(file.output.list,batch_mode){
         #if betas exists test for mismatches in SOURCE and DELIVF
         if (file.exists(file.path(paste(dirname(path_results),"parameters.csv",sep="")))==TRUE){
           filebetas <- file.path(paste(dirname(path_results),"parameters.csv",sep=""))
-          Ctype <- c("character","character","character","numeric","numeric","numeric","character","numeric")
-          NAMES<- c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmCorrGroup")   
-          
+          if (if_Bayesian=="no"){
+            Ctype <- c("character","character","character","numeric","numeric","numeric","character","numeric")
+            NAMES<- c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmCorrGroup")   
+            
+          }else{
+            Ctype <- c("character","character","character","numeric",
+                       "numeric","numeric","character","numeric",
+                       "numeric","numeric","numeric","numeric",
+                       "character")
+            NAMES<- c("sparrowNames","description","parmUnits","parmInit",
+                      "parmMin","parmMax","parmType","parmCorrGroup",
+                      "parmMinInit","parmMaxInit","bparmScale","phierarch",
+                      "parmRegvar")   
+          }
           #read file
           betas<-importCSVcontrol(filebetas,Ctype,NAMES,"paste0('\n \nRUN EXECUTION TERMINATED')",
                                   file.output.list,TRUE,batch_mode)
@@ -112,10 +124,28 @@ createInitialParameterControls<-function(file.output.list,batch_mode){
                                              parmType=rep(t,length(betaTypes[which(betaTypes$varType==t),]$sparrowNames))))
             }
           }
-          #add other columns
-          initialBetas<-cbind(initialBetas,as.data.frame(matrix(rep(0,nrow(initialBetas)),ncol=4,nrow=nrow(initialBetas))))
-          names(initialBetas)[5:length(initialBetas)]<-c("parmInit","parmMin","parmMax","parmCorrGroup")  
-          #order columns
+          #add other columns    
+          if (if_Bayesian=="no"){
+            initialBetas<-cbind(initialBetas,as.data.frame(matrix(rep(0,nrow(initialBetas)),ncol=4,nrow=nrow(initialBetas))))
+            names(initialBetas)[5:length(initialBetas)]<-c("parmInit","parmMin","parmMax","parmCorrGroup")  
+            #order columns
+            initialBetas<-initialBetas[,match(c("sparrowNames","description","parmUnits","parmInit",
+                                                "parmMin","parmMax","parmType","parmCorrGroup"),
+                                              names(initialBetas))]
+          }else{
+            initialBetas<-cbind(initialBetas,as.data.frame(matrix(rep(0,nrow(initialBetas)),ncol=8,nrow=nrow(initialBetas))))
+            names(initialBetas)[5:length(initialBetas)]<-c("parmInit","parmMin","parmMax",
+                                                           "parmConstant","parmCorrGroup","parmMinInit",
+                                                           "parmMaxInit","bparmScale","phierarch")  
+            initialBetas<-cbind(initialBetas,as.data.frame(matrix(as.character(rep(NA,nrow(initialBetas))),ncol=1,nrow=nrow(initialBetas))))
+            names(initialBetas)[length(initialBetas)]<-"parmRegvar"
+            #order columns
+            initialBetas<-initialBetas[,match(c("sparrowNames","description","parmUnits","parmInit",
+                                                "parmMin","parmMax","parmType","parmCorrGroup",
+                                                "parmMinInit","parmMaxInit","bparmScale","phierarch",
+                                                "parmRegvar"),names(initialBetas))]
+            
+          }#end if_bayes
           initialBetas<-initialBetas[,match(c("sparrowNames","description","parmUnits","parmInit","parmMin",
                                               "parmMax","parmType","parmCorrGroup"),names(initialBetas))]
           
@@ -174,11 +204,27 @@ SET create_initial_parameterControlFiles<-'no' to RUN RSPARROW WITH CURRENT DESI
             }
           }
           #add other columns
-          initialBetas<-cbind(initialBetas,as.data.frame(matrix(rep(0,nrow(initialBetas)),ncol=4,nrow=nrow(initialBetas))))
-          names(initialBetas)[5:length(initialBetas)]<-c("parmInit","parmMin","parmMax","parmCorrGroup")  
-          #order columns
-          initialBetas<-initialBetas[,match(c("sparrowNames","description","parmUnits","parmInit","parmMin",
-                                              "parmMax","parmType","parmCorrGroup"),names(initialBetas))]
+          if (if_Bayesian=="no"){
+            initialBetas<-cbind(initialBetas,as.data.frame(matrix(rep(0,nrow(initialBetas)),ncol=4,nrow=nrow(initialBetas))))
+            names(initialBetas)[5:length(initialBetas)]<-c("parmInit","parmMin","parmMax","parmCorrGroup")  
+            #order columns
+            initialBetas<-initialBetas[,match(c("sparrowNames","description","parmUnits","parmInit","parmMin",
+                                                "parmMax","parmType","parmCorrGroup"),names(initialBetas))]
+          }else{
+            initialBetas<-cbind(initialBetas,as.data.frame(matrix(rep(0,nrow(initialBetas)),ncol=8,nrow=nrow(initialBetas))))
+            names(initialBetas)[5:length(initialBetas)]<-c("parmInit","parmMin","parmMax",
+                                                           "parmConstant","parmCorrGroup","parmMinInit",
+                                                           "parmMaxInit","bparmScale","phierarch")  
+            initialBetas<-cbind(initialBetas,as.data.frame(matrix(as.character(rep(NA,nrow(initialBetas))),ncol=1,nrow=nrow(initialBetas))))
+            names(initialBetas)[length(initialBetas)]<-"parmRegvar"
+            #order columns
+            initialBetas<-initialBetas[,match(c("sparrowNames","description","parmUnits","parmInit",
+                                                "parmMin","parmMax","parmType","parmCorrGroup",
+                                                "parmMinInit","parmMaxInit","bparmScale","phierarch",
+                                                "parmRegvar"),names(initialBetas))]
+            
+          }#end if_bayes 
+          
           
           #write file
           fwrite(file=paste(dirname(path_results),.Platform$file.sep,"parameters.csv",sep=""),initialBetas,

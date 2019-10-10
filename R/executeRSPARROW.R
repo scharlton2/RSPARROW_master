@@ -76,6 +76,42 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
     if (edit_DesignMatrix=="yes"){openDesign(path_user,results_directoryName)}
     if (edit_dataDictionary=="yes"){openVarnames(path_user,results_directoryName)}
     
+    #define testDir and testPhi for Bayesian
+    if (if_Bayesian=="yes"){
+      #read parameter file to get Bayesian type (#if not CAR add later)
+      parameters<-read.csv(paste(path_user,"/",results_directoryName,"/parameters.csv",sep=""),
+                           sep=csv_columnSeparator,dec=csv_decimalSeparator)
+      #      testPhi<-sum(ifelse(is.na(parameters$phierarch),0,parameters$phierarch))
+      testPhi<-sum(ifelse(parameters$phierarch>=3,1,0))
+      testPhi<-ifelse(testPhi==0,"NH","H")
+      
+      #set ifstatespace and ifadust
+      if (regexpr("STSP",modelBayesType)>0){
+        ifstatespace <- 1   # NHSTSP
+        if (substr(testPhi,1,1)=="H") {ifstatespace <- 2}   # HSTSP
+        ifadjust <- 0
+      }else{ 
+        ifstatespace <- 0
+        ifadjust <- 1
+      }
+      
+      
+      testPhi<-modelBayesType
+      #      }
+      remove(parameters)
+      testDir<-paste(path_user,"/",results_directoryName,"/bayes",testPhi,"_",run_id,"/",sep="")
+      
+      #set auto_scaling on
+      if_auto_scaling<-"yes"
+      
+    }else{
+      testPhi<-""
+      testDir<- paste(path_user,"/",results_directoryName,"/",run_id,"/",sep="") 
+      
+      #set bayes parameters 0 if no bayesian
+      ifstatespace <- 0
+      ifadjust <- 0
+    } 
     
     #Questions for user 
     {removeObjects(c("saved","runScript","run2","runOld",
@@ -93,6 +129,35 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
         cat("Please save active control file :\n",activeFile,"\nRun Execution Terminated.")
       }
       if (saved){
+        if(if_Bayesian=="yes"){
+          #read parameter file to get Bayesian type (#if not CAR add later)
+          parameters<-read.csv(paste(path_user,"/",results_directoryName,"/parameters.csv",sep=""),
+                               sep=csv_columnSeparator,dec=csv_decimalSeparator)
+          #      testPhi<-sum(ifelse(is.na(parameters$phierarch),0,parameters$phierarch))
+          testPhi<-sum(ifelse(parameters$phierarch>=3,1,0))
+          testPhi<-ifelse(testPhi==0,"NH","H")
+          
+          if (substr(testPhi,1,1)!=substr(modelBayesType,1,1)){
+            if (substr(modelBayesType,1,1)=="N"){
+              message("THE CONTROL SETTING modelBayesType INDICATES A NON-HIERARCHICAL MODEL, \n
+BUT SETTINGS IN THE parameters.csv FILE INDICATES A HIERARCHICAL MODEL\nPLEASE INDICATE A CONSISTENT BAYESIAN MODEL TYPE\n
+RUN EXECUTION TERMINATED")
+            }else{
+              message("THE CONTROL SETTING modelBayesType INDICATES A HIERARCHICAL MODEL, \n
+BUT SETTINGS IN THE parameters.csv FILE INDICATES A NON-HIERARCHICAL MODEL\nPLEASE INDICATE A CONSISTENT BAYESIAN MODEL TYPE\n
+RUN EXECUTION TERMINATED")
+            }
+            
+            runOld<-"yes"
+            exit <- function() {
+              .Internal(.invokeRestart(list(NULL, NULL), NULL))
+            }
+            exit()
+          }else{
+            testPhi<-modelBayesType
+          }
+          remove(parameters)
+        }
         #set path_main
         path_main<-path_master
         #set default values for any missing required mapping settings
@@ -111,7 +176,8 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
           cat("\n \n")
         }else{
           #make global paths
-          makePaths(path_user,path_master,run_id,results_directoryName,data_directoryName,gis_directoryName)
+          makePaths(path_user,path_master,path_bayesmain,run_id,results_directoryName,
+                    data_directoryName,gis_directoryName,if_Bayesian,testPhi)
           
           #rename control files
           runScript<-"yes"
@@ -156,7 +222,7 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
             
             #test for sparrowNames found in parameters.csv but NOT in dataDictionary.csv and/or design_matrix.csv
             #terminate if missing found
-            addVars(file.output.list, batch_mode)
+            addVars(file.output.list,if_Bayesian, batch_mode)
             
             #create binary maps
             if (if_create_binary_maps=="yes"){
@@ -164,7 +230,7 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
             }
             #create output directories
             dirCreated<-createDirs(file.output.list,if_userModifyData,
-                                   batch_mode)
+                                   if_Bayesian,batch_mode)
             
             
             #delete old files if_estimate or if_estimate_simulation
@@ -180,6 +246,15 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
                 assign("run2",run2,envir = .GlobalEnv)
                 cat("RSPARROW MODEL NAME: ",run_id,sep="")
                 cat("\n \n")
+                if (if_Bayesian=="yes"){
+                  if (testPhi=="H"){
+                    cat("BAYESIAN HIERARCHICAL MODEL")
+                    cat("\n \n")
+                  }else if (testPhi=="NH"){
+                    cat("BAYESIAN NON-HIERARCHICAL MODEL")
+                    cat("\n \n")
+                  }
+                }
                 if (select_scenarioReachAreas=="yes"){
                   cat("SCENARIO NAME: ",scenario_name,sep="")
                   cat("\n \n")
@@ -194,6 +269,7 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
                     #for createVerifyNavigationVars
                     if_verify_demtarea,calculate_reach_attribute_list,
                     mapping.input.list,
+                    if_Bayesian,
                     #for all
                     batch_mode)
                   
@@ -240,6 +316,17 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
                             compare_models,modelComparison_name,if_spatialAutoCorr,
                             #shinyMap2
                             add_vars,
+                            
+                            #Bayesian arguments
+                            bayes.input.list,     # added 7-9-2018
+                            path_rstan,
+                            # Maximum tree depth as control on leapfrog steps by the NUTS sampler
+                            maxTree,
+                            adapt_delta,
+                            # Settings for State-Space model
+                            ifstatespace,     # 0=Non-state space model (do not include process error), 1=State-space model (include process error)
+                            ifadjust,        # 1=Non-state space model (monitoring adjustment applied),0=State-space model
+                            
                             batch_mode,
                             RSPARROW_errorOption)
               
@@ -269,12 +356,13 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
               run2<-1
               assign("run2",run2,envir = .GlobalEnv)
               save(list = c(as.character(outputSettings(file.output.list,FALSE)$setting),
-                            "runScript","run2","RSPARROW_errorOption",ls()[which(regexpr("path_",ls())>0)],
-                            ls()[which(regexpr("file_",ls())>0)],
+                            "RSPARROW_errorOption","runScript","run2","testPhi","ifstatespace",ls()[(regexpr("path_",ls())>0)],
+                            ls()[(regexpr("file_",ls())>0)],"bayes.input.list","ifadjust",
                             "estimate.input.list","mapping.input.list",
                             "file.output.list","class.input.list","min.sites.list","scenario.input.list",
-                            "path_results","path_data","path_gis"),
+                            "path_results","path_data","path_gis","path_rstan"),
                    file=paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData",sep=""))
+              
               system(paste(Sys.which("Rscript.exe")," ",file.path(paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchRun.R",sep="")),sep=""), wait = FALSE, invisible = FALSE)
               cat("Running RSPARROW in batch mode.")
               

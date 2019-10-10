@@ -10,7 +10,7 @@
 
 
 
-read_dataDictionary <- function(file.output.list,batch_mode){
+read_dataDictionary <- function(file.output.list,if_Bayesian,batch_mode){
   
   
   unPackList(lists = list(file.output.list = file.output.list),

@@ -12,7 +12,7 @@
 
 
 
-readDesignMatrix <- function(file.output.list,betavalues,batch_mode){
+readDesignMatrix <- function(file.output.list,if_Bayesian,betavalues,batch_mode){
   
   
   unPackList(lists = list(file.output.list = file.output.list),

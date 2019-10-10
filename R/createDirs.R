@@ -13,12 +13,14 @@
 
 
 createDirs<-function(file.output.list,if_userModifyData,
-                     batch_mode){
+                     if_Bayesian,batch_mode){
   
   
   unPackList(lists = list(file.output.list = file.output.list),
              parentObj = list(NA)) 
-  
+  if (if_Bayesian=="yes"){
+    run_id<-paste0("bayes",testPhi,"_",run_id)
+  }
   options(warn=-1)
   
   run_id<-basename(path_results)

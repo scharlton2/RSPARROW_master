@@ -33,6 +33,11 @@ getYesNoSett<-function(){
                    "load_previousDataImport",
                    "enable_interactiveMaps",
                    "if_verify_demtarea_maps",
-                   "RSPARROW_errorOption")
-  return(yesNoSettings)
-}
+                   
+                   "if_Bayesian",
+                   "if_newBayesSimulation",
+                   "if_BayesPredictions",
+                   "if_Bayesian",
+                   "if_newBayesSimulation",
+                   "if_BayesPredictions")
+  return(yesNoSettings)}

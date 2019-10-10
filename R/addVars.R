@@ -12,7 +12,7 @@
 
 
 
-addVars<-function(file.output.list,batch_mode){
+addVars<-function(file.output.list,if_Bayesian,batch_mode){
   
   
   unPackList(lists = list(file.output.list = file.output.list),
@@ -20,9 +20,21 @@ addVars<-function(file.output.list,batch_mode){
   
   
   #read parameters file
+  if (if_Bayesian=="no"){
+    Ctype <- c("character","character","character","numeric","numeric","numeric","character","numeric")
+    NAMES<- c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmCorrGroup")   
+    
+  }else{
+    Ctype <- c("character","character","character","numeric",
+               "numeric","numeric","character","numeric",
+               "numeric","numeric","numeric","numeric",
+               "character")
+    NAMES<- c("sparrowNames","description","parmUnits","parmInit",
+              "parmMin","parmMax","parmType","parmCorrGroup",
+              "parmMinInit","parmMaxInit","bparmScale","phierarch",
+              "parmRegvar")   
+  }
   filebetas<-paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"parameters.csv",sep="")
-  Ctype <- c("character","character","character","numeric","numeric","numeric","character","numeric")
-  NAMES<- c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmCorrGroup")   
   
   #check file for correct number of fields
   #import parameters

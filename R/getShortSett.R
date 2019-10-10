@@ -31,6 +31,12 @@ getShortSett<-function(){
                    "csv_decimalSeparator",
                    "csv_columnSeparator",
                    "copy_PriorModelFiles",
+                   "niters",
+                   "nchains",
+                   "processing_mode",
+                   "modelBayesType",
+                   "bayes_iseed",
+                   "adapt_delta",
                    
                    "predictionTitleSize",
                    "predictionLegendSize",
