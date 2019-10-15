@@ -11,8 +11,6 @@ generateInputLists<-function(settings){
   unPackList(lists = list(settings = settings),
              parentObj = list(NA))   
   
-  bayes.input.list <- named.list(if_Bayesian,modelBayesType,sigmaPrior,bayes_iseed,niters,nchains,
-                                 processing_mode,if_newBayesSimulation,if_BayesPredictions) 
   
   
   estimate.input.list <- named.list(ifHess, s_offset, NLLS_weights,if_mean_adjust_delivery_vars,
@@ -99,6 +97,5 @@ generateInputLists<-function(settings){
   assign("class.input.list",class.input.list,envir = .GlobalEnv)
   assign("min.sites.list",min.sites.list,envir = .GlobalEnv)
   assign("scenario.input.list",scenario.input.list,envir = .GlobalEnv)
-  assign("bayes.input.list",bayes.input.list,envir = .GlobalEnv)
   
 }

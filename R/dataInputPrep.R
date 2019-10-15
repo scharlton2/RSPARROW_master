@@ -32,7 +32,6 @@ dataInputPrep<-function(#for readData
   #for createVerifyNavigationVars
   if_verify_demtarea,calculate_reach_attribute_list,
   mapping.input.list,
-  if_Bayesian,
   #for all
   batch_mode){
   
@@ -53,7 +52,7 @@ dataInputPrep<-function(#for readData
   # (B) input VARNAMES (data dictionary) CSV file
   #     (should contain all required network variables plus any new variables
   #      needed for mapping, plus any variables in SUBDATA used to make calculations)
-  data_names <- as.data.frame(read_dataDictionary(file.output.list,if_Bayesian,batch_mode))
+  data_names <- as.data.frame(read_dataDictionary(file.output.list,batch_mode))
   
   # (B1) check varNames for duplicates
   checkDupVarnames(data_names,batch_mode)

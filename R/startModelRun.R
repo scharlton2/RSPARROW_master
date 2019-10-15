@@ -88,17 +88,7 @@ startModelRun<-function(file.output.list,
                         if_spatialAutoCorr,
                         #shinyMap2
                         add_vars,
-                        
-                        #Bayesian arguments
-                        bayes.input.list,     # added 7-9-2018
-                        path_rstan,
-                        # Maximum tree depth as control on leapfrog steps by the NUTS sampler
-                        maxTree,
-                        adapt_delta,
-                        # Settings for State-Space model
-                        ifstatespace,     # 0=Non-state space model (do not include process error), 1=State-space model (include process error)
-                        ifadjust,        # 1=Non-state space model (monitoring adjustment applied),0=State-space model
-                        
+                        #batchAndError
                         batch_mode,
                         RSPARROW_errorOption){
   
@@ -108,10 +98,8 @@ startModelRun<-function(file.output.list,
                           min.sites.list = min.sites.list,
                           scenario.input.list = scenario.input.list,
                           estimate.input.list = estimate.input.list,
-                          mapping.input.list = mapping.input.list,
-                          bayes.input.list = bayes.input.list),
+                          mapping.input.list = mapping.input.list),
              parentObj = list(NA,
-                              NA,
                               NA,
                               NA,
                               NA,
@@ -123,18 +111,12 @@ startModelRun<-function(file.output.list,
   
   message("Reading parameters and design matrix...")
   # (A) input parameters and settings
-  betavalues <- readParameters(file.output.list,if_Bayesian,testPhi,if_estimate,if_estimate_simulation,
+  betavalues <- readParameters(file.output.list,if_estimate,if_estimate_simulation,
                                batch_mode)
   assign("betavalues",betavalues,envir = .GlobalEnv)
   
   # (B) Setup the parameter and system variables
-  if (if_Bayesian=="no"){  
-    SelParmValues <- selectParmValues(betavalues,if_estimate,if_estimate_simulation,batch_mode)
-  }else{
-    # (B) Setup the parameter and system variables
-    SelParmValues <- bayesSelectParmValues(betavalues,batch_mode)
-    
-  }
+  SelParmValues <- selectParmValues(betavalues,if_estimate,if_estimate_simulation,batch_mode)
   assign("SelParmValues",SelParmValues,envir = .GlobalEnv)
   #print("SELECTED PARAMETER VALUES")
   #SelParmValues 
@@ -144,7 +126,7 @@ startModelRun<-function(file.output.list,
   assign("ifHess",ifHess,envir = .GlobalEnv)}  
   
   # (C) input source-delivery interaction matrix (includes all possible variables)
-  dmatrixin <- readDesignMatrix(file.output.list,if_Bayesian,betavalues,batch_mode)
+  dmatrixin <- readDesignMatrix(file.output.list,betavalues,batch_mode)
   assign("dmatrixin",dmatrixin,envir = .GlobalEnv)
   # (D) Setup design/interaction matrix
   dlvdsgn <- selectDesignMatrix(SelParmValues,betavalues,dmatrixin)
@@ -405,69 +387,39 @@ startModelRun<-function(file.output.list,
   assign("Cor.ExplanVars.list",Cor.ExplanVars.list,,envir = .GlobalEnv)
   assign("subdata",subdata,envir = .GlobalEnv)
   
-  if (if_Bayesian=="no"){
-    runTimes <- controlFileTasksModel(
-      # pathnames
-      file.output.list,
-      # parameters
-      SelParmValues,betavalues,
-      # NLR weights
-      Csites.weights.list,
-      # data
-      subdata,data_names,DataMatrix.list,sitedata,Vsites.list,vsitedata,numsites,
-      # land use classifcation 
-      class.input.list,
-      # explanatory variable correlations
-      Cor.ExplanVars.list,
-      # estimation
-      minimum_reaches_separating_sites,
-      if_estimate,if_estimate_simulation,dlvdsgn,
-      estimate.input.list,
-      #prediction
-      if_predict,
-      #diagnostics and validation
-      if_validate,sitedata.landuse,vsitedata.landuse,sitedata.demtarea.class,vsitedata.demtarea.class,
-      #mapping 
-      mapping.input.list,
-      #bootstrapping
-      iseed,biters,
-      #scenarios
-      scenario.input.list,
-      #batch_mode
-      batch_mode,
-      #error trap
-      RSPARROW_errorOption
-    )
-  }else{#bayesian
-    bayescontrolFileTasksModel(#pathnames
-      file.output.list,
-      # parameters
-      SelParmValues,betavalues,
-      # data
-      subdata,data_names,DataMatrix.list,sitedata,Vsites.list,vsitedata,
-      # land use classifcation 
-      class.input.list,
-      dlvdsgn,
-      yieldFactor,
-      #diagnostics and validation
-      sitedata.landuse,vsitedata.landuse,sitedata.demtarea.class,vsitedata.demtarea.class,
-      #mapping 
-      mapping.input.list,
-      #Bayesian arguments
-      bayes.input.list,     # added 7-9-2018
-      path_rstan,
-      # Maximum tree depth as control on leapfrog steps by the NUTS sampler
-      maxTree,
-      adapt_delta,
-      # Settings for State-Space model
-      ifstatespace,     # 0=Non-state space model (do not include process error), 1=State-space model (include process error)
-      ifadjust,        # 1=Non-state space model (monitoring adjustment applied),0=State-space model
-      if_spatialAutoCorr,
-      #batch_mode
-      batch_mode,
-      #error trap
-      RSPARROW_errorOption)
-  }
+  
+  runTimes <- controlFileTasksModel(
+    # pathnames
+    file.output.list,
+    # parameters
+    SelParmValues,betavalues,
+    # NLR weights
+    Csites.weights.list,
+    # data
+    subdata,data_names,DataMatrix.list,sitedata,Vsites.list,vsitedata,numsites,
+    # land use classifcation 
+    class.input.list,
+    # explanatory variable correlations
+    Cor.ExplanVars.list,
+    # estimation
+    minimum_reaches_separating_sites,
+    if_estimate,if_estimate_simulation,dlvdsgn,
+    estimate.input.list,
+    #prediction
+    if_predict,
+    #diagnostics and validation
+    if_validate,sitedata.landuse,vsitedata.landuse,sitedata.demtarea.class,vsitedata.demtarea.class,
+    #mapping 
+    mapping.input.list,
+    #bootstrapping
+    iseed,biters,
+    #scenarios
+    scenario.input.list,
+    #batch_mode
+    batch_mode,
+    RSPARROW_errorOption)
+  
+  
   
   
   
@@ -491,30 +443,16 @@ startModelRun<-function(file.output.list,
   allSettings<-outputSettings(file.output.list,TRUE)
   
   #run model comparison
-  if (if_Bayesian=="no"){
-    modelCompare(file.output.list,compare_models,modelComparison_name,if_spatialAutoCorr)
-  }else{
-    bayesModelCompare(file.output.list,compare_models,modelComparison_name,
-                      if_Bayesian,testPhi)
-  }
+  modelCompare(file.output.list,compare_models,modelComparison_name,if_spatialAutoCorr)
   
   #popup results
-  if (if_Bayesian=="no"){
-    try({
-      if (if_estimate=="yes" | if_estimate_simulation=="yes"){
-        shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.pdf",sep=""))
-        shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_summary.txt",sep=""))
-      }
-    },silent=TRUE)
-  }else{#bayesian results
-    try({
-      
-      shell.exec(paste(path_results,"estimate/",run_id,".niters",niters,"_diagnostic_plots.pdf",sep=""))
-      shell.exec(paste(path_results,"estimate/",run_id,".niters",niters,"_summary.txt",sep=""))
-      shell.exec(paste(path_results,"estimate/",run_id,".niters",niters,"_traces.pdf",sep=""))
-      
-    },silent=TRUE)
-  }
+  try({
+    if (if_estimate=="yes" | if_estimate_simulation=="yes"){
+      shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.pdf",sep=""))
+      shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_summary.txt",sep=""))
+    }
+  },silent=TRUE)
+  
   
   # obtain uncertainties, if available
   objfile <- paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_BootUncertainties",sep="")
@@ -528,33 +466,30 @@ startModelRun<-function(file.output.list,
   assign("map_uncertainties",map_uncertainties,envir = .GlobalEnv)
   assign("BootUncertainties",BootUncertainties,envir = .GlobalEnv)
   
-  
-  if (if_Bayesian=="no"){#Shiny only for non-bayesian
-    if (enable_interactiveMaps=="yes" & batch_mode=="no"){
-      #setup for interactive Mapping
-      shiny::runApp(shinyMap2(
-        #stream/catchment
-        file.output.list,map_uncertainties,BootUncertainties,
-        data_names,mapping.input.list,
-        #predict.list,
-        subdata,SelParmValues,
-        #site attr
-        sitedata,
-        #scenarios
-        estimate.list,
-        ConcFactor,DataMatrix.list,dlvdsgn,
-        reach_decay_specification,reservoir_decay_specification,
-        scenario.input.list,
-        #scenarios out
-        add_vars,
-        #batchError
-        batch_mode,
-        RSPARROW_errorOption))
-      stopApp()
-      
-      
-    }#end interactive maps
-  }#end if_Bayesian
+  if (enable_interactiveMaps=="yes" & batch_mode=="no"){
+    #setup for interactive Mapping
+    shiny::runApp(shinyMap2(
+      #stream/catchment
+      file.output.list,map_uncertainties,BootUncertainties,
+      data_names,mapping.input.list,
+      #predict.list,
+      subdata,SelParmValues,
+      #site attr
+      sitedata,
+      #scenarios
+      estimate.list,
+      ConcFactor,DataMatrix.list,dlvdsgn,
+      reach_decay_specification,reservoir_decay_specification,
+      scenario.input.list,
+      #scenarios out
+      add_vars,
+      #batchError
+      batch_mode,
+      RSPARROW_errorOption))
+    stopApp()
+    
+    
+  }#end interactive maps
   
   # }#if runScript=yes
   #}#if exists(runScript)

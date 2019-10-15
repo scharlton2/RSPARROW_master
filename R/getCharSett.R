@@ -12,7 +12,6 @@ getCharSett<-function(){
   charSettings<-c("path_master",
                   "path_main",
                   "path_user",
-                  "path_bayesmain",
                   "path_data",
                   "path_gis",
                   "path_results",
@@ -57,9 +56,6 @@ getCharSett<-function(){
                   "yieldUnits",
                   "landuseConversion",
                   
-                  "modelBayesType",
-                  "sigmaPrior",
-                  "processing_mode",
                   "incr_delivery_specification",
                   
                   "MoranDistanceWeightFunc")

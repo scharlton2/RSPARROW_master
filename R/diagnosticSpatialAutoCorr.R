@@ -24,7 +24,7 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
   
   
   #############################################
-  file_sumOrig<-run_id
+  
   
   # transfer required variables to global environment from 'estimate.list$Mdiagnostics.list'
   # create global variable from list names
@@ -37,7 +37,6 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
                               NA,
                               NA,
                               NA))
-  run_id<-file_sumOrig   
   
   data <- DataMatrix.list$data
   nreach <- length(data[,1])

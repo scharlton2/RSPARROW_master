@@ -16,18 +16,10 @@
 
 
 
-makePaths<-function(path_user,path_master,path_bayesmain,run_id,results_directoryName,
-                    data_directoryName,gis_directoryName,if_Bayesian,testPhi, envir = .GlobalEnv){
+makePaths<-function(path_user, path_master,run_id,results_directoryName,data_directoryName,gis_directoryName, envir = .GlobalEnv){
   
   path_data <- paste(path_user,.Platform$file.sep,data_directoryName,.Platform$file.sep,sep="")       # location of the DATA1 file
-  if (if_Bayesian=="no"){
-    path_results <- paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep,sep="") # location of the results directory
-    path_rstan<-NA
-  }else{
-    path_results <- paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,"bayes",testPhi,"_",run_id,.Platform$file.sep,sep="") # location of the results directory
-    path_rstan <- paste(path_bayesmain,.Platform$file.sep,"R",.Platform$file.sep,"rstan",sep="")
-  }
-  
+  path_results <- paste(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep,sep="") # location of the results directory
   path_gis <- paste(path_user,.Platform$file.sep,gis_directoryName,sep="")          # GIS shape files (necessary to exclude the slash at end)
   
   #test if data, results, and gis are all at same level
@@ -50,17 +42,6 @@ makePaths<-function(path_user,path_master,path_bayesmain,run_id,results_director
     errorOccurred("makePaths.R",batch_mode)
   }
   path_main<-path_master
-  if (if_Bayesian=="no"){
-    #file_sum <- run_id                                  # name for output files
-    #file_vars <- run_id                                 # name of input parameter CSV file
-    #file_design <- run_id                               # design matrix CSV file
-    #file_varnames <- run_id     
-  }else{
-    run_id<-paste("bayes",testPhi,"_",run_id,sep="")
-    #file_vars <- file_sum                                 # name of input parameter CSV file
-    #file_design <- file_sum                               # design matrix CSV file
-    #file_varnames <- file_sum  
-  }
   path_src <- paste(path_main,.Platform$file.sep,"src",.Platform$file.sep,sep="")
   path_master <- paste(path_main,.Platform$file.sep,"R",.Platform$file.sep,sep="")
   

@@ -22,10 +22,6 @@ getNumSett<-function(){
                      "lon_limit",
                      "scenario_factors",
                      "class_landuse_percent",
-                     "niters",
-                     "bayes_iseed",
-                     "maxTree",
-                     "adapt_delta",
                      
                      "predictionTitleSize",
                      "predictionLegendSize",
@@ -47,9 +43,6 @@ getNumSett<-function(){
                      "diagnosticPlotPointStyle",
                      
                      "confInterval",
-                     "bayes_iseed",
-                     "niters",
-                     "nchains",
                      "select_targetReachWatersheds"
   )
   return(numericSettings)

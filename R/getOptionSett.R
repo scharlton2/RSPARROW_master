@@ -14,7 +14,6 @@ getOptionSett<-function(){
                     "select_scenarioReachAreas = c('all reaches','none','selected reaches')",
                     "convertShapeToBinary.list = c('lineShapeName','polyShapeName','LineShapeGeo')",
                     "output_map_type = c('stream','catchment','both')",
-                    "processing_mode = c('multi-core','sequential','test')",
-                    "modelBayesType = c('NH','H','NHSTSP','HSTSP','NHCAR','HCAR')",
                     "outputERSImaps = c('yes','no')")
-  return(optionSettings)}
+  return(optionSettings)
+}

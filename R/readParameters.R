@@ -14,7 +14,7 @@
 
 
 
-readParameters <- function(file.output.list,if_Bayesian,testPhi,if_estimate,if_estimate_simulation,
+readParameters <- function(file.output.list,if_estimate,if_estimate_simulation,
                            batch_mode) {
   
   unPackList(lists = list(file.output.list = file.output.list),
@@ -24,21 +24,8 @@ readParameters <- function(file.output.list,if_Bayesian,testPhi,if_estimate,if_e
   
   #define column classes and names
   filebetas <- paste(path,run_id,"_parameters.csv",sep="")
-  
-  
-  if (if_Bayesian=="no"){
-    Ctype <-c("character","character","character","numeric","numeric","numeric","character","numeric")
-    NAMES<- c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmCorrGroup")   
-  }else{
-    Ctype <- c("character","character","character","numeric",
-               "numeric","numeric","character","numeric",
-               "numeric","numeric","numeric","numeric",
-               "character")
-    NAMES<- c("sparrowNames","description","parmUnits","parmInit",
-              "parmMin","parmMax","parmType","parmCorrGroup",
-              "parmMinInit","parmMaxInit","bparmScale","phierarch",
-              "parmRegvar")   
-  }  
+  Ctype <- c("character","character","character","numeric","numeric","numeric","character","numeric")
+  NAMES<- c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmCorrGroup")   
   
   #read file  
   betavalues<-importCSVcontrol(filebetas,Ctype,NAMES,"paste0('\n \nRUN EXECUTION TERMINATED')",
@@ -62,17 +49,9 @@ readParameters <- function(file.output.list,if_Bayesian,testPhi,if_estimate,if_e
   
   
   #create parmConstant
-  if (if_Bayesian=="no"){
-    betavalues$parmConstant<-ifelse(betavalues$parmInit==betavalues$parmMax & betavalues$parmInit==betavalues$parmMin & betavalues$parmInit!=0,1,0)
-    betavalues<-as.data.frame(betavalues)
-    betavalues<-betavalues[,match(c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmConstant","parmCorrGroup"),names(betavalues))]
-  }else{
-    betavalues$parmConstant<-ifelse(betavalues$parmInit==betavalues$parmMax & betavalues$parmInit==betavalues$parmMin & betavalues$parmInit!=0,1,0)
-    betavalues<-as.data.frame(betavalues)
-    betavalues<-betavalues[,match(c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmConstant","parmCorrGroup",
-                                    "parmMinInit","parmMaxInit","bparmScale","phierarch",
-                                    "parmRegvar"),names(betavalues))]
-  }     
+  betavalues$parmConstant<-ifelse(betavalues$parmInit==betavalues$parmMax & betavalues$parmInit==betavalues$parmMin & betavalues$parmInit!=0,1,0)
+  betavalues<-as.data.frame(betavalues)
+  betavalues<-betavalues[,match(c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmConstant","parmCorrGroup"),names(betavalues))]
   
   #test for "SOURCE" in parmType column
   sources<-betavalues[which(betavalues$parmType=="SOURCE"),]
