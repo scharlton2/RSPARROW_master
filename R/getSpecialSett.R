@@ -10,7 +10,7 @@
 
 getSpecialSett<-function(){
   specialSettings<-list()
-  specialSettings$name<-c("outputERSImaps",
+  specialSettings$name<-c("outputESRImaps",
                           
                           "predictionMapColors",
                           "predictionMapColors",
@@ -37,7 +37,7 @@ getSpecialSett<-function(){
                           "scenarioMapColors"
   )
   
-  specialSettings$test<-c("length(outputERSImaps)==4",
+  specialSettings$test<-c("length(outputESRImaps)==4",
                           
                           "length(predictionMapColors)>1",
                           "areColors(predictionMapColors)",
@@ -68,7 +68,7 @@ getSpecialSett<-function(){
                           "areColors(scenarioMapColors)"
   )
   
-  specialSettings$fail<-c("length(outputERSImaps)==4",
+  specialSettings$fail<-c("length(outputESRImaps)==4",
                           
                           "length(predictionMapColors)>1",
                           "predictionMapColors is vector of valid color strings",

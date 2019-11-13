@@ -247,7 +247,7 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
                    c("threshold","all"),"Obs/Pred Ratio",mapping.input.list)
     
     #output residuals shapefile
-    if (outputERSImaps[3]=="yes"){
+    if (outputESRImaps[3]=="yes"){
       Obsyield <- Obs / vsitedata$demtarea
       predictYield <- ppredict / vsitedata$demtarea
       origWaterid<-vsitedata$waterid_for_RSPARROW_mapping

@@ -576,7 +576,7 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
   
   
   #output siteAttr shapefile
-  if (outputERSImaps[4]=="yes"){
+  if (outputESRImaps[4]=="yes"){
     siteAttrshape<-data.frame(waterid = sitedata$waterid,
                               originalWaterid = sitedata$waterid_for_RSPARROW_mapping,
                               xlat,xlon)
@@ -604,7 +604,7 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
   }
   
   #output residuals shapefile
-  if (outputERSImaps[3]=="yes"){
+  if (outputESRImaps[3]=="yes"){
     Resids <- estimate.list$sparrowEsts$resid
     Obsyield <- Obs / sitedata$demtarea
     

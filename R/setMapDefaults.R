@@ -16,7 +16,7 @@ setMapDefaults<-function(settings){
   defaults<-list(diagnosticPlotPointSize = 0.6,
                  diagnosticPlotPointStyle = 16,
                  lineWidth = 0.8,
-                 outputERSImaps = c("no","no","no","no"),
+                 outputESRImaps = c("no","no","no","no"),
                  predictionClassRounding = 1,
                  predictionLegendBackground = "grey",
                  predictionLegendSize = 0.6,

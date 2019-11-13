@@ -196,10 +196,10 @@ predictMaps<-function(#Rshiny
         output_map_type<-tolower(as.character(input$outCheck))
         
         if ((input$mapType=="Stream" | (mapScenarios==TRUE & regexpr("stream",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
-          outputERSImaps[1]<-"yes"
+          outputESRImaps[1]<-"yes"
         }
         if ((input$mapType=="Catchment" | (mapScenarios==TRUE & regexpr("catchment",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
-          outputERSImaps[2]<-"yes"
+          outputESRImaps[2]<-"yes"
         }
       }else{
         output_map_type<-tolower(as.character(input$outType))
