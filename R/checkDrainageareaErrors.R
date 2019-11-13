@@ -97,7 +97,8 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
             chk1 <- quantile(vvar, probs=0:iprob/iprob)
             chk <- unique(quantile(vvar, probs=0:iprob/iprob)) # define quartiles
             qvars <- as.integer(cut(vvar, quantile(vvar, probs=0:iprob/iprob), include.lowest=TRUE))  # classify variable
-            Mcolors <- c("blue","dark green","gold","red","dark red")
+            #Mcolors <- c("blue","dark green","gold","red","dark red")
+            Mcolors<-predictionMapColors
             Mcolors <- Mcolors[1:(length(chk1)-1)]
             # http://research.stowers-institute.org/efg/R/Color/Chart/index.htm
             MAPCOLORS <- as.character(Mcolors[qvars])
