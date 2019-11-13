@@ -24,6 +24,7 @@ Imports:
     car,
     OpenMx,
     rgdal,
+    sf,
     shiny,
     shinyWidgets,
     sp,

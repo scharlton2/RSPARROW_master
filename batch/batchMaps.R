@@ -64,6 +64,7 @@ if (length(res)!=0){
   suppressWarnings(suppressMessages(library(sp)))
   suppressWarnings(suppressMessages(library(rgdal)))
   suppressWarnings(suppressMessages(library(maptools)))
+  suppressWarnings(suppressMessages(library(sf)))
   
   
   #start sink

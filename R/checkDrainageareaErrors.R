@@ -91,7 +91,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
             
             #if(!is.na(LineShapeGeo)) {
             if(existGeoLines==TRUE){
-              plot(GeoLines,col=1,lwd=0.1,xlim=lon_limit,ylim=lat_limit)
+              plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit)
             }
             
             chk1 <- quantile(vvar, probs=0:iprob/iprob)
@@ -119,12 +119,12 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
               lineShape <- merge(lineShape, dmap, by.x = commonvar, by.y = commonvar)
               
             }
-            
+
             #if(!is.na(LineShapeGeo)) {
             if(existGeoLines==TRUE) {
-              plot(lineShape,col=lineShape$MAPCOLORS,lwd=0.8, add=TRUE)
+              plot(st_geometry(lineShape),col=lineShape$MAPCOLORS,lwd=0.8, add=TRUE)
             } else {
-              plot(lineShape,col=lineShape$MAPCOLORS,lwd=0.8)
+              plot(st_geometry(lineShape),col=lineShape$MAPCOLORS,lwd=0.8)
             }
             
             title(title_name[k])

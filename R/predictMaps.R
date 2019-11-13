@@ -578,7 +578,7 @@ predictMaps<-function(#Rshiny
         commonvar <- lineWaterid
         names(dmapfinal)[1]<-commonvar
         names(dmapAll)[1]<-commonvar
-        lineShape <- sp::merge(lineShape, dmapfinal, by.x = commonvar, by.y = commonvar)
+        lineShape <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = commonvar)
         
         if (Rshiny==FALSE){
           if (mapScenarios==FALSE){
@@ -632,17 +632,18 @@ predictMaps<-function(#Rshiny
           }
           
           if (existGeoLines==TRUE){
-            plot(GeoLines,col=1,lwd=0.1,xlim=lon_limit,ylim=lat_limit,bg = predictionMapBackground)
+            plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
+            
           }
           
           # obtain variable settings
           mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
           # select the shading colors for a given mapping variable
           if (existGeoLines==TRUE){
-            xtext <- paste("sp::plot(lineShape,col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
+            xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
             eval(parse(text=xtext))
           } else {
-            xtext <- paste("sp::plot(lineShape,col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
+            xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
             eval(parse(text=xtext))
           }
           if (mapScenarios==FALSE){
@@ -676,8 +677,8 @@ predictMaps<-function(#Rshiny
         }
         
         #output shapefile
-        if (outputERSImaps[1]=="yes"){
-          lineShape <- sp::merge(lineShape, dmapAll, by.x = commonvar, by.y = commonvar)
+        if (outputESRImaps[1]=="yes"){
+          lineShape <- merge(lineShape, dmapAll, by.x = commonvar, by.y = commonvar)
           lineShape<-lineShape[,which(regexpr("MAPCOLORS",names(lineShape))<0)]
           
           if (Rshiny==FALSE){
@@ -688,16 +689,16 @@ predictMaps<-function(#Rshiny
               dir.create(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
             
-            writeSpatialShape(lineShape,paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"lineShape",sep=""))
-            cat(showWKT(proj4string(lineShape)),file=paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.prj",sep="")) 
+           st_write(lineShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+                           .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
             
           }else if (mapScenarios==TRUE & input$batch=="Batch"){
             if (!dir.exists(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
             
-            maptools::writeSpatialShape(lineShape,paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"lineShape",sep=""))
-            cat(rgdal::showWKT(sp::proj4string(lineShape)),file=paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"lineShape.prj",sep="")) 
+           st_write(lineShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
             
           }else if (input$batch=="Batch"){
             if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
@@ -707,9 +708,9 @@ predictMaps<-function(#Rshiny
               dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
             
-            maptools::writeSpatialShape(lineShape,paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"lineShape",sep=""))
-            cat(rgdal::showWKT(sp::proj4string(lineShape)),file=paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.prj",sep="")) 
-          }
+           st_write(lineShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
+            }
         }
         
         
@@ -722,7 +723,7 @@ predictMaps<-function(#Rshiny
         names(dmapfinal)[1]<-commonvar
         names(dmapAll)[1]<-commonvar
         # merge selected variables to the shape file
-        polyShape <- sp::merge(polyShape, dmapfinal, by.x = commonvar, by.y = commonvar)
+        polyShape <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = commonvar)
         
         if (Rshiny==FALSE){
           # Create and output maps
@@ -755,7 +756,7 @@ predictMaps<-function(#Rshiny
             pdf(filename)
           }
           if (existGeoLines==TRUE){
-            plot(GeoLines,col=1,lwd=0.1,xlim=lon_limit,ylim=lat_limit,bg = predictionMapBackground)
+            plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
           }
           
           # obtain variable settings
@@ -763,10 +764,10 @@ predictMaps<-function(#Rshiny
           
           # select the shading colors for a given mapping variable
           if (existGeoLines==TRUE){
-            xtext <- paste("sp::plot(polyShape,col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
+            xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
             eval(parse(text=xtext))
           } else {
-            xtext <- paste("sp::plot(polyShape,col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground)",sep="")
+            xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground)",sep="")
             eval(parse(text=xtext))
           }
           
@@ -801,8 +802,8 @@ predictMaps<-function(#Rshiny
         }
         
         #output shapefile
-        if (outputERSImaps[2]=="yes"){
-          polyShape <- sp::merge(polyShape, dmapAll, by.x = commonvar, by.y = commonvar)
+        if (outputESRImaps[2]=="yes"){
+          polyShape <- merge(polyShape, dmapAll, by.x = commonvar, by.y = commonvar)
           polyShape<-polyShape[,which(regexpr("MAPCOLORS",names(polyShape))<0)]
           
           if (Rshiny==FALSE){
@@ -813,19 +814,17 @@ predictMaps<-function(#Rshiny
               dir.create(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
             
-            
-            writeSpatialShape(polyShape,paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape",sep=""))
-            cat(showWKT(proj4string(polyShape)),file=paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.prj",sep="")) 
-            
+            st_write(polyShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,
+                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp",sep=""))
+          
             
           }else if (mapScenarios==TRUE  & input$batch=="Batch"){
             if (!dir.exists(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
             
-            maptools::writeSpatialShape(polyShape,paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"polyShape",sep=""))
-            cat(rgdal::showWKT(sp::proj4string(polyShape)),file=paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"polyShape.prj",sep="")) 
-            
+            st_write(polyShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,
+                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp",sep=""))
           }else if (input$batch=="Batch"){
             if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
@@ -834,9 +833,8 @@ predictMaps<-function(#Rshiny
               dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
             
-            maptools::writeSpatialShape(polyShape,paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape",sep=""))
-            cat(rgdal::showWKT(sp::proj4string(polyShape)),file=paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.prj",sep="")) 
-          }
+            st_write(polyShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,
+                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp",sep=""))}
         }
       }
     }else {#if length(master_map_list)

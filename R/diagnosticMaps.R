@@ -66,7 +66,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     nbelow <- eval(parse(text=paste("length(below$",mapColumn,")",sep="")))
     
     #for below threshold
-    plot(GeoLines,lwd=0.1,xlim=lon_limit,ylim=lat_limit,col=1,bg=cbckgrd)
+    plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
+    
     title(bquote(paste(.(strTitle)," - Over Predictions - n=",.(nabove))),cex.main=residualTitleSize)
     
     map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn,"<= cls[1]), ]",sep="")))
@@ -94,7 +95,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     
     
     #for above threshold
-    plot(GeoLines,lwd=0.1,xlim=lon_limit,ylim=lat_limit,col=1,bg=cbckgrd)
+    plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
+    
     title(bquote(paste(.(strTitle)," - Under Predictions - n=",.(nbelow))),cex.main=residualTitleSize)
     
     map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[7]), ]",sep="")))
@@ -129,7 +131,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     #for all cls
     par(mfrow=c(1,1), pch=16)    # 1 plots on one page
     
-    plot(GeoLines,lwd=0.1,xlim=lon_limit,ylim=lat_limit,col=1,bg=cbckgrd)
+    plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
     title(strTitle,cex.main=residualTitleSize)
     
     map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," <= cls[1]), ]",sep="")))
