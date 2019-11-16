@@ -19,6 +19,10 @@ Imports:
     gear,
     gplots,
     ggplot2,
+    plotly,
+    leaflet,
+    leaflet.extras,
+    htmlwidgets,
     plyr,
     dplyr,
     car,
@@ -41,6 +45,7 @@ Imports:
     highr,
     markdown,
     knitr,
+    tools,
     rmarkdown
 Suggests:
     testthat

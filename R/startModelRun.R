@@ -448,7 +448,8 @@ startModelRun<-function(file.output.list,
   #popup results
   try({
     if (if_estimate=="yes" | if_estimate_simulation=="yes"){
-      shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.pdf",sep=""))
+      #shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.pdf",sep=""))
+      shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.html",sep=""))
       shell.exec(paste(path_results,"estimate",.Platform$file.sep,run_id,"_summary.txt",sep=""))
     }
   },silent=TRUE)
