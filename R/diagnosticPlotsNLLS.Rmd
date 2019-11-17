@@ -5,6 +5,7 @@ date: "`r format(Sys.time(), '%m-%d-%Y')`"
 output: html_document
 params:
   file.output.list: file.output.list
+  path_mapAttrChild: path_mapAttrChild
   path_classvarChild: path_classvarChild
   path_classLandChild: path_classLandChild
   path_contiguousChild: path_contiguousChild
@@ -28,6 +29,7 @@ knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
 #unpack params
   file.output.list<-params$file.output.list
+path_mapAttrChild<-params$path_mapAttrChild
   path_classvarChild<-params$path_classvarChild
   path_classLandChild<-params$path_classLandChild
   path_contiguousChild<-params$path_contiguousChild
@@ -130,10 +132,10 @@ cat("##Calibration Site Maps for User-Selected Attributes\n")
   
   
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}  
-  if(existGeoLines==TRUE) { 
-    
-    #map site attributes
-    if (!is.na(map_siteAttributes.list)){
+#  if(existGeoLines==TRUE) { 
+#    
+#    #map site attributes
+#    if (!is.na(map_siteAttributes.list)){
       
       
       #add text explanation 11.3.17
@@ -142,29 +144,55 @@ cat("##Calibration Site Maps for User-Selected Attributes\n")
       #gplots::textplot(strExplanation,valign="top", cex=1.1, halign="center")
       #title("Calibration Site Maps for User-Selected Attributes")
       
-      for (s in 1:length(map_siteAttributes.list)){
-        if (length(names(sitedata)[which(names(sitedata)==map_siteAttributes.list[s])])!=0){
-          siteAttr<-eval(parse(text= paste("data.frame(",map_siteAttributes.list[s],"=sitedata$",map_siteAttributes.list[s],")",sep="")))
-          titleAttr<-data_names[which(data_names$sparrowNames==map_siteAttributes.list[s]),]
-          unitAttr<-titleAttr$varunits
-          titleAttr<-as.character(titleAttr$explanation)
-          mapdata<-data.frame(xlat,xlon,siteAttr)
-          input<-list(var=NA, sizeBatch=NA,size=NA)
-          mapSiteAttributes(#Rshiny
-            input,"", path_gis, sitedata, LineShapeGeo,data_names,FALSE,
-            #regular
-            names(siteAttr),mapdata,GeoLines,mapping.input.list,titleAttr,unitAttr,batch_mode)
-        }else{
-          message(paste("WARNING : ",map_siteAttributes.list[s], " DOES NOT EXIST.  MAP SITE ATTRIBUTE TERMINATED",sep=""))
-          if (batch_mode=="yes"){
-            cat("\n \n")
-            cat("WARNING : ",map_siteAttributes.list[s], " DOES NOT EXIST.  MAP SITE ATTRIBUTE TERMINATED",sep="")
-            cat("\n \n")
-          }#if batch_mode
-        }#end if attribute exists
-      }#end for each attribute
-    }#end if map_siteAttr
+ #     for (s in 1:length(map_siteAttributes.list)){
+#        if (length(names(sitedata)[which(names(sitedata)==map_siteAttributes.list[s])])!=0){
+#          siteAttr<-eval(parse(text= #paste("data.frame(",map_siteAttributes.list[s],"=sitedata$",map_siteAttributes.list[s],")",sep="")))
+#          titleAttr<-data_names[which(data_names$sparrowNames==map_siteAttributes.list[s]),]
+#          unitAttr<-titleAttr$varunits
+#          titleAttr<-as.character(titleAttr$explanation)
+#          mapdata<-data.frame(xlat,xlon,siteAttr)
+#          input<-list(var=NA, sizeBatch=NA,size=NA)
+#          mapSiteAttributes(#Rshiny
+#            input,"", path_gis, sitedata, LineShapeGeo,data_names,FALSE,
+#            #regular
+#            names(siteAttr),mapdata,GeoLines,mapping.input.list,titleAttr,unitAttr,batch_mode)
+##        }else{
+#          message(paste("WARNING : ",map_siteAttributes.list[s], " DOES NOT EXIST.  MAP SITE ATTRIBUTE #TERMINATED",sep=""))
+#          if (batch_mode=="yes"){
+#            cat("\n \n")
+#            cat("WARNING : ",map_siteAttributes.list[s], " DOES NOT EXIST.  MAP SITE ATTRIBUTE TERMINATED",sep="")
+#            cat("\n \n")
+#          }#if batch_mode
+#        }#end if attribute exists
+#      }#end for each attribute
+#    }#end if map_siteAttr
+#  }
+
+ if(existGeoLines==TRUE) { 
+  map_siteAttributes.list<-map_siteAttributes.list[which(map_siteAttributes.list %in% names(sitedata))]  
+    #map site attributes
+    if (!is.na(map_siteAttributes.list) & length(map_siteAttributes.list)!=0){
+
+rmd <- sapply(
+  1:(length(map_siteAttributes.list)),
+  function(s) {
+   knit_expand(path_mapAttrChild, s = s)
   }
+)
+rmd <- paste(rmd, collapse = "\n")
+        }
+      
+    }
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+ if(existGeoLines==TRUE) { 
+    if (!is.na(map_siteAttributes.list) & length(map_siteAttributes.list)!=0){
+rendered <- knit(text = rmd, quiet = TRUE)
+cat("\n \n")
+cat(rendered, sep = "\n")
+}}
+```
 ```
 
 ```{r echo=FALSE, results='asis', eval=TRUE}
