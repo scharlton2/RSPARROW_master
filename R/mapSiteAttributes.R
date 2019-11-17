@@ -186,7 +186,7 @@ mapSiteAttributes<-function(#Rshiny
     p <- p %>% addLegend(colors = uniqueColsleaf(seq(1:length(color))), labels = strLegend, 
                          opacity = 1, position = "bottomleft")
     p
-print("end attr map")
+
   }#if attr selected in shiny
   
   
