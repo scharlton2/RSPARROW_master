@@ -193,7 +193,7 @@ cat("\n \n")
 cat(rendered, sep = "\n")
 }}
 ```
-```
+
 
 ```{r echo=FALSE, results='asis', eval=TRUE}
 
@@ -238,10 +238,12 @@ cat("##Observed vs. predicted for loads and yields and log residuals vs. predict
   #     ylab=paste0("OBSERVED LOAD (",loadUnits,")"),xlab=paste0("PREDICTED LOAD (",loadUnits,")"))
   #lines(Obs,Obs, col=2)
 markerText<-"~paste('</br> Observed Load: ',Obs,
-                   '</br> Predicted Load: ',predict,
-                   '</br> waterid :',waterid)"
-data<-data.frame(predict = predict, Obs = Obs, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                   '</br> Predicted Load: ',predict"
+                   
+data<-data.frame(predict = predict, Obs = Obs)
 
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
 p1 <- plotlyLayout(predict,Obs, log = "xy", nTicks = 5, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
@@ -275,9 +277,11 @@ p1 <- p1 %>% add_trace(data = data, x = ~Obs, y = ~Obs,
   #lines(yldobs,yldobs, col=2)
   
   markerText<-"~paste('</br> Observed Yield: ',yldobs,
-                   '</br> Predicted Yield: ',yldpredict,
-                   '</br> waterid :',waterid)"
-data<-data.frame(yldpredict = yldpredict, yldobs = yldobs, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                   '</br> Predicted Yield: ',yldpredict"
+data<-data.frame(yldpredict = yldpredict, yldobs = yldobs)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
 p2 <- plotlyLayout(yldpredict,yldobs, log = "xy", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"),  xZeroLine = TRUE,
@@ -308,9 +312,11 @@ p2 <- p2 %>% add_trace(data = data, x = ~yldobs, y = ~yldobs,
 #  #abline(h=0,col=2)
 #  
   markerText<-"~paste('</br> Log Residual: ',Resids,
-                   '</br> Predicted Load: ',predict,
-                   '</br> waterid :',waterid)"
-data<-data.frame(predict = predict, Resids = Resids, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                   '</br> Predicted Load: ',predict"
+data<-data.frame(predict = predict, Resids = Resids)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
 p3 <- plotlyLayout(predict,Resids, log = "x", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"),  xZeroLine = TRUE,
@@ -336,9 +342,11 @@ p3 <- p3 %>% add_trace(data = data, x = ~predict, y = ~Resids,
   #abline(h=0,col=2)
   
      markerText<-"~paste('</br> Log Residual: ',Resids,
-                   '</br> Predicted Yield: ',yldpredict,
-                   '</br> waterid :',waterid)"
-data<-data.frame(yldpredict = yldpredict, Resids = Resids, waterid = sitedata$waterid_for_RSPARROW_mapping)#
+                   '</br> Predicted Yield: ',yldpredict"
+data<-data.frame(yldpredict = yldpredict, Resids = Resids)#
+     
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
 p4 <- plotlyLayout(yldpredict,Resids, log = "x", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",loadUnits,")"),  xZeroLine = TRUE,
@@ -398,9 +406,12 @@ p1 <- plotlyLayout(NA,Resids, log = "", nTicks = 4, digits = 0,
   #qqnorm(standardResids,ylab="Standardized Residuals")
   #qqline(standardResids, col = 2)
   markerText<-"~paste('</br> Standard Residual: ',standardResids,
-                      '</br> Theoretical Value: ',y.theo,
-                   '</br> waterid :',waterid)"
-data<-data.frame(standardResids = standardResids, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                      '</br> Theoretical Value: ',y.theo"
+data<-data.frame(standardResids = standardResids)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
 data<-data[order(data$standardResids),]
 
 #get f values for data
@@ -454,9 +465,11 @@ p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~y.theo,
   
  # lines(lwx,lwy,col=2)
    markerText<-"~paste('</br> Squared Log Residual: ',Resids2,
-                   '</br> Predicted Load: ',predict,
-                   '</br> waterid :',waterid)"
-  data<-data.frame(Resids2 = Resids2,predict = predict, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                   '</br> Predicted Load: ',predict"
+  data<-data.frame(Resids2 = Resids2,predict = predict)
+   
+   markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
   p4 <- plotlyLayout(predict,Resids2, log = "xy", nTicks = 5, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = FALSE,
@@ -498,9 +511,11 @@ cat("##Conditioned prediction loads vs. unconditioned (simulated) prediction loa
 #       ylab=paste0("Monitoring-Adjusted Load (",loadUnits,")"),xlab=paste0("Simulated Load (",loadUnits,")"))
 #  lines(ppredict,ppredict,col="red")
    markerText<-"~paste('</br> Squared Log Residual: ',Resids2,
-                   '</br> Predicted Load: ',predict,
-                   '</br> waterid :',waterid)"
-  data<-data.frame(ppredict = ppredict,predict = predict, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                   '</br> Predicted Load: ',predict"
+  data<-data.frame(ppredict = ppredict,predict = predict)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
   p <- plotlyLayout(ppredict,predict, log = "xy", nTicks = 5, digits = 0,
                   xTitle = paste0("Simulated Load (",loadUnits,")"), xZeroLine = FALSE,
@@ -793,9 +808,11 @@ cat(strExplanation)
   ####################
   # observed vs predicted 
   markerText<-"~paste('</br> Observed Load: ',Obs,
-                   '</br> Predicted Load: ',ppredict,
-                   '</br> waterid :',waterid)"
-data<-data.frame(ppredict = ppredict, Obs = Obs, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                   '</br> Predicted Load: ',ppredict"
+data<-data.frame(ppredict = ppredict, Obs = Obs)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
 
 p1 <- plotlyLayout(ppredict,Obs, log = "xy", nTicks = 5, digits = 0,
@@ -826,9 +843,11 @@ p1 <- p1 %>% add_trace(data = data, x = ~Obs, y = ~Obs,
 
   # observed vs. predicted yield
   markerText<-"~paste('</br> Observed Yield: ',pyldobs,
-                   '</br> Predicted Yield: ',pyldpredict,
-                   '</br> waterid :',waterid)"
-data<-data.frame(pyldpredict = pyldpredict, pyldobs = pyldobs, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                   '</br> Predicted Yield: ',pyldpredict"
+data<-data.frame(pyldpredict = pyldpredict, pyldobs = pyldobs)
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
 p2 <- plotlyLayout(pyldpredict,pyldobs, log = "xy", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"),  xZeroLine = TRUE,
@@ -855,9 +874,11 @@ p2 <- p2 %>% add_trace(data = data, x = ~pyldobs, y = ~pyldobs,
 
 #  # mass residual plot
   markerText<-"~paste('</br> Log Residual: ',pResids,
-                   '</br> Predicted Load: ',ppredict,
-                   '</br> waterid :',waterid)"
-data<-data.frame(ppredict = ppredict, pResids = pResids, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                   '</br> Predicted Load: ',ppredict"
+data<-data.frame(ppredict = ppredict, pResids = pResids)
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
 p3 <- plotlyLayout(ppredict,pResids, log = "x", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"),  xZeroLine = TRUE,
@@ -879,9 +900,11 @@ p3 <- p3 %>% add_trace(data = data, x = ~ppredict, y = ~pResids,
   
   # yield residual plot
      markerText<-"~paste('</br> Log Residual: ',pResids,
-                   '</br> Predicted Yield: ',pyldpredict,
-                   '</br> waterid :',waterid)"
-data<-data.frame(pyldpredict = pyldpredict, pResids = pResids, waterid = sitedata$waterid_for_RSPARROW_mapping)#
+                   '</br> Predicted Yield: ',pyldpredict"
+data<-data.frame(pyldpredict = pyldpredict, pResids = pResids)#
+     
+     markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
 p4 <- plotlyLayout(pyldpredict,pResids, log = "x", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",loadUnits,")"),  xZeroLine = TRUE,
@@ -954,9 +977,12 @@ p
   #qqnorm(standardResids,ylab="Standardized Residuals")
   #qqline(standardResids, col = 2)
   markerText<-"~paste('</br> Log Residual: ',pResids,
-                      '</br> Theoretical Value: ',y.theo,
-                   '</br> waterid :',waterid)"
-data<-data.frame(pResids = pResids, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                      '</br> Theoretical Value: ',y.theo"
+data<-data.frame(pResids = pResids)
+  
+  markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
 data<-data[order(data$pResids),]
 
 #get f values for data
@@ -1010,9 +1036,11 @@ p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~y.theo,
   
  # lines(lwx,lwy,col=2)
    markerText<-"~paste('</br> Squared Log Residual: ',Resids2,
-                   '</br> Predicted Load: ',ppredict,
-                   '</br> waterid :',waterid)"
-  data<-data.frame(Resids2 = Resids2,ppredict = ppredict, waterid = sitedata$waterid_for_RSPARROW_mapping)
+                   '</br> Predicted Load: ',ppredict"
+  data<-data.frame(Resids2 = Resids2,ppredict = ppredict)
+   
+   markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
   p4 <- plotlyLayout(ppredict,Resids2, log = "xy", nTicks = 5, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = FALSE,
