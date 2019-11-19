@@ -74,6 +74,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
   compiledInput<-compileALL$compiledInput
   compiledInput<-convertHotTables(compiledInput)
   
+  
   #check for setting errors
   errMsg<-shinyErrorTrap(compiledInput,path_results, badSettings,errMsg)
   if (is.na(errMsg)){
@@ -167,13 +168,13 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
       }else if (input$mapType=="Site Attributes"){
         showModal(dataModal())
         
-        mapSiteAttributes(#Rshiny
+       p<-mapSiteAttributes(#Rshiny
           compiledInput,NA, path_gis, sitedata, LineShapeGeo,data_names,TRUE,
           #regular
           mapColumn,mapdata,GeoLines,mapping.input.list,
           strTitle,unitAttr,batch_mode)
         
-        
+       return(p) 
         
       }else if (input$mapType=="Source Change Scenarios"){
         showModal(dataModal())
@@ -212,6 +213,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           )
         ))
       }
+     
       
     }else{#end interactive start batch
       showModal(modalDialog(

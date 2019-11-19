@@ -78,6 +78,12 @@ shinyMap2<-function(
   suppressWarnings(suppressMessages(library(stringr)))
   suppressWarnings(suppressMessages(library(rhandsontable)))
   
+  suppressWarnings(suppressMessages(library(leaflet)))
+  suppressWarnings(suppressMessages(library(leaflet.extras)))
+  suppressWarnings(suppressMessages(library(htmlwidgets)))
+  suppressWarnings(suppressMessages(library(htmltools)))
+  suppressWarnings(suppressMessages(library(plotly)))
+  
   unPackList(lists = list(file.output.list = file.output.list,
                           scenario.input.list = scenario.input.list),
              parentObj = list(NA,NA)) 
@@ -141,7 +147,7 @@ shinyMap2<-function(
                      streamCatch("nsStreamCatch", input, choices, map_uncertainties),
                      
                      #site Attribute arguments
-                     shinySiteAttr("nsSiteAttr",input,choices),
+                     shinySiteAttr("nsSiteAttr",input,choices,sitedata,add_plotlyVars),
                      
                      #scenarios arguments
                      shinyScenarios("nsScenarios",input,choices),
@@ -165,7 +171,14 @@ shinyMap2<-function(
         ),
         mainPanel(width = 6,
                   # verbatimTextOutput("txtOut"),
+                  conditionalPanel(
+                    condition = "input.enablePlotly=='yes'",
+                    plotlyOutput("plotlyPlot", width=900,height=900)
+                    ),
+                  conditionalPanel(
+                    condition = "input.enablePlotly=='no'",
                   plotOutput("plotOne", width=900,height=900)
+                  )
         )
       )))#end ui function
     ,
@@ -317,11 +330,67 @@ shinyMap2<-function(
       
         #})#end renderplot
         
+q<-eventReactive(input$goPlot, {
+  
+  #test bad Settings
+  badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
+  names(badSettings)<-c("Setting","CurrentValue","Type","Test")
+  errMsg<-NA
+  if (input$mapType %in% c("Stream","Catchment")){
+    badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticPred),mapType =input$mapType)$badSettings
+  }else if (input$mapType == "Site Attributes"){
+    badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticSite),mapType =input$mapType)$badSettings
+  }else{
+    errMsg1<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$sourceRed))$errMsg
+    errMsg2<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$allSourcesDF))$errMsg
+    errMsg3<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$allSourcesDFno))$errMsg
+    
+    
+    errMsg<-na.omit(c(errMsg1,errMsg2, errMsg3))
+    if (length(errMsg)==0){
+      errMsg<-NA
+    }else{
+      errMsg<-errMsg[1]
+    }
+    
+    badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios")$badSettings
+    
+  }
+  
+  #run plot
+  goShinyPlot(input, output, session, choices,"goPlot", badSettings,errMsg,
+              file.output.list,map_uncertainties,BootUncertainties,
+              data_names,mapping.input.list,
+              #predict.list,
+              subdata,SelParmValues,
+              #site attr
+              sitedata,estimate.list,#Mdiagnostics.list,
+              #scenarios
+              JacobResults,
+              ConcFactor,DataMatrix.list,dlvdsgn,
+              reach_decay_specification,reservoir_decay_specification,
+              scenario.input.list,
+              #scenarios out
+              add_vars,
+              #batchError
+              batch_mode,
+              RSPARROW_errorOption)
+  
+})
         observe({
+          if (input$enablePlotly == "yes"){
+            output$plotlyPlot <- renderPlotly({
+             q()
+        
+            })
+          }else{
         output$plotOne  <- renderPlot({
           p()
         })#end renderplot
+          }
         })
+        
+        
         
       #pdf output
       #observeEvent(input$savePDF, {

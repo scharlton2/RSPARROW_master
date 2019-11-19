@@ -33,10 +33,12 @@ mapSiteAttributes<-function(#Rshiny
   mapColumn,mapdata,GeoLines,mapping.input.list,
   strTitle,unitAttr,batch_mode){
   
+   
   
   if (((input$var!="" |!is.na(attr)) & Rshiny==TRUE)|Rshiny==FALSE){
     
     if (Rshiny==TRUE){
+      
       
       #get geoLines
       existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
@@ -50,6 +52,8 @@ mapSiteAttributes<-function(#Rshiny
                parentObj = list(NA))
     
     if (Rshiny==TRUE){
+      enable_plotlyMaps<-as.character(input$enablePlotly)
+      add_plotlyVars<-as.character(input$plotlyDrop)
       siteAttr_mapPointSize<-as.numeric(input$siteAttr_mapPointSize)
       siteAttrTitleSize<-as.numeric(input$siteAttrTitleSize)
       siteAttrLegendSize<-as.numeric(input$siteAttrLegendSize)
@@ -106,59 +110,85 @@ mapSiteAttributes<-function(#Rshiny
     # Symbol type filled circle
     pnch <- siteAttr_mapPointStyle
     
-   # par(mfrow=c(1,1), pch=1)    # 1 plots on one page
+    if (enable_plotlyMaps=="no"){
+      par(mfrow=c(1,1), pch=1)    # 1 plots on one page
     
-    #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
-    #title(strTitle, cex.main =siteAttrTitleSize)
+    plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
+    title(strTitle, cex.main =siteAttrTitleSize)
     
-
+    }else{#plotly
+      
     
-    p<-leaflet(options = leafletOptions(background = colorNumeric(siteAttrMapBackground, 1)(1),
-                                        scrollWheelZoom = FALSE)) %>%
-      fitBounds(lng1=lon_limit[1],lng2 = lon_limit[2], lat1 = lat_limit[1], lat2 = lat_limit[2]) %>%
-      setMapWidgetStyle(style = list(background = colorNumeric(siteAttrMapBackground, 1)(1)))# %>%
-      #suspendScroll(hoverToWake = FALSE, sleepOpacity = 1, sleepTime = 100000000)
     
-    GeoLines<-st_transform(GeoLines,CRS('+proj=longlat +datum=WGS84'))
-    p <- p %>% addPolylines(data = GeoLines, 
-                            color = I("black"), fill=FALSE)
+    #ititialize text strings for plotly
+    markerText<-"~paste('</br> Lat: ',Lat,
+                   '</br> Lon: ',Lon,
+                   '</br>',mapColumnName,' :',
+                   round(mapColumn,siteAttrClassRounding)"
+    plotLocStr<-paste0("plotloc <- data.frame(Lat,Lon, mapColumn = map1$mapColumn")
     
+    markerText<-addMarkerText(markerText,add_plotlyVars,mapdata, sitedata)$markerText
+    mapdata<-addMarkerText(markerText,add_plotlyVars, mapdata,sitedata)$mapData
+    
+    if (!is.na(add_plotlyVars[1])){
+      add_plotlyVars<-as.character(ifelse(add_plotlyVars=="waterid","waterid_for_RSPARROW_mapping",add_plotlyVars))
+      
+      #add attributes to markerText
+      for (m in add_plotlyVars){
+    #    markerAttrs<-eval(parse(text= paste("data.frame(",m,"=sitedata$",m,")",sep="")))
+    #    mapdata<-cbind(mapdata,markerAttrs)
+       # markerText<-paste0(markerText,",'</br> ",m," : ',",m)
+        plotLocStr<-paste0(plotLocStr,",",m," = map1$",m)
+      }
+    }
+    
+    #wrap up text strings
+    #markerText<-paste0(markerText,")")
+    plotLocStr<-paste0(plotLocStr,")")
+    
+    
+    
+    
+    #plotly plot
+    p<-plot_ly() %>%
+      layout(
+        showlegend =TRUE,
+        xaxis = list(range = lon_limit,
+                     showticklabels= TRUE,
+                     title = "Longitude"),
+        yaxis = list(range = lat_limit,
+                     showticklabels = TRUE,
+                     title = "Latitude"),
+        title = mapColumnName) %>%
+      add_sf(data = GeoLines,  mode = "lines", type = "scatter",
+             stroke = I("black"),color = I("white"),
+             name = LineShapeGeo)
+    }
+    
+    #first class
     map1 <- mapdata[(mapdata$mapColumn <= cls[1]), ]
     Lat<- map1$xlat
-    Lon<- map1$xlon 
-    map1$waterid<-sitedata[(mapdata$mapColumn <= cls[1]),]$waterid_for_RSPARROW_mapping
-    plotloc <- data.frame(Lat,Lon)
-    
-    htmlLabs<-function(map1){
-      labs <- lapply(seq(nrow(map1)), function(i) {
-        paste0( '</br> Lat: ', map1[i, "xlat"], 
-                '</br> Lon: ',map1[i, "xlon"], 
-                '</br> ',mapColumnName,' :',round(map1[i, "mapColumn"],siteAttrClassRounding), 
-                '</br> waterid: ',map1[i, "waterid"])
-        
-      })
-      return(labs)
-      }
-
-    labs<-htmlLabs(map1)
-    
-    #points(plotloc$Lon, plotloc$Lat, pch=pnch[1], col=color[1], cex=sze[1])  
-    p <- p %>% addCircleMarkers(data = plotloc, color = uniqueColsleaf(1), opacity = 1,fillOpacity = 1,radius = 1,
-                          label =  lapply(labs, htmltools::HTML))
-    
+    Lon<- map1$xlon
     strLegend<-paste(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1],sep="")
     
+    if (enable_plotlyMaps=="no"){
+      plotloc <- data.frame(Lat,Lon)
+      points(plotloc$Lon, plotloc$Lat, pch=pnch[1], col=color[1], cex=sze[1])  
+      
+      }else{#plotly
+    
+    eval(parse(text = plotLocStr))
+    p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter",
+                         mode = "markers",color = I(color[1]),
+                         name = paste(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1],sep=""),
+                         hoverinfo = 'text',
+                         text = eval(parse(text = markerText)))
+    }
+    #middle classes
     for (k in 1:(length(cls)-1)) {
       map1 <- mapdata[(mapdata$mapColumn > cls[k] & mapdata$mapColumn <= cls[k+1]), ]
       Lat<- map1$xlat
       Lon<- map1$xlon
-      map1$waterid<-sitedata[(mapdata$mapColumn > cls[k] & mapdata$mapColumn <= cls[k+1]),]$waterid_for_RSPARROW_mapping
-      plotloc <- data.frame(Lat,Lon)
-      
-      labs<-htmlLabs(map1)
-      #points(plotloc$Lon, plotloc$Lat, pch=pnch, col=color[k+1], cex=sze[k+1]) 
-      p <- p %>% addCircleMarkers(data = plotloc, color = uniqueColsleaf(k+1), opacity = 1,fillOpacity = 1,radius = 1,
-                            label =  lapply(labs, htmltools::HTML))
       
       if (k!=(length(cls)-1)){
         strlegend<-paste(cls[k]," to ",cls[k+1],sep="")
@@ -166,26 +196,47 @@ mapSiteAttributes<-function(#Rshiny
         strlegend<-paste(cls[k]," to ",round(max(mapdata$mapColumn),siteAttrClassRounding),sep="")
       }
       strLegend<-c(strLegend,strlegend)
-    }
+      
+      if (enable_plotlyMaps=="no"){
+        plotloc <- data.frame(Lat,Lon)
+       points(plotloc$Lon, plotloc$Lat, pch=pnch, col=color[k+1], cex=sze[k+1]) 
+        
+      }else{#plotly
+      eval(parse(text = plotLocStr))
+      p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter", 
+                           mode = "markers",color = I(color[k+1]),
+                           name = strlegend,
+                           hoverinfo = 'text',
+                           text = eval(parse(text = markerText)))
+      }
+      
+    } #for each middle class k 
     
+    #last class
     map1 <- mapdata[(mapdata$mapColumn > cls[(length(cls)-1)]), ]
     Lat<- map1$xlat
     Lon<- map1$xlon
-    map1$waterid<-sitedata[(mapdata$mapColumn > cls[(length(cls)-1)]),]$waterid_for_RSPARROW_mapping
-    plotloc <- data.frame(Lat,Lon)
+    #strlegend<-paste(">",cls[length(cls)],sep=" ")
+    #strLegend<-c(strLegend,strlegend)
     
-    labs<-htmlLabs(map1)
-    #points(plotloc$Lon, plotloc$Lat, pch=pnch, col=color[length(cls)], cex=sze[length(cls)])  
-    p <- p %>% addCircleMarkers(data = plotloc, color = uniqueColsleaf(length(cls)), opacity = 1,fillOpacity = 1,radius = 1, 
-                          label =  lapply(labs, htmltools::HTML))
+    if (enable_plotlyMaps=="no"){
+      plotloc <- data.frame(Lat,Lon)
+     points(plotloc$Lon, plotloc$Lat, pch=pnch, col=color[length(cls)], cex=sze[length(cls)])  
+     legend("bottomleft",strLegend,
+             bg=siteAttrMapBackground, bty="o",pch = siteAttr_mapPointStyle, 
+             pt.cex = sze, col=color,title = unitAttr,cex=siteAttrLegendSize)
+     
+    }else{#plotly
+    #eval(parse(text = plotLocStr))
+    #p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter", 
+    #                     mode = "markers",color = I(color[length(cls)]),
+    #                     name = paste0("> ",round(cls[(length(cls)-1)],siteAttrClassRounding)),
+    #                     hoverinfo = 'text',
+    #                     text = eval(parse(text = markerText)))
+     return(p)
+    }
     
-    #legend("bottomleft",strLegend,
-    #       bg=siteAttrMapBackground, bty="o",pch = siteAttr_mapPointStyle, 
-    #       pt.cex = sze, col=color,title = unitAttr,cex=siteAttrLegendSize)
-    
-    p <- p %>% addLegend(colors = uniqueColsleaf(seq(1:length(color))), labels = strLegend, 
-                         opacity = 1, position = "bottomleft")
-    p
+  
 
   }#if attr selected in shiny
   
