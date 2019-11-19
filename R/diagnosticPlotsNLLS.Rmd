@@ -6,6 +6,7 @@ output: html_document
 params:
   file.output.list: file.output.list
   path_mapAttrChild: path_mapAttrChild
+  path_corrChild: path_corrChild
   path_classvarChild: path_classvarChild
   path_classLandChild: path_classLandChild
   path_contiguousChild: path_contiguousChild
@@ -30,6 +31,7 @@ knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message 
 #unpack params
   file.output.list<-params$file.output.list
 path_mapAttrChild<-params$path_mapAttrChild
+path_corrChild<-params$path_corrChild
   path_classvarChild<-params$path_classvarChild
   path_classLandChild<-params$path_classLandChild
   path_contiguousChild<-params$path_contiguousChild
@@ -551,21 +553,42 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
   # Plots of the Obs-Pred ratio vs. the area-weighted mean values of the explanatory variables 
   #   for the incremental areas between calibration sites
-  if(!is.na(Cor.ExplanVars.list)){ 
-    for (i in 1:length(Cor.ExplanVars.list$names)) {
-      if(min(Cor.ExplanVars.list$cmatrixM_all[,i])<0 | max(Cor.ExplanVars.list$cmatrixM_all[,i])<0) {
-        plot(Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred,pch=1,
-             main=bquote(paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental Areas between Calibration Sites; Variable Name = ",.(Cor.ExplanVars.list$names[i]) )),
-             ylab="RATIO OBSERVED TO PREDICTED",xlab=paste0("AREA-WEIGHTED EXPLANATORY VARIABLE (",Cor.ExplanVars.list$names[i],")"))
+#  if(!is.na(Cor.ExplanVars.list)){ 
+#    for (i in 1:length(Cor.ExplanVars.list$names)) {
+#      if(min(Cor.ExplanVars.list$cmatrixM_all[,i])<0 | max(Cor.ExplanVars.list$cmatrixM_all[,i])<0) {
+#        plot(Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred,pch=1,
+#             main=bquote(paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental #Areas between Calibration Sites; Variable Name = ",.(Cor.ExplanVars.list$names[i]) )),
+#             ylab="RATIO OBSERVED TO PREDICTED",xlab=paste0("AREA-WEIGHTED EXPLANATORY VARIABLE #(",Cor.ExplanVars.list$names[i],")"))#
+#
+#      } else {
+#        plot(Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred,log="x",pch=1,
+#             main=bquote(paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental #Areas between Calibration Sites; Variable Name = ",
+#                               .(Cor.ExplanVars.list$names[i]) )),
+#             ylab="RATIO OBSERVED TO PREDICTED",xlab=paste0("AREA-WEIGHTED EXPLANATORY VARIABLE #(",Cor.ExplanVars.list$names[i],")"))
+#      }
+#    }
+#  }
 
-      } else {
-        plot(Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred,log="x",pch=1,
-             main=bquote(paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental Areas between Calibration Sites; Variable Name = ",
-                               .(Cor.ExplanVars.list$names[i]) )),
-             ylab="RATIO OBSERVED TO PREDICTED",xlab=paste0("AREA-WEIGHTED EXPLANATORY VARIABLE (",Cor.ExplanVars.list$names[i],")"))
-      }
-    }
+  if(!is.na(Cor.ExplanVars.list)){ 
+
+rmd <- sapply(
+  1:(length(Cor.ExplanVars.list$names)),
+  function(i) {
+  
+   knit_expand(path_corrChild, i = i)
   }
+)
+rmd <- paste(rmd, collapse = "\n")
+}
+```
+
+```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+  if(!is.na(Cor.ExplanVars.list)){ 
+rendered <- knit(text = rmd, quiet = TRUE)
+cat("\n \n")
+cat(rendered, sep = "\n")
+}
+```
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}

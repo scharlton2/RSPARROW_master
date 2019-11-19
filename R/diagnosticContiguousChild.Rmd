@@ -14,9 +14,14 @@ xmrb<-grp[i]
     xmrb <- as.double(xmrb)
     # observed vs predicted 
     #par(mfrow=c(2,2), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 4 plots on one page
-    
+    markerText<-"~paste('</br> Observed Load: ',plotObs,
+                   '</br> Predicted Load: ',plotpredict"
     #  observed vs. predicted mass
-    df <- data.frame(plotpredict,plotObs, waterid = sitedata$waterid_for_RSPARROW_mapping)
+    df <- data.frame(plotpredict,plotObs)
+    
+    markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
+df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
+
     df <- subset(df,plotclass == xmrb)
     nsites <- as.numeric(length(df$plotpredict))
     
@@ -25,9 +30,7 @@ xmrb<-grp[i]
       #     ylab=paste0("OBSERVED LOAD (",loadUnits,")"),xlab=paste0("PREDICTED LOAD (",loadUnits,")"))
       #title(font.main=2,main=bquote(paste("Observed vs Predicted Load \nCLASS Region = ",.(xmrb),"(n=",.(nsites),")") #))
 #      lines(df$plotObs,df$plotObs, col=2)
-      markerText<-"~paste('</br> Observed Load: ',plotObs,
-                   '</br> Predicted Load: ',plotpredict,
-                   '</br> waterid :',waterid)"
+      
 
 p1 <- plotlyLayout(df$plotpredict,df$plotObs, log = "xy", nTicks = 5, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
@@ -52,16 +55,20 @@ p1 <- p1 %>% add_trace(data = df, x = ~plotObs, y = ~plotObs,
                      hoverinfo = 'text',
                      text = "Observed Load vs. Observed Load")
  
-   
-      # observed vs. predicted yield
-      df <- data.frame(plotyldpredict,plotyldobs,waterid = sitedata$waterid_for_RSPARROW_mapping)
+# observed vs. predicted yield
+   markerText<-"~paste('</br> Observed Yield: ',plotyldobs,
+                   '</br> Predicted Yield: ',plotyldpredict"
+      
+      df <- data.frame(plotyldpredict,plotyldobs)
+      
+          markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
+df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
+      
       df <- subset(df,plotclass == xmrb)
       #plot(df$plotyldpredict,df$plotyldobs,log="xy",pch=1,main="Observed vs Predicted \nYield",
        #    ylab=paste0("OBSERVED YIELD (",yieldUnits,")"),xlab=paste0("PREDICTED YIELD (",yieldUnits,")"))
       #lines(df$plotyldobs,df$plotyldobs, col=2)
-            markerText<-"~paste('</br> Observed Yield: ',plotyldobs,
-                   '</br> Predicted Yield: ',plotyldpredict,
-                   '</br> waterid :',waterid)"
+            
 
 p2 <- plotlyLayout(df$plotyldpredict,df$plotyldobs, log = "xy", nTicks = 5, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"), xZeroLine = TRUE,
@@ -88,15 +95,19 @@ p2 <- p2 %>% add_trace(data = df, x = ~plotyldobs, y = ~plotyldobs,
  
       
       # mass residual plot
-      df <- data.frame(plotpredict,plotResids,waterid = sitedata$waterid_for_RSPARROW_mapping)
+markerText<-"~paste('</br> Log Residual: ',plotResids,
+                   '</br> Predicted Load: ',plotpredict"
+      df <- data.frame(plotpredict,plotResids)
+
+    markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
+df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
+
       df <- subset(df,plotclass == xmrb)
       #plot(df$plotpredict,df$plotResids,log="x",pch=1,main="Residuals vs Predicted \nLoad",
       #     ylab="LOG RESIDUAL",xlab=paste0("PREDICTED LOAD (",loadUnits,")"))
       #eq <- rep(0,length(df$plotpredict))
       #lines(df$plotpredict,eq, col=2)
-       markerText<-"~paste('</br> Log Residual: ',plotResids,
-                   '</br> Predicted Load: ',plotpredict,
-                   '</br> waterid :',waterid)"
+       
 
 p3 <- plotlyLayout(df$plotpredict,df$plotResids, log = "x", nTicks = 5, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
@@ -118,16 +129,20 @@ p3 <- p3 %>% add_trace(data = df, x = ~plotpredict, y = ~plotResids,
 
       
       # yield residual plot
-      df <- data.frame(plotyldpredict,plotResids,waterid = sitedata$waterid_for_RSPARROW_mapping)
+ markerText<-"~paste('</br> Log Residual: ',plotResids,
+                   '</br> Predicted Yield: ',plotyldpredict"
+      df <- data.frame(plotyldpredict,plotResids)
+ 
+     markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
+df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
+ 
       df <- subset(df,plotclass == xmrb)
       #plot(df$plotyldpredict,df$plotResids,log="x",pch=1,main="Residuals vs Predicted \nYield",
       #     ylab="LOG RESIDUAL",xlab=paste0("PREDICTED YIELD (",yieldUnits,")"))
       #eq <- rep(0,length(df$plotResids))
       #lines(df$plotyldpredict,eq, col=2)
       
-             markerText<-"~paste('</br> Log Residual: ',plotResids,
-                   '</br> Predicted Yield: ',plotyldpredict,
-                   '</br> waterid :',waterid)"
+             
 
 p4 <- plotlyLayout(df$plotyldpredict,df$plotResids, log = "x", nTicks = 5, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"), xZeroLine = TRUE,

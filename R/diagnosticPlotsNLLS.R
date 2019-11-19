@@ -61,6 +61,7 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
   reportPath<-paste0(path_master,"diagnosticPlotsNLLS.Rmd")
 
 path_mapAttrChild <- file_path_as_absolute(paste0(path_master,"diagnosticMapAttrChild.Rmd"))
+path_corrChild <- file_path_as_absolute(paste0(path_master,"diagnosticCorrChild.Rmd"))
 path_classvarChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassvarChild.Rmd"))
 path_classLandChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassLandChild.Rmd"))
 path_contiguousChild<- file_path_as_absolute(paste0(path_master,"diagnosticContiguousChild.Rmd"))
@@ -69,6 +70,7 @@ path_contiguousChild<- file_path_as_absolute(paste0(path_master,"diagnosticConti
     reportPath, params = list(
       file.output.list = file.output.list,
       path_mapAttrChild = path_mapAttrChild,
+      path_corrChild = path_corrChild,
       path_classvarChild = path_classvarChild,
       path_classLandChild = path_classLandChild,
       path_contiguousChild = path_contiguousChild,

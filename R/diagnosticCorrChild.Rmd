@@ -1,0 +1,72 @@
+
+```{r chunkCorr{{i}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
+i<-{{i}}
+
+#if(min(Cor.ExplanVars.list$cmatrixM_all[,i])<0 | max(Cor.ExplanVars.list$cmatrixM_all[,i])<0) {
+ #plot(Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred,pch=1,
+#             main=bquote(paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental Areas #between Calibration Sites; Variable Name = ",.(Cor.ExplanVars.list$names[i]) )),
+#             ylab="RATIO OBSERVED TO PREDICTED",xlab=paste0("AREA-WEIGHTED EXPLANATORY VARIABLE #(",Cor.ExplanVars.list$names[i],")"))
+
+  if(min(Cor.ExplanVars.list$cmatrixM_all[,i])<0 | max(Cor.ExplanVars.list$cmatrixM_all[,i])<0) {
+      logStr<-""
+    }else{
+      logStr<-"x"
+    }
+
+   markerText<-"~paste('</br>',Cor.ExplanVars.list$names[i],': ',xvar,
+                   '</br> RATIO OBSERVED TO PREDICTED: ',ratio.obs.pred"
+  data<-data.frame(xvar = Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred = ratio.obs.pred)
+
+markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
+  p <- plotlyLayout( Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred, log = logStr, nTicks = 5, digits = 0,
+                  xTitle = paste0("AREA-WEIGHTED EXPLANATORY VARIABLE (",Cor.ExplanVars.list$names[i],")"), 
+                  xZeroLine = FALSE,
+                  yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
+                  plotTitle = paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental Areas between Calibration Sites; Variable Name = ",Cor.ExplanVars.list$names[i]) ,
+                  legend = FALSE)
+  p <- p %>% add_trace(data = data, x = ~xvar, y = ~ratio.obs.pred, 
+                     type = "scatter", 
+                     mode = "markers",
+                     marker = list(
+                       color = "white",
+                       size = 4,
+                       line = list(color = "black", width = 0.8)),
+                     hoverinfo = 'text',
+                     text = eval(parse(text = markerText)))
+
+p
+ #     } else {
+      #  plot(Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred,log="x",pch=1,
+      #       main=bquote(paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental #Areas between Calibration Sites; Variable Name = ",
+#                               .(Cor.ExplanVars.list$names[i]) )),
+#             ylab="RATIO OBSERVED TO PREDICTED",xlab=paste0("AREA-WEIGHTED EXPLANATORY VARIABLE #(",Cor.ExplanVars.list$names[i],")"))
+        
+        
+  #            markerText<-"~paste('</br>',Cor.ExplanVars.list$names[i],',xvar,
+  #                 '</br> RATIO OBSERVED TO PREDICTED: ',ratio.obs.pred"
+  #data<-data.frame(xvar = Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred = ratio.obs.pred,)#
+
+#markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
+#data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+
+ # p <- plotlyLayout( Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred, log = "x", nTicks = 5, digits = 0,
+#                  xTitle = paste0("AREA-WEIGHTED EXPLANATORY VARIABLE (",Cor.ExplanVars.list$names[i],")"), 
+#                  xZeroLine = FALSE,
+#                  yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
+#                  plotTitle = paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor #Incremental Areas between Calibration Sites; Variable Name = ",Cor.ExplanVars.list$names[i]) ,
+#                  legend = FALSE)
+#  p <- p %>% add_trace(data = data, x = ~xvar, y = ~ratio.obs.pred, 
+#                     type = "scatter", 
+#                     mode = "markers",
+#                     marker = list(
+#                       color = "white",
+#                       size = 4,
+#                       line = list(color = "black", width = 0.8)),
+#                     hoverinfo = 'text',
+#                     text = eval(parse(text = markerText)))##
+
+#p
+  #    }
+```
