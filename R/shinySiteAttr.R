@@ -10,7 +10,7 @@
 
 
 
-shinySiteAttr<-function(id, input, choices){
+shinySiteAttr<-function(id, input, choices,sitedata,add_plotlyVars){
   #set namespace
   ns <- NS(id)
   
@@ -28,6 +28,18 @@ shinySiteAttr<-function(id, input, choices){
       condition = "input.batch == 'Batch'",
       h5(HTML("<font color = 'black'><strong>Select Mapping Variables</strong></font>")),  
       dropFunc("nsattrDrop","Data Dictionary Variable",choices)),
+    
+    conditionalPanel(
+      condition = "input.enablePlotly == 'yes'",
+      dropdownButton(circle = FALSE,
+                     label = "Add Plotly Hover Variable",
+                     inputId = ns("dropdown"),
+     # dropFunc("nsPlotlyDrop","",choices))
+      checkboxGroupInput(ns("plotlyDrop"), "Add Plotly Hover Variable", 
+                         names(sitedata),
+                         selected = names(sitedata)[which(names(sitedata) %in% add_plotlyVars)],
+                         inline=FALSE))
+      ),
     
     #horizontal line
     h5(HTML('<hr style="color: #000000;background-color: #000000; height: 2px"/>')),

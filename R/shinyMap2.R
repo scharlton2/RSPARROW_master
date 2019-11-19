@@ -132,6 +132,7 @@ shinyMap2<-function(
                      
                      #top level user input
                      selectInput("batch","Output Mode",c("Interactive","Batch")),
+                     selectInput("enablePlotly","Enable Plotly",c("yes","no"),selected = mapping.input.list$enable_plotlyMaps),
                      selectInput("mapType","Map Type",mapTypeChoices),
                      
                      

@@ -16,7 +16,8 @@
 compileALL<-function(input, output, session, path_results, choices){
   
   top<-list(batch = input$batch,
-            mapType = input$mapType)
+            mapType = input$mapType,
+            enablePlotly = input$enablePlotly)
   
   nsList<-character(0)
   if (input$batch=="Batch"){

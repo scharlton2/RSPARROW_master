@@ -23,7 +23,11 @@ generateInputLists<-function(settings){
                                    LineShapeGeo,CRStext,convertShapeToBinary.list,
                                    map_siteAttributes.list,
                                    if_verify_demtarea_maps,output_map_type,  
+                                   
+                                   #output
                                    outputESRImaps,
+                                   enable_plotlyMaps,
+                                   add_plotlyVars,
                                    
                                    #diagnosticPlots
                                    loadUnits,
