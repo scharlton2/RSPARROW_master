@@ -11,7 +11,12 @@ generateInputLists<-function(settings){
   unPackList(lists = list(settings = settings),
              parentObj = list(NA))   
   
-  
+  pchPlotlyCross<-data.frame(pch = seq(0,25,1),
+                             plotly = c("square-open","circle-open","triangle-up-open","cross-thin-open","x-thin-open",
+                                        "diamond-open","triangle-down-open","square-x-open","asterisk-open","diamond-cross-open",
+                                        "circle-cross-open","star-open","square-cross-open","circle-x-open","square-dot-open",
+                                        "square","circle","triangle-up","diamond","circle","circle",
+                                        "circle","square","diamond","triangle-up","triangle-down"))
   
   estimate.input.list <- named.list(ifHess, s_offset, NLLS_weights,if_mean_adjust_delivery_vars,
                                     yieldFactor,ConcFactor,confInterval,
@@ -28,6 +33,7 @@ generateInputLists<-function(settings){
                                    outputESRImaps,
                                    enable_plotlyMaps,
                                    add_plotlyVars,
+                                   pchPlotlyCross,
                                    
                                    #diagnosticPlots
                                    loadUnits,

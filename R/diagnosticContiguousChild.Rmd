@@ -42,10 +42,7 @@ p1 <- plotlyLayout(df$plotpredict,df$plotObs, log = "xy", nTicks = 5, digits = 0
 p1 <- p1 %>% add_trace(data = df, x = ~plotpredict, y = ~plotObs, 
                      type = "scatter", 
                      mode = "markers",
-                     marker = list(
-                       color = "white",
-                       size = 4,
-                       line = list(color = "black", width = 0.8)),
+                     marker = eval(parse(text = markerList)),
                      hoverinfo = 'text',
                      text = eval(parse(text = markerText)))
 p1 <- p1 %>% add_trace(data = df, x = ~plotObs, y = ~plotObs, 
@@ -80,10 +77,7 @@ p2 <- plotlyLayout(df$plotyldpredict,df$plotyldobs, log = "xy", nTicks = 5, digi
 p2 <- p2 %>% add_trace(data = df, x = ~plotyldpredict, y = ~plotyldobs, 
                      type = "scatter", 
                      mode = "markers",
-                     marker = list(
-                       color = "white",
-                       size = 4,
-                       line = list(color = "black", width = 0.8)),
+                     marker = eval(parse(text = markerList)),
                      hoverinfo = 'text',
                      text = eval(parse(text = markerText)))
 p2 <- p2 %>% add_trace(data = df, x = ~plotyldobs, y = ~plotyldobs, 
@@ -119,10 +113,7 @@ p3 <- plotlyLayout(df$plotpredict,df$plotResids, log = "x", nTicks = 5, digits =
 p3 <- p3 %>% add_trace(data = df, x = ~plotpredict, y = ~plotResids, 
                      type = "scatter", 
                      mode = "markers",
-                     marker = list(
-                       color = "white",
-                       size = 4,
-                       line = list(color = "black", width = 0.8)),
+                     marker = eval(parse(text = markerList)),
                      hoverinfo = 'text',
                      text = eval(parse(text = markerText)))
  p3 <- p3 %>% layout(shapes = list(hline(0)))
@@ -154,10 +145,7 @@ p4 <- plotlyLayout(df$plotyldpredict,df$plotResids, log = "x", nTicks = 5, digit
 p4 <- p4 %>% add_trace(data = df, x = ~plotyldpredict, y = ~plotResids, 
                      type = "scatter", 
                      mode = "markers",
-                     marker = list(
-                       color = "white",
-                       size = 4,
-                       line = list(color = "black", width = 0.8)),
+                     marker = eval(parse(text = markerList)),
                      hoverinfo = 'text',
                      text = eval(parse(text = markerText)))
  p4 <- p4 %>% layout(shapes = list(hline(0)))

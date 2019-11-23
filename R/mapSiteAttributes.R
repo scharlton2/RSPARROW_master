@@ -106,19 +106,20 @@ mapSiteAttributes<-function(#Rshiny
     cbckgrd <- siteAttrMapBackground
     uniqueColsleaf<-colorNumeric(color, 1:length(color))
     
-    
-    # Symbol type filled circle
-    pnch <- siteAttr_mapPointStyle
+
     
     if (enable_plotlyMaps=="no"){
-      par(mfrow=c(1,1), pch=1)    # 1 plots on one page
+      pnch <- siteAttr_mapPointStyle
+      par(mfrow=c(1,1))    # 1 plots on one page
     
     plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
     title(strTitle, cex.main =siteAttrTitleSize)
     
     }else{#plotly
-      
-    
+      #set marker styling
+    pnch<-as.character(pchPlotlyCross[pchPlotlyCross$pch==siteAttr_mapPointStyle,]$plotly)
+    markerList<-paste0("list(symbol = pnch, size = sze[1]*10,")
+
     
     #ititialize text strings for plotly
     markerText<-"~paste('</br> Lat: ',Lat,
@@ -135,20 +136,14 @@ mapSiteAttributes<-function(#Rshiny
       
       #add attributes to markerText
       for (m in add_plotlyVars){
-    #    markerAttrs<-eval(parse(text= paste("data.frame(",m,"=sitedata$",m,")",sep="")))
-    #    mapdata<-cbind(mapdata,markerAttrs)
-       # markerText<-paste0(markerText,",'</br> ",m," : ',",m)
         plotLocStr<-paste0(plotLocStr,",",m," = map1$",m)
       }
     }
     
     #wrap up text strings
-    #markerText<-paste0(markerText,")")
     plotLocStr<-paste0(plotLocStr,")")
     
-    
-    
-    
+ 
     #plotly plot
     p<-plot_ly() %>%
       layout(
@@ -161,7 +156,7 @@ mapSiteAttributes<-function(#Rshiny
                      title = "Latitude"),
         title = mapColumnName) %>%
       add_sf(data = GeoLines,  mode = "lines", type = "scatter",
-             stroke = I("black"),color = I("white"),
+             stroke = I("black"),color = I(cbckgrd),
              name = LineShapeGeo)
     }
     
@@ -178,8 +173,16 @@ mapSiteAttributes<-function(#Rshiny
       }else{#plotly
     
     eval(parse(text = plotLocStr))
+        #update markerList for marker styling
+        if (regexpr("open",pnch)>0){
+          markerList1<-paste0(markerList,"color = uniqueColsleaf(1))")
+        }else{
+          markerList1<-paste0(markerList,"line = list(color = uniqueColsleaf(1)),color = uniqueColsleaf(1))")
+        }
+      
     p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter",
-                         mode = "markers",color = I(color[1]),
+                         mode = "markers",
+                        marker = eval(parse(text = markerList1)),
                          name = paste(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1],sep=""),
                          hoverinfo = 'text',
                          text = eval(parse(text = markerText)))
@@ -203,8 +206,16 @@ mapSiteAttributes<-function(#Rshiny
         
       }else{#plotly
       eval(parse(text = plotLocStr))
+        #update markerList for marker styling
+        if (regexpr("open",pnch)>0){
+          markerList2<-paste0(markerList,"color = uniqueColsleaf(k+1))")
+        }else{
+          markerList2<-paste0(markerList,"line = list(color = uniqueColsleaf(k+1)),color = uniqueColsleaf(k+1))")
+        }
+       
       p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter", 
-                           mode = "markers",color = I(color[k+1]),
+                           mode = "markers",#color = I(color[k+1]),
+                           marker = eval(parse(text = markerList2)),
                            name = strlegend,
                            hoverinfo = 'text',
                            text = eval(parse(text = markerText)))

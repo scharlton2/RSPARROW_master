@@ -29,10 +29,7 @@ data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
   p <- p %>% add_trace(data = data, x = ~xvar, y = ~ratio.obs.pred, 
                      type = "scatter", 
                      mode = "markers",
-                     marker = list(
-                       color = "white",
-                       size = 4,
-                       line = list(color = "black", width = 0.8)),
+                     marker = eval(parse(text = markerList)),
                      hoverinfo = 'text',
                      text = eval(parse(text = markerText)))
 
