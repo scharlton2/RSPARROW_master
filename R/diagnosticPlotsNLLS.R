@@ -65,7 +65,7 @@ path_corrChild <- file_path_as_absolute(paste0(path_master,"diagnosticCorrChild.
 path_classvarChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassvarChild.Rmd"))
 path_classLandChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassLandChild.Rmd"))
 path_contiguousChild<- file_path_as_absolute(paste0(path_master,"diagnosticContiguousChild.Rmd"))
-
+path_diagMapChild<-file_path_as_absolute(paste0(path_master,"diagnosticDiagMapChild.Rmd"))
   rmarkdown::render(
     reportPath, params = list(
       file.output.list = file.output.list,
@@ -74,6 +74,7 @@ path_contiguousChild<- file_path_as_absolute(paste0(path_master,"diagnosticConti
       path_classvarChild = path_classvarChild,
       path_classLandChild = path_classLandChild,
       path_contiguousChild = path_contiguousChild,
+      path_diagMapChild = path_diagMapChild,
       class.input.list = class.input.list,
       sitedata.demtarea.class = sitedata.demtarea.class,
       sitedata = sitedata,

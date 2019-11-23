@@ -1,0 +1,7 @@
+```{r chunkdiagMap{{n}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
+n<-{{n}}
+map.list<-mapTypes[n]  
+diagnosticMaps(mapColumn,mapdata,GeoLines,
+                         map.list,strTitle,mapping.input.list,sitedata)
+  
+```

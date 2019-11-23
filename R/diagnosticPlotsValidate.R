@@ -239,12 +239,12 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
     
     mapdata <- data.frame(xlat,xlon,Resids,ratio.obs.pred)
     diagnosticMaps("Resids",mapdata,GeoLines,
-                   c("threshold","all"),"Log Residuals",mapping.input.list)
+                   c("threshold","all"),"Log Residuals",mapping.input.list, vsitedata)
     
     ##########################
     # Map Ratios observed to predicted 
     diagnosticMaps("ratio.obs.pred",mapdata,GeoLines,
-                   c("threshold","all"),"Obs/Pred Ratio",mapping.input.list)
+                   c("threshold","all"),"Obs/Pred Ratio",mapping.input.list, vsitedata)
     
     #output residuals shapefile
     if (outputESRImaps[3]=="yes"){
