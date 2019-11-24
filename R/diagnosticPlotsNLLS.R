@@ -38,23 +38,6 @@ diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtar
                               NA,
                               NA))
   
-  # contiguous class variables by sites
-  class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar))) 
-  for (k in 1:length(classvar)) { 
-    for (i in 1:nrow(sitedata)) {
-      class[i,k] <- as.numeric(eval(parse(text=paste("sitedata$",classvar[k],"[",i,"]",sep=""))))
-    } 
-  } 
-  
-  # Create 'classvar2' for plotting landuse non-contiguous class
-  #   following code executes:  classvar2 <- c("forest_pct","agric_pct","urban_pct","shrubgrass_pct")
-  if(!is.na( class_landuse[1])){
-    classvar2 <- character(length(class_landuse))
-    for (i in 1:length(class_landuse)) {
-      classvar2[i] <- paste(class_landuse[i],"_pct",sep="")
-    }
-  }
-  
   
  # filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.pdf",sep="")
   filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_plots.html",sep="")
