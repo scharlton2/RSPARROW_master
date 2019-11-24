@@ -20,7 +20,7 @@ i<-{{i}}
 markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
 data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
-  p <- plotlyLayout( Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred, log = logStr, nTicks = 5, digits = 0,
+  p <- plotlyLayout( Cor.ExplanVars.list$cmatrixM_all[,i],corrData, log = logStr, nTicks = 5, digits = 0,
                   xTitle = paste0("AREA-WEIGHTED EXPLANATORY VARIABLE (",Cor.ExplanVars.list$names[i],")"), 
                   xZeroLine = FALSE,
                   yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
