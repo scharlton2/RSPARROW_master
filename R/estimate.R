@@ -116,7 +116,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
     
     diagnosticSensitivity(file.output.list,classvar,estimate.list,DataMatrix.list,SelParmValues,
                           reach_decay_specification,reservoir_decay_specification,
-                          subdata,sitedata.demtarea.class)
+                          subdata,sitedata.demtarea.class,mapping.input.list)
     
     #####################################
     ### 4. Output validation metrics  ###
@@ -223,7 +223,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
           ### Sensitivity analyses for parameters ###
           diagnosticSensitivity(file.output.list,classvar,estimate.list,DataMatrix.list,SelParmValues,
                                 reach_decay_specification,reservoir_decay_specification,
-                                subdata,sitedata.demtarea.class)
+                                subdata,sitedata.demtarea.class,mapping.input.list)
           
           
         } else {
