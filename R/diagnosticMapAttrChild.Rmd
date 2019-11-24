@@ -17,4 +17,9 @@ s<-{{s}}
             input,"", path_gis, sitedata, LineShapeGeo,data_names,FALSE,
             #regular
             names(siteAttr),mapdata,GeoLines,mapping.input.list,titleAttr,unitAttr,batch_mode)
+ 
+```
+
+```{r sitemapPgBr{{s}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
 ```

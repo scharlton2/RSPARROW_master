@@ -3,5 +3,10 @@ n<-{{n}}
 map.list<-mapTypes[n]  
 diagnosticMaps(mapColumn,mapdata,GeoLines,
                          map.list,strTitle,mapping.input.list,sitedata)
+
   
+```
+
+```{r diagMapPgBr{{n}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
 ```

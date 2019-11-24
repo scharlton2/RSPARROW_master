@@ -17,5 +17,10 @@ k <- {{k}}
                          fillcolor = "white")
  p <- p %>% layout(shapes = list(hline(1)))
   p
+
+ 
 ```
-  
+
+```{r classPgBr{{k}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```

@@ -130,8 +130,12 @@ strExplanation<-"###Output is presented for the following sections:
 title<-paste(run_id,"_diagnostic_plots.pdf \n ##Document Contents",sep="")
 title<-paste("#",title,"\n")
 cat(title,strExplanation,sep="\n")
+
 ```
   
+```{r pagebreak1, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
   if(existGeoLines==TRUE) { 
@@ -231,6 +235,10 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 
 8. Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting. The panels include:  observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted loads, and log residuals vs. predicted yields "
 cat(strExplanation)
+```
+
+```{r pagebreak2, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
@@ -375,6 +383,10 @@ p4 <- p4 %>% layout(shapes = list(hline(0)))
 p
 ```
  
+```{r pagebreak4, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+ 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
 
 cat("##Boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads\n")
@@ -497,6 +509,10 @@ p
 
 ```
 
+```{r pagebreak5, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
 ```{r  echo=FALSE, results='asis', eval=TRUE}
 
 cat("##Conditioned prediction loads vs. unconditioned (simulated) prediction loads\n")
@@ -535,6 +551,10 @@ p <- p %>% add_trace(x = ppredict, y = ppredict,
                      hoverinfo = 'text',
                      text = "Simulated Load")
 p
+```
+
+```{r pagebreak6, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
@@ -614,6 +634,10 @@ cat("##Boxplots of the observed to predicted loads vs. the decile classes of the
 p <- p %>% layout(shapes = list(hline(1)))
   p
 ``` 
+
+```{r pagebreak7, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
 
@@ -933,6 +957,10 @@ p4 <- p4 %>% layout(shapes = list(hline(0)))
 p
 ```
 
+```{r pagebreak8, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
 
 ##################################  
@@ -1069,6 +1097,10 @@ p
 
 ```
 
+```{r pagebreak9, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
 
   ##############################  
@@ -1114,6 +1146,10 @@ p
 p <- p %>% layout(shapes = list(hline(1)))
   p
   #}
+```
+
+```{r pagebreak10, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
 ```
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
@@ -1256,6 +1292,9 @@ cat(strExplanation)
 }
 ```
 
+```{r pagebreak11, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
 #################

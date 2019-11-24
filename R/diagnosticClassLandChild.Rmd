@@ -49,6 +49,10 @@ k <- {{l}}
   
         }
       p
+      
+
 ```
 
-  
+```{r landPgBr{{l}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
