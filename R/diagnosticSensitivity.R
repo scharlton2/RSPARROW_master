@@ -34,6 +34,9 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
 #                              NA,
 #                              NA))
   
+  unPackList(lists = list(file.output.list = file.output.list),
+               parentObj = list(NA))
+  
  # # contiguous class variables by sites
 #  class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar))) 
 #  for (k in 1:length(classvar)) { 
@@ -69,6 +72,9 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
   
  # filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_sensitivity.pdf",sep="")
 #pdf(file=filename)
+  objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sensitivities.list",sep="") 
+  load(objfile)
+  assign("sensitivities.list",sensitivities.list,envir = .GlobalEnv)
   
   
  

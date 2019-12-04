@@ -1,10 +1,21 @@
 plotlyLayout<-function(x, y, log, nTicks, digits, 
-                       xTitle, xZeroLine,xLabs = NA, yTitle, yZeroLine,
+                       xTitle, xZeroLine,xLabs = NA, 
+                       yTitle, yZeroLine,ymax = NA,ymin = NA,
                        plotTitle,legend){
   
   #format tickmarks
   for (a in c("x","y")){
     aData<-eval(parse(text = a))
+    
+    if (a=="y"){
+      if (!is.na(ymax)){
+        aData<-c(aData,ymax)
+      }
+      if (!is.na(ymin)){
+        aData<-c(aData,ymin)
+      }
+    }
+    
     if (!is.na(aData)){
     #test if scientific notation is needed
     if (min(aData, na.rm = TRUE)>1000 | max(aData,na.rm = TRUE)>100000){
@@ -49,8 +60,9 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
         strTitle<-eval(parse(text = paste0(a,"Title")))
         strZeroLine<-eval(parse(text = paste0(a,"ZeroLine")))
         eval(parse(text = paste0(a,"Axis.list <- list(type = 'category',
-                                                  categoryoder = 'category ascending',
+                                                  categoryorder = 'category ascending',
                                                   categoryarray = xLabs,
+                                                  ticktext = xLabs,
                                                   showline = TRUE,
                                                   ticks = 'outside',
                                                   title = strTitle,

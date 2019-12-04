@@ -143,7 +143,7 @@ for (i in 1:length(Estimate)) {
   sensitivities.list <- named.list(xparm,xmed,xiqr,xsens)
   objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sensitivities.list",sep="") 
   save(sensitivities.list,file=objfile)
-  assign("sensitivities.list",sensitivities.list,envir = .GlobalEnv)
+  #assign("sensitivities.list",sensitivities.list,envir = .GlobalEnv)
   
   # Plot median and IQR for each parameter
   xx <- xiqr[1,(xiqr[1,]>0)]  
@@ -169,42 +169,94 @@ for (i in 1:length(Estimate)) {
   ymax <- max(xiqr)
   
   # Arithmetic y axis
-  par(mfrow=c(1,1), pch=16)    # 1 plots on one page
-  plotCI(x=xvalue2, y=xx$xmed, uiw=xx$supper,liw=xx$slower,ylim=c(ymin,ymax),
-         col="black",barcol="blue",pch=19,
-         ylab="CHANGE IN PREDICTED VALUES (%)",xlab=" ",
-         gap=0,
-         las = 2,     # axis labels vertical
-         xaxt = "n",   # Dont print x-axis
-         xlim=c(1,length(Estimate))
-  )
-  axis(side=1, at=1:(length(Estimate)), labels=xx$xparm, cex.axis=0.8, las = 2)
-  title("PARAMETER SENSITIVITY TO 1% CHANGE")
+  #par(mfrow=c(1,1), pch=16)    # 1 plots on one page
+  #plotCI(x=xvalue2, y=xx$xmed, uiw=xx$supper,liw=xx$slower,ylim=c(ymin,ymax),
+  #       col="black",barcol="blue",pch=19,
+  #       ylab="CHANGE IN PREDICTED VALUES (%)",xlab=" ",
+  #       gap=0,
+  #       las = 2,     # axis labels vertical
+  #       xaxt = "n",   # Dont print x-axis
+  #       xlim=c(1,length(Estimate))
+  #)
+  #axis(side=1, at=1:(length(Estimate)), labels=xx$xparm, cex.axis=0.8, las = 2)
+  #title("PARAMETER SENSITIVITY TO 1% CHANGE")
+#  plotCI(x=xvalue2, y=xx$xmed, uiw=xx$xupper,liw=xx$xlower,ylim=c(ymin,ymax),
+#         col="black",barcol="red",pch=19,
+#         gap=0,
+#         xaxt = "n",   # Dont print x-axis
+#         add=TRUE
+#  )
+data<-data.frame(x = xvalue2)
+data<-cbind(data,xx)
+
+
+    p <- plotlyLayout(NA,data$xmed, log = "", nTicks = 5, digits = 0,
+                  xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
+                  yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
+                  plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
+                  legend = TRUE)
+p <- p %>% add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
+             name = 'Standard Deviation Interval',
+                     error_y = ~list(symetric = FALSE,
+                             array = supper,
+                             arrayminus = slower,
+                             color = "#0000FF"))
+p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
+           name = '95% Interval',
+            error_y = ~list(symetric = FALSE,
+                            array = xupper,
+                            arrayminus = xlower,
+                            color = "#FF0000"))
+
+p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'mean')#,
+            #hoverinfo = 'text',
+            #text = eval(parse(text = markerText)))
+
+p
   
-  plotCI(x=xvalue2, y=xx$xmed, uiw=xx$xupper,liw=xx$xlower,ylim=c(ymin,ymax),
-         col="black",barcol="red",pch=19,
-         gap=0,
-         xaxt = "n",   # Dont print x-axis
-         add=TRUE
-  )
+
   
   # Log y axis
-  par(mfrow=c(1,1), pch=16)    # 1 plots on one page
-  plotCI(x=xvalue2, y=xx$xmed, uiw=xx$supper,liw=xx$slower,ylim=c(ymin,ymax),
-         col="black",barcol="blue",pch=19,log="y",
-         ylab="CHANGE IN PREDICTED VALUES (%)",xlab=" ",
-         gap=0,
-         las = 2,     # axis labels vertical
-         xaxt = "n",   # Dont print x-axis
-         xlim=c(1,length(Estimate))
-  )
-  axis(side=1, at=1:(length(Estimate)), labels=xx$xparm, cex.axis=0.8, las = 2)
-  title("PARAMETER SENSITIVITY TO 1% CHANGE")
-  
-  plotCI(x=xvalue2, y=xx$xmed, uiw=xx$xupper,liw=xx$xlower,ylim=c(ymin,ymax),
-         col="black",barcol="red",pch=19,log="y",
-         gap=0,
-         xaxt = "n",   # Dont print x-axis
-         add=TRUE
-  )
+  #par(mfrow=c(1,1), pch=16)    # 1 plots on one page
+ # plotCI(x=xvalue2, y=xx$xmed, uiw=xx$supper,liw=xx$slower,ylim=c(ymin,ymax),
+#         col="black",barcol="blue",pch=19,log="y",
+#         ylab="CHANGE IN PREDICTED VALUES (%)",xlab=" ",
+#         gap=0,
+#         las = 2,     # axis labels vertical
+#         xaxt = "n",   # Dont print x-axis
+#         xlim=c(1,length(Estimate))
+#  )
+#  axis(side=1, at=1:(length(Estimate)), labels=xx$xparm, cex.axis=0.8, las = 2)
+#  title("PARAMETER SENSITIVITY TO 1% CHANGE")
+#  
+#  plotCI(x=xvalue2, y=xx$xmed, uiw=xx$xupper,liw=xx$xlower,ylim=c(ymin,ymax),
+#         col="black",barcol="red",pch=19,log="y",
+#         gap=0,
+#         xaxt = "n",   # Dont print x-axis
+#         add=TRUE
+#  )
+
+    p <- plotlyLayout(NA,data$xmed, log = "y", nTicks = 5, digits = 0,
+                  xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
+                  yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
+                  plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
+                  legend = TRUE)
+p <- p %>% add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
+             name = 'Standard Deviation Interval',
+                     error_y = ~list(symetric = FALSE,
+                             array = supper,
+                             arrayminus = slower,
+                             color = "#0000FF"))
+p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
+           name = '95% Interval',
+            error_y = ~list(symetric = FALSE,
+                            array = xupper,
+                            arrayminus = xlower,
+                            color = "#FF0000"))
+
+p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'mean')#,
+            #hoverinfo = 'text',
+            #text = eval(parse(text = markerText)))
+
+p
 ```
