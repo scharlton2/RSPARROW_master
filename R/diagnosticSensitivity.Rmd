@@ -213,8 +213,13 @@ p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode
             #text = eval(parse(text = markerText)))
 
 p
-  
+```
 
+```{r pagebreak6, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8} 
   
   # Log y axis
   #par(mfrow=c(1,1), pch=16)    # 1 plots on one page

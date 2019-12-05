@@ -17,3 +17,7 @@ i<-{{i}}
 
     
 ```
+
+```{r sensPgBr{{i}}, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
