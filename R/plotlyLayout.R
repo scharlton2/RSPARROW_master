@@ -60,9 +60,8 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
         strTitle<-eval(parse(text = paste0(a,"Title")))
         strZeroLine<-eval(parse(text = paste0(a,"ZeroLine")))
         eval(parse(text = paste0(a,"Axis.list <- list(type = 'category',
-                                                  categoryorder = 'category ascending',
+                                                  categoryoder = 'category ascending',
                                                   categoryarray = xLabs,
-                                                  ticktext = xLabs,
                                                   showline = TRUE,
                                                   ticks = 'outside',
                                                   title = strTitle,
