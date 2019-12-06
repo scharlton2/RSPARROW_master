@@ -1,0 +1,208 @@
+---
+title: 'yield_total'
+author: ""
+date: "`r format(Sys.time(), '%m-%d-%Y')`"
+output: html_document
+params:
+  filename: filename
+  mapType: mapType
+  GeoLines: GeoLines
+  lineShape: lineShape
+  k: k
+  vvar: vvar
+  existGeoLines: existGeoLines
+  Rshiny: Rshiny
+  input: input
+  predictionTitleSize: predictionTitleSize
+  scenario_name: scenario_name
+  scenario_map_list: scenario_map_list
+  master_map_list: master_map_list
+  predictionLegendSize: predictionLegendSize
+  mapunits.list: mapunits.list
+  predictionLegendBackground: predictionLegendBackground
+  break1: break1
+  Mcolors: Mcolors
+  enable_plotlyMaps: enable_plotlyMaps
+  output_map_type: output_map_type
+  lineWidth: lineWidth
+  lon_limit: lon_limit
+  lat_limit: lat_limit
+  nlty: nlty
+  nlwd: nlwd
+  dmapfinal: dmapfinal
+  mapdataname: mapdataname
+  subdata: subdata
+  predictionMapColors: predictionMapColors
+  add_plotlyVars: add_plotlyVars
+  commonvar: commonvar
+  mapScenarios: mapScenarios
+  predictionMapBackground: predictionMapBackground
+  LineShapeGeo: LineShapeGeo
+  mapvarname: mapvarname
+  predictionClassRounding: predictionClassRounding
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE)
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+#unpack params
+filename<-params$filename
+mapType<-params$mapType
+GeoLines<-params$GeoLines
+lineShape<-params$lineShape
+k<-params$k
+vvar<-params$vvar
+existGeoLines<-params$existGeoLines
+Rshiny<-params$Rshiny
+input<-params$input
+predictionTitleSize<-params$predictionTitleSize
+scenario_name<-params$scenario_name
+scenario_map_list<-params$scenario_map_list
+master_map_list<-params$master_map_list
+predictionLegendSize<-params$predictionLegendSize
+mapunits.list<-params$mapunits.list
+predictionLegendBackground<-params$predictionLegendBackground
+break1<-params$break1
+Mcolors<-params$Mcolors
+enable_plotlyMaps<-params$enable_plotlyMaps
+output_map_type<-params$output_map_type
+lineWidth<-params$lineWidth
+lon_limit<-params$lon_limit
+lat_limit<-params$lat_limit
+nlty<-params$nlty
+nlwd<-params$nlwd
+dmapfinal<-params$dmapfinal
+mapdataname<-params$mapdataname
+subdata<-params$subdata
+predictionMapColors<-params$predictionMapColors
+add_plotlyVars<-params$add_plotlyVars
+commonvar<-params$commonvar
+mapScenarios<-params$mapScenarios
+predictionMapBackground<-params$predictionMapBackground
+LineShapeGeo<-params$LineShapeGeo
+mapvarname<-params$mapvarname
+predictionClassRounding<-params$predictionClassRounding
+
+if (enable_plotlyMaps=="no"){
+  pdf(filename) 
+}else{#plotlystuff
+  if (mapScenarios==FALSE){
+    titleStr<-master_map_list[k]
+  }else{
+    if (Rshiny==FALSE){
+      titleStr<-paste(scenario_name,scenario_map_list[k],sep=" ")
+    }else{
+      titleStr<-paste(input$scenarioName,master_map_list[k],sep=" ")
+    }
+  }
+  
+  #start plotly plot
+  p<-plot_ly() %>%
+    layout(
+      showlegend =TRUE,
+      xaxis = list(range = lon_limit,
+                   showticklabels= TRUE,
+                   title = "Longitude"),
+      yaxis = list(range = lat_limit,
+                   showticklabels = TRUE,
+                   title = "Latitude"),
+      title = titleStr)
+}
+
+if (existGeoLines==TRUE){
+  #load(pathGeoLines)
+  if (enable_plotlyMaps=="no"){
+    plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
+  }else{
+    p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
+                      stroke = I("black"),color = I(predictionMapBackground),
+                      name = LineShapeGeo)
+    
+    
+    
+  }
+}
+
+
+
+if (mapType=="stream"){
+  # select the shading colors for a given mapping variable
+  
+  
+  
+  if (enable_plotlyMaps=="no"){
+    mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
+    if (existGeoLines==TRUE){
+      
+      xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
+      eval(parse(text=xtext))
+    } else {
+      xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
+      eval(parse(text=xtext))
+    }
+  }else{#plotly
+    uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
+    uniqueCols<-predictionMapColors[predictionMapColors %in% uniqueCols]
+    for (c in uniqueCols){
+      lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
+      mapdata<-lineShape[lineShape$mapColor==c,]
+      mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
+      
+      #data<-merge(mapdata,subdata, by.x = commonvar, by.y = "waterid_for_RSPARROW_mapping")
+      #names(data)[names(data)==commonvar]<-"waterid_for_RSPARROW_mapping"
+      #data<-data[,names(data) %in% names(subdata)]
+      
+      lineText<-"~paste('</br> Lat: ',lat,
+                   '</br> Lon: ',lon,
+                   '</br> ',master_map_list[k],' :',
+                   round(mapdataname,predictionClassRounding)"
+      
+      lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, NA)$markerText
+      #mapdata<-addMarkerText(lineText,add_plotlyVars, mapdata, data)$mapData
+     
+      p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
+                        color = I(c),
+                        name = break1[k][[1]][uniqueCols==c],
+                        line = list(width = lineWidth),
+                        hoverinfo = 'text',
+                        text = eval(parse(text = lineText)))
+    }
+
+    #p
+
+  }
+}else{#catchment
+  
+}
+
+if (enable_plotlyMaps=="no"){
+  if (mapScenarios==FALSE){
+    title(master_map_list[k],cex.main = predictionTitleSize)
+  }else{
+    if (Rshiny==FALSE){
+      title(paste(scenario_name,scenario_map_list[k],sep=" "))
+    }else{
+      title(paste(input$scenarioName,master_map_list[k],sep=" "),cex.main = predictionTitleSize) 
+    }
+  }
+  
+  
+  
+  legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
+         bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
+  
+  
+  dev.off()
+  if (k==length(master_map_list)){
+    if (regexpr("catchment",paste(output_map_type,collapse=","))<0){
+      if (input$batch=="Batch" & Rshiny==TRUE) {
+        shell.exec(filename) 
+      }
+      
+    }
+  }
+}
+
+

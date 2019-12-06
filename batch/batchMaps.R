@@ -51,7 +51,8 @@ if (length(res)!=0){
               "predictMaps.R",
               "mapBreaks.R",
               "named.list.R",
-              "unPackList.R")
+              "unPackList.R",
+              "addMarkerText.R")
   for (r in routines){
     source(paste(path_main,.Platform$file.sep,"R",.Platform$file.sep,r,sep=""))
   }
@@ -65,6 +66,10 @@ if (length(res)!=0){
   suppressWarnings(suppressMessages(library(rgdal)))
   suppressWarnings(suppressMessages(library(maptools)))
   suppressWarnings(suppressMessages(library(sf)))
+  suppressWarnings(suppressMessages(library(plotly)))
+  suppressWarnings(suppressMessages(library(rmarkdown)))
+  suppressWarnings(suppressMessages(library(knitr)))
+  suppressWarnings(suppressMessages(library(tools)))
   
   
   #start sink

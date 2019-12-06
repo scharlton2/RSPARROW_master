@@ -506,9 +506,12 @@ predictMaps<-function(#Rshiny
             }
           }#end ratio plot
           
-          dmap <- data.frame(MAPID,as.character(MAPCOLORS))   # ,vvar)    # added 3-25-2017
+         # dmap <- data.frame(MAPID,as.character(MAPCOLORS))   # ,vvar)    # added 3-25-2017
+          dmap <- data.frame(MAPID,as.character(MAPCOLORS),vvar)
           mapvarname <- paste("MAPCOLORS",k,sep="")
-          colnames(dmap) <- c(commonvar,mapvarname) # ,master_map_list[k])
+          mapdataname<-paste("vvar",k,sep="")
+          colnames(dmap) <- c(commonvar,mapvarname,mapdataname)
+          #colnames(dmap) <- c(commonvar,mapvarname) # ,master_map_list[k])
           if ((mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0) & testNAvar==0){
             intervals[k,1:length(uniqueBrks)] <- uniqueBrks
           }else{
@@ -569,7 +572,12 @@ predictMaps<-function(#Rshiny
       } # end variable loop
       
       #------------------------------------------------------------#     
-      
+      if (enable_plotlyMaps=="yes" & !is.na(add_plotlyVars[1])){
+        subdataMerge<-merge(dmapfinal,subdata,by.x = commonvar, by.y = "waterid_for_RSPARROW_mapping")
+        names(subdataMerge)[names(subdataMerge)==commonvar]<-"waterid_for_RSPARROW_mapping"
+        subdataMerge<-subdataMerge[,names(subdataMerge) %in% names(subdata)]
+        dmapfinal<-addMarkerText("",c(add_plotlyVars,"lat","lon"), dmapfinal, subdataMerge)$mapData
+      }
       
       # merge selected variables to the shape file\
       if ((paste(output_map_type,collapse="") %in% c("stream","both") & Rshiny==FALSE) | 
@@ -580,17 +588,17 @@ predictMaps<-function(#Rshiny
         names(dmapAll)[1]<-commonvar
         lineShape <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = commonvar)
         
-        if (Rshiny==FALSE){
-          if (mapScenarios==FALSE){
-            # Create and output maps
-            filename <- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,run_id,"_prediction_stream_maps.pdf",sep="") 
-          }else{
-            filename <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_prediction_stream_maps.pdf",sep="")
-            
-          }
-          
-          pdf(file=filename)
-        }
+        #if (Rshiny==FALSE){
+        #  if (mapScenarios==FALSE){
+        #    # Create and output maps
+        #    filename <- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,run_id,"_prediction_stream_maps.pdf",sep="") 
+        #  }else{
+        #    filename <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_prediction_stream_maps.pdf",sep="")
+        #    
+        #  }
+        #  
+        #  pdf(file=filename)
+        #}
         # loop through each of the variables...
         for (k in 1:length(master_map_list)) {
           testNAvar<-eval(parse(text = paste0("testNA$",master_map_list[k])))
@@ -615,10 +623,17 @@ predictMaps<-function(#Rshiny
           }
           
           
-          if (input$batch=="Batch" & Rshiny==TRUE){
+          if (((input$batch=="Batch" & Rshiny==TRUE) | Rshiny==FALSE)){
             if (mapScenarios==FALSE){
-              filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
-            }else{
+              if (Rshiny==TRUE){
+                filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
+              }else{
+                if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream"))){
+                  dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream"))
+                }
+                filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
+              }            
+              }else{
               if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
                 dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""),showWarnings = FALSE)
               }
@@ -628,53 +643,171 @@ predictMaps<-function(#Rshiny
               filename<- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Stream",.Platform$file.sep,
                                input$scenarioName,"_",run_id,"_",scenario_map_list[k],".pdf",sep="")
             }
-            pdf(filename)
-          }
+           # pdf(filename)
           
-          if (existGeoLines==TRUE){
-            plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
-            
-          }
           
-          # obtain variable settings
-          mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
-          # select the shading colors for a given mapping variable
-          if (existGeoLines==TRUE){
-            xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
-            eval(parse(text=xtext))
-          } else {
-            xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
-            eval(parse(text=xtext))
-          }
-          if (mapScenarios==FALSE){
-            title(master_map_list[k],cex.main = predictionTitleSize)
+          reportPath<-paste0(path_master,"predictMaps2.Rmd")
+          if (enable_plotlyMaps=="no"){
+            htmlFile<-suppressWarnings(normalizePath(gsub("Rmd","html",reportPath)))
           }else{
-            if (Rshiny==FALSE){
-              title(paste(scenario_name,scenario_map_list[k],sep=" "))  
-            }else{
-              title(paste(input$scenarioName,master_map_list[k],sep=" "),cex.main = predictionTitleSize)  
-            }
+            htmlFile<-gsub("pdf","html",filename)
           }
-          
-          
-          
-          legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
-                 bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
-          
-          if (input$batch=="Batch" & Rshiny==TRUE){
-            dev.off()
-            if (k==length(master_map_list)){
-              if (regexpr("catchment",paste(output_map_type,collapse=","))<0){
-                shell.exec(filename)
+
+
+#edit title of report
+if (mapScenarios==FALSE){
+  reportTitle<-master_map_list[k]
+}else{
+  if (Rshiny==FALSE){
+    reportTitle<-paste(scenario_name,scenario_map_list[k],sep=" ") 
+  }else{
+    reportTitle<-paste(input$scenarioName,master_map_list[k],sep=" ")  
+  }
+}
+#read Rmd file as text
+x <- readLines(reportPath)
+#find where title is designated
+editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
+#replace with current reportTitle
+y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
+#overwrite the file
+cat(y, file=reportPath, sep="\n") 
+
+
+#filename <- normalizePath(filename)
+pathGeoLines<-file_path_as_absolute(paste(path_gis,.Platform$file.sep,"GeoLines",sep=""))
+outParams<-list(
+  filename = filename,
+  mapType = "stream",
+  GeoLines = GeoLines,
+  lineShape = lineShape,
+  k = k,
+  vvar = vvar,
+  existGeoLines = existGeoLines,
+  Rshiny = Rshiny,
+  input = input,
+  predictionTitleSize = predictionTitleSize,
+  scenario_name = scenario_name,
+  scenario_map_list = scenario_map_list,
+  master_map_list = master_map_list,
+  predictionLegendSize = predictionLegendSize,
+  mapunits.list = mapunits.list,
+  predictionLegendBackground = predictionLegendBackground,
+  break1 = break1,
+  Mcolors = Mcolors,
+  enable_plotlyMaps = enable_plotlyMaps,
+  output_map_type = output_map_type,
+  lineWidth = lineWidth,
+  lon_limit = lon_limit,
+  lat_limit = lat_limit,
+  nlty = nlty,
+  nlwd = nlwd,
+  dmapfinal = dmapfinal,
+  mapdataname = mapdataname,
+  subdata = subdata,
+  predictionMapColors = predictionMapColors,
+  add_plotlyVars = add_plotlyVars,
+  commonvar = commonvar,
+  mapScenarios = mapScenarios,
+  predictionMapBackground = predictionMapBackground,
+  LineShapeGeo = LineShapeGeo,
+  mapvarname = mapvarname,
+  predictionClassRounding = predictionClassRounding)
+save(outParams,file = "D:/params")
+          #  rmarkdown::render(
+          #  reportPath, params = list(
+          #    filename = filename,
+          #    mapType = "stream",
+          #    GeoLines = GeoLines,
+          #    lineShape = lineShape,
+          #    k = k,
+          #    vvar = vvar,
+          #    existGeoLines = existGeoLines,
+          #    Rshiny = Rshiny,
+          #    input = input,
+          #    predictionTitleSize = predictionTitleSize,
+          #    scenario_name = scenario_name,
+          #    scenario_map_list = scenario_map_list,
+          #    master_map_list = master_map_list,
+          #    predictionLegendSize = predictionLegendSize,
+          #    mapunits.list = mapunits.list,
+          #    predictionLegendBackground = predictionLegendBackground,
+          #    break1 = break1,
+          #    Mcolors = Mcolors,
+          #    enable_plotlyMaps = enable_plotlyMaps,
+          #    output_map_type = output_map_type,
+          #    lineWidth = lineWidth,
+          #    lon_limit = lon_limit,
+          #    lat_limit = lat_limit,
+          #    nlty = nlty,
+          #    nlwd = nlwd,
+          #    dmapfinal = dmapfinal,
+          #    mapdataname = mapdataname,
+          #    subdata = subdata,
+          #    predictionMapColors = predictionMapColors,
+          #    add_plotlyVars = add_plotlyVars,
+          #    commonvar = commonvar,
+          #    mapScenarios = mapScenarios,
+          #    predictionMapBackground = predictionMapBackground,
+          #    LineShapeGeo = LineShapeGeo,
+          #    mapvarname = mapvarname,
+          #    predictionClassRounding = predictionClassRounding
+          #  ),
+          #  output_file = htmlFile, quiet = FALSE
+          #)
+
+rmarkdown::render(
+   reportPath, params = list(lineShape = lineShape,
+                             GeoLines = GeoLines,
+                             k = k,
+                             master_map_list = master_map_list,
+                             predictionMapColors = predictionMapColors,
+                             break1 = break1,
+                             add_plotlyVars = add_plotlyVars,
+                             lon_limit = lon_limit,
+                             lat_limit = lat_limit,
+                             lineWidth = lineWidth),
+   output_file = htmlFile, quiet = FALSE
+   )
+            line<-"line711"
+            save(line,file = "D:/line")
+            }else{#Rhiny interactive
+              if (existGeoLines==TRUE){
+                plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
               }
-            }
-          }
+              
+              # obtain variable settings
+              mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
+              mapdataname <- paste("vvar",k,sep="")
+              # select the shading colors for a given mapping variable
+              if (existGeoLines==TRUE){
+                
+                xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
+                eval(parse(text=xtext))
+              } else {
+                xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
+                eval(parse(text=xtext))
+              }
+              if (mapScenarios==FALSE){
+                title(master_map_list[k],cex.main = predictionTitleSize)
+              }else{
+                  title(paste(input$scenarioName,master_map_list[k],sep=" "),cex.main = predictionTitleSize)  
+                
+              }
+              
+              
+              
+              legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
+                     bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
+              
+
+            }#end Rshiny interactive
         }#end variable loop
         
-        if (Rshiny==FALSE){
-          dev.off()  # shuts down current graphics device
-          graphics.off()  # shuts down all open graphics devices    
-        }
+        #if (Rshiny==FALSE){
+        #  dev.off()  # shuts down current graphics device
+        #  graphics.off()  # shuts down all open graphics devices    
+        #}
         
         #output shapefile
         if (outputESRImaps[1]=="yes"){
@@ -688,7 +821,12 @@ predictMaps<-function(#Rshiny
             if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
-            
+            if (file.exists(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+                                  .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))){
+             
+               unlink(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+                            .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE)
+            }
            st_write(lineShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
                            .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
             
@@ -696,8 +834,13 @@ predictMaps<-function(#Rshiny
             if (!dir.exists(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
-            
-           st_write(lineShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+            if (file.exists(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
+                                  .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))){
+             
+              unlink(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
+                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE)
+            }
+           st_write(lineShape, paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
                                       .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
             
           }else if (input$batch=="Batch"){
@@ -707,8 +850,13 @@ predictMaps<-function(#Rshiny
             if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
-            
-           st_write(lineShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+            if (file.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
+                                  .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))){
+             
+              unlink(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
+                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE)
+            }
+           st_write(lineShape, paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
                                       .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
             }
         }
@@ -725,23 +873,30 @@ predictMaps<-function(#Rshiny
         # merge selected variables to the shape file
         polyShape <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = commonvar)
         
-        if (Rshiny==FALSE){
-          # Create and output maps
-          if (mapScenarios==FALSE){
-            filename <- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,run_id,"_prediction_catchment_maps.pdf",sep="")
-          }else{
-            filename <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_prediction_catchment_maps.pdf",sep="")
-          }
-          pdf(file=filename)
-        }
+        #if (Rshiny==FALSE){
+        #  # Create and output maps
+        #  if (mapScenarios==FALSE){
+        #    filename <- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,run_id,"_prediction_catchment_maps.pdf",sep="")
+        #  }else{
+        #    filename <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_prediction_catchment_maps.pdf",sep="")
+        #  }
+        #  pdf(file=filename)
+        #}
         
         # loop through each of the variables...
         for (k in 1:length(master_map_list)) {
           
           
-          if (input$batch=="Batch"){
+          if (((input$batch=="Batch" & Rshiny==TRUE) | Rshiny==FALSE) & enable_plotlyMaps=="no"){
             if (mapScenarios==FALSE){
-              filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
+              if (Rshiny==TRUE){
+                             filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
+              }else{
+                if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment"))){
+                  dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment"))
+                }
+                filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
+              }
             }else{
               if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
                 dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""),showWarnings = FALSE)
@@ -751,7 +906,8 @@ predictMaps<-function(#Rshiny
               }
               filename<- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Catchment",.Platform$file.,
                                input$scenarioName,"_",run_id,"_",scenario_map_list[k],".pdf",sep="")
-            }
+             
+              }
             
             pdf(filename)
           }
@@ -787,19 +943,22 @@ predictMaps<-function(#Rshiny
           
           legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
                  bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
-          if (input$batch=="Batch"){
+          if (((input$batch=="Batch" & Rshiny==TRUE) | Rshiny==FALSE) & enable_plotlyMaps=="no"){
             dev.off()
             if (k==length(master_map_list)){
-              shell.exec(filename)
+              if (input$batch=="Batch" & Rshiny==TRUE){
+               shell.exec(filename) 
+              }
+              
             }
           }
           
         }#end variable loop
         
-        if (Rshiny==FALSE){
-          dev.off()  # shuts down current graphics device
-          graphics.off()  # shuts down all open graphics devices
-        }
+       # if (Rshiny==FALSE){
+      #    dev.off()  # shuts down current graphics device
+      #    graphics.off()  # shuts down all open graphics devices
+      #  }
         
         #output shapefile
         if (outputESRImaps[2]=="yes"){

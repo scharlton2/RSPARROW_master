@@ -1,0 +1,96 @@
+---
+title: 'pload_total'
+author: "Lillian Gorman Sanisaca"
+date: "December 6, 2019"
+output: html_document
+params:
+  lineShape: lineShape
+  GeoLines: GeoLines
+  k: k
+  master_map_list: master_map_list
+  predictionMapColors: predictionMapColors
+  break1: break1
+  add_plotlyVars: add_plotlyVars
+  lon_limit: lon_limit
+  lat_limit: lat_limit
+  lineWidth: lineWidth
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE)
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+lineShape<-params$lineShape
+  GeoLines<-params$GeoLines
+  k<-params$k
+  master_map_list<-params$master_map_list
+  predictionMapColors<-params$predictionMapColors
+  break1<-params$break1
+  add_plotlyVars<-params$add_plotlyVars
+  lon_limit<-params$lon_limit
+  lat_limit<-params$lat_limit
+  lineWidth<-params$lineWidth
+
+mapColorName<-paste0("MAPCOLORS",k)
+mapVarName<-master_map_list[k]
+ if (!is.na(add_plotlyVars[1])){
+    add_plotlyVars<-as.character(ifelse(add_plotlyVars=="waterid","waterid_for_RSPARROW_mapping",add_plotlyVars))
+ }
+
+########start plotly plot
+p<-plot_ly() %>%
+  layout(
+    showlegend =TRUE,
+    xaxis = list(range = lon_limit,
+                 showticklabels= TRUE,
+                 title = "Longitude"),
+    yaxis = list(range = lat_limit,
+                 showticklabels = TRUE,
+                 title = "Latitude"),
+    title = mapVarName)
+
+#plot GeoLines
+  p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
+                    stroke = I("black"),color = I("white"),
+                    name = "states")
+
+
+#start hover text, default lat,lon, and dataname  
+  lineText<-"~paste('</br> Lat: ',lat,
+                   '</br> Lon: ',lon,
+                   '</br> ',mapVarName,' :',
+                   round(mapVar,2)"
+
+  #add addtional variables to hovertexrt
+  if (!is.na(add_plotlyVars[1])){
+    #add attributes to markerText
+    for (m in add_plotlyVars){
+      lineText<-paste0(lineText,",'</br> ",m," : ',",m)
+    }
+  }
+  #wrap up text strings
+  lineText<-paste0(lineText,")") 
+  remove(list = c(mapVarName,"lat","lon",add_plotlyVars))
+  #get colors
+  uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapColorName,"))")))
+  uniqueCols<-predictionMapColors[predictionMapColors %in% uniqueCols]
+  #add trace for each color
+  for (c in uniqueCols){
+    #set generic names for plotting
+    lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapColorName)))
+    mapdata<-lineShape[lineShape$mapColor==c,] #get just the color c
+    mapdata$mapVar<-eval(parse(text = paste0("mapdata$",paste0("vvar",k))))
+    
+    #add plotly trace
+    p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
+                      color = I(c),
+                      name = break1[uniqueCols==c],
+                      line = list(width = lineWidth),
+                      hoverinfo = 'text',
+                      text = eval(parse(text = lineText)))
+  }
+
+#print plot to Rstudio Viewer, can take a few minutes to load
+p
+```
