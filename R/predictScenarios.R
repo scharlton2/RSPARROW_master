@@ -732,7 +732,7 @@ predictScenarios <- function(#Rshiny
               output_map_type<-tolower(c(trimws(gsub("-","",input$outType))))
             }
             
-            predictMaps(#Rshiny
+           predictMaps(#Rshiny
               input, allMetrics, output_map_type,Rshiny,
               #regular
               file.output.list,
@@ -746,6 +746,7 @@ predictScenarios <- function(#Rshiny
               predictScenarios.list,
               scenarioFlag,
               batch_mode)
+           
           }
           # }#!is.na(scenario_map_list[1]
           

@@ -187,7 +187,7 @@ predictMaps<-function(#Rshiny
       }
     }#scenario
     if (Rshiny==TRUE){#Rshiny
-      
+      enable_plotlyMaps<-as.character(input$enablePlotly)
       if (input$batch=="Batch"){
         master_map_list<-allMetrics
         if (mapScenarios==TRUE){
@@ -577,6 +577,7 @@ predictMaps<-function(#Rshiny
         names(subdataMerge)[names(subdataMerge)==commonvar]<-"waterid_for_RSPARROW_mapping"
         subdataMerge<-subdataMerge[,names(subdataMerge) %in% names(subdata)]
         dmapfinal<-addMarkerText("",c(add_plotlyVars,"lat","lon"), dmapfinal, subdataMerge)$mapData
+        save(dmapfinal,file = "D:/dmapfinal")
       }
       
       # merge selected variables to the shape file\
@@ -646,7 +647,7 @@ predictMaps<-function(#Rshiny
            # pdf(filename)
           
           
-          reportPath<-paste0(path_master,"predictMaps2.Rmd")
+          reportPath<-paste0(path_master,"predictMaps.Rmd")
           if (enable_plotlyMaps=="no"){
             htmlFile<-suppressWarnings(normalizePath(gsub("Rmd","html",reportPath)))
           }else{
@@ -655,15 +656,16 @@ predictMaps<-function(#Rshiny
 
 
 #edit title of report
-if (mapScenarios==FALSE){
-  reportTitle<-master_map_list[k]
-}else{
-  if (Rshiny==FALSE){
-    reportTitle<-paste(scenario_name,scenario_map_list[k],sep=" ") 
-  }else{
-    reportTitle<-paste(input$scenarioName,master_map_list[k],sep=" ")  
-  }
-}
+#if (mapScenarios==FALSE){
+#  reportTitle<-master_map_list[k]
+#}else{
+#  if (Rshiny==FALSE){
+#    reportTitle<-paste(scenario_name,scenario_map_list[k],sep=" ") 
+#  }else{
+#    reportTitle<-paste(input$scenarioName,master_map_list[k],sep=" ")  
+#  }
+#}
+reportTitle<-run_id
 #read Rmd file as text
 x <- readLines(reportPath)
 #find where title is designated
@@ -673,113 +675,87 @@ y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
 #overwrite the file
 cat(y, file=reportPath, sep="\n") 
 
+            rmarkdown::render(
+            reportPath, params = list(
+              filename = filename,
+              mapType = "stream",
+              GeoLines = GeoLines,
+              lineShape = lineShape,
+              k = k,
+              existGeoLines = existGeoLines,
+              Rshiny = Rshiny,
+              input = input,
+              predictionTitleSize = predictionTitleSize,
+              scenario_name = scenario_name,
+              scenario_map_list = scenario_map_list,
+              master_map_list = master_map_list,
+              predictionLegendSize = predictionLegendSize,
+              mapunits.list = mapunits.list,
+              predictionLegendBackground = predictionLegendBackground,
+              break1 = break1,
+              Mcolors = Mcolors,
+              enable_plotlyMaps = enable_plotlyMaps,
+              output_map_type = output_map_type,
+              lineWidth = lineWidth,
+              lon_limit = lon_limit,
+              lat_limit = lat_limit,
+              nlty = nlty,
+              nlwd = nlwd,
+              mapdataname = mapdataname,
+              predictionMapColors = predictionMapColors,
+              add_plotlyVars = add_plotlyVars,
+              mapScenarios = mapScenarios,
+              predictionMapBackground = predictionMapBackground,
+              LineShapeGeo = LineShapeGeo,
+              mapvarname = mapvarname,
+              predictionClassRounding = predictionClassRounding
+            ),
+            output_file = htmlFile, quiet = FALSE
+          )
 
-#filename <- normalizePath(filename)
-pathGeoLines<-file_path_as_absolute(paste(path_gis,.Platform$file.sep,"GeoLines",sep=""))
-outParams<-list(
-  filename = filename,
-  mapType = "stream",
-  GeoLines = GeoLines,
-  lineShape = lineShape,
-  k = k,
-  vvar = vvar,
-  existGeoLines = existGeoLines,
-  Rshiny = Rshiny,
-  input = input,
-  predictionTitleSize = predictionTitleSize,
-  scenario_name = scenario_name,
-  scenario_map_list = scenario_map_list,
-  master_map_list = master_map_list,
-  predictionLegendSize = predictionLegendSize,
-  mapunits.list = mapunits.list,
-  predictionLegendBackground = predictionLegendBackground,
-  break1 = break1,
-  Mcolors = Mcolors,
-  enable_plotlyMaps = enable_plotlyMaps,
-  output_map_type = output_map_type,
-  lineWidth = lineWidth,
-  lon_limit = lon_limit,
-  lat_limit = lat_limit,
-  nlty = nlty,
-  nlwd = nlwd,
-  dmapfinal = dmapfinal,
-  mapdataname = mapdataname,
-  subdata = subdata,
-  predictionMapColors = predictionMapColors,
-  add_plotlyVars = add_plotlyVars,
-  commonvar = commonvar,
-  mapScenarios = mapScenarios,
-  predictionMapBackground = predictionMapBackground,
-  LineShapeGeo = LineShapeGeo,
-  mapvarname = mapvarname,
-  predictionClassRounding = predictionClassRounding)
-save(outParams,file = "D:/params")
-          #  rmarkdown::render(
-          #  reportPath, params = list(
-          #    filename = filename,
-          #    mapType = "stream",
-          #    GeoLines = GeoLines,
-          #    lineShape = lineShape,
-          #    k = k,
-          #    vvar = vvar,
-          #    existGeoLines = existGeoLines,
-          #    Rshiny = Rshiny,
-          #    input = input,
-          #    predictionTitleSize = predictionTitleSize,
-          #    scenario_name = scenario_name,
-          #    scenario_map_list = scenario_map_list,
-          #    master_map_list = master_map_list,
-          #    predictionLegendSize = predictionLegendSize,
-          #    mapunits.list = mapunits.list,
-          #    predictionLegendBackground = predictionLegendBackground,
-          #    break1 = break1,
-          #    Mcolors = Mcolors,
-          #    enable_plotlyMaps = enable_plotlyMaps,
-          #    output_map_type = output_map_type,
-          #    lineWidth = lineWidth,
-          #    lon_limit = lon_limit,
-          #    lat_limit = lat_limit,
-          #    nlty = nlty,
-          #    nlwd = nlwd,
-          #    dmapfinal = dmapfinal,
-          #    mapdataname = mapdataname,
-          #    subdata = subdata,
-          #    predictionMapColors = predictionMapColors,
-          #    add_plotlyVars = add_plotlyVars,
-          #    commonvar = commonvar,
-          #    mapScenarios = mapScenarios,
-          #    predictionMapBackground = predictionMapBackground,
-          #    LineShapeGeo = LineShapeGeo,
-          #    mapvarname = mapvarname,
-          #    predictionClassRounding = predictionClassRounding
-          #  ),
-          #  output_file = htmlFile, quiet = FALSE
-          #)
 
-rmarkdown::render(
-   reportPath, params = list(lineShape = lineShape,
-                             GeoLines = GeoLines,
-                             k = k,
-                             master_map_list = master_map_list,
-                             predictionMapColors = predictionMapColors,
-                             break1 = break1,
-                             add_plotlyVars = add_plotlyVars,
-                             lon_limit = lon_limit,
-                             lat_limit = lat_limit,
-                             lineWidth = lineWidth),
-   output_file = htmlFile, quiet = FALSE
-   )
-            line<-"line711"
-            save(line,file = "D:/line")
             }else{#Rhiny interactive
+              if (enable_plotlyMaps=="yes"){
+                if (mapScenarios==FALSE){
+                  titleStr<-master_map_list[k]
+                }else{
+                  if (Rshiny==FALSE){
+                    titleStr<-paste(scenario_name,scenario_map_list[k],sep=" ")
+                  }else{
+                    titleStr<-paste(input$scenarioName,master_map_list[k],sep=" ")
+                  }
+                }
+                
+                #start plotly plot
+                p<-plot_ly() %>%
+                  layout(
+                    showlegend =TRUE,
+                    xaxis = list(range = lon_limit,
+                                 showticklabels= TRUE,
+                                 title = "Longitude"),
+                    yaxis = list(range = lat_limit,
+                                 showticklabels = TRUE,
+                                 title = "Latitude"),
+                    title = titleStr)
+              }
+              
+              
               if (existGeoLines==TRUE){
+                if (enable_plotlyMaps=="no"){
                 plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
+                  }else{
+                    p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
+                                      stroke = I("black"),color = I(predictionMapBackground),
+                                      name = LineShapeGeo) 
+                  }
               }
               
               # obtain variable settings
-              mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
+              
               mapdataname <- paste("vvar",k,sep="")
               # select the shading colors for a given mapping variable
+              if (enable_plotlyMaps=="no"){
+                mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
                 
                 xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
@@ -800,7 +776,34 @@ rmarkdown::render(
               legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
                      bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
               
-
+              }else{#plotly
+                remove(list = c("lat","lon",add_plotlyVars))
+                uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
+                uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+                for (c in uniqueCols){
+                  lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
+                  mapdata<-lineShape[lineShape$mapColor==c,]
+                  mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
+                  
+                  lineText<-"~paste('</br> Lat: ',lat,
+                   '</br> Lon: ',lon,
+                   '</br> ',master_map_list[k],' :',
+                   round(mapdataname,predictionClassRounding)"
+                  
+                  lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
+                  #mapdata<-addMarkerText(lineText,add_plotlyVars, mapdata, data)$mapData
+                  
+                  p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
+                                    color = I(c),
+                                    name = break1[k][[1]][uniqueCols==c],
+                                    line = list(width = lineWidth),
+                                    hoverinfo = 'text',
+                                    text = eval(parse(text = lineText)))
+                }
+                line<-803
+                save(line,file = "D:/line803")
+                return(p)
+}
             }#end Rshiny interactive
         }#end variable loop
         

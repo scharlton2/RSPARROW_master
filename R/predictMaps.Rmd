@@ -1,7 +1,7 @@
 ---
-title: 'yield_total'
+title: 'interactive_2019.12.06'
 author: ""
-date: "`r format(Sys.time(), '%m-%d-%Y')`"
+date: "`r paste0('Output on ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
 params:
   filename: filename
@@ -9,7 +9,6 @@ params:
   GeoLines: GeoLines
   lineShape: lineShape
   k: k
-  vvar: vvar
   existGeoLines: existGeoLines
   Rshiny: Rshiny
   input: input
@@ -29,12 +28,9 @@ params:
   lat_limit: lat_limit
   nlty: nlty
   nlwd: nlwd
-  dmapfinal: dmapfinal
   mapdataname: mapdataname
-  subdata: subdata
   predictionMapColors: predictionMapColors
   add_plotlyVars: add_plotlyVars
-  commonvar: commonvar
   mapScenarios: mapScenarios
   predictionMapBackground: predictionMapBackground
   LineShapeGeo: LineShapeGeo
@@ -53,7 +49,7 @@ mapType<-params$mapType
 GeoLines<-params$GeoLines
 lineShape<-params$lineShape
 k<-params$k
-vvar<-params$vvar
+#vvar<-params$vvar
 existGeoLines<-params$existGeoLines
 Rshiny<-params$Rshiny
 input<-params$input
@@ -73,12 +69,12 @@ lon_limit<-params$lon_limit
 lat_limit<-params$lat_limit
 nlty<-params$nlty
 nlwd<-params$nlwd
-dmapfinal<-params$dmapfinal
+#dmapfinal<-params$dmapfinal
 mapdataname<-params$mapdataname
-subdata<-params$subdata
+#subdata<-params$subdata
 predictionMapColors<-params$predictionMapColors
 add_plotlyVars<-params$add_plotlyVars
-commonvar<-params$commonvar
+#commonvar<-params$commonvar
 mapScenarios<-params$mapScenarios
 predictionMapBackground<-params$predictionMapBackground
 LineShapeGeo<-params$LineShapeGeo
@@ -143,24 +139,20 @@ if (mapType=="stream"){
       eval(parse(text=xtext))
     }
   }else{#plotly
+    remove(list = c("lat","lon",add_plotlyVars))
     uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
-    uniqueCols<-predictionMapColors[predictionMapColors %in% uniqueCols]
+    uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
     for (c in uniqueCols){
       lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
       mapdata<-lineShape[lineShape$mapColor==c,]
       mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
-      
-      #data<-merge(mapdata,subdata, by.x = commonvar, by.y = "waterid_for_RSPARROW_mapping")
-      #names(data)[names(data)==commonvar]<-"waterid_for_RSPARROW_mapping"
-      #data<-data[,names(data) %in% names(subdata)]
       
       lineText<-"~paste('</br> Lat: ',lat,
                    '</br> Lon: ',lon,
                    '</br> ',master_map_list[k],' :',
                    round(mapdataname,predictionClassRounding)"
       
-      lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, NA)$markerText
-      #mapdata<-addMarkerText(lineText,add_plotlyVars, mapdata, data)$mapData
+      lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
      
       p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
                         color = I(c),
@@ -170,7 +162,7 @@ if (mapType=="stream"){
                         text = eval(parse(text = lineText)))
     }
 
-    #p
+     p
 
   }
 }else{#catchment

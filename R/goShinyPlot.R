@@ -152,7 +152,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
         
         mapScenarios<-FALSE
         scenarioFlag<-NA
-        predictMaps(compiledInput,NA,output_map_type,TRUE,
+        p<-predictMaps(compiledInput,NA,output_map_type,TRUE,
                     file.output.list,
                     data_names,mapping.input.list,
                     subdata,
@@ -163,7 +163,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                     scenarioFlag,
                     batch_mode)
         
-        
+        return(p)
         
       }else if (input$mapType=="Site Attributes"){
         showModal(dataModal())
@@ -184,7 +184,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
         
         #delete previously generated scenario output with same scenario name
         unlink(list.files(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,sep=""),full.names = TRUE),recursive = TRUE)
-        predictScenarios(#Rshiny
+       p<- predictScenarios(#Rshiny
           compiledInput,NA, tolower(as.character(compiledInput$outType)),TRUE,
           #regular
           estimate.input.list,
@@ -199,6 +199,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           mapping.input.list,
           batch_mode,
           RSPARROW_errorOption)
+       return(p)
         
       }
       
