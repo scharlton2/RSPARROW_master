@@ -70,6 +70,7 @@ shinyMap2<-function(
   
   
   suppressWarnings(suppressMessages(library(shiny)))
+  suppressWarnings(suppressMessages(library(shinycssloaders)))
   suppressWarnings(suppressMessages(library(sp)))
   suppressWarnings(suppressMessages(library(data.table)))
   suppressWarnings(suppressMessages(library(maptools)))
@@ -173,7 +174,7 @@ shinyMap2<-function(
                   # verbatimTextOutput("txtOut"),
                   conditionalPanel(
                     condition = "input.enablePlotly=='yes'",
-                    plotlyOutput("plotlyPlot", width=900,height=900)
+                    plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
                     ),
                   conditionalPanel(
                     condition = "input.enablePlotly=='no'",
