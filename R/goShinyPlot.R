@@ -73,7 +73,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
   compileALL<-compileALL(input, output, session, path_results, choices)
   compiledInput<-compileALL$compiledInput
   compiledInput<-convertHotTables(compiledInput)
-  
+  compiledInput$button<-button
   
   #check for setting errors
   errMsg<-shinyErrorTrap(compiledInput,path_results, badSettings,errMsg)
@@ -128,7 +128,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
       }
       
       if (input$batch!="Batch"){
-        pdf(filename)
+       # pdf(filename)
       }
     }
     
@@ -204,7 +204,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
       }
       
       if (button=="savePDF"){
-        dev.off()
+      #  dev.off()
         
         showModal(modalDialog(
           title = "",

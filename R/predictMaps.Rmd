@@ -1,5 +1,5 @@
 ---
-title: 'interactive_2019.12.06'
+title: 'interactive_2019.12.07'
 author: ""
 date: "`r paste0('Output on ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
@@ -189,7 +189,7 @@ if (enable_plotlyMaps=="no"){
   dev.off()
   if (k==length(master_map_list)){
     if (regexpr("catchment",paste(output_map_type,collapse=","))<0){
-      if (input$batch=="Batch" & Rshiny==TRUE) {
+      if ((input$batch=="Batch" & Rshiny==TRUE) | (input$button=="savePDF" & Rshiny==TRUE)) {
         shell.exec(filename) 
       }
       

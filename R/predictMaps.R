@@ -624,8 +624,10 @@ predictMaps<-function(#Rshiny
             Mcolors <- scenarioMapColors
           }
           
-          
-          if (((input$batch=="Batch" & Rshiny==TRUE) | Rshiny==FALSE)){
+          if (Rshiny==FALSE){
+            input$button<-""
+          }
+          if (((input$batch=="Batch" & Rshiny==TRUE) | (input$button=="savePDF" & Rshiny==TRUE) | Rshiny==FALSE)){
             if (mapScenarios==FALSE){
               if (Rshiny==TRUE){
                 filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
@@ -711,7 +713,7 @@ cat(y, file=reportPath, sep="\n")
               mapvarname = mapvarname,
               predictionClassRounding = predictionClassRounding
             ),
-            output_file = htmlFile, quiet = FALSE
+            output_file = htmlFile, quiet = TRUE
           )
 
 
