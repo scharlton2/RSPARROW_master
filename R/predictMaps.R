@@ -188,6 +188,7 @@ predictMaps<-function(#Rshiny
     }#scenario
     if (Rshiny==TRUE){#Rshiny
       enable_plotlyMaps<-as.character(input$enablePlotly)
+      add_plotlyVars<-as.character(input$plotlyDrop)
       if (input$batch=="Batch"){
         master_map_list<-allMetrics
         if (mapScenarios==TRUE){

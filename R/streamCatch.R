@@ -12,7 +12,7 @@
 
 
 
-streamCatch<-function(id, input, choices, map_uncertainties){
+streamCatch<-function(id, input, choices, map_uncertainties,sitedata,add_plotlyVars){
   #set namespace
   ns <- NS(id)
   
@@ -45,6 +45,18 @@ streamCatch<-function(id, input, choices, map_uncertainties){
       selectInput(ns("mapCategory"), "Mapping Variable Type", c("",as.character(unique(choices$category)))),
       selectInput(ns("var"), "Mapping Variable", c("",as.character(choices$variable))),
       textOutput(ns("definition"))
+    ),
+    
+    conditionalPanel(
+      condition = "input.enablePlotly == 'yes'",
+      dropdownButton(circle = FALSE,
+                     label = "Add Plotly Hover Variable",
+                     inputId = ns("dropdown"),
+                     # dropFunc("nsPlotlyDrop","",choices))
+                     checkboxGroupInput(ns("plotlyDrop"), "Add Plotly Hover Variable", 
+                                        names(sitedata),
+                                        selected = names(sitedata)[which(names(sitedata) %in% add_plotlyVars)],
+                                        inline=FALSE))
     ),
     
     #horizontal line

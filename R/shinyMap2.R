@@ -145,13 +145,13 @@ shinyMap2<-function(
                      
                      
                      #Stream and Catchment arguments
-                     streamCatch("nsStreamCatch", input, choices, map_uncertainties),
+                     streamCatch("nsStreamCatch", input, choices, map_uncertainties,sitedata,add_plotlyVars),
                      
                      #site Attribute arguments
                      shinySiteAttr("nsSiteAttr",input,choices,sitedata,add_plotlyVars),
                      
                      #scenarios arguments
-                     shinyScenarios("nsScenarios",input,choices),
+                     shinyScenarios("nsScenarios",input,choices,sitedata,add_plotlyVars),
                      
                      #output shape file ifBatch
                      shapeFunc("nsBatch",input),
@@ -178,7 +178,7 @@ shinyMap2<-function(
                     ),
                   conditionalPanel(
                     condition = "input.enablePlotly=='no'",
-                  plotOutput("plotOne", width=900,height=900)
+                  plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
                   )
         )
       )))#end ui function
