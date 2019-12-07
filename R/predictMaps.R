@@ -578,7 +578,7 @@ predictMaps<-function(#Rshiny
         names(subdataMerge)[names(subdataMerge)==commonvar]<-"waterid_for_RSPARROW_mapping"
         subdataMerge<-subdataMerge[,names(subdataMerge) %in% names(subdata)]
         dmapfinal<-addMarkerText("",c(add_plotlyVars,"lat","lon"), dmapfinal, subdataMerge)$mapData
-        save(dmapfinal,file = "D:/dmapfinal")
+        
       }
       
       # merge selected variables to the shape file\
@@ -624,6 +624,7 @@ predictMaps<-function(#Rshiny
             Mcolors <- scenarioMapColors
           }
           
+          #output maps
           if (Rshiny==FALSE){
             input$button<-""
           }
@@ -659,15 +660,6 @@ predictMaps<-function(#Rshiny
 
 
 #edit title of report
-#if (mapScenarios==FALSE){
-#  reportTitle<-master_map_list[k]
-#}else{
-#  if (Rshiny==FALSE){
-#    reportTitle<-paste(scenario_name,scenario_map_list[k],sep=" ") 
-#  }else{
-#    reportTitle<-paste(input$scenarioName,master_map_list[k],sep=" ")  
-#  }
-#}
 reportTitle<-run_id
 #read Rmd file as text
 x <- readLines(reportPath)
@@ -803,8 +795,7 @@ cat(y, file=reportPath, sep="\n")
                                     hoverinfo = 'text',
                                     text = eval(parse(text = lineText)))
                 }
-                line<-803
-                save(line,file = "D:/line803")
+                
                 return(p)
 }
             }#end Rshiny interactive
