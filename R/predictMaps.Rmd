@@ -1,10 +1,9 @@
 ---
-title: 'interactive_2019.12.07'
+title: 'interactive_2019.12.16'
 author: ""
 date: "`r paste0('Output on ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
 params:
-  filename: filename
   mapType: mapType
   GeoLines: GeoLines
   lineShape: lineShape
@@ -44,7 +43,6 @@ knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message 
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
 #unpack params
-filename<-params$filename
 mapType<-params$mapType
 GeoLines<-params$GeoLines
 lineShape<-params$lineShape
@@ -82,7 +80,7 @@ mapvarname<-params$mapvarname
 predictionClassRounding<-params$predictionClassRounding
 
 if (enable_plotlyMaps=="no"){
-  pdf(filename) 
+ # pdf(filename) 
 }else{#plotlystuff
   if (mapScenarios==FALSE){
     titleStr<-master_map_list[k]
@@ -186,15 +184,15 @@ if (enable_plotlyMaps=="no"){
          bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
   
   
-  dev.off()
-  if (k==length(master_map_list)){
-    if (regexpr("catchment",paste(output_map_type,collapse=","))<0){
-      if ((input$batch=="Batch" & Rshiny==TRUE) | (input$button=="savePDF" & Rshiny==TRUE)) {
-        shell.exec(filename) 
-      }
-      
-    }
-  }
+ # dev.off()
+#  if (k==length(master_map_list)){
+#    if (regexpr("catchment",paste(output_map_type,collapse=","))<0){
+#      if ((input$batch=="Batch" & Rshiny==TRUE) | (input$button=="savePDF" & Rshiny==TRUE)) {
+#        shell.exec(filename) 
+#      }
+#      
+#    }
+ # }
 }
 
 
