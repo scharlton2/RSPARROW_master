@@ -1,12 +1,12 @@
 ---
-title: 'interactive_2019.12.16'
+title: 'interactive_2019.12.20'
 author: ""
 date: "`r paste0('Output on ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
 params:
   mapType: mapType
   GeoLines: GeoLines
-  lineShape: lineShape
+  plotShape: plotShape
   k: k
   existGeoLines: existGeoLines
   Rshiny: Rshiny
@@ -35,6 +35,7 @@ params:
   LineShapeGeo: LineShapeGeo
   mapvarname: mapvarname
   predictionClassRounding: predictionClassRounding
+  commonvar: commonvar
 ---
 
 ```{r setup, include=FALSE}
@@ -45,7 +46,7 @@ knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message 
 #unpack params
 mapType<-params$mapType
 GeoLines<-params$GeoLines
-lineShape<-params$lineShape
+plotShape<-params$plotShape
 k<-params$k
 #vvar<-params$vvar
 existGeoLines<-params$existGeoLines
@@ -72,7 +73,7 @@ mapdataname<-params$mapdataname
 #subdata<-params$subdata
 predictionMapColors<-params$predictionMapColors
 add_plotlyVars<-params$add_plotlyVars
-#commonvar<-params$commonvar
+commonvar<-params$commonvar
 mapScenarios<-params$mapScenarios
 predictionMapBackground<-params$predictionMapBackground
 LineShapeGeo<-params$LineShapeGeo
@@ -112,7 +113,7 @@ if (existGeoLines==TRUE){
   }else{
     p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                       stroke = I("black"),color = I(predictionMapBackground),
-                      name = LineShapeGeo)
+                      name = LineShapeGeo, hoverinfo = "none")
     
     
     
@@ -121,28 +122,35 @@ if (existGeoLines==TRUE){
 
 
 
-if (mapType=="stream"){
+
   # select the shading colors for a given mapping variable
   
   
   
   if (enable_plotlyMaps=="no"){
-    mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
+    mapvarname <- paste("plotShape$MAPCOLORS",k,sep="")
     if (existGeoLines==TRUE){
-      
-      xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
+      if (mapType=="stream"){
+      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
+      }else{#catchment
+      xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
+        }
       eval(parse(text=xtext))
     } else {
-      xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
+      if (mapType=="stream"){
+      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
+      }else{#catchment
+      xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground))",sep="")
+}
       eval(parse(text=xtext))
     }
   }else{#plotly
     remove(list = c("lat","lon",add_plotlyVars))
-    uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
+    uniqueCols<-eval(parse(text = paste0("as.character(unique(plotShape$",mapvarname,"))")))
     uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
     for (c in uniqueCols){
-      lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
-      mapdata<-lineShape[lineShape$mapColor==c,]
+      plotShape$mapColor<-eval(parse(text = paste0("plotShape$",mapvarname)))
+      mapdata<-plotShape[plotShape$mapColor==c,]
       mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
       
       lineText<-"~paste('</br> Lat: ',lat,
@@ -151,21 +159,44 @@ if (mapType=="stream"){
                    round(mapdataname,predictionClassRounding)"
       
       lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
-     
+      save(list = c("lineText","mapdata"),file = "D:/lineText")
+      if (mapType=="stream"){
       p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
                         color = I(c),
                         name = break1[k][[1]][uniqueCols==c],
                         line = list(width = lineWidth),
                         hoverinfo = 'text',
                         text = eval(parse(text = lineText)))
+      }else{#catchment
+      p <- p %>% add_sf(data = mapdata[1,],  
+                        type = "scatter", mode = "lines",
+                                 # color = toRGB(c),
+                        opacity = 1,fillcolor = toRGB(c),
+                        line = list(color = toRGB(c),width = 0.8, opacity = 1),
+                        name = break1[k][[1]][uniqueCols==c],
+                        hoverinfo = 'text',
+                        split = eval(parse(text = paste0("~",commonvar))),
+                        hoveron = "fills",
+                        legendgroup = c,
+                        text = eval(parse(text = lineText)),
+                        showlegend = TRUE)
+      p <- p %>% add_sf(data = mapdata[2:nrow(mapdata),],  
+                        type = "scatter", mode = "lines",
+                                 # color = toRGB(c),
+                        opacity = 1,fillcolor = toRGB(c),
+                        line = list(color = toRGB(c),width = 0.8, opacity = 1),
+                        hoverinfo = 'text',
+                        split = eval(parse(text = paste0("~",commonvar))),
+                        hoveron = "fills",
+                        legendgroup = c,
+                        text = eval(parse(text = lineText)),
+                        showlegend = FALSE)
+      }
     }
-
-     p
-
+p
+     
   }
-}else{#catchment
-  
-}
+
 
 if (enable_plotlyMaps=="no"){
   if (mapScenarios==FALSE){
