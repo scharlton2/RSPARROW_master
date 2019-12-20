@@ -159,7 +159,7 @@ if (existGeoLines==TRUE){
                    round(mapdataname,predictionClassRounding)"
       
       lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
-      save(list = c("lineText","mapdata"),file = "D:/lineText")
+      
       if (mapType=="stream"){
       p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
                         color = I(c),

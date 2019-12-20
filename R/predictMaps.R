@@ -981,7 +981,7 @@ cat(y, file=reportPath, sep="\n")
               output_file = htmlFile, quiet = TRUE
             )
             #procTime<-proc.time() - ptm
-            #save(procTime,file="D:/procTime")  
+              
             
           }else{#Rhiny interactive or enable_plotlyMaps==no
             if (enable_plotlyMaps=="no" & (Rshiny==FALSE | 
@@ -1057,7 +1057,7 @@ cat(y, file=reportPath, sep="\n")
                                              (Rshiny==TRUE & input$batch=="Batch"))){
                # dev.off()
               #  procTime<-proc.time() - ptm
-                save(procTime,file="D:/procTime") 
+               
               }
               
             }else{#plotly
