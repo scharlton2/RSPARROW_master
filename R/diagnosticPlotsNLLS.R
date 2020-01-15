@@ -51,6 +51,7 @@ path_contiguousChild<- file_path_as_absolute(paste0(path_master,"diagnosticConti
 path_diagMapChild<-file_path_as_absolute(paste0(path_master,"diagnosticDiagMapChild.Rmd"))
   rmarkdown::render(
     reportPath, params = list(
+      validation = FALSE,
       file.output.list = file.output.list,
       path_mapAttrChild = path_mapAttrChild,
       path_corrChild = path_corrChild,

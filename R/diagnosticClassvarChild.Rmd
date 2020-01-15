@@ -1,4 +1,4 @@
-```{r chunkclass{{k}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
+```{r chunkclass{{k}},eval = TRUE, echo = FALSE, out.width="750px", out.height="750px", warning = FALSE, message = FALSE}
 k <- {{k}}
 
       #par(mfrow=c(1,1), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 1 plots on one page

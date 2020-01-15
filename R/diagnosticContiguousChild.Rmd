@@ -1,4 +1,4 @@
-```{r chunkCont{{i}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
+```{r chunkCont{{i}},eval = TRUE, echo = FALSE, out.width="750px", out.height="750px", warning = FALSE, message = FALSE}
  # Diagnostics by CLASS (contiguous geographic units)
 i <- {{i}}
 

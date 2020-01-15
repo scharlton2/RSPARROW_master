@@ -1,9 +1,10 @@
 ---
-title: "diagnosticPlotsNLLS"
+title: ""
 author: ""
-date: "`r format(Sys.time(), '%m-%d-%Y')`"
+date: "`r paste0('Generated: ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
 params:
+  validation: validation
   file.output.list: file.output.list
   path_mapAttrChild: path_mapAttrChild
   path_corrChild: path_corrChild
@@ -30,6 +31,7 @@ knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message 
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
 #unpack params
+validation<-params$validation
   file.output.list<-params$file.output.list
 path_mapAttrChild<-params$path_mapAttrChild
 path_corrChild<-params$path_corrChild
@@ -49,7 +51,7 @@ path_corrChild<-params$path_corrChild
   add_vars<-params$add_vars
   batch_mode<-params$batch_mode
   
-
+if (validation==FALSE){
     # create global variable from list names (Mdiagnostics.list)
   unPackList(lists = list(mapping.input.list = mapping.input.list,
                           Mdiagnostics.list = estimate.list$Mdiagnostics.list,
@@ -59,6 +61,16 @@ path_corrChild<-params$path_corrChild
                               NA,
                               NA,
                               NA))
+}else{
+    unPackList(lists = list(mapping.input.list = mapping.input.list,
+                          vMdiagnostics.list = estimate.list$vMdiagnostics.list,
+                          file.output.list = file.output.list,
+                          class.input.list = class.input.list),
+             parentObj = list(NA,
+                              NA,
+                              NA,
+                              NA))
+}
 
 hline <- function(y = 0, color = "red") {
   list(
@@ -107,7 +119,7 @@ hline <- function(y = 0, color = "red") {
   #map site attributes
   ################################
   existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
-  
+if (validation==FALSE){  
   if(!is.na(map_siteAttributes.list) & existGeoLines==TRUE){
 strExplanation<-"###Output is presented for the following sections:
 1. Calibration Site Maps for User-Selected Attributes
@@ -124,28 +136,46 @@ strExplanation<-"###Output is presented for the following sections:
 1. Model Estimation Performance Diagnostics
 2. Model Simulation Performance Diagnostics"
   }
+}else{#validation text
+  if (existGeoLines==TRUE){
+ strExplanation<-"###Output is presented for the following sections:
+1. Model Simulation Performance Diagnostics
+2. Maps of Model Residuals and Observed to Predicted Ratios for the Calibration Sites"
+  }else{
+      strExplanation<-"###Model Simulation Performance Diagnostics"
+    }
+}
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-title<-paste(run_id,"_diagnostic_plots.pdf \n ##Document Contents",sep="")
+if (validation==FALSE){ 
+title<-paste(run_id,"_diagnostic_plots",sep="")
+}else{#validation
+  title<-paste(run_id,"_validation_plots",sep="")
+}
+
 title<-paste("#",title,"\n")
-cat(title,strExplanation,sep="\n")
+cat(title,"##Document Contents ",strExplanation,sep="\n")
 
 ```
-  
+
 ```{r pagebreak1, results='asis', echo=FALSE}
+if (validation==FALSE){ 
 cat("<P style='page-break-before: always'>") 
+  }
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-  if(existGeoLines==TRUE) { 
+if (validation==FALSE){   
+if(existGeoLines==TRUE) { 
     
     #map site attributes
     if (!is.na(map_siteAttributes.list)){
 
 cat("##Calibration Site Maps for User-Selected Attributes\n")
     }
-  }
+}
+}
 ```
   
   
@@ -185,7 +215,7 @@ cat("##Calibration Site Maps for User-Selected Attributes\n")
 #      }#end for each attribute
 #    }#end if map_siteAttr
 #  }
-
+if (validation==FALSE){ 
  if(existGeoLines==TRUE) { 
   map_siteAttributes.list<-map_siteAttributes.list[which(map_siteAttributes.list %in% names(sitedata))]  
     #map site attributes
@@ -200,21 +230,24 @@ rmd <- sapply(
 rmd <- paste(rmd, collapse = "\n")
         }
       
-    }
+ }
+}
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
- if(existGeoLines==TRUE) { 
+if (validation==FALSE){  
+if(existGeoLines==TRUE) { 
     if (!is.na(map_siteAttributes.list) & length(map_siteAttributes.list)!=0){
 rendered <- knit(text = rmd, quiet = TRUE)
 cat("\n \n")
 cat(rendered, sep = "\n")
-}}
+    }}
+}
 ```
 
 
 ```{r echo=FALSE, results='asis', eval=TRUE}
-
+if (validation==FALSE){ 
 strExplanation<-"#Model Estimation Performance Diagnostics
 Diagnostics are based on the use of conditioned (monitoring-adjusted) predictions. These predictions provide the most accurate reach predictions for use in calibrating the model. The associated residuals and observed to predicted ratios shown in the following section provide the most relevant measures of the accuracy of the model fit to observed loads.
 
@@ -235,19 +268,23 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 
 8. Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting. The panels include:  observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted loads, and log residuals vs. predicted yields "
 cat(strExplanation)
+}
 ```
 
 ```{r pagebreak2, results='asis', echo=FALSE}
+if (validation==FALSE){ 
 cat("<P style='page-break-before: always'>") 
+}
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-
+if (validation==FALSE){ 
 cat("##Observed vs. predicted for loads and yields and log residuals vs. predicted loads and yields\n")
-
+}
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+if (validation==FALSE){ 
   ##################################################
   # PERFORMANCE METRICS FOR MONITORING ADJUSTMENT
   ##################################################
@@ -381,6 +418,7 @@ p4 <- p4 %>% layout(shapes = list(hline(0)))
   p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5), heights = c(0.5, 0.5),
              titleX = TRUE, titleY=TRUE, margin = 0.08)
 p
+}
 ```
  
 ```{r pagebreak4, results='asis', echo=FALSE}
@@ -388,12 +426,13 @@ cat("<P style='page-break-before: always'>")
 ```
  
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-
+if (validation==FALSE){ 
 cat("##Boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads\n")
-
+}
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.height=8, fig.width=8}  
+if (validation==FALSE){ 
   ##########################
   #par(mfrow=c(2,2), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 4 plots on one page
   
@@ -506,21 +545,23 @@ p4 <- p4 %>% add_trace(x = lwx, y = lwy,
   p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5), heights = c(0.5, 0.5),
              titleX = TRUE, titleY=TRUE, margin = 0.08)
 p
-
+}
 ```
 
 ```{r pagebreak5, results='asis', echo=FALSE}
+if (validation==FALSE){ 
 cat("<P style='page-break-before: always'>") 
+}
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-
+if (validation==FALSE){ 
 cat("##Conditioned prediction loads vs. unconditioned (simulated) prediction loads\n")
-
+}
 ```    
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
-
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+if (validation==FALSE){ 
   #par(mfrow=c(1,1), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 1 plots on one page
   
 #  plot(ppredict,predict,log="xy",main="Monitoring-Adjusted vs. Simulated Loads",
@@ -551,22 +592,27 @@ p <- p %>% add_trace(x = ppredict, y = ppredict,
                      hoverinfo = 'text',
                      text = "Simulated Load")
 p
+}
 ```
 
 ```{r pagebreak6, results='asis', echo=FALSE}
+if (validation==FALSE){ 
 cat("<P style='page-break-before: always'>") 
+}
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-
+if (validation==FALSE){ 
 cat("##Observed to predicted ratio vs. the area-weighted mean values of the user-selected explanatory variables for the incremental areas between calibration sites \n
 Output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file.
 ")
+}
 
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
-  # Plots of the Obs-Pred ratio vs. the area-weighted mean values of the explanatory variables 
+if (validation==FALSE){  
+ # Plots of the Obs-Pred ratio vs. the area-weighted mean values of the explanatory variables 
   #   for the incremental areas between calibration sites
 #  if(!is.na(Cor.ExplanVars.list)){ 
 #    for (i in 1:length(Cor.ExplanVars.list$names)) {
@@ -594,26 +640,30 @@ rmd <- sapply(
   }
 )
 rmd <- paste(rmd, collapse = "\n")
+  }
 }
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (validation==FALSE){ 
   if(!is.na(Cor.ExplanVars.list)){ 
 rendered <- knit(text = rmd, quiet = TRUE)
 cat("\n \n")
 cat(rendered, sep = "\n")
+  }
 }
 ```
 
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-
+if (validation==FALSE){ 
 cat("##Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites\n
 ")
-
+}
 ```  
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}    
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}    
+if (validation==FALSE){ 
 ####################################################
   # Diagnostics for Ratio by class (one plot per page)
   
@@ -633,21 +683,24 @@ cat("##Boxplots of the observed to predicted loads vs. the decile classes of the
                          fillcolor = "white")
 p <- p %>% layout(shapes = list(hline(1)))
   p
+}
 ``` 
 
 ```{r pagebreak7, results='asis', echo=FALSE}
+if (validation==FALSE){ 
 cat("<P style='page-break-before: always'>") 
+}
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-
+if (validation==FALSE){ 
 cat("##Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4) \n
 ")
-
+}
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
-
+if (validation==FALSE){ 
   # "classvar" regions
 #  if (classvar!="sitedata.demtarea.class"){
 #    for (k in 1:length(classvar)) {
@@ -669,28 +722,31 @@ rmd <- sapply(
 )
 rmd <- paste(rmd, collapse = "\n")
 }
+}
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (validation==FALSE){ 
 if (classvar!="sitedata.demtarea.class"){
 rendered <- knit(text = rmd, quiet = TRUE)
 cat("\n \n")
 cat(rendered, sep = "\n")
+}
 }
 ```
  
 
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-
+if (validation==FALSE){ 
 cat("##Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable specified by users in the 'class_landuse' control setting\n
 The land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
 ")
-
+}
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
-
+if (validation==FALSE){ 
 # 'classvar2" decile boxplots
  # if(!is.na( class_landuse[1])){
 #    for (k in 1:length(classvar2)) {
@@ -732,24 +788,27 @@ rmd2 <- sapply(
 )
 rmd2 <- paste(rmd2, collapse = "\n")
 }
+}
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (validation==FALSE){ 
 if(!is.na( class_landuse[1])){
 rendered2 <- knit(text = rmd2, quiet = TRUE)
 cat("\n \n")
 cat(rendered2, sep = "\n")
+}
 }
 ```
 
 
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-
+if (validation==FALSE){ 
 cat("##Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting\n
 The panels include:  observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted loads, and log residuals vs. predicted yields 
 ")
-
+}
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
@@ -762,7 +821,7 @@ The panels include:  observed vs. predicted loads, observed vs. predicted yields
   xx <- as.data.frame(grp)  # convert table to dataframe...
   grp <- as.numeric(levels(xx$Var1)[xx$Var1])  # convert factor levels to numeric values
   
-  
+  if (validation==FALSE){ 
 
 plotclass<-class[,1]
 plotObs<-Obs
@@ -774,9 +833,11 @@ plotResids<-Resids
  # for (i in 1:length(grp)) {
 #    plotmrb(grp[i],class[,1],Obs,predict,yldobs,yldpredict,Resids)
 #  }
+}
 ```
   
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+if (validation==FALSE){ 
 rmd3 <- sapply(
   1:(length(grp)),
   function(i) {
@@ -784,19 +845,25 @@ rmd3 <- sapply(
   }
 )
 rmd3 <- paste(rmd3, collapse = "\n")
-
+}
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-
+if (validation==FALSE){ 
 rendered3 <- knit(text = rmd3, quiet = TRUE)
 cat("\n \n")
 cat(rendered3, sep = "\n")
+}
+```
+
+```{r pagebreak7b, results='asis', echo=FALSE}
+
+cat("<P style='page-break-before: always'>") 
 
 ```
   
 ```{r echo=FALSE, results='asis', eval=TRUE}
-strExplanation<-"#Model Simulation Performance Diagnostics
+strExplanation<-paste0("#Model Simulation Performance Diagnostics
 Diagnostics are based on the use of unconditioned predictions (i.e., predictions that are not adjusted for monitoring loads). These predictions (and the associated residuals and observed to predicted ratios shown in the following section) provide the best measure of the predictive skill of the estimated model in simulation mode. The simulated predictions are computed using mean coefficients from the NLLS model estimated with monitoring-adjusted (conditioned) predictions. \n
 ###The diagnostic plots include:
 1. Four-plot panel for observed vs. predicted for loads and yields, and log residuals vs. predicted loads and yields
@@ -805,7 +872,10 @@ Diagnostics are based on the use of unconditioned predictions (i.e., predictions
 
 3. Plot of conditioned prediction loads vs. unconditioned (simulated) prediction loads\n
 
-4. Plots of the observed to predicted ratio vs. the area-weighted mean values of the user-selected explanatory variables for the incremental areas between calibration sites (output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file)\n
+")
+if (validation==FALSE){ 
+ strExplanation<-paste0(strExplanation,
+"4. Plots of the observed to predicted ratio vs. the area-weighted mean values of the user-selected explanatory variables for the incremental areas between calibration sites (output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file)\n
 
 5. Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites
 
@@ -814,11 +884,26 @@ Diagnostics are based on the use of unconditioned predictions (i.e., predictions
 7. Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable specified by users in the 'class_landuse' control setting, with the land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
 
 8. Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting. The panels include:  observed vs. predicted loads, observed vs. predicted yields, 
-log residuals vs. predicted loads, and log residuals vs. predicted yields "
+log residuals vs. predicted loads, and log residuals vs. predicted yields ")
+}else{
+   strExplanation<-paste0(strExplanation,
+"4. Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites
+
+5. Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4)
+
+6. Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable specified by users in the 'class_landuse' control setting, with the land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
+
+7. Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting. The panels include:  observed vs. predicted loads, observed vs. predicted yields, 
+log residuals vs. predicted loads, and log residuals vs. predicted yields ")                     
+}
 cat(strExplanation)
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
+```{r pagebreak8a, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
   ##################################################
   # PERFORMANCE METRICS FOR NO MONITORING ADJUSTMENT
   ##################################################  
@@ -864,7 +949,7 @@ p1 <- plotlyLayout(ppredict,Obs, log = "xy", nTicks = 5, digits = 0,
                   legend = FALSE)
 
   
-p1 <- p1 %>% add_trace(data = data, x = ~predict, y = ~Obs, 
+p1 <- p1 %>% add_trace(data = data, x = ~ppredict, y = ~Obs, 
                      type = "scatter", 
                      mode = "markers",
                      marker = eval(parse(text = markerList)),
@@ -955,13 +1040,15 @@ p4 <- p4 %>% layout(shapes = list(hline(0)))
   p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5), heights = c(0.5, 0.5),
              titleX = TRUE, titleY=TRUE, margin = 0.08)
 p
+
+
 ```
 
 ```{r pagebreak8, results='asis', echo=FALSE}
 cat("<P style='page-break-before: always'>") 
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
 
 ##################################  
   #par(mfrow=c(2,2), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 4 plots on one page
@@ -1055,7 +1142,7 @@ p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~y.theo,
                      hoverinfo = 'text',
                      text = "Theoretical Normal Distribution")
 
-  
+ 
   # Squared residuals vs predicted
   Resids2 <- pResids**2
   #plot(predict,Resids2,log="xy",pch=1,main="Squared Residuals vs Predicted Load",
@@ -1090,6 +1177,7 @@ p4 <- p4 %>% add_trace(x = lwx, y = lwy,
                      color = I("red"),
                      hoverinfo = 'text',
                      text = "Lowess smooth line")
+
   p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5), heights = c(0.5, 0.5),
              titleX = TRUE, titleY=TRUE, margin = 0.08)
 p
@@ -1098,11 +1186,13 @@ p
 ```
 
 ```{r pagebreak9, results='asis', echo=FALSE}
+if (validation==FALSE){ 
 cat("<P style='page-break-before: always'>") 
+}
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
-
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
+if (validation==FALSE){ 
   ##############################  
   # Plots of the Obs-Pred ratio vs. the area-weighted mean values of the explanatory variables 
   #   for the incremental areas between calibration sites
@@ -1132,19 +1222,27 @@ rmd <- sapply(
   }
 )
 rmd <- paste(rmd, collapse = "\n")
+  }
 }
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-  if(!is.na(Cor.ExplanVars.list)){ 
+if (validation==FALSE){  
+ if(!is.na(Cor.ExplanVars.list)){ 
 rendered <- knit(text = rmd, quiet = TRUE)
 cat("\n \n")
 cat(rendered, sep = "\n")
+ }
 }
 ```
 
+```{r pagebreak9b, results='asis', echo=FALSE}
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
+cat("<P style='page-break-before: always'>") 
+
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
   ##########################
   # Diagnostics for Ratio by class (one plot per page)
   
@@ -1173,7 +1271,7 @@ p <- p %>% layout(shapes = list(hline(1)))
 cat("<P style='page-break-before: always'>") 
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
   # "classvar" regions
   #if (classvar!="sitedata.demtarea.class"){
   #  for (k in 1:length(classvar)) {
@@ -1204,7 +1302,7 @@ cat(rendered4, sep = "\n")
 }
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
   # 'classvar2" decile boxplots
  # if(!is.na( class_landuse[1])){
 #    for (k in 1:length(classvar2)) {
@@ -1256,7 +1354,7 @@ cat(rendered5, sep = "\n")
 }
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8}  
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
   ##################################################
   # Diagnostics by CLASS (contiguous geographic units)
   
@@ -1324,7 +1422,7 @@ cat("<P style='page-break-before: always'>")
   
   
   # Setup GEOLINES basemap, if available
-  
+ if (validation==FALSE){ 
   #8.8.17 if(!is.na(LineShapeGeo)) {
   if(existGeoLines==TRUE) { 
     
@@ -1350,14 +1448,17 @@ rmd <- sapply(
   }
 )
 rmd <- paste(rmd, collapse = "\n")
-}
+  }
+ }
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (validation==FALSE){
   if(existGeoLines==TRUE) { 
 rendered <- knit(text = rmd, quiet = TRUE)
 cat("\n \n")
 cat(rendered, sep = "\n")
+  }
 }
 ```
 
@@ -1402,6 +1503,7 @@ cat(rendered, sep = "\n")
 ```
     
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
+if (validation==FALSE){
   if(existGeoLines==TRUE) { 
     #Map Standardized Residuals
     smapdata <- data.frame(xlat,xlon,standardResids)
@@ -1420,18 +1522,22 @@ rmd <- sapply(
   }
 )
 rmd <- paste(rmd, collapse = "\n")
+  }
 }
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+if (validation==FALSE){
   if(existGeoLines==TRUE) { 
 rendered <- knit(text = rmd, quiet = TRUE)
 cat("\n \n")
 cat(rendered, sep = "\n")
+  }
 }
 ```
     
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
+if (validation==FALSE){
   if(existGeoLines==TRUE) {     
     ##########################
     # Map Ratios observed to predicted 
@@ -1450,14 +1556,17 @@ rmd <- sapply(
   }
 )
 rmd <- paste(rmd, collapse = "\n")
+  }
 }
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-  if(existGeoLines==TRUE) { 
+if (validation==FALSE){ 
+ if(existGeoLines==TRUE) { 
 rendered <- knit(text = rmd, quiet = TRUE)
 cat("\n \n")
 cat(rendered, sep = "\n")
+ }
 }
 ```
 

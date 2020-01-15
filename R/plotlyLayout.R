@@ -25,7 +25,8 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
     }
     
     if (regexpr(a,log)>0){
-      ticks<-axisTicks(log10(range(aData, na.rm = TRUE)), log = TRUE, n = nTicks)
+      ticks<-axisTicks(log10(range(aData, na.rm = TRUE)), log = TRUE, nint = nTicks)
+      #print(ticks)
       if (sciNote){
        ticksLab<-formatC(ticks, format = "e", digits = digits) 
       }else{
@@ -85,19 +86,22 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
     font = list(size = 14)
   )
 
-  
+
  
   #initiate plotly plot
    p<-plot_ly()
    
    
-  if (exists("xAxis.list")){
-  p <- p %>% layout(xaxis = xAxis.list,
+  if (exists("xAxis.list")){  
+  # print(xAxis.list)
+  #  print(yAxis.list)
+    p <- p %>% layout(xaxis = xAxis.list,
                     yaxis = yAxis.list,
                     showlegend = legend,
                     annotations = a,
                     margin = list(t=100))
   }else{
+   # print(yAxis.list)
     p <- p %>% layout(
                       yaxis = yAxis.list,
                       showlegend = legend,

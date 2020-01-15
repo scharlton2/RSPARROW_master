@@ -214,7 +214,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     if (enable_plotlyMaps=="no"){
       par(mfrow=c(1,1), pch=1)    # 1 plots on one page
       
-      plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
+      #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
       # title(strTitle, cex.main =siteAttrTitleSize)
       
     }else{#plotly
@@ -337,7 +337,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     
     if (enable_plotlyMaps=="no"){
       par(mfrow=c(1,1))    # 1 plots on one page
-      plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
+      #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
       
     }else{#plotly
 
