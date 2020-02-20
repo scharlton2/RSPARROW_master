@@ -1,5 +1,5 @@
 ---
-title: 'interactive_2019.12.20'
+title: 'interactive_2020.02.19'
 author: ""
 date: "`r paste0('Output on ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
@@ -42,7 +42,7 @@ params:
 knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE)
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.width=8, fig.height=8}
 #unpack params
 mapType<-params$mapType
 GeoLines<-params$GeoLines
@@ -133,14 +133,14 @@ if (existGeoLines==TRUE){
       if (mapType=="stream"){
       xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
       }else{#catchment
-      xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
+      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
         }
       eval(parse(text=xtext))
     } else {
       if (mapType=="stream"){
       xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
       }else{#catchment
-      xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground))",sep="")
+      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground))",sep="")
 }
       eval(parse(text=xtext))
     }
