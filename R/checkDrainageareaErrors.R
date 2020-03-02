@@ -67,8 +67,8 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
             #overwrite the file
             cat(y, file=reportPath, sep="\n") 
             
-            rmarkdown::render(
-              reportPath, params = list(
+            rmarkdown::render(paste0(path_master,"checkDrainageareaErrors.Rmd"),
+              params = list(
                 file.output.list = file.output.list,
                 mapping.input.list = mapping.input.list,
                 DAreaFailCheckObj = DAreaFailCheckObj, 

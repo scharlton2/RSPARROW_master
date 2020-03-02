@@ -50,12 +50,12 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
   filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_sensitivity.html",sep="")
   reportPath<-paste0(path_master,"diagnosticSensitivity.Rmd")
   
-  path_paramSensChild <- file_path_as_absolute(paste0(path_master,"diagnosticSensParamChild.Rmd"))
+  path_diagnosticSensParamChild <- file_path_as_absolute(paste0(path_master,"diagnosticSensParamChild.Rmd"))
   
-  rmarkdown::render(
-    reportPath, params = list(
+  rmarkdown::render(paste0(path_master,"diagnosticSensitivity.Rmd")
+    params = list(
       file.output.list = file.output.list,
-      path_paramSensChild = path_paramSensChild,
+      path_diagnosticSensParamChild = path_diagnosticSensParamChild,
       classvar = classvar,
       estimate.list = estimate.list,
       DataMatrix.list = DataMatrix.list,

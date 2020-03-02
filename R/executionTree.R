@@ -21,7 +21,7 @@
 
 executionTree<-function(path_main,startRoutine = "runRsparrow.R",
                         includeTypes = c("manageDirVars","sparrowSetup","sparrowExec",
-                                         "shiny","batch","errorTrap","lists","fortran"),
+                                         "shiny","batch","errorTrap","lists","fortran","rmd"),
                         includeList = NA, excludeList = c("errorOccurred.R","named.list.R"),allOccurances = FALSE,
                         outputType = "data.tree",pruneTree = NA, treeLimit = NA){
   
@@ -31,9 +31,13 @@ executionTree<-function(path_main,startRoutine = "runRsparrow.R",
   
   #get all files
   files<-list.files(path_main,full.names = TRUE,pattern="\\.R",recursive = TRUE)
-  files<-files[which(sapply(files, function(x) substr(x,nchar(x)-1,nchar(x))==".R"))]
+  files<-files[which(sapply(files, function(x) substr(x,nchar(x)-1,nchar(x))==".R") | regexpr("\\.Rmd",files)>0)]
+ # files<-files[which(sapply(files, function(x) substr(x,nchar(x)-1,nchar(x))==".R"))]
   forFiles<-list.files(path_main,full.names = TRUE,pattern="\\.for",recursive = TRUE)
   files<-c(files,forFiles)
+  files<-files[which(regexpr("\\/inst\\/doc\\/",files)<0)]
+  files<-files[which(regexpr("\\/vignettes\\/",files)<0)]
+  
   
   
   #find all routines (don't include batchRun--duplication)
@@ -52,7 +56,7 @@ executionTree<-function(path_main,startRoutine = "runRsparrow.R",
     
     #allTypes
     allTypes<-c("manageDirVars","sparrowSetup","sparrowExec",
-                "shiny","batch","errorTrap","utility","lists","fortran","external")
+                "shiny","batch","errorTrap","utility","lists","rmd","fortran","external")
     #exclude Types
     for (i in allTypes){
       #if not in includeTypes remove utitilty from allRoutines
@@ -83,10 +87,27 @@ executionTree<-function(path_main,startRoutine = "runRsparrow.R",
   }#if not all types
   
   #format allRoutines to catch only function calls (don't include batchRun--duplication)
-  allRoutines<-ifelse(allRoutines %in% basename(forFiles),paste0(gsub("\\.for","",allRoutines),"\\("),paste0(gsub("\\.R","",allRoutines),"\\("))
-  allRoutines[which(regexpr("batch",allRoutines,ignore.case=TRUE)>0 |regexpr("estimateFeval",allRoutines)>0 )]<-
-    gsub("\\\\\\(","",allRoutines[which(regexpr("batch",allRoutines,ignore.case=TRUE)>0|regexpr("estimateFeval",allRoutines)>0 )])
+  #allRoutines<-ifelse(allRoutines %in% basename(forFiles),paste0(gsub("\\.for","",allRoutines),"\\("),paste0(gsub("\\.R","",allRoutines),"\\("))
+  formatRoutines<-function(routine){
+    if (regexpr("\\.for",routine)>0){
+      formated<-paste0(gsub("\\.for","",routine),"\\(")
+    }else if (regexpr("batch",routine,ignore.case=TRUE)>0 |regexpr("estimateFeval",routine)>0 ){
+      formated<-gsub("\\.R","",routine) 
+    }else if (regexpr("\\.Rmd",routine)<0){
+      formated<-paste0(gsub("\\.R","",routine),"\\(")
+      }else if (regexpr("child",routine,ignore.case = TRUE)<0){#rmd
+      formated<-paste0('rmarkdown::render\\(paste0\\(path_master,\\"',routine)
+      }else{#child rmd
+        formated<-paste0('knit_expand\\(path_',gsub("\\.Rmd","",routine))
+    }
+    return(formated)
+  }
+  allRoutines<-unlist(lapply(allRoutines, function(r) formatRoutines(r)))
+  
+  #allRoutines[which(regexpr("batch",allRoutines,ignore.case=TRUE)>0 |regexpr("estimateFeval",allRoutines)>0 )]<-
+  #  gsub("\\\\\\(","",allRoutines[which(regexpr("batch",allRoutines,ignore.case=TRUE)>0|regexpr("estimateFeval",allRoutines)>0 )])
   allRoutines<-allRoutines[which(!allRoutines %in% c("batchRun","interactiveBatchRun"))]
+
   
   
   traceProgram<-data.table(routine = startRoutine,stringsAsFactors = FALSE)
@@ -94,16 +115,18 @@ executionTree<-function(path_main,startRoutine = "runRsparrow.R",
   traceP<-function(startCol,startRow,tr,noCallList,envir= parent.frame()){
     
     
-    
+  
     #read routine
     if (endsWith(tr,"\\.R")){
-      f<-files[which(gsub("\\.R","",basename(files))==gsub("\\.R","",tr))]  
+      f<-files[which(gsub("\\.R","",basename(files))==gsub("\\.R","",tr))] 
+    }else if (endsWith(tr,"\\.Rmd")){
+      f<-files[which(gsub("\\.Rmd","",basename(files))==gsub("\\.Rmd","",tr))]   
     }else{#fortran
       f<-files[which(gsub("\\.for","",basename(files))==gsub("\\.for","",tr))] 
     }
-    
+
     x <- suppressWarnings(trimws(readLines(f)))
-    
+   
     #find exectuted routines
     lines<-sapply(allRoutines, function(r) which(((regexpr(r,x)>0 &  !paste0(gsub("\\\\\\(","",r),".for") %in% basename(forFiles))|
                                                     regexpr(paste0("callModule\\(",gsub("\\\\\\(","",r)),x)>0 |
@@ -111,6 +134,7 @@ executionTree<-function(path_main,startRoutine = "runRsparrow.R",
                                                  & !startsWith(x,"#'")))
     lines <- lines[sapply(lines, function(i) length(i)!=0)]
     lines<-lines[which(names(lines)!=gsub("\\.R","",tr))]
+   
     if (tr %in% basename(forFiles)){
       lines<-lines[which(names(lines)!=paste0(gsub("\\.for","",tr),"\\("))]
     }
@@ -130,9 +154,20 @@ executionTree<-function(path_main,startRoutine = "runRsparrow.R",
       execRoutines<-execRoutines[,2:1]
       names(execRoutines)<-c("executes","line")
       
-      execRoutines$executes<-ifelse(paste0(gsub("\\\\\\(","",execRoutines$executes),".R") %in% basename(files),
-                                    paste0(gsub("\\\\\\(","",execRoutines$executes),".R"),
-                                    paste0(gsub("\\\\\\(","",execRoutines$executes),".for"))
+      unFormat<-function(routine, files){
+        if (paste0(gsub("\\\\\\(","",routine),".R") %in% basename(files)){
+          unformated<-paste0(gsub("\\\\\\(","",routine),".R")
+        }else if (paste0(gsub("\\\\\\(","",routine),".for") %in% basename(files)){
+          unformated<-paste0(gsub("\\\\\\(","",routine),".for")
+        }else if (regexpr("child",routine,ignore.case=TRUE)<0){#rmd
+         unformated<-gsub('rmarkdown::render\\\\\\(paste0\\\\\\(path_master,\\\\\\"',"",routine)
+        }else{#child rmd
+          unformated<-paste0(gsub('knit_expand\\\\\\(path_',"",routine),".Rmd")
+        }
+        return(unformated)
+      }
+      execRoutines$executes<-sapply(execRoutines$executes, function(x) unFormat(x,files))
+
       
       
       if (!allOccurances){

@@ -5,7 +5,7 @@ date: "`r format(Sys.time(), '%m-%d-%Y')`"
 output: html_document
 params:
   file.output.list: file.output.list
-  path_paramSensChild: path_paramSensChild
+  path_diagnosticSensParamChild: path_diagnosticSensParamChild
   classvar: classvar
   estimate.list: estimate.list
   DataMatrix.list: DataMatrix.list
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
 #unpack params
   file.output.list<-params$file.output.list
-path_paramSensChild<-params$path_paramSensChild
+path_diagnosticSensParamChild<-params$path_diagnosticSensParamChild
   classvar<-params$classvar
   estimate.list<-params$estimate.list
   DataMatrix.list<-params$DataMatrix.list
@@ -112,7 +112,7 @@ rmd <- sapply(
   1:(length(Estimate)),
   function(i) {
   
-   knit_expand(path_paramSensChild, i = i)
+   knit_expand(path_diagnosticSensParamChild, i = i)
   }
 )
 rmd <- paste(rmd, collapse = "\n")

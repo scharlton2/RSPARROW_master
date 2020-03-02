@@ -6,12 +6,12 @@ output: html_document
 params:
   validation: validation
   file.output.list: file.output.list
-  path_mapAttrChild: path_mapAttrChild
-  path_corrChild: path_corrChild
-  path_classvarChild: path_classvarChild
-  path_classLandChild: path_classLandChild
-  path_contiguousChild: path_contiguousChild
-  path_diagMapChild: path_diagMapChild
+  path_diagnosticMapAttrChild: path_diagnosticMapAttrChild
+  path_diagnosticCorrChild: path_diagnosticCorrChild
+  path_diagnosticClassvarChild: path_diagnosticClassvarChild
+  path_diagnosticClassLandChild: path_diagnosticClassLandChild
+  path_diagnosticContiguousChild: path_diagnosticContiguousChild
+  path_diagnosticDiagMapChild: path_diagnosticDiagMapChild
   class.input.list: class.input.list
   sitedata.demtarea.class: sitedata.demtarea.class
   sitedata: sitedata
@@ -33,12 +33,12 @@ knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message 
 #unpack params
 validation<-params$validation
   file.output.list<-params$file.output.list
-path_mapAttrChild<-params$path_mapAttrChild
-path_corrChild<-params$path_corrChild
-  path_classvarChild<-params$path_classvarChild
-  path_classLandChild<-params$path_classLandChild
-  path_contiguousChild<-params$path_contiguousChild
-  path_diagMapChild<-params$path_diagMapChild
+path_diagnosticMapAttrChild<-params$path_diagnosticMapAttrChild
+path_diagnosticCorrChild<-params$path_diagnosticCorrChild
+  path_diagnosticClassvarChild<-params$path_diagnosticClassvarChild
+  path_diagnosticClassLandChild<-params$path_diagnosticClassLandChild
+  path_diagnosticContiguousChild<-params$path_diagnosticContiguousChild
+  path_diagnosticDiagMapChild<-params$path_diagnosticDiagMapChild
   class.input.list<-params$class.input.list
   sitedata.demtarea.class<-params$sitedata.demtarea.class
   sitedata<-params$sitedata
@@ -224,7 +224,7 @@ if (validation==FALSE){
 rmd <- sapply(
   1:(length(map_siteAttributes.list)),
   function(s) {
-   knit_expand(path_mapAttrChild, s = s)
+   knit_expand(path_diagnosticMapAttrChild, s = s)
   }
 )
 rmd <- paste(rmd, collapse = "\n")
@@ -636,7 +636,7 @@ rmd <- sapply(
   1:(length(Cor.ExplanVars.list$names)),
   function(i) {
   
-   knit_expand(path_corrChild, i = i)
+   knit_expand(path_diagnosticCorrChild, i = i)
   }
 )
 rmd <- paste(rmd, collapse = "\n")
@@ -717,7 +717,7 @@ if (classvar!="sitedata.demtarea.class"){
 rmd <- sapply(
   1:(length(classvar)),
   function(k) {
-   knit_expand(path_classvarChild, k = k)
+   knit_expand(path_diagnosticClassvarChild, k = k)
   }
 )
 rmd <- paste(rmd, collapse = "\n")
@@ -783,7 +783,7 @@ if(!is.na( class_landuse[1])){
 rmd2 <- sapply(
   1:(length(classvar2)),
   function(l) {
-   knit_expand(path_classLandChild, l = l)
+   knit_expand(path_diagnosticClassLandChild, l = l)
   }
 )
 rmd2 <- paste(rmd2, collapse = "\n")
@@ -841,7 +841,7 @@ if (validation==FALSE){
 rmd3 <- sapply(
   1:(length(grp)),
   function(i) {
-   knit_expand(path_contiguousChild, i = i)
+   knit_expand(path_diagnosticContiguousChild, i = i)
   }
 )
 rmd3 <- paste(rmd3, collapse = "\n")
@@ -1218,7 +1218,7 @@ rmd <- sapply(
   1:(length(Cor.ExplanVars.list$names)),
   function(i) {
   
-   knit_expand(path_corrChild, i = i)
+   knit_expand(path_diagnosticCorrChild, i = i)
   }
 )
 rmd <- paste(rmd, collapse = "\n")
@@ -1287,7 +1287,7 @@ if (classvar!="sitedata.demtarea.class"){
 rmd4 <- sapply(
   1:(length(classvar)),
   function(k) {
-   knit_expand(path_classvarChild, k = k)
+   knit_expand(path_diagnosticClassvarChild, k = k)
   }
 )
 rmd4 <- paste(rmd4, collapse = "\n")
@@ -1339,7 +1339,7 @@ cat(rendered4, sep = "\n")
 rmd5 <- sapply(
   1:(length(classvar2)),
   function(l) {
-   knit_expand(path_classLandChild, l = l)
+   knit_expand(path_diagnosticClassLandChild, l = l)
   }
 )
 rmd5 <- paste(rmd5, collapse = "\n")
@@ -1378,7 +1378,7 @@ plotResids<-pResids
 rmd6 <- sapply(
   1:(length(grp)),
   function(i) {
-   knit_expand(path_contiguousChild, i = i)
+   knit_expand(path_diagnosticContiguousChild, i = i)
   }
 )
 rmd6 <- paste(rmd6, collapse = "\n")
@@ -1444,7 +1444,7 @@ rmd <- sapply(
   1:(length(mapTypes)),
   function(n) {
   
-   knit_expand(path_diagMapChild, n = n)
+   knit_expand(path_diagnosticDiagMapChild, n = n)
   }
 )
 rmd <- paste(rmd, collapse = "\n")
@@ -1487,7 +1487,7 @@ rmd <- sapply(
   1:(length(mapTypes)),
   function(n) {
   
-   knit_expand(path_diagMapChild, n = n)
+   knit_expand(path_diagnosticDiagMapChild, n = n)
   }
 )
 rmd <- paste(rmd, collapse = "\n")
@@ -1518,7 +1518,7 @@ rmd <- sapply(
   1:(length(mapTypes)),
   function(n) {
   
-   knit_expand(path_diagMapChild, n = n)
+   knit_expand(path_diagnosticDiagMapChild, n = n)
   }
 )
 rmd <- paste(rmd, collapse = "\n")
@@ -1552,7 +1552,7 @@ rmd <- sapply(
   1:(length(mapTypes)),
   function(n) {
   
-   knit_expand(path_diagMapChild, n = n)
+   knit_expand(path_diagnosticDiagMapChild, n = n)
   }
 )
 rmd <- paste(rmd, collapse = "\n")
@@ -1585,7 +1585,7 @@ rmd <- sapply(
   1:(length(mapTypes)),
   function(n) {
   
-   knit_expand(path_diagMapChild, n = n)
+   knit_expand(path_diagnosticDiagMapChild, n = n)
   }
 )
 rmd <- paste(rmd, collapse = "\n")
