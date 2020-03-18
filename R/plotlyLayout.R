@@ -1,10 +1,11 @@
 plotlyLayout<-function(x, y, log, nTicks, digits, 
-                       xTitle, xZeroLine,xLabs = NA, 
-                       yTitle, yZeroLine,ymax = NA,ymin = NA,
+                       xTitle, xZeroLine,xLabs = NA, xminTick = NA,
+                       yTitle, yZeroLine,ymax = NA,ymin = NA, ymaxTick = NA,
                        plotTitle,legend){
-  
+  nTicksOrig<-nTicks
   #format tickmarks
   for (a in c("x","y")){
+    nTicks<-nTicksOrig
     aData<-eval(parse(text = a))
     
     if (a=="y"){
@@ -14,7 +15,11 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
       if (!is.na(ymin)){
         aData<-c(aData,ymin)
       }
+
     }
+  if ((!is.na(ymaxTick) & a=="y") | (!is.na(xminTick) & a=="x")){
+    nTicks<-nTicks-1
+  }
     
     if (!is.na(aData)){
     #test if scientific notation is needed
@@ -39,7 +44,16 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
       ticksLab<-as.character(ticks)
       type<-""
     }
-    
+      
+      if (!is.na(xminTick)){
+        ticks<-c(xminTick,ticks)
+        ticksLab<-as.character(ticks)
+      }
+      if (!is.na(ymaxTick)){
+        ticks<-c(ticks,ymaxTick)
+        ticksLab<-as.character(ticks)
+      }
+   
     strTitle<-eval(parse(text = paste0(a,"Title")))
     strZeroLine<-eval(parse(text = paste0(a,"ZeroLine")))
     

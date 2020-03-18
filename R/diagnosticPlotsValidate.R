@@ -39,22 +39,24 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
   reportPath<-paste0(path_master,"diagnosticPlotsNLLS.Rmd")
   
   
-  path_mapAttrChild <- file_path_as_absolute(paste0(path_master,"diagnosticMapAttrChild.Rmd"))
-  path_corrChild <- file_path_as_absolute(paste0(path_master,"diagnosticCorrChild.Rmd"))
-  path_classvarChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassvarChild.Rmd"))
-  path_classLandChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassLandChild.Rmd"))
-  path_contiguousChild<- file_path_as_absolute(paste0(path_master,"diagnosticContiguousChild.Rmd"))
-  path_diagMapChild<-file_path_as_absolute(paste0(path_master,"diagnosticDiagMapChild.Rmd"))
-  rmarkdown::render(
-    reportPath, params = list(
+  
+  path_diagnosticMapAttrChild <- file_path_as_absolute(paste0(path_master,"diagnosticMapAttrChild.Rmd"))
+  path_diagnosticCorrChild <- file_path_as_absolute(paste0(path_master,"diagnosticCorrChild.Rmd"))
+  path_diagnosticClassvarChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassvarChild.Rmd"))
+  path_diagnosticClassLandChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassLandChild.Rmd"))
+  path_diagnosticContiguousChild<- file_path_as_absolute(paste0(path_master,"diagnosticContiguousChild.Rmd"))
+  path_diagnosticDiagMapChild<-file_path_as_absolute(paste0(path_master,"diagnosticDiagMapChild.Rmd"))
+  
+  rmarkdown::render(paste0(path_master,"diagnosticPlotsNLLS.Rmd"),
+    params = list(
       validation = TRUE,
       file.output.list = file.output.list,
-      path_mapAttrChild = path_mapAttrChild,
-      path_corrChild = path_corrChild,
-      path_classvarChild = path_classvarChild,
-      path_classLandChild = path_classLandChild,
-      path_contiguousChild = path_contiguousChild,
-      path_diagMapChild = path_diagMapChild,
+      path_diagnosticMapAttrChild = path_diagnosticMapAttrChild,
+      path_diagnosticCorrChild = path_diagnosticCorrChild,
+      path_diagnosticClassvarChild = path_diagnosticClassvarChild,
+      path_diagnosticClassLandChild = path_diagnosticClassLandChild,
+      path_diagnosticContiguousChild = path_diagnosticContiguousChild,
+      path_diagnosticDiagMapChild = path_diagnosticDiagMapChild,
       class.input.list = class.input.list,
       sitedata.demtarea.class = vsitedata.demtarea.class,
       sitedata = vsitedata,

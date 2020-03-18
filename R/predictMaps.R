@@ -672,7 +672,7 @@ y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
 #overwrite the file
 cat(y, file=reportPath, sep="\n") 
 
-            rmarkdown::render(paste0(path_master,"predictMaps.Rmd")
+            rmarkdown::render(paste0(path_master,"predictMaps.Rmd"),
             params = list(
               mapType = "stream",
               GeoLines = GeoLines,

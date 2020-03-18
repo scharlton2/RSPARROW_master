@@ -52,7 +52,7 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
   
   path_diagnosticSensParamChild <- file_path_as_absolute(paste0(path_master,"diagnosticSensParamChild.Rmd"))
   
-  rmarkdown::render(paste0(path_master,"diagnosticSensitivity.Rmd")
+  rmarkdown::render(paste0(path_master,"diagnosticSensitivity.Rmd"),
     params = list(
       file.output.list = file.output.list,
       path_diagnosticSensParamChild = path_diagnosticSensParamChild,

@@ -151,7 +151,7 @@ findCodeStr<-function(path_master,str,strType){
         findStr<-x[startStr:endStr] 
         splitFind<-strsplit(findStr,":")
         lines<-unique(trimws(unlist(splitFind)))
-        print(lines)
+      
         }else{#routine!=str
         lines<-character(0)
       }
