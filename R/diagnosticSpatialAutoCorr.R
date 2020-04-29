@@ -16,7 +16,7 @@
 
 
 diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsites,estimate.list,
-                                      estimate.input.list,subdata) { 
+                                      estimate.input.list,mapping.input.list,subdata) { 
   
   
   
@@ -41,9 +41,13 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
              parentObj = list(NA))
   filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.html",sep="")
   
+  path_masterFormat <- normalizePath(path_master)
+  
   rmarkdown::render(paste0(path_master,"diagnosticSpatialAutoCorr.Rmd"),
                     params = list(
+                      path_masterFormat = path_masterFormat,
                       file.output.list = file.output.list,
+                      mapping.input.list = mapping.input.list,
                       classvar = classvar,
                       sitedata = sitedata,
                       numsites = numsites, 
@@ -53,6 +57,55 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
                     ),
                     output_file = filename, quiet = TRUE
   )
+  
+  #sink text file
+  options(width = 200, max.print = 999999)
+  # define title output function
+  outcharfun<-function(char) {
+    outchar <- data.frame(char)
+    row.names(outchar ) <- c(" ")
+    colnames(outchar ) <- c(" ")
+    return(outchar)
+  }
+  # define "space" for printing
+  ch <- character(1)
+  space <- data.frame(ch)
+  row.names(space) <- ch
+  colnames(space) <- c(" ")
+  
+  #load data from RMD
+  load(paste0(path_master,"tempDiagSpat.RData"))
+  unlist(paste0(path_master,"tempDiagSpat.RData"))
+  unPackList(lists = list(saveList = saveList),
+             parentObj = list(NA))
+  
+  filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.txt",sep="")
+  sink(file=filename,split="FALSE",append=FALSE)
+  
+  print(outcharfun("MORAN'S I EUCLIDEAN AND HYDROLOGIC DISTANCE WEIGHTED RESULTS"))
+  print(dd)
+  
+  print(outcharfun("RIVER BASIN RESULTS"))
+  print(outcharfun(" Euclidean (E) and hydrologic (H) distance weighting (reported for most downstream site in river basins with >= 5 sites)"))
+  print(space)
+  print(sites_sigmoran)
+  print(space)
+  
+  print(outcharfun("FULL DOMAIN RESULTS (Hydrologic distance weighting within river basins)"))
+  print(moranOut)
+  
+  print(outcharfun(xtext))
+  print(space)
+  
+  print(outcharfun("REGIONAL AND FULL DOMAIN RESULTS"))
+  print(outcharfun(" Euclidean distance weighting (regional results reported for contiguous spatial class variable)"))
+  print(space)
+  print(class_sigmoran)
+  
+  sink(type="message")
+  sink()
+  
+  
   
   
   # data <- DataMatrix.list$data

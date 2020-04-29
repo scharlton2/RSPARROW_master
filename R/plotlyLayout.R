@@ -99,7 +99,7 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
     xanchor = "center",
     align = "center",
     x = 0.5,
-    y = 0.95,
+    y = 1.05,
     showarrow = FALSE,
     font = list(size = 14)
   )

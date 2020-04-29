@@ -4,7 +4,9 @@ author: ""
 date: "`r paste0('Generated: ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
 params:
+  path_masterFormat: path_masterFormat
   file.output.list: file.output.list
+  mapping.input.list: mapping.input.list
   classvar: classvar
   sitedata: sitedata
   numsites: numsites 
@@ -17,9 +19,11 @@ params:
 knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE)
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, results = "hide"}
 #unpack params
+path_masterFormat<-params$path_masterFormat
 file.output.list<-params$file.output.list
+mapping.input.list<-params$mapping.input.list
 classvar<-params$classvar
 sitedata<-params$sitedata
 numsites<-params$numsites 
@@ -31,11 +35,37 @@ subdata<-params$subdata
   unPackList(lists = list(Mdiagnostics.list = estimate.list$Mdiagnostics.list,
                           estimate.input.list = estimate.input.list,
                           data.index.list = DataMatrix.list$data.index.list,
-                          file.output.list = file.output.list),
+                          file.output.list = file.output.list,
+                          mapping.input.list = mapping.input.list),
              parentObj = list(NA,
                               NA,
                               NA,
+                              NA,
                               NA))
+
+  #plotly setup  
+hline <- function(y = 0, color = "red", dash = '') {
+  list(
+    type = "line", 
+    x0 = 0, 
+    x1 = 1, 
+    xref = "paper",
+    y0 = y, 
+    y1 = y, 
+    line = list(color = color, dash = dash)
+  )
+}
+
+pnch<-as.character(pchPlotlyCross[pchPlotlyCross$pch==diagnosticPlotPointStyle,]$plotly)
+markerSize<-diagnosticPlotPointSize*10
+markerCols<-colorNumeric(c("black","white"), 1:2)
+markerList = paste0("list(symbol = pnch,
+                       size = ",markerSize,",")
+if (regexpr("open",pnch)>0){
+  markerList<-paste0(markerList,"color = markerCols(1))")
+}else{
+  markerList<-paste0(markerList,"line = list(color = markerCols(1), width = 0.8),color = markerCols(1))")
+}
   
     data <- DataMatrix.list$data
   nreach <- length(data[,1])
@@ -51,28 +81,42 @@ subdata<-params$subdata
   
   set.ZeroPolicyOption(TRUE) # setting required for hydrological distance tests
   
-  options(width = 200, max.print = 999999)
+  #options(width = 200, max.print = 999999)
   
-  par(mfrow=c(1,1), pch=16, cex = 0.6)  # 1 plots on one page
+  #par(mfrow=c(1,1), pch=16, cex = 0.6)  # 1 plots on one page
   
   #add text explanation
-  par(mfrow=c(1,1)) 
+  #par(mfrow=c(1,1)) 
   
   strExplanation<-paste("
-    -CDF of Station Hydrological Distances (units of 'length' variable)\n
-    -CDF of Station Euclidean Distances (kilometers)\n
-    -Four panel plot with Moran's I results by river basin:\n
-       -P-value (Euclidean weights)\n
-       -Standard deviate (Euclidean weights)\n
-       -P-value (Hydrological weights)\n
-       -Standard deviate (Hydrological weights)\n
-    -Two panel plot with Moran's I results by Class variable and full domain:\n
-       -P-value (Euclidean weights)\n
-       -Standard deviate (Euclidean weights)
+  1. CDF of Station Hydrological Distances (units of 'length' variable)\n
+  2. CDF of Station Euclidean Distances (kilometers)\n
+  3. Four panel plot with Moran's I results by river basin:\n
+    * P-value (Euclidean weights)\n
+    * Standard deviate (Euclidean weights)\n
+    * P-value (Hydrological weights)\n
+    * Standard deviate (Hydrological weights)\n
+  4. Two panel plot with Moran's I results by Class variable and full domain:\n
+    * P-value (Euclidean weights)\n
+    * Standard deviate (Euclidean weights)
           ")
-  gplots::textplot(strExplanation,valign="top", cex=0.8, halign="left")
-  title(main=paste(run_id,"_diagnostic_spatialautocor.pdf Document Contents",sep=""))
-  
+ # gplots::textplot(strExplanation,valign="top", cex=0.8, halign="left")
+ # title(main=paste(run_id,"_diagnostic_spatialautocor.pdf Document Contents",sep=""))
+```  
+
+```{r  echo=FALSE, results='asis', eval=TRUE}
+  title<-paste(run_id,"_diagnostic_spatialautocor.pdf Document Contents",sep="")
+
+title<-paste("#",title,"\n")
+cat(title,"##Document Contents ",strExplanation,sep="\n")
+
+```
+
+```{r pagebreak, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}
   ##############################################
   nnode <- max(data[,jtnode],data[,jfnode])
   
@@ -180,7 +224,7 @@ subdata<-params$subdata
       }
     }
   }
-  sum(scount)   # Number of correlations to execute:  527
+  #sum(scount)   # Number of correlations to execute:  527
   sdist <- numeric(sum(scount))
   is <- 0
   for (i in 1:nstas) {
@@ -192,8 +236,31 @@ subdata<-params$subdata
     }
   }
   
-  plot.ecdf(sdist,xlab="Distance between Sites",main="Station Hydrologic Distances")
-  
+  #plot.ecdf(sdist,xlab="Distance between Sites",main="Station Hydrologic Distances")
+  Fn<-ecdf(sdist)
+y<-Fn(sdist)
+plotData<-data.frame(sdist=sdist, y = y)
+plotData<-plotData[order(plotData$sdist),]
+  p<-plotlyLayout(plotData$sdist,plotData$y, log = "", nTicks = 7, digits = 0,
+                      xTitle = "Distance Between Sites", xZeroLine = FALSE,xminTick = 0,
+                      yTitle = "Fn(x)",  yZeroLine = FALSE,ymax = 1,ymin = 0,ymaxTick = 1,
+                      plotTitle = "Station Hydrologic Distances",
+                      legend = FALSE,showPlotGrid = showPlotGrid)
+
+p<- p %>% add_trace(x  = plotData$sdist, y = plotData$y,type="scatter",mode="lines",color=I('black'),
+                    line = list(color=I('black')))
+                    #marker = eval(parse(text = markerList)))
+p<-p %>% layout(shapes = list(hline(1, color = "black", dash = 'dash'),
+                              hline(0, color = "black",dash = 'dash')))
+
+p
+```
+
+```{r pagebreak0, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}
   #####################################
   # obtain station header information  (change subdata to updata1)
   
@@ -221,30 +288,30 @@ subdata<-params$subdata
   siteheader <- data.frame(index,ssta,shydseq,stano,staname,ttarea,xlon,xlat)
   
   ##############################################
-  options(width = 200) 
-  
-  # define title output function
-  outcharfun<-function(char) {
-    outchar <- data.frame(char)
-    row.names(outchar ) <- c(" ")
-    colnames(outchar ) <- c(" ")
-    return(outchar)
-  }
+#  options(width = 200) 
+#  
+#  # define title output function
+#  outcharfun<-function(char) {
+#    outchar <- data.frame(char)
+#    row.names(outchar ) <- c(" ")
+#    colnames(outchar ) <- c(" ")
+#    return(outchar)
+#  }
   # define "space" for printing
-  ch <- character(1)
-  space <- data.frame(ch)
-  row.names(space) <- ch
-  colnames(space) <- c(" ")
+#  ch <- character(1)
+#  space <- data.frame(ch)
+#  row.names(space) <- ch
+#  colnames(space) <- c(" ")
   
-  filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.txt",sep="")
-  sink(file=filename,split="FALSE",append=FALSE)
+  #filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.txt",sep="")
+  #sink(file=filename,split="FALSE",append=FALSE)
   
-  print(outcharfun("MORAN'S I EUCLIDEAN AND HYDROLOGIC DISTANCE WEIGHTED RESULTS"))
+  #print(outcharfun("MORAN'S I EUCLIDEAN AND HYDROLOGIC DISTANCE WEIGHTED RESULTS"))
   dname <- "  Inverse distance weight function: "
   dd <- data.frame(dname,MoranDistanceWeightFunc)
   colnames(dd)<-c(" "," ")
   row.names(dd) <- c(" ")
-  print(dd)
+  #print(dd)
   
   # Sorted list of stations with upstream station counts (smallest to largest)
   xx <- data.frame(sitedata$station_name,sitedata$station_id,sitedata$staid,scount)
@@ -307,11 +374,36 @@ subdata<-params$subdata
       }
     }
   }
-  plot.ecdf(edist,xlab="Distance between Sites",main="Station Euclidean Distances (kilometers)")
-  
+  #plot.ecdf(edist,xlab="Distance between Sites",main="Station Euclidean Distances (kilometers)")
+    Fn<-ecdf(edist)
+y<-Fn(edist)
+plotData<-data.frame(edist=edist, y = y)
+plotData<-plotData[order(plotData$edist),]
+  p<-plotlyLayout(plotData$edist,plotData$y, log = "", nTicks = 7, digits = 0,
+                      xTitle = "Distance Between Sites", xZeroLine = FALSE,xminTick = 0,
+                      yTitle = "Fn(x)",  yZeroLine = FALSE,ymax = 1,ymin = 0,ymaxTick = 1,
+                      plotTitle = "Station Euclidean Distances (kilometers)",
+                      legend = FALSE,showPlotGrid = showPlotGrid)
+
+p<- p %>% add_trace(x  = plotData$edist, y = plotData$y,type="scatter",mode="lines",color=I('black'),
+                    line = list(color = I('black')))
+                    #marker = eval(parse(text = markerList)))
+p<-p %>% layout(shapes = list(hline(1, color = "black", dash = 'dash'),
+                              hline(0, color = "black",dash = 'dash')))
+
+p
+```
+
+```{r pagebreak1, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}
+
   ############################################################
   
-  par(mfrow=c(2,2), pch=16, cex = 0.6)  # 4 plots on one page
+  #par(mfrow=c(2,2), pch=16, cex = 0.6)  # 4 plots on one page
   
   #    Moran's I computed separately for each river basin
   
@@ -379,6 +471,7 @@ subdata<-params$subdata
           bsites[is] <- i
         }
       }
+
       
       # River basin Euclidean distance weights for Moran's
       xmoran <- data.frame(ires,xresids,xLat,xLon)
@@ -426,31 +519,94 @@ subdata<-params$subdata
       
     } # end loop for selecting the most downstream site for execution of Moran's
   } # end site loop
-  
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="375px"}
   
   # Create plots
   
   # Euclidean weighted results
   pmoran <- ifelse(pmoran == 0.0,min(pmoran[pmoran > 0]),pmoran)  # apply minimum non-zero to zero values
-  plot(factor(cind),pmoran,main="Moran's I P Value by River Basin",ylab="P Value (Euclidean distance weighting within basin)",
-       xlab="River Basin ID Index",las=2,pch=16,ylim=c(0,1))
-  abline(h = 0.1, col = "red", lwd = 1) 
+  #plot(factor(cind),pmoran,main="Moran's I P Value by River Basin",ylab="P Value (Euclidean distance weighting within basin)",
+  #     xlab="River Basin ID Index",las=2,pch=16,ylim=c(0,1))
+  #abline(h = 0.1, col = "red", lwd = 1) 
+
+p <- plotlyLayout(NA,pmoran, log = "", nTicks = 7, digits = 1,
+                 xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
+                 xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                 yTitle ="P Value (Euclidean distance weighting within basin)",  yZeroLine = FALSE,
+                 plotTitle = "Moran's I P Value by River Basin",
+                 legend = FALSE,showPlotGrid = showPlotGrid)
+p <- p %>% add_trace(y = pmoran,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                    mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+width = 3)))
+p1 <- p %>% layout(shapes = list(hline(0.1)))
+
   
-  plot(factor(cind),pmoran_dev,main="Moran's I Standard Deviate by River Basin",ylab="Standard Deviate (Euclidean distance weighting within basin)",
-       xlab="River Basin ID Index",las=2,pch=16)
-  abline(h = 0, col = "red", lwd = 1) 
   
+  
+  #plot(factor(cind),pmoran_dev,main="Moran's I Standard Deviate by River Basin",ylab="Standard Deviate (Euclidean distance weighting within basin)",
+  #     xlab="River Basin ID Index",las=2,pch=16)
+  #abline(h = 0, col = "red", lwd = 1) 
+p <- plotlyLayout(NA,pmoran_dev, log = "", nTicks = 7, digits = 1,
+                 xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
+                 xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                 yTitle ="Standard Deviate (Euclidean distance weighting\n within basin)",  yZeroLine = FALSE,
+                 plotTitle = "Moran's I Standard Deviate by River Basin",
+                 legend = FALSE,showPlotGrid = showPlotGrid)
+p <- p %>% add_trace(y = pmoran_dev,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                    mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+width = 3)))
+p2 <- p %>% layout(shapes = list(hline(0.1)))
+ p<-subplot(p1,p2,nrows = 1, widths = c(0.5,0.5),
+             titleX = TRUE, titleY=TRUE, margin = 0.08)
+ p
+  
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="375px"}
+
   # Hydrological weighted results
   bpmoran <- ifelse(bpmoran == 0.0,min(bpmoran[bpmoran > 0]),bpmoran)  # apply minimum non-zero to zero values
-  plot(factor(cind),bpmoran,main="Moran's I P Value by River Basin",ylab="P Value (Hydrologic distance weighting)",
-       xlab="River Basin ID Index",las=2,pch=16,ylim=c(0,1))
-  abline(h = 0.1, col = "red", lwd = 1) 
+  #plot(factor(cind),bpmoran,main="Moran's I P Value by River Basin",ylab="P Value (Hydrologic distance weighting)",
+  #     xlab="River Basin ID Index",las=2,pch=16,ylim=c(0,1))
+  #abline(h = 0.1, col = "red", lwd = 1) 
   
-  plot(factor(cind),bpmoran_dev,main="Moran's I Standard Deviate by River Basin",ylab="Standard Deviate (Hydrologic distance weighting)",
-       xlab="River Basin ID Index",las=2,pch=16)
-  abline(h = 0, col = "red", lwd = 1) 
+p <- plotlyLayout(NA,bpmoran, log = "", nTicks = 7, digits = 1,
+                 xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
+                 xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                 yTitle ="P Value (Hydrologic distance weighting)",  yZeroLine = FALSE,
+                 plotTitle = "Moran's I P Value by River Basin",
+                 legend = FALSE,showPlotGrid = showPlotGrid)
+p <- p %>% add_trace(y = bpmoran,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                    mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+width = 3)))
+p1 <- p %>% layout(shapes = list(hline(0.1)))
+
+  #plot(factor(cind),bpmoran_dev,main="Moran's I Standard Deviate by River Basin",ylab="Standard Deviate (Hydrologic distance weighting)",
+  #     xlab="River Basin ID Index",las=2,pch=16)
+  #abline(h = 0, col = "red", lwd = 1) 
+
+p <- plotlyLayout(NA,bpmoran_dev, log = "", nTicks = 7, digits = 1,
+                 xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
+                 xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                 yTitle ="Standard Deviate (Hydrologic distance weighting)",  yZeroLine = FALSE,
+                 plotTitle = "Moran's I Standard Deviate by River Basin",
+                 legend = FALSE,showPlotGrid = showPlotGrid)
+p <- p %>% add_trace(y = bpmoran_dev,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                    mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+width = 3)))
+p2 <- p %>% layout(shapes = list(hline(0.1)))
+ p<-subplot(p1,p2,nrows = 1, widths = c(0.5,0.5),
+             titleX = TRUE, titleY=TRUE, margin = 0.08)
+p  
+```
+
+```{r pagebreak2, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
   
-  
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"} 
   # River basin text output
   # Obtain list of river basin outlets with significant Moran's I
   x1 <- data.frame(sitedata$station_name,sitedata$station_id,sitedata$staid,scount)
@@ -464,12 +620,14 @@ subdata<-params$subdata
   sites_sigmoran <- sites_sigmoran[,-1]
   colnames(sites_sigmoran) <- c("Site Name"," Site ID"," Downstrm Site ID"," Upstrm Site Count"," P-Value(E)"," Standard Deviate(E)"," P-Value(H)"," Standard Deviate(H)")
   
-  print(outcharfun("RIVER BASIN RESULTS"))
-  print(outcharfun(" Euclidean (E) and hydrologic (H) distance weighting (reported for most downstream site in river basins with >= 5 sites)"))
-  print(space)
-  print(sites_sigmoran)
-  print(space)
-  
+  #print(outcharfun("RIVER BASIN RESULTS"))
+  #print(outcharfun(" Euclidean (E) and hydrologic (H) distance weighting (reported for most downstream site in river basins with >= 5 sites)"))
+  #print(space)
+  #print(sites_sigmoran)
+  #print(space)
+```
+ 
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
   ################################################################################
   # Full Domain:  Hydrologic channel distance weighting for Moran's I test
   
@@ -496,16 +654,16 @@ subdata<-params$subdata
   pmoran <- morantest.obj$p.value
   pmoran_dev <- morantest.obj$statistic
   
-  print(outcharfun("FULL DOMAIN RESULTS (Hydrologic distance weighting within river basins)"))
+  #print(outcharfun("FULL DOMAIN RESULTS (Hydrologic distance weighting within river basins)"))
   
   moranOut <- data.frame(pmoran,pmoran_dev)
   rownames(moranOut) <- c(" ") 
   colnames(moranOut) <- c(" Moran's P-Value"," Moran's Standard Deviate")
-  print(moranOut)
+  #print(moranOut)
   
   xtext <- paste("  Fraction of sites that are nested:  ",round(nest_sites,digits=3),sep="")
-  print(outcharfun(xtext))
-  print(space)
+  #print(outcharfun(xtext))
+  #print(space)
   
   
   ################################################################################
@@ -611,17 +769,46 @@ subdata<-params$subdata
   morantest.obj <- moran.test(xmoran$xresids, lwW, alternative="two.sided")    # SPDEP
   pmoran[ibasin] <- morantest.obj$p.value
   pmoran_dev[ibasin] <- morantest.obj$statistic
-  
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.height="375px",out.width="750px"}
   ##########################################################################
   # Plot Moran's I by Class variable (e.g., HUC-2)
   pmoran <- ifelse(pmoran == 0.0,min(pmoran[pmoran > 0]),pmoran)  # apply minimum non-zero to zero values
-  plot(factor(cind),pmoran,main="Moran's I P Value by CLASS Variable",ylab="Moran's P Value (Euclidean distance weighting)",
-       xlab=cindLabel,las=2,pch=16,ylim=c(0,1))
-  abline(h = 0.1, col = "red", lwd = 1) 
-  plot(factor(cind),pmoran_dev,main="Moran's I Standard Deviate by CLASS Variable",ylab="Moran's Standard Deviate (Euclidean distance weighting)",
-       xlab=cindLabel,las=2,pch=16)
-  abline(h = 0, col = "red", lwd = 1) 
-  
+  #plot(factor(cind),pmoran,main="Moran's I P Value by CLASS Variable",ylab="Moran's P Value (Euclidean distance weighting)",
+  #     xlab=cindLabel,las=2,pch=16,ylim=c(0,1))
+  #abline(h = 0.1, col = "red", lwd = 1) 
+
+p <- plotlyLayout(NA,pmoran, log = "", nTicks = 7, digits = 1,
+                 xTitle = cindLabel,ymin = 0, ymax = 1,
+                 xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                 yTitle ="Moran's P Value (Euclidean distance weighting)",  yZeroLine = FALSE,
+                 plotTitle = "Moran's I P Value by CLASS Variable",
+                 legend = FALSE,showPlotGrid = showPlotGrid)
+p <- p %>% add_trace(y = pmoran,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                    mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+width = 3)))
+p1 <- p %>% layout(shapes = list(hline(0.1)))
+
+  #plot(factor(cind),pmoran_dev,main="Moran's I Standard Deviate by CLASS Variable",ylab="Moran's Standard Deviate (Euclidean distance weighting)",
+  #     xlab=cindLabel,las=2,pch=16)
+  #abline(h = 0, col = "red", lwd = 1) 
+p <- plotlyLayout(NA,pmoran_dev, log = "", nTicks = 7, digits = 1,
+                 xTitle = cindLabel,ymin = 0, ymax = 1,
+                 xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                 yTitle ="Moran's Standard Deviate\n (Euclidean distance weighting)",  yZeroLine = FALSE,
+                 plotTitle = "Moran's I Standard Deviate by CLASS Variable",
+                 legend = FALSE,showPlotGrid = showPlotGrid)
+p <- p %>% add_trace(y = pmoran_dev,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                    mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+width = 3)))
+p2 <- p %>% layout(shapes = list(hline(0.1)))
+ p<-subplot(p1,p2,nrows = 1, widths = c(0.5,0.5),
+             titleX = TRUE, titleY=TRUE, margin = 0.08)
+p 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
   # output moran's I p values to text file 
   
   if(!is.na(classvar[1]) & (classvar[1] != "sitedata.demtarea.class")) {   # process only where class variable designated by user
@@ -633,12 +820,12 @@ subdata<-params$subdata
     nmrbout[1] <- numsites
   }
   
-  print(outcharfun("REGIONAL AND FULL DOMAIN RESULTS"))
-  print(outcharfun(" Euclidean distance weighting (regional results reported for contiguous spatial class variable)"))
-  print(space)
+  #print(outcharfun("REGIONAL AND FULL DOMAIN RESULTS"))
+  #print(outcharfun(" Euclidean distance weighting (regional results reported for contiguous spatial class variable)"))
+  #print(space)
   class_sigmoran <- data.frame(cind,nmrbout,pmoran,pmoran_dev)
   colnames(class_sigmoran) <- c(cindLabel," Number Stations"," Moran's P-Value"," Moran's Standard Deviate")
-  print(class_sigmoran)
+  #print(class_sigmoran)
   
   fileCSV<-paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV",.Platform$file.sep,sep="")
   fileout<-paste(fileCSV,"EuclideanMoransI.csv",sep="")
@@ -646,6 +833,8 @@ subdata<-params$subdata
          dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   
   
-  sink(type="message")
-  sink()
+  #sink(type="message")
+  #sink()
+  saveList<-named.list(dd,sites_sigmoran,moranOut,xtext,class_sigmoran)
+  save(saveList,file = paste0(path_masterFormat,"tempDiagSpat.RData"))
 ```  
