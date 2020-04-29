@@ -89,6 +89,10 @@ p
 
 ```
 
+```{r pagebreak, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
 
 rmd <- sapply(
