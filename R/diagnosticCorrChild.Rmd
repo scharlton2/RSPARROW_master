@@ -25,7 +25,7 @@ data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
                   xZeroLine = FALSE,
                   yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
                   plotTitle = paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental Areas between Calibration Sites; Variable Name = ",Cor.ExplanVars.list$names[i]) ,
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p <- p %>% add_trace(data = data, x = ~xvar, y = ~ratio.obs.pred, 
                      type = "scatter", 
                      mode = "markers",
@@ -53,7 +53,7 @@ p
 #                  xZeroLine = FALSE,
 #                  yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
 #                  plotTitle = paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor #Incremental Areas between Calibration Sites; Variable Name = ",Cor.ExplanVars.list$names[i]) ,
-#                  legend = FALSE)
+#                  legend = FALSE,showPlotGrid = showPlotGrid)
 #  p <- p %>% add_trace(data = data, x = ~xvar, y = ~ratio.obs.pred, 
 #                     type = "scatter", 
 #                     mode = "markers",

@@ -33,6 +33,7 @@ getYesNoSett<-function(){
                    "load_previousDataImport",
                    "enable_interactiveMaps",
                    "if_verify_demtarea_maps",
-                   "RSPARROW_errorOption")
+                   "RSPARROW_errorOption",
+                   "showPlotGrid")
   return(yesNoSettings)
 }

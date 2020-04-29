@@ -308,7 +308,7 @@ p1 <- plotlyLayout(predict,Obs, log = "xy", nTicks = 5, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
                   yTitle = paste0("OBSERVED LOAD (",loadUnits,")"),  yZeroLine = TRUE,
                   plotTitle = "MODEL ESTIMATION PERFORMANCE \n(Monitoring-Adjusted Predictions) \nObserved vs    Predicted Load",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 
   
 p1 <- p1 %>% add_trace(data = data, x = ~predict, y = ~Obs, 
@@ -347,7 +347,7 @@ p2 <- plotlyLayout(yldpredict,yldobs, log = "xy", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"),  xZeroLine = TRUE,
                   yTitle = paste0("OBSERVED YIELD (",yieldUnits,")"), yZeroLine = TRUE,
                   plotTitle = "MODEL ESTIMATION PERFORMANCE \nObserved vs Predicted Yield",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 p2 <- p2 %>% add_trace(data = data, x = ~yldpredict, y = ~yldobs, 
                      type = "scatter", 
                      mode = "markers",
@@ -379,7 +379,7 @@ p3 <- plotlyLayout(predict,Resids, log = "x", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"),  xZeroLine = TRUE,
                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
                   plotTitle = "Residuals vs Predicted \nLoad",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 p3 <- p3 %>% add_trace(data = data, x = ~predict, y = ~Resids, 
                      type = "scatter", 
                      mode = "markers",
@@ -406,7 +406,7 @@ p4 <- plotlyLayout(yldpredict,Resids, log = "x", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",loadUnits,")"),  xZeroLine = TRUE,
                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
                   plotTitle = "Residuals vs Predicted \nYield",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 p4 <- p4 %>% add_trace(data = data, x = ~yldpredict, y = ~Resids, 
                      type = "scatter", 
                      mode = "markers",
@@ -442,7 +442,7 @@ p1 <- plotlyLayout(NA,Resids, log = "", nTicks = 4, digits = 0,
                   xTitle = "",  xZeroLine = FALSE,
                   yTitle = "LOG RESIDUAL",  yZeroLine = FALSE,
                   plotTitle = "MODEL ESTIMATION PERFORMANCE \nResiduals",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p1 <- p1 %>% add_trace(y = Resids,type = 'box', name = "Resids", color = I("black"), 
                          fillcolor = "white")
   
@@ -454,7 +454,7 @@ p1 <- plotlyLayout(NA,Resids, log = "", nTicks = 4, digits = 0,
                   xTitle = "", xZeroLine = FALSE,
                   yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
                   plotTitle = "MODEL ESTIMATION PERFORMANCE \nObserved / Predicted Ratio",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p2 <- p2 %>% add_trace(y = ratio.obs.pred,type = 'box', name = "Ratio", color = I("black"), fillcolor = "white")
   
   
@@ -492,7 +492,7 @@ p3 <- plotlyLayout(data$x.norm,data$standardResids, log = "", nTicks = 7, digits
                   xTitle = "Theoretical Quantiles", xZeroLine = FALSE,
                   yTitle = "Standardized Residuals", yZeroLine = FALSE,
                   plotTitle = "Normal Q-Q Plot",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 #plot( data ~ x.norm, type = "p", xlab = "Normal quantiles", pch = 20)
 p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~standardResids, 
                      type = "scatter", 
@@ -529,7 +529,7 @@ data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = FALSE,
                   yTitle = "SQUARED LOG RESIDUALS", yZeroLine = FALSE,
                   plotTitle = "Squared Residuals vs Predicted Load",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p4 <- p4 %>% add_trace(data = data, x = ~predict, y = ~Resids2, 
                      type = "scatter", 
                      mode = "markers",
@@ -578,7 +578,7 @@ data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
                   xTitle = paste0("Simulated Load (",loadUnits,")"), xZeroLine = FALSE,
                   yTitle = paste0("Monitoring-Adjusted Load (",loadUnits,")"), yZeroLine = FALSE,
                   plotTitle = "Monitoring-Adjusted vs. Simulated Loads",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p <- p %>% add_trace(data = data, x = ~ppredict, y = ~predict, 
                      type = "scatter", 
                      mode = "markers",
@@ -678,7 +678,7 @@ if (validation==FALSE){
                   xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
                   yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
                   plotTitle = "Ratio Observed to Predicted by Deciles",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p <- p %>% add_trace(y = ratio.obs.pred,x = vvar, type = 'box', color = I("black"), 
                          fillcolor = "white")
 p <- p %>% layout(shapes = list(hline(1)))
@@ -946,7 +946,7 @@ p1 <- plotlyLayout(ppredict,Obs, log = "xy", nTicks = 5, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
                   yTitle = paste0("OBSERVED LOAD (",loadUnits,")"),  yZeroLine = TRUE,
                   plotTitle = "MODEL SIMULATION PERFORMANCE \nObserved vs Predicted Load",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 
   
 p1 <- p1 %>% add_trace(data = data, x = ~ppredict, y = ~Obs, 
@@ -977,7 +977,7 @@ p2 <- plotlyLayout(pyldpredict,pyldobs, log = "xy", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"),  xZeroLine = TRUE,
                   yTitle = paste0("OBSERVED YIELD (",yieldUnits,")"), yZeroLine = TRUE,
                   plotTitle = "MODEL SIMULATION PERFORMANCE \nObserved vs Predicted Yield",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 p2 <- p2 %>% add_trace(data = data, x = ~pyldpredict, y = ~pyldobs, 
                      type = "scatter", 
                      mode = "markers",
@@ -1005,7 +1005,7 @@ p3 <- plotlyLayout(ppredict,pResids, log = "x", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"),  xZeroLine = TRUE,
                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
                   plotTitle = "Residuals vs Predicted \nLoad",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 p3 <- p3 %>% add_trace(data = data, x = ~ppredict, y = ~pResids, 
                      type = "scatter", 
                      mode = "markers",
@@ -1028,7 +1028,7 @@ p4 <- plotlyLayout(pyldpredict,pResids, log = "x", nTicks = 6, digits = 0,
                   xTitle = paste0("PREDICTED YIELD (",loadUnits,")"),  xZeroLine = TRUE,
                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
                   plotTitle = "Residuals vs Predicted \nYield",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 p4 <- p4 %>% add_trace(data = data, x = ~pyldpredict, y = ~pResids, 
                      type = "scatter", 
                      mode = "markers",
@@ -1077,7 +1077,7 @@ cat("<P style='page-break-before: always'>")
                   xTitle = "",  xZeroLine = FALSE,
                   yTitle = "LOG RESIDUAL",  yZeroLine = FALSE,
                   plotTitle = "MODEL SIMULATION PERFORMANCE \nResiduals",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p1 <- p1 %>% add_trace(y = pResids,type = 'box', name = "Resids", color = I("black"), 
                          fillcolor = "white")
   
@@ -1089,7 +1089,7 @@ cat("<P style='page-break-before: always'>")
                   xTitle = "", xZeroLine = FALSE,
                   yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
                   plotTitle = "MODEL SIMULATION PERFORMANCE \nObserved / Predicted Ratio",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p2 <- p2 %>% add_trace(y = pratio.obs.pred,type = 'box', name = "Ratio", color = I("black"), fillcolor = "white")
   
   
@@ -1127,7 +1127,7 @@ p3 <- plotlyLayout(data$x.norm,data$pResids, log = "", nTicks = 7, digits = 0,
                   xTitle = "Theoretical Quantiles", xZeroLine = FALSE,
                   yTitle = "Log Residuals", yZeroLine = FALSE,
                   plotTitle = "Normal Q-Q Plot",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 #plot( data ~ x.norm, type = "p", xlab = "Normal quantiles", pch = 20)
 p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~pResids, 
                      type = "scatter", 
@@ -1164,7 +1164,7 @@ data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = FALSE,
                   yTitle = "SQUARED LOG RESIDUALS", yZeroLine = FALSE,
                   plotTitle = "Squared Residuals vs Predicted Load",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p4 <- p4 %>% add_trace(data = data, x = ~ppredict, y = ~Resids2, 
                      type = "scatter", 
                      mode = "markers",
@@ -1259,7 +1259,7 @@ cat("<P style='page-break-before: always'>")
                   xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
                   yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
                   plotTitle = "Ratio Observed to Predicted by Deciles",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
   p <- p %>% add_trace(y = pratio.obs.pred,x = vvar, type = 'box', color = I("black"), 
                          fillcolor = "white")
 p <- p %>% layout(shapes = list(hline(1)))

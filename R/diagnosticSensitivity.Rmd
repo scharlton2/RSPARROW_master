@@ -194,7 +194,7 @@ data<-cbind(data,xx)
                   xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
                   yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
                   plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
-                  legend = TRUE)
+                  legend = TRUE,showPlotGrid = showPlotGrid)
 p <- p %>% add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
              name = 'Standard Deviation Interval',
                      error_y = ~list(symetric = FALSE,
@@ -245,7 +245,7 @@ cat("<P style='page-break-before: always'>")
                   xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
                   yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
                   plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
-                  legend = TRUE)
+                  legend = TRUE,showPlotGrid = showPlotGrid)
 p <- p %>% add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
              name = 'Standard Deviation Interval',
                      error_y = ~list(symetric = FALSE,

@@ -34,6 +34,7 @@ generateInputLists<-function(settings){
                                    enable_plotlyMaps,
                                    add_plotlyVars,
                                    pchPlotlyCross,
+                                   showPlotGrid,
                                    
                                    #diagnosticPlots
                                    loadUnits,

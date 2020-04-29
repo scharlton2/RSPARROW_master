@@ -36,7 +36,7 @@ p1 <- plotlyLayout(df$plotpredict,df$plotObs, log = "xy", nTicks = 5, digits = 0
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
                   yTitle = paste0("OBSERVED LOAD (",loadUnits,")"),  yZeroLine = TRUE,
                   plotTitle = paste0("Observed vs Predicted Load \nCLASS Region = ",xmrb,"(n=",nsites,")"),
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 
   
 p1 <- p1 %>% add_trace(data = df, x = ~plotpredict, y = ~plotObs, 
@@ -71,7 +71,7 @@ p2 <- plotlyLayout(df$plotyldpredict,df$plotyldobs, log = "xy", nTicks = 5, digi
                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"), xZeroLine = TRUE,
                   yTitle = paste0("OBSERVED YIELD (",yieldUnits,")"),  yZeroLine = TRUE,
                   plotTitle = "Observed vs Predicted \nYield",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 
   
 p2 <- p2 %>% add_trace(data = df, x = ~plotyldpredict, y = ~plotyldobs, 
@@ -107,7 +107,7 @@ p3 <- plotlyLayout(df$plotpredict,df$plotResids, log = "x", nTicks = 5, digits =
                   xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = TRUE,
                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
                   plotTitle = "Residuals vs Predicted \nLoad",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 
   
 p3 <- p3 %>% add_trace(data = df, x = ~plotpredict, y = ~plotResids, 
@@ -139,7 +139,7 @@ p4 <- plotlyLayout(df$plotyldpredict,df$plotResids, log = "x", nTicks = 5, digit
                   xTitle = paste0("PREDICTED YIELD (",yieldUnits,")"), xZeroLine = TRUE,
                   yTitle = "LOG RESIDUAL",  yZeroLine = TRUE,
                   plotTitle = "Residuals vs Predicted \nYield",
-                  legend = FALSE)
+                  legend = FALSE,showPlotGrid = showPlotGrid)
 
   
 p4 <- p4 %>% add_trace(data = df, x = ~plotyldpredict, y = ~plotResids, 

@@ -1,7 +1,8 @@
 plotlyLayout<-function(x, y, log, nTicks, digits, 
                        xTitle, xZeroLine,xLabs = NA, xminTick = NA,
                        yTitle, yZeroLine,ymax = NA,ymin = NA, ymaxTick = NA,
-                       plotTitle,legend){
+                       plotTitle,legend,showPlotGrid){
+  showPlotGrid<-ifelse(showPlotGrid=="yes","TRUE","FALSE")
   nTicksOrig<-nTicks
   #format tickmarks
   for (a in c("x","y")){
@@ -66,11 +67,13 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
                                                   ticks = 'outside',
                                                   title = strTitle,
                                                   zeroline = strZeroLine,
+                                                  showgrid =", showPlotGrid,",
                              yref = 'paper',y=0, titlefont = list(size = 11))"))) 
     }else{
       if (is.na(xLabs)){
        eval(parse(text = paste0(a,"Axis.list <- list(showticklabels = FALSE,
-                               showline = TRUE)"))) 
+                                                     showgrid =", showPlotGrid,",
+                                                     showline = TRUE)"))) 
       }else{
         strTitle<-eval(parse(text = paste0(a,"Title")))
         strZeroLine<-eval(parse(text = paste0(a,"ZeroLine")))
@@ -81,6 +84,7 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
                                                   ticks = 'outside',
                                                   title = strTitle,
                                                   zeroline = strZeroLine,
+                                                  showgrid =", showPlotGrid,",
                              yref = 'paper',y=0, titlefont = list(size = 11))"))) 
       }
        
