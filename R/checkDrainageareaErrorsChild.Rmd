@@ -65,9 +65,7 @@ lineShape <- merge(lineShape, dmap, by.x = commonvar, by.y = commonvar)
       
       mapdata<-lineShape[lineShape$MAPCOLORS==c,]
 
-      lineText<-"~paste('</br> Lat: ',lat,
-                   '</br> Lon: ',lon,
-                   '</br> ',title_name[k],' :',
+      lineText<-"~paste('</br> ',title_name[k],' :',
                    round(VVAR,predictionClassRounding)"
       
       lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
@@ -99,7 +97,7 @@ p
               legend("bottomleft",break1,lty=nlty,cex=0.6,title=title_name[k],
                      bg="grey",lwd=nlwd, col=Mcol, bty="o")
     }
-drops <- c("MAPCOLORS","VVAR","fMAPCOLORS","lat","lon") # list of col names
+drops <- c("MAPCOLORS","VVAR","fMAPCOLORS",gsub("waterid","waterid_for_RSPARROW_mapping",add_plotlyVars)) # list of col names
 lineShape <- lineShape[,!(names(lineShape) %in% drops)]   # drop MAPCOLORS for re-creation
 
 

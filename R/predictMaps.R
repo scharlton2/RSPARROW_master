@@ -794,9 +794,7 @@ cat(y, file=reportPath, sep="\n")
                   mapdata<-lineShape[lineShape$mapColor==c,]
                   mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
                   
-                  lineText<-"~paste('</br> Lat: ',lat,
-                   '</br> Lon: ',lon,
-                   '</br> ',master_map_list[k],' :',
+                  lineText<-"~paste('</br> ',master_map_list[k],' :',
                    round(mapdataname,predictionClassRounding)"
                   
                   lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
@@ -1069,9 +1067,7 @@ cat(y, file=reportPath, sep="\n")
                 mapdata<-polyShape[polyShape$mapColor==c,]
                 mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
                 
-                lineText<-"~paste('</br> Lat: ',lat,
-                '</br> Lon: ',lon,
-                '</br> ',master_map_list[k],' :',
+                lineText<-"~paste('</br> ',master_map_list[k],' :',
                 round(mapdataname,predictionClassRounding)"
                 
                 lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
