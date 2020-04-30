@@ -31,7 +31,7 @@ getYesNoSett<-function(){
                    "edit_dataDictionary",
                    "if_estimate_simulation",
                    "load_previousDataImport",
-                   "enable_interactiveMaps",
+                   "enable_ShinyApp",
                    "if_verify_demtarea_maps",
                    "RSPARROW_errorOption",
                    "showPlotGrid")

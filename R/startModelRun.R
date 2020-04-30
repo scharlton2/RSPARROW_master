@@ -34,7 +34,7 @@
 #'       (Monte Carlo) is to be executed
 #'@param if_boot_predict yes/no control setting to specify if bootstrap predictions (mean, SE, 
 #'       confidence intervals) are to be executed
-#'@param enable_interactiveMaps yes/no control setting indicating whether shiny app should be 
+#'@param enable_ShinyApp yes/no control setting indicating whether shiny app should be 
 #'       triggered at the end of the run
 #'@param filter_data1_conditions User specified additional DATA1 variables (and conditions) to 
 #'       be used to filter reaches from sparrow_control
@@ -65,7 +65,7 @@
 
 startModelRun<-function(file.output.list,
                         if_estimate,if_estimate_simulation,
-                        if_boot_estimate,if_boot_predict,enable_interactiveMaps,
+                        if_boot_estimate,if_boot_predict,enable_ShinyApp,
                         #createSubdataSorted
                         filter_data1_conditions,data1,
                         #applyUserModify
@@ -467,7 +467,7 @@ startModelRun<-function(file.output.list,
   assign("map_uncertainties",map_uncertainties,envir = .GlobalEnv)
   assign("BootUncertainties",BootUncertainties,envir = .GlobalEnv)
   
-  if (enable_interactiveMaps=="yes" & batch_mode=="no"){
+  if (enable_ShinyApp=="yes" & batch_mode=="no"){
     #setup for interactive Mapping
     shiny::runApp(shinyMap2(
       #stream/catchment

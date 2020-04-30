@@ -218,7 +218,7 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
               #source(paste(path_main,.Platform$file.sep,"R",.Platform$file.sep,"startModelRun.R",sep=""))
               startModelRun(file.output.list,
                             if_estimate,if_estimate_simulation,
-                            if_boot_estimate,if_boot_predict,enable_interactiveMaps,
+                            if_boot_estimate,if_boot_predict,enable_ShinyApp,
                             #createSubdataSorted
                             filter_data1_conditions,data1,
                             #applyUserModify

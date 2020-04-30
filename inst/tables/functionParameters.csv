@@ -60,7 +60,7 @@ diagnosticPlotPointStyle,numeric control setting giving pch value to set point s
 dlvdsgn,design matrix imported from design_matrix.csv
 dmatrixin,imported object from design_matrix.csv
 eigs,object containing eigenvalues and vectors from the base R `eigen()` function
-enable_interactiveMaps,yes/no control setting indicating whether shiny app should be triggered at the end of the run
+enable_ShinyApp,yes/no control setting indicating whether shiny app should be triggered at the end of the run
 errMsg,character string custom message indicating invalid entries in the shiny app
 ErrorOccured,"yes/no indicating if a previous error has occured.  Function is only run if `ErrorOccured==""no""`"
 estimate.input.list,"named list of sparrow_control settings: ifHess, s_offset, NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars"

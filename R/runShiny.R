@@ -3,18 +3,18 @@
 #'Executed By:  \\cr
 #'Executes Routines: \\itemize\{\\item shinyMap2.R
 #'             \\item unPackList.R\} \\cr
-#'@param enable_interactiveMaps yes/no control setting indicating whether shiny app should be 
+#'@param enable_ShinyApp yes/no control setting indicating whether shiny app should be 
 #'       triggered at the end of the run
 #'@param RSPARROW_errorOption 
 
 
 
-runShiny<-function(file.output.list, enable_interactiveMaps,RSPARROW_errorOption){
+runShiny<-function(file.output.list, enable_ShinyApp,RSPARROW_errorOption){
   
   unPackList(lists = list(file.output.list = file.output.list),
              parentObj = list(NA)) 
   
-  run_id<-enable_interactiveMaps
+  run_id<-enable_ShinyApp
   #load shinyArgs
   if (file.exists(paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs"))){
     load(paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs")) 
