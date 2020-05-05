@@ -682,7 +682,7 @@ cat(y, file=reportPath, sep="\n")
 
             rmarkdown::render(paste0(path_master,"predictMaps.Rmd"),
             params = list(
-              mapType = "stream",
+              predictMapType = "stream",
               GeoLines = GeoLines,
               plotShape = lineShape,
               k = k,
@@ -951,7 +951,7 @@ cat(y, file=reportPath, sep="\n")
             #ptm <- proc.time()
             rmarkdown::render(
               reportPath, params = list(
-                mapType = "catchment",
+                predictMapType = "catchment",
                 GeoLines = GeoLines,
                 plotShape = polyShape,
                 k = k,
