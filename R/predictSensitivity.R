@@ -6,6 +6,9 @@
 #'             \\item unPackList.R
 #'             \\item ptnoder.for\} \\cr
 #'@param AEstimate parameter estimates (original or adjusted by 1 percent)
+#'@param estimate.list list output from `estimate.R`
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`

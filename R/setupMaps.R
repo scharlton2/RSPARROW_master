@@ -6,9 +6,18 @@
 #'             \\item batchpolyShape.R
 #'             \\item outputSettings.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
-#'@param RSPARROW_errorOption 
+#'@param RSPARROW_errorOption yes/no control setting indicating where the RPSARROW_errorOption 
+#'                            should be applied 
 
 
 

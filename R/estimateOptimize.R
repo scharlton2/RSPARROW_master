@@ -5,9 +5,15 @@
 #'Executes Routines: \\itemize\{\\item estimateFeval.R
 #'             \\item named.list.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param dlvdsgn design matrix imported from design_matrix.csv
 #'@return `sparrowEsts` list object contained in estimate.list `if_estimate<-'yes'`.  For more 
 #'            details see documentation Section 5.2.4.4.

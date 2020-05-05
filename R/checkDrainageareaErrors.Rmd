@@ -1,5 +1,5 @@
 ---
-title: 'interactive_2020.03.15'
+title: 'interactive_2020.05.05'
 author: ""
 date: "`r paste0('Output on ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
@@ -7,8 +7,8 @@ params:
   file.output.list: file.output.list
   mapping.input.list: mapping.input.list
   DAreaFailCheckObj: DAreaFailCheckObj 
-  data1: data1                                     
-  existGeoLines: existGeoLines
+  data1: data1
+  existGeoLines: existGeoLines                                     
   commonvar: commonvar
   map.vars.list: map.vars.list
   GeoLines: GeoLines

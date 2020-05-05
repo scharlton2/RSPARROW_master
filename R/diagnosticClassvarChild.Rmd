@@ -1,24 +1,20 @@
 ```{r chunkclass{{k}},eval = TRUE, echo = FALSE, out.width="750px", out.height="750px", warning = FALSE, message = FALSE}
 k <- {{k}}
 
-      #par(mfrow=c(1,1), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 1 plots on one page
-      vvar <- as.numeric(eval(parse(text=paste("sitedata$",classvar[k],sep="") )))
-      #boxplot(ratio.obs.pred ~ vvar,log="y",main="Ratio Observed to Predicted",
-      #        xlab=classvar[k],ylab="Observed to Predicted Ratio")
-      #abline(h = 1, col = "red", lwd = 1) 
-      
-        p <- plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
+vvar <- as.numeric(eval(parse(text=paste("sitedata$",classvar[k],sep="") )))
+
+p <- plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
                   xTitle = classvar[k],  
                   xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
                   yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
                   plotTitle = "Ratio Observed to Predicted",
                   legend = FALSE,showPlotGrid = showPlotGrid)
-  p <- p %>% add_trace(y = boxvar,x = vvar, type = 'box', color = I("black"), 
-                         fillcolor = "white")
- p <- p %>% layout(shapes = list(hline(1)))
-  p
+p <- p %>% add_trace(y = boxvar,x = vvar, type = 'box', color = I("black"), 
+                     fillcolor = "white")
+p <- p %>% layout(shapes = list(hline(1)))
+p
 
- 
+
 ```
 
 ```{r classPgBr{{k}}, results='asis', echo=FALSE}

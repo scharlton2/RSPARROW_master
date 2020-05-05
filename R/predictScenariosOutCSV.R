@@ -6,6 +6,13 @@
 #'             \\item unPackList.R\} \\cr
 #'@param input top level interactive user input in Shiny app
 #'@param Rshiny TRUE/FALSE indicating whether routine is being run from the Shiny app
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param estimate.list list output from `estimate.R`
+#'@param predictScenarios.list an archive with key scenario control settings and the load and 
+#'                             yield prediction variables that are output from the execution of 
+#'                             a source-change scenario evaluation. For more details see 
+#'                             documentation Section 5.5.9
 #'@param subdata data.frame input data (subdata)
 #'@param add_vars additional variables specified by the setting `add_vars` to be included in 
 #'       prediction, yield, and residuals csv and shape files
@@ -14,7 +21,7 @@
 #'@param scenarioFlag binary vector indicating whether a reach is included in the source 
 #'       reduction scenario
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
-#'@param scenarioCoefficients 
+#'@param scenarioCoefficients user specified model coefficients for the scenario
 
 
 

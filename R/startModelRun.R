@@ -27,6 +27,8 @@
 #'             \\item shinyMap2.R
 #'             \\item startEndmodifySubdata.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.
@@ -42,13 +44,25 @@
 #'@param if_userModifyData yes/no indicating whether or not the userModifyData.R control file 
 #'       is to be applied
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
+#'@param class.input.list list of control settings related to classification variables
+#'@param min.sites.list named list of control settings `minimum_headwater_site_area`,
+#'                     `minimum_reaches_separating_sites`, `minimum_site_incremental_area`
 #'@param if_validate yes/no indicating whether or not validation is run
 #'@param iseed User specified initial seed for the bootstraps from sparrow_control
 #'@param pvalidate numeric control setting indicating a percentage of calibration sites to 
 #'       select for validation or if equal to 0 indicates that the user defined valsites variable should be 
 #'       used to select sites for validation. For more details see documentation Section 4.4.6
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
 #'@param if_predict yes/no indicating whether or not prediction is run
 #'@param biters User specified number of parametric bootstrap iterations from sparrow_control
+#'@param scenario.input.list list of control settings related to source change scenarios
 #'@param compare_models character string control setting indicated the run_ids of preivously 
 #'       run model to which the current model is to be compared
 #'@param modelComparison_name character string control setting that gives the name of the 
@@ -59,7 +73,8 @@
 #'       prediction, yield, and residuals csv and shape files
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
-#'@param RSPARROW_errorOption 
+#'@param RSPARROW_errorOption yes/no control setting indicating where the RPSARROW_errorOption 
+#'                            should be applied
 
 
 

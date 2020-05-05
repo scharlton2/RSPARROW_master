@@ -21,20 +21,39 @@
 #'@param output_map_type character string control setting to identify type of map(s) to output 
 #'       to PDF file from "stream","catchment", or "both"
 #'@param Rshiny TRUE/FALSE indicating whether routine is being run from the Shiny app
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
+#'@param predict.list archive with all load and yield prediction variables to provide for 
+#'                    the efficient access and use of predictions in subsequent execution 
+#'                    of the parametric bootstrap predictions and uncertainties, mapping, 
+#'                    and scenario evaluations.  For more details see documentation Section 
+#'                    5.3.1.5
+#'@param scenario.input.list list of control settings related to source change scenarios
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param JacobResults list output of Jacobian first-order partial derivatives of the model 
 #'       residuals `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see 
 #'       documentation Section 5.2.4.5.
 #'@param if_predict yes/no indicating whether or not prediction is run
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
 #'@param subdata data.frame input data (subdata)
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param add_vars additional variables specified by the setting `add_vars` to be included in 
 #'       prediction, yield, and residuals csv and shape files
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
-#'@param RSPARROW_errorOption 
+#'@param RSPARROW_errorOption yes/no control setting indicating where the RPSARROW_errorOption 
+#'                            should be applied
 
 
 

@@ -6,11 +6,21 @@
 #'Executed By: estimate.R \\cr
 #'Executes Routines: \\itemize\{\\item calcClassLandusePercent.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
+#'@param estimate.list list output from `estimate.R`
+#'@param predict.list archive with all load and yield prediction variables to provide for 
+#'                    the efficient access and use of predictions in subsequent execution 
+#'                    of the parametric bootstrap predictions and uncertainties, mapping, 
+#'                    and scenario evaluations.  For more details see documentation Section 
+#'                    5.3.1.5
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
 #'@param subdata data.frame input data (subdata)
-
+#'@param class.input.list list of control settings related to classification variables
 
 
 predictSummaryOutCSV <- function(file.output.list,estimate.input.list,

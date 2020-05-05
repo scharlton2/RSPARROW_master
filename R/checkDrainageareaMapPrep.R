@@ -1,3 +1,29 @@
+#'@title checkDrainageareaMapPrep
+#'@description Compiles and prepares necessary map data and parameters for checkDrainageErrors 
+#'             maps \\cr \\cr
+#'Executed By: checkDrainageareaErrorsChild.Rmd \\cr
+#'Executes Routines: \\itemize\{\\item named.list.R
+#'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and output 
+#'                        of external files.  Created by `generateInputList.R`
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, polyShapeName,
+#'                          ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, if_verify_demtarea_maps
+#'@param DAreaFailCheckObj data.frame of all rows of subdata in which the user's original data 
+#'                         for Total Drainage Area vs. Total Drainage Area calculated by RSPARROW
+#'                        differ
+#'@param data1 input data (data1)
+#'@param existGeoLines TRUE/FALSE indicating whether the Geolines shape file is present
+#'@param commonvar string indicating the column to join the map data and the shapefile
+#'@param map.vars.list character vector indicating which checkDrainageErrors maps to generate
+#'@param k numeric index for current map
+#'@return `prepReturns.list` a named list containing `dmap` the data to map, `break1` vector
+#'                           of legend breaks, `nlty` numeric vector indicating line types,
+#'                           `nlwd` numeric vector of line widths, `Mcol`character vector of
+#'                           unique map colors
+
 checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
                           DAreaFailCheckObj,data1,
                           existGeoLines, commonvar, map.vars.list, k){
@@ -63,11 +89,6 @@ checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
         dmap<-newdf
       }
       
-      #lineShape <- merge(lineShape, newdf, by.x = commonvar, by.y = commonvar)
-      #} else {
-      #lineShape <- merge(lineShape, dmap, by.x = commonvar, by.y = commonvar)
-      
-      #      }
       
       
       if(k >= 3) {
@@ -81,8 +102,6 @@ checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
         Mcol <- length(Mcolors)+1
         Mcol[1:iprob] <- Mcolors[1:iprob]
         Mcol[iprob+1] <- "grey"
-        #legend("bottomleft",break1,lty=nlty,cex=0.6,title=title_name[k],
-        #       bg="grey",lwd=nlwd, col=Mcol, bty="o")
       } else {
         break1 <- as.character(chk[1:iprob])
         for (i in 1:iprob) {
@@ -90,8 +109,6 @@ checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
         }
         nlty <-rep(1,iprob)
         nlwd <- rep(0.8,iprob)
-        #legend("bottomleft",break1,lty=nlty,cex=0.6,title=title_name[k],
-        #       bg="grey",lwd=nlwd, col=Mcolors, bty="o")
         Mcol<-Mcolors
       }
       

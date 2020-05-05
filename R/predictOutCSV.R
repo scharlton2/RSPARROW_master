@@ -3,6 +3,14 @@
 #'Executed By: controlFileTasksModel.R \\cr
 #'Executes Routines: \\itemize\{\\item getVarList.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param estimate.list list output from `estimate.R`
+#'@param predict.list archive with all load and yield prediction variables to provide for 
+#'                    the efficient access and use of predictions in subsequent execution 
+#'                    of the parametric bootstrap predictions and uncertainties, mapping, 
+#'                    and scenario evaluations.  For more details see documentation Section 
+#'                    5.3.1.5
 #'@param subdata data.frame input data (subdata)
 #'@param add_vars additional variables specified by the setting `add_vars` to be included in 
 #'       prediction, yield, and residuals csv and shape files

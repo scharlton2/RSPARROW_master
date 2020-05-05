@@ -1,14 +1,14 @@
 #'@title read_dataDictionary
-#'@description  \\cr \\cr
+#'@description Reads the 'dataDictionary.csv' file. \\cr \\cr
 #'Executed By: dataInputPrep.R \\cr
 #'Executes Routines: \\itemize\{\\item getVarList.R
 #'             \\item importCSVcontrol.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
 #'@return `data_names` data.frame of variable metadata from data_Dictionary.csv file
-
-
 
 read_dataDictionary <- function(file.output.list,batch_mode){
   

@@ -13,13 +13,23 @@
 #'@param output_map_type character string control setting to identify type of map(s) to output 
 #'       to PDF file from "stream","catchment", or "both"
 #'@param Rshiny TRUE/FALSE indicating whether routine is being run from the Shiny app
-#'@param BootUncertainties Uncertainty values if available, if uncertainty analysis was not 
-#'       run NA
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param subdata data.frame input data (subdata)
 #'@param mapScenarios TRUE/FALSE indicating whether source change scenario mapping is being run
 #'@param scenario_map_list character vector of load and yield metrics to map in the source 
 #'       change scenario
+#'@param predictScenarios.list an archive with key scenario control settings and the load and 
+#'                             yield prediction variables that are output from the execution of 
+#'                             a source-change scenario evaluation. For more details see 
+#'                             documentation Section 5.5.9
 #'@param scenarioFlag binary vector indicating whether a reach is included in the source 
 #'       reduction scenario
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
@@ -31,9 +41,7 @@ predictMaps<-function(#Rshiny
   input,allMetrics,output_map_type, Rshiny, 
   #regular
   file.output.list,
-  #map_uncertainties,BootUncertainties,
   data_names,mapping.input.list,
-  #predict.list,
   subdata,
   #scenarios
   mapScenarios,

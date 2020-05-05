@@ -7,6 +7,8 @@
 #'Executes Routines: \\itemize\{\\item getVarList.R
 #'             \\item readData.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param input_data_fileName name of users data1 file
 #'@param create_initial_parameterControlFiles yes/no indicating if new parameter files should 
 #'       be generated based on the dataDictionary.csv control file

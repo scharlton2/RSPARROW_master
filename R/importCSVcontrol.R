@@ -14,6 +14,8 @@
 #'@param Ctype column class designation for required columns
 #'@param NAMES column names for required columns
 #'@param strEndMessage message string to be evaluated
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param exitRun TRUE/FALSE states whether code should terminate
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode

@@ -3,6 +3,7 @@
 #'            forward and either print a data.tree of the executions or output a data.table with executions 
 #'            and line numbers of executions \\cr \\cr
 #'@param path_main character string path to RSPARROW_master directory
+#'@param startRoutine character string name of functional RPSPARROW routine
 #'@param includeTypes character string vector indicating which types of functions/routines to 
 #'       include in executionTree from the function types in RPSARROW_master/inst/tables/funcTypes.csv
 #'@param includeList character string vector of functions/routines to include in executionTree 
@@ -12,6 +13,8 @@
 #'@param allOccurances TRUE/FALSE indicating whether all executions of selected functions 
 #'       should be output in the data.table of the executionTree.  If `outputType = 'data.tree', 
 #'       allOccurances will be reset to FALSE
+#'@param outputType character string indicating whether to output a data.table of the exectutionTree or 
+#'                  print a data.tree.  Select 'data.table' or 'data.tree'.  Default value is 'data.tree'
 #'@param pruneTree number of execution levels to include in the execution tree
 #'@param treeLimit number of lines to print in data.tree
 #'@return `traceProgram` data.table of all function/routine executions and line number of 

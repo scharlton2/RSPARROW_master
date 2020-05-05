@@ -9,6 +9,14 @@
 #'Executed By: verifyDemtarea.R \\cr
 #'Executes Routines: \\itemize\{\\item checkBinaryMaps.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param DAreaFailCheckObj data.frame of all rows of subdata in which the user's original data 
 #'       for Total Drainage Area vs. Total Drainage Area calculated by RSPARROW differ
 #'@param data1 input data (data1)

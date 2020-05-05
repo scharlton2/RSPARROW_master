@@ -3,6 +3,8 @@
 #'            'estimate/summaryCSV' directory \\cr \\cr
 #'Executed By: startModelRun.R \\cr
 #'Executes Routines: unPackList.R \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param compare_models character string control setting indicated the run_ids of preivously 
 #'       run model to which the current model is to be compared
 #'@param modelComparison_name character string control setting that gives the name of the 

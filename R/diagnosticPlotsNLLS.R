@@ -6,13 +6,28 @@
 #'             \\item diagnosticMaps.R
 #'             \\item mapSiteAttributes.R
 #'             \\item unPackList.R\} \\cr
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param class.input.list list of control settings related to classification variables
+#'@param sitedata.demtarea.class Total drainage area classification variable for calibration 
+#'                               sites.
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`
+#'@param sitedata.landuse Land use for incremental basins for diagnostics.
+#'@param estimate.list list output from `estimate.R`
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
+#'@param Csites.weights.list regression weights as proportional to incremental area size
+#'@param Cor.ExplanVars.list list output from `correlationMatrix.R`
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param add_vars additional variables specified by the setting `add_vars` to be included in 
 #'       prediction, yield, and residuals csv and shape files
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
-
 
 
 diagnosticPlotsNLLS<- function(file.output.list,class.input.list,sitedata.demtarea.class,

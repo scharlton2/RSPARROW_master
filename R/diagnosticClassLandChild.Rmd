@@ -1,55 +1,49 @@
 ```{r chunkLand{{l}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
 k <- {{l}}
 
-      vvar <- as.numeric(eval(parse(text=paste("sitedata.landuse$",classvar2[k],sep="") )))
-      iprob<-10
-      chk <- unique(quantile(vvar, probs=0:iprob/iprob))
-      chk1 <- 11 - length(chk)
-      if(chk1 == 0) {
-        qvars <- as.integer(cut(vvar, quantile(vvar, probs=0:iprob/iprob), include.lowest=TRUE)) 
-        avars <- quantile(vvar, probs=0:iprob/iprob)
-        qvars2 <- numeric(length(qvars))
-        for (j in 1:10) {
-          for (i in 1:length(qvars)){
-            if(qvars[i] == j) {
-              qvars2[i] <- round(avars[j+1],digits=0)
-            }
-          }
-        }
-        xxlab <- paste("Upper Bound for ",classvar2[k],sep="")  
-        #boxplot(ratio.obs.pred ~ qvars2,log="y",main="Ratio Observed to Predicted by Deciles",
-        #        xlab=xxlab,ylab="Observed to Predicted Ratio")
-        #abline(h = 1, col = "red", lwd = 1) 
-      
-       p <- plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
-                  xTitle = xxlab,  
-                  xZeroLine = FALSE,xLabs = sort(as.numeric(unique(qvars2))),
-                  yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
-                  plotTitle = "Ratio Observed to Predicted by Deciles",
-                  legend = FALSE,showPlotGrid = showPlotGrid)
+vvar <- as.numeric(eval(parse(text=paste("sitedata.landuse$",classvar2[k],sep="") )))
+iprob<-10
+chk <- unique(quantile(vvar, probs=0:iprob/iprob))
+chk1 <- 11 - length(chk)
+if(chk1 == 0) {
+  qvars <- as.integer(cut(vvar, quantile(vvar, probs=0:iprob/iprob), include.lowest=TRUE)) 
+  avars <- quantile(vvar, probs=0:iprob/iprob)
+  qvars2 <- numeric(length(qvars))
+  for (j in 1:10) {
+    for (i in 1:length(qvars)){
+      if(qvars[i] == j) {
+        qvars2[i] <- round(avars[j+1],digits=0)
+      }
+    }
+  }
+  xxlab <- paste("Upper Bound for ",classvar2[k],sep="")  
+  
+  p <- plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
+                    xTitle = xxlab,  
+                    xZeroLine = FALSE,xLabs = sort(as.numeric(unique(qvars2))),
+                    yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
+                    plotTitle = "Ratio Observed to Predicted by Deciles",
+                    legend = FALSE,showPlotGrid = showPlotGrid)
   p <- p %>% add_trace(y = boxvar,x = qvars2, type = 'box', color = I("black"), 
-                         fillcolor = "white")
- p <- p %>% layout(shapes = list(hline(1)))
+                       fillcolor = "white")
+  p <- p %>% layout(shapes = list(hline(1)))
   
-        
-        } else {  # non-unique classes
-        #plot(vvar,ratio.obs.pred,log="y",main="Ratio Observed to Predicted",
-        #     xlab=classvar2[k],ylab="Observed to Predicted Ratio")
-        #abline(h = 1, col = "red", lwd = 1) 
-        
-               p <- plotlyLayout(NA,ratio.obs.pred, log = "y", nTicks = 7, digits = 0,
-                  xTitle = classvar2[k],  
-                  xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
-                  yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
-                  plotTitle = "Ratio Observed to Predicted",
-                  legend = FALSE,showPlotGrid = showPlotGrid)
+  
+} else {  # non-unique classes
+  
+  p <- plotlyLayout(NA,ratio.obs.pred, log = "y", nTicks = 7, digits = 0,
+                    xTitle = classvar2[k],  
+                    xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
+                    yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
+                    plotTitle = "Ratio Observed to Predicted",
+                    legend = FALSE,showPlotGrid = showPlotGrid)
   p <- p %>% add_trace(y = ratio.obs.pred,x = vvar, type = 'box', color = I("black"), 
-                         fillcolor = "white")
- p <- p %>% layout(shapes = list(hline(1)))
+                       fillcolor = "white")
+  p <- p %>% layout(shapes = list(hline(1)))
   
-        }
-      p
-      
+}
+p
+
 
 ```
 

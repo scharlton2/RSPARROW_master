@@ -5,7 +5,22 @@
 #'Executes Routines: \\itemize\{\\item checkBinaryMaps.R
 #'             \\item diagnosticMaps.R
 #'             \\item unPackList.R\} \\cr
-#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0), ]`
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param class.input.list list of control settings related to classification variables
+#'@param vsitedata.demtarea.class Total drainage area classification variable for validation 
+#'                                sites.
+#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0
+#'                 & subdata$vcalsites==1), ]`
+#'@param vsitedata.landuse Land use for incremental basins for diagnostics for validation 
+#'                         sites.
+#'@param estimate.list list output from `estimate.R`
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param add_vars additional variables specified by the setting `add_vars` to be included in 
 #'       prediction, yield, and residuals csv and shape files
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 

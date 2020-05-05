@@ -5,6 +5,12 @@
 #'@param selectSources character vector of SOURCE parameters defined as 
 #'       as.character(JacobResults$Parmnames[which(JacobResults$btype=="SOURCE")]) if `JacobResults` object is available
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@return `out`  list containing all user input tables for the Rshiny app.
 
 

@@ -3,6 +3,8 @@
 #'Executed By: \\itemize\{\\item createInitialDataDictionary.R
 #'             \\item dataInputPrep.R\} \\cr
 #'Executes Routines: unPackList.R \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param input_data_fileName name of users data1 file
 #'@return `data1` input data (data1)
 

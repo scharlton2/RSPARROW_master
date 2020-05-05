@@ -9,7 +9,10 @@
 #'@param choices data.frame output of function createInteractiveChoices.R
 #'@param map_uncertainties Vector of user selected uncertainty parameters to map, if 
 #'       uncertainty analysis was not run NA
-
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`
+#'@param add_plotlyVars character vector indicating user selected variables to add to plot 
+#'                      hover text
 
 
 streamCatch<-function(id, input, choices, map_uncertainties,sitedata,add_plotlyVars){

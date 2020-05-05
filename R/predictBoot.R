@@ -9,7 +9,12 @@
 #'             \\item mptnoder.for
 #'             \\item ptnoder.for\} \\cr
 #'@param bEstimate model coefficients generated in `estimateBootstraps.R`
+#'@param estimate.list list output from `estimate.R`
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
 #'@param bootcorrectionR value of 1
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`

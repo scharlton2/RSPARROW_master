@@ -10,6 +10,7 @@
 #'@param output_map_type character string control setting to identify type of map(s) to output 
 #'       to PDF file from "stream","catchment", or "both"
 #'@param Rshiny TRUE/FALSE indicating whether routine is being run from the Shiny app
+#'@param scenario.input.list list of control settings related to source change scenarios
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param if_predict yes/no indicating whether or not prediction is run
 #'@param data `DataMatrix.list$data` to be used in source reduction scenario setup. For more 
@@ -24,6 +25,8 @@
 #'       residuals `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see 
 #'       documentation Section 5.2.4.5.
 #'@param subdata data.frame input data (subdata)
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@return `scenarioPrep.list` list of source change scenario setup control settings, data with 
 #'            change factors applied, and the scenarioFlag indicating the scenario mapping area
 

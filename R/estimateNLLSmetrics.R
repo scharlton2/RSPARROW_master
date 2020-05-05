@@ -17,14 +17,23 @@
 #'       Jacobian diagnostics and 0 `if_estimate_simulation<-'yes'` indicating no calculation of Jacobian diagnostics
 #'@param sparrowEsts list object contained in estimate.list `if_estimate<-'yes'`.  For more 
 #'       details see documentation Section 5.2.4.4.
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param classvar character vector of user specified spatially contiguous discrete 
 #'       classification variables from sparrow_control.  First element is reach classification variable.
 #'@param dlvdsgn design matrix imported from design_matrix.csv
+#'@param Csites.weights.list regression weights as proportional to incremental area size
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
+#'@param Csites.list list output from `selectCalibrationSites.R` modified in `startModelRun.R`
 #'@param SelParmValues selected parameters from parameters.csv using condition 
-#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
-#'       parmMin>=0) | parmType!="SOURCE")`
+#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & 
+#'       ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")`
 #'@param subdata data.frame input data (subdata)
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
 #'@return `estimate.metrics.list` named list of summary metrics. For more details see 

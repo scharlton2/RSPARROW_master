@@ -17,17 +17,43 @@
 #'             \\item validateMetrics.R\} \\cr
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_predict yes/no indicating whether or not prediction is run
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param class.input.list list of control settings related to classification variables
 #'@param dlvdsgn design matrix imported from design_matrix.csv
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
 #'@param minimum_reaches_separating_sites number indicating the minimum number of reaches 
 #'       separating sites
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
 #'@param SelParmValues selected parameters from parameters.csv using condition 
-#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
-#'       parmMin>=0) | parmType!="SOURCE")`
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`
+#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & 
+#'       ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")`
+#'@param Csites.weights.list regression weights as proportional to incremental area size
+#'@param Csites.list list output from `selectCalibrationSites.R` modified in `startModelRun.R`
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`
 #'@param numsites number of sites selected for calibration
 #'@param if_validate yes/no indicating whether or not validation is run
-#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0), ]`
+#'@param Vsites.list named list of sites for validation
+#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0
+#'                 & subdata$calsites==1), ]`
 #'@param subdata data.frame input data (subdata)
+#'@param Cor.ExplanVars.list list output from `correlationMatrix.R`
+#'@param sitedata.landuse Land use for incremental basins for diagnostics.
+#'@param vsitedata.landuse Land use for incremental basins for diagnostics for validation 
+#'                         sites.
+#'@param sitedata.demtarea.class Total drainage area classification variable for calibration 
+#'                               sites.
+#'@param vsitedata.demtarea.class Total drainage area classification variable for validation 
+#'                                sites.
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param betavalues data.frame of model parameters from parameters.csv
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.

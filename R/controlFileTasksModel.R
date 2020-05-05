@@ -14,28 +14,55 @@
 #'             \\item predictOutCSV.R
 #'             \\item predictScenarios.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param SelParmValues selected parameters from parameters.csv using condition 
-#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
-#'       parmMin>=0) | parmType!="SOURCE")`
+#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & 
+#'       ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")`
 #'@param betavalues data.frame of model parameters from parameters.csv
+#'@param Csites.weights.list regression weights as proportional to incremental area size
 #'@param subdata data.frame input data (subdata)
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`
-#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0), ]`
+#'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
+#'                       for optimization
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0 & 
+#'                subdata$calsites==1), ]`
+#'@param Vsites.list named list of sites for validation
+#'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0
+#'                 & subdata$calsites==1), ]`
 #'@param numsites number of sites selected for calibration
+#'@param class.input.list list of control settings related to classification variables
+#'@param Cor.ExplanVars.list list output from `correlationMatrix.R`
 #'@param minimum_reaches_separating_sites number indicating the minimum number of reaches 
 #'       separating sites
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.
 #'@param dlvdsgn design matrix imported from design_matrix.csv
+#'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
+#'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars
 #'@param if_predict yes/no indicating whether or not prediction is run
 #'@param if_validate yes/no indicating whether or not validation is run
+#'@param sitedata.landuse Land use for incremental basins for diagnostics.
+#'@param vsitedata.landuse Land use for incremental basins for diagnostics for validation 
+#'                         sites.
+#'@param sitedata.demtarea.class Total drainage area classification variable for calibration 
+#'                               sites.
+#'@param vsitedata.demtarea.class Total drainage area classification variable for validation 
+#'                                sites.
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext, 
+#'                          convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
 #'@param iseed User specified initial seed for the bootstraps from sparrow_control
 #'@param biters User specified number of parametric bootstrap iterations from sparrow_control
+#'@param scenario.input.list list of control settings related to source change scenarios
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
-#'@param RSPARROW_errorOption 
+#'@param RSPARROW_errorOption yes/no control setting indicating where the RPSARROW_errorOption 
+#'                            should be applied
 #'@return `runTimes`  named list of run times for bootstrap estimation, bootstrap prediction, 
 #'            mapping, and estimate.list
 

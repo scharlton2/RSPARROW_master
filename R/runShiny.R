@@ -3,9 +3,12 @@
 #'Executed By:  \\cr
 #'Executes Routines: \\itemize\{\\item shinyMap2.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param enable_ShinyApp yes/no control setting indicating whether shiny app should be 
 #'       triggered at the end of the run
-#'@param RSPARROW_errorOption 
+#'@param RSPARROW_errorOption yes/no control setting indicating where the RPSARROW_errorOption 
+#'                            should be applied
 
 
 

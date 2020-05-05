@@ -7,8 +7,18 @@
 #'@param mapColumn character string indicating column of data to be mapped
 #'@param mapdata input data.frame with lat, long, and column to be mapped
 #'@param GeoLines Optional geospatial shape file for overlay of lines on output maps
+#'@param map.list character string indicating whether over/under predictions 
+#'                ("threshold") are to be mapped or all predictions ("all"). Value 
+#'                c("threshold","all")
 #'@param strTitle character string for plot title
-
+#'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 
+#'                          lon_limit, master_map_list, lineShapeName, lineWaterid, 
+#'                          polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, 
+#'                          CRStext, convertShapeToBinary.list, map_siteAttributes.list, 
+#'                          residual_map_breakpoints, site_mapPointScale, 
+#'                          if_verify_demtarea_maps
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0  
+#'                & subdata$calsites==1), ]`
 
 
 diagnosticMaps<-function(mapColumn,mapdata,GeoLines,

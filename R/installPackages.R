@@ -1,11 +1,11 @@
 #'@title installPackages
-#'@description  \\cr \\cr
-#'Executed By:  \\cr
+#'@description installs all required packages for RSPARROW in batch mode \\cr \\cr
+#'Executed By: sparrow_control.R \\cr
+#'Executes Routines: pkgInstall.R \\cr
 #'@param if_install_packages yes/no indicating whether to install required R packages to run 
 #'       RSPARROW. For more details see documentaion Section 4.4.12
 #'@param path_master character string path to RSPARROW_master directory.  Internally reset to 
 #'       'RSPARROW_master/R/' subdirectory
-
 
 
 installPackages <- function(if_install_packages,path_master){
@@ -48,7 +48,13 @@ installPackages <- function(if_install_packages,path_master){
                 "highr",
                 "markdown",
                 "knitr",
-                "rmarkdown"
+                "rmarkdown",
+                "tools",
+                "shinycssloaders",
+                "sf",
+                "htmltools",
+                "htmlwidgets",
+                "plotly"
     )
     
     #get path to Rscript.exe

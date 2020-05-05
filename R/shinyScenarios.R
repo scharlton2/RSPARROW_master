@@ -6,7 +6,10 @@
 #'@param id Shiny namespace designation
 #'@param input top level interactive user input in Shiny app
 #'@param choices data.frame output of function createInteractiveChoices.R
-
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`
+#'@param add_plotlyVars character vector indicating user selected variables to add to plot 
+#'                      hover text
 
 
 shinyScenarios<-function(id, input, choices,sitedata,add_plotlyVars){

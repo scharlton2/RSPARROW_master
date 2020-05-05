@@ -11,6 +11,8 @@
 #'             \\item getShortSett.R
 #'             \\item getYesNoSett.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param save TRUE/FALSE indicating whether control setting values are to be saved to a csv 
 #'       file
 #'@return `settings` data.frame of all user control file settings and setting values

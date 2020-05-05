@@ -4,6 +4,8 @@
 #'            file.  \\cr \\cr
 #'Executed By: estimate.R \\cr
 #'Executes Routines: unPackList.R \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.
@@ -13,18 +15,33 @@
 #'       Jacobian diagnostics and 0 `if_estimate_simulation<-'yes'` indicating no calculation of Jacobian diagnostics
 #'@param classvar character vector of user specified spatially contiguous discrete 
 #'       classification variables from sparrow_control.  First element is reach classification variable.
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0), ]`
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`
 #'@param numsites number of sites selected for calibration
+#'@param ANOVA.list list output of  model performance-related variables for the calibration sites 
+#'                  from `estimateNLLSmetrics.R` contained in the estimate.list object. For more 
+#'                  details see documentation Section 5.2.4.8
 #'@param JacobResults list output of Jacobian first-order partial derivatives of the model 
 #'       residuals `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see 
 #'       documentation Section 5.2.4.5.
 #'@param HesResults list output of Hessian second-order standard errors 
-#'       `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see documentation Section 5.2.4.6
+#'       `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see 
+#'       documentation Section 5.2.4.6
 #'@param sparrowEsts list object contained in estimate.list `if_estimate<-'yes'`.  For more 
 #'       details see documentation Section 5.2.4.4.
+#'@param Mdiagnostics.list list output containing summary variables for calibration sites from 
+#'                         `estimateNLLSmetrics.R` contained in the estimate.list object.  For 
+#'                         more details see documentation Section 5.2.4.7.
+#'@param Cor.ExplanVars.list list output from `correlationMatrix.R`
 #'@param if_validate yes/no indicating whether or not validation is run
+#'@param vANOVA.list list output of  model performance-related variables for the validation sites 
+#'                   from `validateMetrics.R` contained in the estimate.list object. For more details 
+#'                   see documentation Section 5.2.4.15
+#'@param vMdiagnostics.list list output containing summary variables for validation sites from 
+#'                          `validateMetrics.R` contained in the estimate.list object.  For more 
+#'                          details see documentation Section 5.2.4.14.
 #'@param betavalues data.frame of model parameters from parameters.csv
-
+#'@param Csites.weights.list regression weights as proportional to incremental area size
 
 
 estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulation,ifHess,if_sparrowEsts,

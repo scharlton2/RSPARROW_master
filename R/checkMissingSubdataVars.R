@@ -9,6 +9,8 @@
 #'             \\item unPackList.R\} \\cr
 #'@param subdata data.frame input data (subdata)
 #'@param betavalues data.frame of model parameters from parameters.csv
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
 

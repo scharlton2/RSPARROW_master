@@ -4,6 +4,8 @@
 #'Executes Routines: \\itemize\{\\item errorOccurred.R
 #'             \\item syncVarNames.R
 #'             \\item unPackList.R\} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
 #'@param if_userModifyData yes/no indicating whether or not the userModifyData.R control file 
 #'       is to be applied
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
