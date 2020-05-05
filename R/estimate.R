@@ -199,7 +199,9 @@ estimate <- function(if_estimate,if_predict,file.output.list,
         sparrowEsts$coefficient <- SelParmValues$beta0   # starting values
         
         
-        nn <- ifelse(DataMatrix.list$data[,10] > 0,1,0)  # jdepvar site load index
+        nn <- ifelse(DataMatrix.list$data[,10] > 0 # jdepvar site load index
+                     & DataMatrix.list$data[,13]==1, #calistes ==1
+                     1,0)  
         
         # if monitoring loads exist (but not estimating coefs), run residuals, performance measures, 
         #     and save JacobResults objects 
