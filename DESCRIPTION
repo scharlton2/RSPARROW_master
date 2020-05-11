@@ -54,6 +54,7 @@ License: GPL (>= 2)
 URL: http://code.usgs.gov/water/stats/RSPARROW
 Collate:
     'accumulateIncrArea.R'
+    'addMarkerText.R'
     'addVars.R'
     'allowRemoveRow.R'
     'applyUserModify.R'
@@ -75,6 +76,7 @@ Collate:
     'checkMissingSubdataVars.R'
     'checkingMissingVars.R'
     'checkDrainageareaErrors.R'
+    'checkDrainageareaMapPrep.R'
     'compileALL.R'
     'compileInput.R'
     'controlFileTasksModel.R'
@@ -138,6 +140,7 @@ Collate:
     'openParameters.R'
     'openVarnames.R'
     'outputSettings.R'
+    'plotlyLayout.R'
     'predict.R'
     'predictScenarios.R'
     'predictBootstraps.R'
@@ -186,6 +189,5 @@ Collate:
     'validateMetrics.R'
     'validateFevalNoadj.R'
     'validCosmetic.R'
-    'validSetting.R'
     'verifyDemtarea.R'
 RoxygenNote: 6.1.0
