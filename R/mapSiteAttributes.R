@@ -161,7 +161,7 @@ mapSiteAttributes<-function(#Rshiny
         yaxis = list(range = lat_limit,
                      showticklabels = TRUE,
                      title = "Latitude"),
-        title = mapColumnName) %>%
+        title = paste0(mapColumnName,"\n",unitAttr)) %>%
       add_sf(data = GeoLines,  mode = "lines", type = "scatter",
              stroke = I("black"),color = I(cbckgrd),
              name = LineShapeGeo)

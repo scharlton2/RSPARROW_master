@@ -39,18 +39,18 @@ lineShape <- merge(lineShape, dmap, by.x = commonvar, by.y = commonvar)
                    showticklabels = TRUE,
                    title = "Latitude"),
       title = titleStr,
-      legend = list(x = 1.1, y = 0.95)) %>%
-    add_annotations(
-    x= 1.1,
-    y= 0.95,
-    yanchor = "bottom",
-    xanchor = "left",
-    align = "center",
-    xref = "paper",
-    yref = "paper",
-    text = title_name[k],
-    showarrow = F
-  )
+      legend = TRUE)#list(x = 1.1, y = 0.95)) %>%
+    #add_annotations(
+    #x= 1.1,
+    #y= 0.95,
+    #yanchor = "bottom",
+    #xanchor = "left",
+    #align = "center",
+    #xref = "paper",
+    #yref = "paper",
+    #text = title_name[k],
+    #showarrow = F
+#  )
   
   if(existGeoLines==TRUE) {
       p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",

@@ -728,12 +728,12 @@ cat(y, file=reportPath, sep="\n")
               
               if (enable_plotlyMaps=="yes"){
                 if (mapScenarios==FALSE){
-                  titleStr<-master_map_list[k]
+                  titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
                 }else{
                   if (Rshiny==FALSE){
-                    titleStr<-paste(scenario_name,scenario_map_list[k],sep=" ")
+                    titleStr<-paste(scenario_name,scenario_map_list[k],"\n",mapunits.list[k],sep=" ")
                   }else{
-                    titleStr<-paste(input$scenarioName,master_map_list[k],sep=" ")
+                    titleStr<-paste(input$scenarioName,master_map_list[k],"\n",mapunits.list[k],sep=" ")
                   }
                 }
                 
@@ -999,12 +999,12 @@ cat(y, file=reportPath, sep="\n")
             
             if (enable_plotlyMaps=="yes"){
               if (mapScenarios==FALSE){
-                titleStr<-master_map_list[k]
+                titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
               }else{
                 if (Rshiny==FALSE){
-                  titleStr<-paste(scenario_name,scenario_map_list[k],sep=" ")
+                  titleStr<-paste(scenario_name,scenario_map_list[k],"\n",mapunits.list[k],sep=" ")
                 }else{
-                  titleStr<-paste(input$scenarioName,master_map_list[k],sep=" ")
+                  titleStr<-paste(input$scenarioName,master_map_list[k],"\n",mapunits.list[k],sep=" ")
                 }
               }
               
