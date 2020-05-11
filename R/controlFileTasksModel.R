@@ -153,7 +153,11 @@ controlFileTasksModel <- function(# pathnames
   
   if(if_spatialAutoCorr == "yes") {   
     
-    nn <- ifelse(DataMatrix.list$data[,10] > 0,1,0)  # jdepvar site load index (monitoring sites must be present)
+    nn <- ifelse(DataMatrix.list$data[,10] > 0 # jdepvar site load index
+                 & DataMatrix.list$data[,13]==1, #calistes ==1
+                 1,0)
+
+   
     if( (if_estimate=="yes" | if_estimate_simulation=="yes") & (sum(nn) > 0) ) {
       
       ############################################

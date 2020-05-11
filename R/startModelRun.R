@@ -308,7 +308,7 @@ startModelRun<-function(file.output.list,
   
   vnumsites <- 0
   if(if_validate == "yes") {
-    vsitedata <- subdata[(subdata$vdepvar > 0 & subdata$calsites==1), ]  # create site attribute object
+    vsitedata <- subdata[(subdata$vdepvar > 0), ]  # create site attribute object
     assign("vsitedata",vsitedata,envir = .GlobalEnv)
     vnumsites <- length(vsitedata$waterid)
     vnumsites 

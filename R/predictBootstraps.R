@@ -58,7 +58,7 @@ predictBootstraps <- function(iseed,biters,estimate.list,estimate.input.list,pre
   yieldFactor <- estimate.input.list$yieldFactor
   
   nreach <- length(DataMatrix.list$data[,1])
-  numsites <- sum(ifelse(DataMatrix.list$data[,10] > 0,1,0))  # jdepvar site load index
+  numsites <- sum(ifelse(DataMatrix.list$data[,10] > 0 & DataMatrix.list$data[,13]==1,1,0))  # jdepvar site load index
   
   nnrows <- nreach
   ncols.load <- length(predict.list$oparmlist)

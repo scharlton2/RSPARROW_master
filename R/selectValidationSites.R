@@ -57,7 +57,7 @@ selectValidationSites <- function(iseed,pvalidate,subdata,minimum_reaches_separa
         }
         if (iset == 0) {   # site not picked, use for validation site
           staid[i] <- 0
-          if(depvar[i] > 0 & calsites==1) {
+          if(depvar[i] > 0 & calsites[i]==1) {
             vic <- vic+1
             vdepvar[i] <- depvar[i]    # store validation dependent variable value
             vstaid[i] <- vic
