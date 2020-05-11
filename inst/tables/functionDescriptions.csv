@@ -45,7 +45,7 @@ createSubdataSorted.R,"Creates a subset of `data1`, called `subdata`, sorted by 
 createVerifyReachAttr.R,"Calculates REQUIRED system reach attributes for reaches with `fnode>0`, `tnode>0` and `termflag!=3`from `calculate_reach_attribute_list` control setting and verifies `demtarea` if `if_verify_demtarea<-""yes""`"
 dataInputPrep.R,"Imports data1.csv and dataDictionary.csv files, checks for duplicate `sparrowNames`, replaces `data1UserNames` with `sparrowNames` in the `data1` object, checksreach navigation variables for large integers and/or all missing values, creates and/or verifies navigation variables and `demtarea`, saves `data1` and `data_names` (dataDictionary.csv import object) objects as binary file in top level of results (input_data_fileName)_priorImport, and saves `data_names` and `data1` to `.GlobalEnv`"
 deleteFiles.R,"Deletes all files from estimate, predict, maps, and scenarios subdirectories.  Subroutine is only called when model estimation is requested via the control settings if_estimate<-""yes"" or if_estimate_simulation<-""yes""."
-deliv_fraction.for,
+deliv_fraction.for,"computes the delivery fraction metric in the prediction functions (e.g., predict.R)."
 diagnosticClassLandChild.Rmd,Child Rmd that generates classvar2 decile boxplots
 diagnosticClassvarChild.Rmd,Child Rmd that generates diagnostic plost for ratio by class (one per page)
 diagnosticContiguousChild.Rmd,Child Rmd that generates diagnostics by CLASS (contiguous graphic units)
@@ -100,6 +100,7 @@ makePaths.R,creates all internal path variables for file input/output
 mapBreaks.R,Creates mapping color breakpoints. 
 mapSiteAttributes.R,function to execute site attribute mapping
 modelCompare.R,function to compare groups of models to the current model using the output from 'estimate/summaryCSV' directory
+mptnoder.for,"basic load accumulation routine that returns a share of the prediction.  Specifically, used to compute the monitoring-adjusted source loads, which are computed as shares of the nonadjusted total loads (e.g., see predict.R calculation of 'mpload_' shares)."
 named.list.R,Supports the creation of a list object by specifying unquoted variable names in the argument list.
 openDesign.R,opens the design_matrix.csv control file for edit
 openParameters.R,opens the parameters.csv control file for edit
@@ -119,6 +120,7 @@ predictScenariosOutCSV.R,Outputs the scenario load predictions to CSV files.
 predictScenariosPrep.R,Sets up source reduction scenario applying change factors to specified areas
 predictSensitivity.R,"Supports the calculation of parameter sensitivities, executed by the 'diagnosticSensitivity' function, by calculating the unconditioned predictions for an individual parameter."
 predictSummaryOutCSV.R,"Calculates and outputs to the ~/estimate/(run_id)_summary_predictions.csv file the percentile summaries of reach predictions of load, yield, concentration, and delivery fraction for the control settings if_estimate<-""yes"" and if_predict<-""yes"", and outputs percentile summaries for the yields  by predominant land-use type specified in the 'class_landuse' control setting."
+ptnoder.for,basic load accumulation routine that returns predictions. 
 read_dataDictionary.R,Reads the 'dataDictionary.csv' file.
 readData.R,Reads the users input data (either .csv or binary format)
 readDesignMatrix.R,Reads the land-to-water and source interaction matrix in the 'design_matrix.csv' file. 
@@ -143,6 +145,7 @@ shinyMap2.R,"Modular Shiny app that allows the user to interactively generate St
 shinyScenarios.R,shiny ui for source change scenario mapping
 shinyScenariosMod.R,shiny module for source change scenario mapping
 shinySiteAttr.R,Shiny ui function generates user selections for Site Attribute Mapping Uses subroutines: dropFunc.
+sites_incr.for,assigns the site ID to the upstream reaches in the incremental drainage.  Called from the 'assignIncremSiteIDs.R' function. 
 sourceRedFunc.R,create source change functions from rhandsontables in shiny app
 startEndmodifySubdata.R,"if userModifyData.R is not run, this function creates the subdata object and stops execution if any missing class_landuse found"
 startModelRun.R,executes sparrowSetup and sparrowExecution functions
@@ -152,6 +155,7 @@ syncVarNames.R,Updates the 'dataDictionary.csv' varType column with the user des
 testCosmetic.R,test for invalid user inputs in map settings rhandsontables in shiny app
 testRedTbl.R,test for invalid user inputs in source reduction scenario rhandsontables in shiny app
 testSettings.R,test for invalid user inputs in shiny app
+tnoder.for,basic load accumulation routine that returns residuals for use in parameter estimation. 
 unPackList.R,creates individual variables from list objects and places them in the `parent.frame()` environment
 updateVariable.R,Shiny server function updates variable drop down list according to the user's selection of mapping variable type and outputs the definition of the variable in Shiny namespace = 'nsStreamCatch'
 validateFevalNoadj.R,"Accumulates loads in the reach network according to the user's model specification, making comparisons of the unconditioned predictions of  load to the actual loads for monitored (validation site) reaches to return a vector of weighted residuals (difference between the actual and predicted loads). No monitoring load substitution is performed (ifadjust=0). "
