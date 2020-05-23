@@ -225,7 +225,7 @@ shinyMap2<-function(
           }else{
             choicesScen<-choices[which(!choices$category %in% c("Data Dictionary Variable","Prediction Uncertainties") & regexpr("Monitoring-adjusted",choices$definition)<0),]
             ratioChoices<-data.frame(category = c("Relative Change in Load","Relative Change in Load"),
-                                     variable = c("ratio_total","ratio_inc"),
+                                     variable = c("ratio_total","ratio_inc","percent_total","percent_inc"),
                                      definition = c("Ratio of the changed total load to the baseline (unchanged) total load",
                                                     "Ratio of the changed incremental load to the baseline (unchanged) incremental load"))
             choices$category<-ifelse(choices$category=="Load Predictions","Load Predictions for Changed Sources",
@@ -255,7 +255,7 @@ shinyMap2<-function(
         }else{
           choicesScen<-choices[which(!choices$category %in% c("Data Dictionary Variable","Prediction Uncertainties") & regexpr("Monitoring-adjusted",choices$definition)<0),]
           ratioChoices<-data.frame(category = c("Relative Change in Load","Relative Change in Load"),
-                                   variable = c("ratio_total","ratio_inc"),
+                                   variable = c("ratio_total","ratio_inc","percent_total","percent_inc"),
                                    definition = c("Ratio of the changed total load to the baseline (unchanged) total load",
                                                   "Ratio of the changed incremental load to the baseline (unchanged) incremental load"))
           choices$category<-ifelse(choices$category=="Load Predictions","Load Predictions for Changed Sources",

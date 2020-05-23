@@ -290,13 +290,13 @@ predictMaps<-function(#Rshiny
         icolumn<-0
         if (exists("oparmlist")){
           for(i in 1:length(oparmlist)) {
-            if (regexpr("ratio_",master_map_list[k])<0 | mapScenarios==FALSE){
+            if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
               if(oparmlist[i] == master_map_list[k]) {
                 icolumn <- i
                 
               }
             }else{#ratio
-              ratioMetric<-ifelse(master_map_list[k]=="ratio_total","pload_total","pload_inc")
+              ratioMetric<-ifelse(master_map_list[k]=="ratio_total" | master_map_list[k]=="percent_total","pload_total","pload_inc")
               if(oparmlist[i] == ratioMetric) {
                 icolumn <- i
               }
@@ -304,7 +304,7 @@ predictMaps<-function(#Rshiny
           }
           
           if(icolumn>0) {
-            if (mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0){
+            if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
               vvar <- predmatrix[,icolumn] 
               if (mapScenarios==TRUE){
                 vvar<-ifelse(scenarioFlag==0,NA,vvar)
@@ -313,8 +313,12 @@ predictMaps<-function(#Rshiny
               mapunits <- loadunits[icolumn]
             }else{
               vvar <- predmatrix_chg[,icolumn]
+              if (regexpr("ratio_",master_map_list[k])>0){
+               mapunits <- "Ratio of updated to baseline metric" 
+              }else{
+                mapunits <- "Percent of updated to baseline metric"  
+              }
               
-              mapunits <- "Ratio of updated to baseline metric"
             }
             
             
@@ -325,20 +329,20 @@ predictMaps<-function(#Rshiny
         if (exists("oyieldlist")){
           if(icolumn == 0) {
             for(i in 1:length(oyieldlist)) {
-              if (regexpr("ratio_",master_map_list[k])<0 | mapScenarios==FALSE){
+              if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
                 if(oyieldlist[i] == master_map_list[k]) {
                   icolumn <- i
                 }
                 
               }else{#ratio
-                ratioMetric<-ifelse(master_map_list[k]=="ratio_total","pload_total","pload_inc")
+                ratioMetric<-ifelse(master_map_list[k]=="ratio_total" | master_map_list[k]=="percent_total","pload_total","pload_inc")
                 if(oyieldlist[i] == ratioMetric) {
                   icolumn <- i
                 }
               }
             }
             if(icolumn>0) {
-              if (mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0){
+              if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
                 vvar <- yldmatrix[,icolumn] 
                 if (mapScenarios==TRUE){
                   vvar<-ifelse(scenarioFlag==0,NA,vvar)
@@ -348,7 +352,11 @@ predictMaps<-function(#Rshiny
               }else{
                 vvar <- yldmatrix_chg[,icolumn] 
                 
-                mapunits <- "Ratio of updated to baseline metric"
+                if (regexpr("ratio_",master_map_list[k])>0){
+                  mapunits <- "Ratio of updated to baseline metric" 
+                }else{
+                  mapunits <- "Percent Change in baseline metric"  
+                }
               }
             }
           }
@@ -386,6 +394,8 @@ predictMaps<-function(#Rshiny
             }
           }
         }
+        
+
         if(icolumn > 0) {
           
           
@@ -414,14 +424,16 @@ predictMaps<-function(#Rshiny
           ###############test 1 class
           
           
-          if (mapScenarios==TRUE & regexpr("ratio_",master_map_list[k])>0){
-            vvar1 <- vvar[vvar==1]
+          if (mapScenarios==TRUE & (regexpr("ratio_",master_map_list[k])>0 | regexpr("percent_",master_map_list[k])>0)){
+           
+             vvar1 <- vvar[vvar==1]
             vvar2 <- vvar[vvar!=1]
+
           }
           
           
           #set breakpoints
-          if (mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0){
+          if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
             
             #set colors
             if (mapScenarios==TRUE){
@@ -485,7 +497,6 @@ predictMaps<-function(#Rshiny
               iprob<-mapBreaks(vvar2,scenarioMapColors[1:(length(scenarioMapColors)-1)])$iprob
               chk <- unique(chk1) # define quartiles with values of 1.0 removed
               
-              
               chk[iprob+1] <- chk[iprob+1]+1
               qvar1 <- vvar
               qvar1[ qvar1 == 1 ] <- 9999   # code ratios=1 separately
@@ -513,6 +524,13 @@ predictMaps<-function(#Rshiny
               chk<-1
               iprob<-0
             }
+
+            if (regexpr("percent_",master_map_list[k])>0){
+             
+            chk<-(chk-1)*100
+            #iprob<-(1-iprob)*100
+
+              }
           }#end ratio plot
           
          # dmap <- data.frame(MAPID,as.character(MAPCOLORS))   # ,vvar)    # added 3-25-2017
@@ -521,17 +539,17 @@ predictMaps<-function(#Rshiny
           mapdataname<-paste("vvar",k,sep="")
           colnames(dmap) <- c(commonvar,mapvarname,mapdataname)
           #colnames(dmap) <- c(commonvar,mapvarname) # ,master_map_list[k])
-          if ((mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0) & testNAvar==0){
+          if ((mapScenarios==FALSE | (regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0)) & testNAvar==0){
             intervals[k,1:length(uniqueBrks)] <- uniqueBrks
           }else{
             intervals[k,1:length(chk)] <- chk
             nintervals[k] <- iprob+1
-            
+
           }
           
           
           eval(parse(text=paste("break1$",master_map_list[k],"<-as.character(intervals[1:nintervals[k]])",sep="")))
-          if (mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0){
+          if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
             if (testNAvar==0){
               if (length(unique(vvar))!=1){
                 for (i in 1:nintervals[k]) {
@@ -554,7 +572,12 @@ predictMaps<-function(#Rshiny
               }
             }
           }else{
-            break1[k][[1]][1] <- '1.0 (No Change)'
+            if (regexpr("percent_",master_map_list[k])>0){
+              break1[k][[1]][1] <- '0 (No Change)'
+              }else{
+              break1[k][[1]][1] <- '1.0 (No Change)'
+            }
+            
             if (length(vvar2)!=0){
               j<-1
               for (i in (nintervals[k]):2) {
@@ -612,7 +635,7 @@ predictMaps<-function(#Rshiny
         # loop through each of the variables...
         for (k in 1:length(master_map_list)) {
           testNAvar<-eval(parse(text = paste0("testNA$",master_map_list[k])))
-          if (mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0){
+          if (mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0){
             #set up colors
             if (mapScenarios==FALSE){
               Mcolors <- predictionMapColors
