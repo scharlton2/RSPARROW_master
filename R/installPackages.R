@@ -54,7 +54,8 @@ installPackages <- function(if_install_packages,path_master){
                 "sf",
                 "htmltools",
                 "htmlwidgets",
-                "plotly"
+                "plotly",
+                "leaflet.extras"
     )
     
     #get path to Rscript.exe
