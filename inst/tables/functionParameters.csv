@@ -168,6 +168,7 @@ path_gis,path to users gis data
 path_main,character string path to RSPARROW_master directory
 path_master,character string path to RSPARROW_master directory.  Internally reset to 'RSPARROW_master/R/' subdirectory
 path_masterFormat,character string normalized path to RSPARROW master program
+path_PastResults,path to previously generated results including run_id subdirectory
 path_results,path to results model subdirectory
 path_user,"character string path to RSPARROW user directory containing results, data, and gis subdirectories"
 plotTitle,character string for title of plot

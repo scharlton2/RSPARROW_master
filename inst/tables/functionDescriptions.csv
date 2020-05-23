@@ -142,6 +142,7 @@ setupMaps.R,A preprocessor to read shape files and store objects
 shapeFunc.R,Shiny ui function applies Shiny conditional panel to show option to output to ERSI shapefile if Batch mode is selected
 shinyErrorTrap.R,"tests for invalid user inputs in the shiny app and pops up a custom error message, shiny map execution is halted"
 shinyMap2.R,"Modular Shiny app that allows the user to interactively generate Stream, Catchment, and Site Attribute maps, as well as execute Source Change Scenarios Uses libraries shiny, sp, data.table, maptools, rgdal, shinyWidgets, stringr, and rhandsontable Uses subroutines: setup routines : createInteractiveChoices, createInteractiveScenarioChoices, createRTables, UIs : streamCatch, shinySiteAttr, shinyScenarios MODS : compileALL, selectAll, updateVariable, shinyScenariosMod, goShinyPlot"
+shinySavePlot.Rmd,Save plotly map generated in shiny as html
 shinyScenarios.R,shiny ui for source change scenario mapping
 shinyScenariosMod.R,shiny module for source change scenario mapping
 shinySiteAttr.R,Shiny ui function generates user selections for Site Attribute Mapping Uses subroutines: dropFunc.
