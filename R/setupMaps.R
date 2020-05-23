@@ -42,41 +42,28 @@ setupMaps <- function(file.output.list,mapping.input.list,batch_mode,RSPARROW_er
     
     # Setup GEOLINES 
     if("LineShapeGeo" %in% convertShapeToBinary.list & !is.na(LineShapeGeo)) {
-      if (file.exists(paste(path_gis,.Platform$file.sep,"GeoLines",sep=""))){
-        message("WARNING: PREVIOUSLY GENERATED GeoLines BINARY FILE FOUND.
-'LineShapeGeo' FROM converShapeToBinary.list NOT USED
-TO GENERATE A NEW GeoLines FILE THE EXISTING FILE MUST BE DELETED FROM THE GIS DIRECTORY\n")
-      }else{
+
         message("Creating GeoLines binary file...")
         system(paste(Sys.which("Rscript.exe")," ",file.path(paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchGeoLines.R",sep="")),sep=""), wait = TRUE, invisible = TRUE)
-      }
+      
     } 
     
     # STREAMS
     # Read shape files and reproject as lat-lon
     if("lineShapeName" %in% convertShapeToBinary.list & !is.na(lineShapeName)) {
-      if (file.exists(paste(path_gis,.Platform$file.sep,"lineShape",sep=""))){
-        message("WARNING: PREVIOUSLY GENERATED lineShape BINARY FILE FOUND.
-'lineShapeName' FROM converShapeToBinary.list NOT USED
-TO GENERATE A NEW lineShape FILE THE EXISTING FILE MUST BE DELETED FROM THE GIS DIRECTORY\n")
-      }else{
+
         message("Creating lineShape binary file...")
         system(paste(Sys.which("Rscript.exe")," ",file.path(paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchlineShape.R",sep="")),sep=""), wait = TRUE, invisible = TRUE)
-        
-      }
+
     }
     # CATCHMENTS
     # Read shape files and reproject as lat-lon
     if("polyShapeName" %in% convertShapeToBinary.list) {
-      if (file.exists(paste(path_gis,.Platform$file.sep,"polyShape",sep=""))){
-        message("WARNING: PREVIOUSLY GENERATED polyShape BINARY FILE FOUND.
-'polyShapeName' FROM converShapeToBinary.list NOT USED
-TO GENERATE A NEW polyShape FILE THE EXISTING FILE MUST BE DELETED FROM THE GIS DIRECTORY\n")
-      }else{
+
         message("Creating polyShape binary file...")
         system(paste(Sys.which("Rscript.exe")," ",file.path(paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchpolyShape.R",sep="")),sep=""), wait = TRUE, invisible = TRUE)
         
-      }
+
     }  
     
     
