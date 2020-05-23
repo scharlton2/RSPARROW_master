@@ -89,7 +89,7 @@ verifyDemtarea<-function(if_verify_demtarea,data1,compareData,
     if(DAreaFailCheckMessage!=" ") {    # Map mis-matched reaches and diagnostics
       if(nrow(DAreaFailCheckObj) > 0) {
         
-        message("Writing results from drainage area comparisons (CSV, PDF maps) in estimate directory...")
+        message("Writing results from drainage area comparisons (CSV, HTML maps) in estimate directory...")
         
         checkDrainageareaErrors(file.output.list,mapping.input.list,
                                 #sub1.plot,
