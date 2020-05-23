@@ -19,6 +19,7 @@ Imports:
     gplots,
     ggplot2,
     plotly,
+    leaflet.extras,
     htmlwidgets,
     htmltools,
     plyr,
