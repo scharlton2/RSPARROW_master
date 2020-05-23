@@ -32,7 +32,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
   
   #get data
   mapdata <- mapdata
-  #mapColumnName<-mapColumn 
+  mapColumnName<-mapColumn 
   #set up according to maptype
   if (regexpr("Resid",mapColumn,ignore.case = TRUE)>0 ){
     #set breakpoints
@@ -86,12 +86,13 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     pnch<-sapply(residualPointStyle, function(x) as.character(pchPlotlyCross[pchPlotlyCross$pch==x,]$plotly))
 
     
-    
+
     #ititialize text strings for plotly
     markerText<-paste("~paste('</br> Lat: ',Lat,
     '</br> Lon: ',Lon,
-    '</br>',",mapColumn,",' :',
+    '</br>",mapColumnName,": ',
     round(",mapColumn,",siteAttrClassRounding)")
+
     plotLocStr<-paste0("plotloc <- data.frame(Lat,Lon, ",mapColumn," = map1$",mapColumn)
     
     markerText<-addMarkerText(markerText,add_plotlyVars,mapdata, sitedata)$markerText
