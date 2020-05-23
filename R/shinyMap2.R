@@ -154,6 +154,8 @@ shinyMap2<-function(
                      #top level user input
                      selectInput("batch","Output Mode",c("Interactive","Batch")),
                      selectInput("enablePlotly","Enable Plotly",c("yes","no"),selected = mapping.input.list$enable_plotlyMaps),
+                     textOutput("plotlyExplanation"),
+                     br(),
                      selectInput("mapType","Map Type",mapTypeChoices),
                      
                      
@@ -204,6 +206,19 @@ shinyMap2<-function(
                             label = "Map Type"
           )
         }
+        
+        #no plotly catchment maps in interactive mode
+        currentSelect<-isolate(input$enablePlotly)
+          if (input$mapType=="Catchment" & input$batch=="Interactive"){
+            updateSelectInput(session,"enablePlotly","Enable Plotly",c("no"),selected = "no")
+            output$plotlyExplanation<-renderText({"Plotly not available for catchment maps in Interactive mode due to long processing time\n to get interactive catchment maps select Batch mode and enable plotly"
+            })
+              }else{
+            updateSelectInput(session,"enablePlotly","Enable Plotly",c("yes","no"),selected = currentSelect)
+            output$plotlyExplanation<-renderText({"Plotly Maps will take longer to render in Interactive mode"})
+            
+            }
+        
         
       })  
       
