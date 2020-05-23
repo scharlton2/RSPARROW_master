@@ -40,7 +40,9 @@ mapSiteAttributes<-function(#Rshiny
   mapColumn,mapdata,GeoLines,mapping.input.list,
   strTitle,unitAttr,batch_mode){
   
-   
+    # create global variable from list names (mapping.input.list)
+    unPackList(lists = list(mapping.input.list = mapping.input.list),
+               parentObj = list(NA))   
   
   if (((input$var!="" |!is.na(attr)) & Rshiny==TRUE)|Rshiny==FALSE){
     
@@ -54,9 +56,7 @@ mapSiteAttributes<-function(#Rshiny
       }
     }
     
-    # create global variable from list names (mapping.input.list)
-    unPackList(lists = list(mapping.input.list = mapping.input.list),
-               parentObj = list(NA))
+
     
     if (Rshiny==TRUE){
       enable_plotlyMaps<-as.character(input$enablePlotly)
@@ -116,6 +116,7 @@ mapSiteAttributes<-function(#Rshiny
 
     
     if (enable_plotlyMaps=="no"){
+      
       pnch <- siteAttr_mapPointStyle
       par(mfrow=c(1,1))    # 1 plots on one page
     
@@ -240,9 +241,17 @@ mapSiteAttributes<-function(#Rshiny
     if (enable_plotlyMaps=="no"){
       plotloc <- data.frame(Lat,Lon)
      points(plotloc$Lon, plotloc$Lat, pch=pnch, col=color[length(cls)], cex=sze[length(cls)])  
-     legend("bottomleft",strLegend,
+     recordGraphics(legend("bottomleft",strLegend,
              bg=siteAttrMapBackground, bty="o",pch = siteAttr_mapPointStyle, 
-             pt.cex = sze, col=color,title = unitAttr,cex=siteAttrLegendSize)
+             pt.cex = sze, col=color,title = unitAttr,cex=siteAttrLegendSize), 
+             list(strLegend = strLegend,
+                  siteAttr_mapPointStyle = siteAttr_mapPointStyle,
+                  sze = sze,
+                  color = color,
+                  unitAttr = unitAttr,
+                  siteAttrLegendSize = siteAttrLegendSize),
+             getNamespace("graphics"))
+     p<-recordPlot()
      
     }else{#plotly
     #eval(parse(text = plotLocStr))
@@ -251,10 +260,10 @@ mapSiteAttributes<-function(#Rshiny
     #                     name = paste0("> ",round(cls[(length(cls)-1)],siteAttrClassRounding)),
     #                     hoverinfo = 'text',
     #                     text = eval(parse(text = markerText)))
-     return(p)
+     #return(p)
     }
     
-  
+  return(p)
 
   }#if attr selected in shiny
   

@@ -784,9 +784,21 @@ cat(y, file=reportPath, sep="\n")
               
               
               
-              legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
-                     bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
+              #legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
+              #       bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
               
+              recordGraphics(legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
+                                    bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o"), 
+                             list(break1 = break1,
+                                  k = k,
+                                  nlty = nlty,
+                                  predictionLegendSize = predictionLegendSize,
+                                  mapunits.list = mapunits.list,
+                                  predictionLegendBackground = predictionLegendBackground,
+                                  nlwd = nlwd,
+                                  Mcolors = Mcolors),
+                             getNamespace("graphics"))
+              p<-recordPlot()
               if (enable_plotlyMaps=="no" & (Rshiny==FALSE | 
                                              (Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
@@ -794,14 +806,14 @@ cat(y, file=reportPath, sep="\n")
               }
               
               }else{#plotly
-                remove(list = c("lat","lon",add_plotlyVars))
+                remove(list = c(add_plotlyVars))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
                 for (c in uniqueCols){
                   lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
                   mapdata<-lineShape[lineShape$mapColor==c,]
                   mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
-                  
+                  save(mapdata,file = "D:/mapdata")
                   lineText<-"~paste('</br> ',master_map_list[k],' :',
                    round(mapdataname,predictionClassRounding)"
                   
@@ -816,8 +828,9 @@ cat(y, file=reportPath, sep="\n")
                                     text = eval(parse(text = lineText)))
                 }
                 
-                return(p)
-}
+                #return(p)
+              }
+              return(p)
             }#end Rshiny interactive
         }#end variable loop
         
@@ -1055,9 +1068,20 @@ cat(y, file=reportPath, sep="\n")
               
               
               
-              legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
-                     bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
+              recordGraphics(legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
+                     bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o"), 
+                     list(break1 = break1,
+                          k = k,
+                          nlty = nlty,
+                          predictionLegendSize = predictionLegendSize,
+                          mapunits.list = mapunits.list,
+                          predictionLegendBackground = predictionLegendBackground,
+                          nlwd = nlwd,
+                          Mcolors = Mcolors),
+                     getNamespace("graphics"))
               
+              
+              p<-recordPlot()
               if (enable_plotlyMaps=="no" & (Rshiny==FALSE | 
                                              (Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
@@ -1104,8 +1128,9 @@ cat(y, file=reportPath, sep="\n")
                                   showlegend = FALSE)
               }
               
-              return(p)
+              #return(p)
             }
+            return(p)
           }#end Rshiny interactive
           ######################
           ######################

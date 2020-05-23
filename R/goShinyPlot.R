@@ -141,9 +141,9 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
         
       }
       
-      if (input$batch!="Batch"){
-       # pdf(filename)
-      }
+      #if (input$batch!="Batch" & input$enablePlotly=="no"){
+      #  pdf(filename)
+      #}
     }
     
     # Modal processing message
@@ -161,12 +161,16 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
     
     #set mapping input variable
     if (input$batch!="Batch"){
-      if (input$mapType=="Stream" | input$mapType=="Catchment"){
+      
+      if (button!="savePDF"){
+
+      
+        if (input$mapType=="Stream" | input$mapType=="Catchment"){
         showModal(dataModal())
         
         mapScenarios<-FALSE
         scenarioFlag<-NA
-        p<-predictMaps(compiledInput,NA,output_map_type,TRUE,
+        p<<-predictMaps(compiledInput,NA,output_map_type,TRUE,
                     file.output.list,
                     data_names,mapping.input.list,
                     subdata,
@@ -182,7 +186,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
       }else if (input$mapType=="Site Attributes"){
         showModal(dataModal())
         
-       p<-mapSiteAttributes(#Rshiny
+       p<<-mapSiteAttributes(#Rshiny
           compiledInput,NA, path_gis, sitedata, LineShapeGeo,data_names,TRUE,
           #regular
           mapColumn,mapdata,GeoLines,mapping.input.list,
@@ -198,7 +202,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
         
         #delete previously generated scenario output with same scenario name
         unlink(list.files(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,sep=""),full.names = TRUE),recursive = TRUE)
-       p<- predictScenarios(#Rshiny
+       p<<- predictScenarios(#Rshiny
           compiledInput,NA, tolower(as.character(compiledInput$outType)),TRUE,
           #regular
           estimate.input.list,
@@ -216,10 +220,43 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
        return(p)
         
       }
-      
-      if (button=="savePDF"){
-      #  dev.off()
-        
+      }else{
+        if (input$enablePlotly=="no"){
+          pdf(filename)
+        }else{
+          filename<-gsub(".pdf",".html",filename)
+        }
+        if (class(p)[1]=="recordedplot" | class(p)[1]=="plotly"){
+          if (input$enablePlotly=="no"){
+          replayPlot(p)
+          }else{
+            reportPath<-paste0(path_master,"shinySavePlot.Rmd")
+            #edit title of report
+            reportTitle<-run_id
+            #read Rmd file as text
+            x <- readLines(reportPath)
+            #find where title is designated
+            editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
+            #replace with current reportTitle
+            y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
+            #overwrite the file
+            cat(y, file=reportPath, sep="\n") 
+            #ptm <- proc.time()
+            rmarkdown::render(
+              reportPath, params = list(
+                p = p
+              ),
+              output_file = filename, quiet = TRUE
+            )
+            #saveWidget(p,filename,selfcontained = FALSE)
+          }
+         suppressWarnings(remove(p))
+        if (input$enablePlotly=="no"){
+          
+          dev.off()
+          
+       
+           }   
         showModal(modalDialog(
           title = "",
           "Plot save action complete",
@@ -227,8 +264,105 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             modalButton("OK")
           )
         ))
+      }else{
+        if (input$mapType=="Stream" | input$mapType=="Catchment"){
+          showModal(dataModal())
+          mapScenarios<-FALSE
+          scenarioFlag<-NA
+          p<<-predictMaps(compiledInput,NA,output_map_type,TRUE,
+                          file.output.list,
+                          data_names,mapping.input.list,
+                          subdata,
+                          #scenarios
+                          mapScenarios,
+                          scenario_map_list,
+                          predictScenarios.list,
+                          scenarioFlag,
+                          batch_mode)
+          
+          #return(p)
+          
+        }else if (input$mapType=="Site Attributes"){
+          showModal(dataModal())
+          p<<-mapSiteAttributes(#Rshiny
+            compiledInput,NA, path_gis, sitedata, LineShapeGeo,data_names,TRUE,
+            #regular
+            mapColumn,mapdata,GeoLines,mapping.input.list,
+            strTitle,unitAttr,batch_mode)
+        }else if (input$mapType=="Source Change Scenarios"){
+          showModal(dataModal())
+          #     compiledInput<-convertHotTables(compiledInput)
+          #get source reduction functions
+          compiledInput<-sourceRedFunc(compiledInput)
+          
+          #delete previously generated scenario output with same scenario name
+          unlink(list.files(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,sep=""),full.names = TRUE),recursive = TRUE)
+          p<<- predictScenarios(#Rshiny
+            compiledInput,NA, tolower(as.character(compiledInput$outType)),TRUE,
+            #regular
+            estimate.input.list,
+            predict.list,scenario.input.list,
+            data_names,JacobResults,if_predict,
+            #bootcorrection,
+            DataMatrix.list,SelParmValues,subdata,
+            #predictStreamMapScenarios
+            file.output.list,
+            #scenarios out
+            add_vars,
+            mapping.input.list,
+            batch_mode,
+            RSPARROW_errorOption)
+         # return(p)
+          
+        }
+
+        if (input$enablePlotly=="no"){
+          pdf(filename)
+        }else{
+          filename<-gsub(".pdf",".html",filename)
+        }
+          if (input$enablePlotly=="no"){
+            replayPlot(p)
+          }else{
+            reportPath<-paste0(path_master,"shinySavePlot.Rmd")
+            #edit title of report
+            reportTitle<-run_id
+            #read Rmd file as text
+            x <- readLines(reportPath)
+            #find where title is designated
+            editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
+            #replace with current reportTitle
+            y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
+            #overwrite the file
+            cat(y, file=reportPath, sep="\n") 
+            #ptm <- proc.time()
+            rmarkdown::render(
+              reportPath, params = list(
+                p = p
+              ),
+              output_file = filename, quiet = TRUE
+            )
+            #saveWidget(p,filename,selfcontained = FALSE)
+          }
+          if (input$enablePlotly=="no"){
+            dev.off()
+          }    
+
+        showModal(modalDialog(
+          title = "",
+          "Plot save action complete",
+          footer = tagList(
+            modalButton("OK")
+          )
+        ))
+        return(p)
       }
+      #if (button=="savePDF" & input$enablePlotly=="no"){
+       # dev.off()
+        
      
+      #}
+      } 
       
     }else{#end interactive start batch
       showModal(modalDialog(

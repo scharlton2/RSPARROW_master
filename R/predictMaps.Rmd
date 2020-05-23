@@ -140,7 +140,7 @@ if (enable_plotlyMaps=="no"){
     eval(parse(text=xtext))
   }
 }else{#plotly
-  remove(list = c("lat","lon",add_plotlyVars))
+  remove(list = c(add_plotlyVars))
   uniqueCols<-eval(parse(text = paste0("as.character(unique(plotShape$",mapvarname,"))")))
   uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
   for (c in uniqueCols){

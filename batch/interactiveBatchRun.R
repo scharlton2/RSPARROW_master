@@ -16,8 +16,9 @@ devtools::load_all(path_main,recompile = FALSE)
 load(batchFilename)  
 
 unPackList(lists = list(file.output.list = file.output.list,
-                        scenario.input.list = scenario.input.list),
-           parentObj = list(NA,NA)) 
+                        scenario.input.list = scenario.input.list,
+                        mapping.input.list = mapping.input.list),
+           parentObj = list(NA,NA,NA)) 
 
 
 if (RSPARROW_errorOption=="yes"){
@@ -93,15 +94,45 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
   
   for (a in inputShiny$dataCheck){
     filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,run_id,"_SiteAttributes_",a,".pdf",sep="")
-    pdf(filename)
+    if (inputShiny$enablePlotly=="no"){
+      pdf(filename)
+    }else{
+      filename<-gsub(".pdf",".html",filename)
+    }
     
-    mapSiteAttributes(#Rshiny
+    p<-mapSiteAttributes(#Rshiny
       inputShiny,a, path_gis, sitedata, LineShapeGeo,data_names,TRUE,
       #regular
       mapColumn,mapdata,GeoLines,mapping.input.list,
       strTitle,unitAttr,batch_mode)
     
-    dev.off()
+    if (inputShiny$enablePlotly=="no"){
+      replayPlot(p)
+    
+      }else{
+        reportPath<-paste0(path_master,"shinySavePlot.Rmd")
+        #edit title of report
+        reportTitle<-run_id
+        #read Rmd file as text
+        x <- readLines(reportPath)
+        #find where title is designated
+        editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
+        #replace with current reportTitle
+        y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
+        #overwrite the file
+        cat(y, file=reportPath, sep="\n") 
+        #ptm <- proc.time()
+        rmarkdown::render(
+          reportPath, params = list(
+            p = p
+          ),
+          output_file = filename, quiet = TRUE
+        )
+        #saveWidget(p,filename,selfcontained = FALSE)
+      }
+    if (inputShiny$enablePlotly=="no"){
+      dev.off()
+    } 
     if (a==inputShiny$dataCheck[length(inputShiny$dataCheck)]){
       shell.exec(filename)  
     }

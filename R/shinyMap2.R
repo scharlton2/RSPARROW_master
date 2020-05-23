@@ -175,7 +175,7 @@ shinyMap2<-function(
                        condition = "input.batch=='Interactive'",
                        fluidRow(
                          actionButton("goPlot","Generate Plot"),
-                         actionButton("savePDF", "SaveAs PDF"))       
+                         actionButton("savePDF", "SavePlot"))       
                        
                      ),
                      
@@ -185,15 +185,9 @@ shinyMap2<-function(
                      )
         ),
         mainPanel(width = 6,
-                  # verbatimTextOutput("txtOut"),
-                  conditionalPanel(
-                    condition = "input.enablePlotly=='yes'",
-                    plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
-                    ),
-                  conditionalPanel(
-                    condition = "input.enablePlotly=='no'",
-                  plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
-                  )
+                uiOutput("plot")
+
+                  
         )
       )))#end ui function
     ,
@@ -293,10 +287,15 @@ shinyMap2<-function(
           
         }
       })
+      
+
+      
+      
+      
       #interactive plot
       #output$plotOne  <- renderPlot({
-        p<-eventReactive(input$goPlot, {
-          
+        p1<-eventReactive(input$goPlot, {
+
           #test bad Settings
           badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
           names(badSettings)<-c("Setting","CurrentValue","Type","Test")
@@ -322,8 +321,8 @@ shinyMap2<-function(
             
           }
           
-          #run plot
-          goShinyPlot(input, output, session, choices,"goPlot", badSettings,errMsg,
+
+            goShinyPlot(input, output, session, choices,"goPlot", badSettings,errMsg,
                       file.output.list,map_uncertainties,BootUncertainties,
                       data_names,mapping.input.list,
                       #predict.list,
@@ -340,70 +339,38 @@ shinyMap2<-function(
                       #batchError
                       batch_mode,
                       RSPARROW_errorOption)
+          
+       
+             
+ 
         })
-        
-      
-        #})#end renderplot
-        
-q<-eventReactive(input$goPlot, {
-  
-  #test bad Settings
-  badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
-  names(badSettings)<-c("Setting","CurrentValue","Type","Test")
-  errMsg<-NA
-  if (input$mapType %in% c("Stream","Catchment")){
-    badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticPred),mapType =input$mapType)$badSettings
-  }else if (input$mapType == "Site Attributes"){
-    badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticSite),mapType =input$mapType)$badSettings
-  }else{
-    errMsg1<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$sourceRed))$errMsg
-    errMsg2<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$allSourcesDF))$errMsg
-    errMsg3<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$allSourcesDFno))$errMsg
-    
-    
-    errMsg<-na.omit(c(errMsg1,errMsg2, errMsg3))
-    if (length(errMsg)==0){
-      errMsg<-NA
-    }else{
-      errMsg<-errMsg[1]
-    }
-    
-    badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios")$badSettings
-    
-  }
-  
-  #run plot
-  goShinyPlot(input, output, session, choices,"goPlot", badSettings,errMsg,
-              file.output.list,map_uncertainties,BootUncertainties,
-              data_names,mapping.input.list,
-              #predict.list,
-              subdata,SelParmValues,
-              #site attr
-              sitedata,estimate.list,#Mdiagnostics.list,
-              #scenarios
-              JacobResults,
-              ConcFactor,DataMatrix.list,dlvdsgn,
-              reach_decay_specification,reservoir_decay_specification,
-              scenario.input.list,
-              #scenarios out
-              add_vars,
-              #batchError
-              batch_mode,
-              RSPARROW_errorOption)
-  
-})
-        observe({
-          if (input$enablePlotly == "yes"){
-            output$plotlyPlot <- renderPlotly({
-             q()
-        
+
+        observeEvent(input$goPlot, {
+          testP<-isolate(p1())
+        if (class(testP)[1]=="recordedplot"){
+
+#if (isolate(input$enablePlotly)=="no"){
+  output$plot<-renderUI({
+    plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
+  })
+           output$plotOne  <- renderPlot({
+              p1()
             })
-          }else{
-        output$plotOne  <- renderPlot({
-          p()
-        })#end renderplot
+           output$plotlyPlot<-NULL
+          }else if (class(testP)[1]=="plotly"){
+            output$plot<-renderUI({
+              plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
+            })
+            output$plotlyPlot <- renderPlotly({
+              p1()
+            })
+            output$plotOne<-NULL
           }
+
         })
+        
+           
+
         
         
         
@@ -455,7 +422,10 @@ q<-eventReactive(input$goPlot, {
       })#end save plot p2
         
         observe({
-          p2()
+
+         p2()
+
+try(dev.off(), silent = TRUE)
         })
         
       
