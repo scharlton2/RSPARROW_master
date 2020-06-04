@@ -5,6 +5,9 @@
 #'             \\item unPackList.R\} \\cr
 #'@param path_PastResults path to previously generated results including run_id subdirectory
 #'@examples
+#'path_master<-'./RSPARROW_master'
+#'suppressWarnings(remove(list="runRsparrow"))
+#'devtools::load_all(path_master,recompile = FALSE)
 #'runShiny("~/UserDirectory/results/customRunId")
 
 
@@ -17,8 +20,8 @@ runShiny<-function(path_PastResults){
   
   if (file.exists(path_PastResults)){
     load(path_PastResults)
-    
-  unPackList(lists = list(file.output.list = file.output.list,
+  
+    unPackList(lists = list(file.output.list = file.output.list,
                           shinyArgs = shinyArgs),
              parentObj = list(NA,NA)) 
   

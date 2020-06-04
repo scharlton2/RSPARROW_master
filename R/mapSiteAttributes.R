@@ -115,7 +115,7 @@ mapSiteAttributes<-function(#Rshiny
     
 
     
-    if (enable_plotlyMaps=="no"){
+    if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
       
       pnch <- siteAttr_mapPointStyle
       par(mfrow=c(1,1))    # 1 plots on one page
@@ -123,7 +123,7 @@ mapSiteAttributes<-function(#Rshiny
     plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
     title(strTitle, cex.main =siteAttrTitleSize)
     
-    }else{#plotly
+    }else{#plotly/leaflet
       #set marker styling
     pnch<-as.character(pchPlotlyCross[pchPlotlyCross$pch==siteAttr_mapPointStyle,]$plotly)
     markerList<-paste0("list(symbol = pnch, size = sze[1]*10,")
@@ -131,9 +131,10 @@ mapSiteAttributes<-function(#Rshiny
     
     #ititialize text strings for plotly
     markerText<-"~paste('</br> Lat: ',Lat,
-                   '</br> Lon: ',Lon,
-                   '</br>',mapColumnName,' :',
-                   round(mapColumn,siteAttrClassRounding)"
+    '</br> Lon: ',Lon,
+    '</br>',mapColumnName,' :',round(mapColumn,siteAttrClassRounding)"
+    
+    
     plotLocStr<-paste0("plotloc <- data.frame(Lat,Lon, mapColumn = map1$mapColumn")
     
     markerText<-addMarkerText(markerText,add_plotlyVars,mapdata, sitedata)$markerText
@@ -151,7 +152,7 @@ mapSiteAttributes<-function(#Rshiny
     #wrap up text strings
     plotLocStr<-paste0(plotLocStr,")")
     
- 
+ if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
     #plotly plot
     p<-plot_ly() %>%
       layout(
@@ -166,6 +167,7 @@ mapSiteAttributes<-function(#Rshiny
       add_sf(data = GeoLines,  mode = "lines", type = "scatter",
              stroke = I("black"),color = I(cbckgrd),
              name = LineShapeGeo)
+ }
     }
     
     #first class
@@ -174,11 +176,11 @@ mapSiteAttributes<-function(#Rshiny
     Lon<- map1$xlon
     strLegend<-paste(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1],sep="")
     
-    if (enable_plotlyMaps=="no"){
+    if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
       plotloc <- data.frame(Lat,Lon)
       points(plotloc$Lon, plotloc$Lat, pch=pnch[1], col=color[1], cex=sze[1])  
       
-      }else{#plotly
+      }else{#plotly/leaflet
     
     eval(parse(text = plotLocStr))
         #update markerList for marker styling
@@ -187,14 +189,15 @@ mapSiteAttributes<-function(#Rshiny
         }else{
           markerList1<-paste0(markerList,"line = list(color = uniqueColsleaf(1)),color = uniqueColsleaf(1))")
         }
-      
+    
+        if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){  
     p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter",
                          mode = "markers",
                         marker = eval(parse(text = markerList1)),
                          name = paste(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1],sep=""),
                          hoverinfo = 'text',
                          text = eval(parse(text = markerText)))
-    }
+    }}
     #middle classes
     for (k in 1:(length(cls)-1)) {
       map1 <- mapdata[(mapdata$mapColumn > cls[k] & mapdata$mapColumn <= cls[k+1]), ]
@@ -208,7 +211,7 @@ mapSiteAttributes<-function(#Rshiny
       }
       strLegend<-c(strLegend,strlegend)
       
-      if (enable_plotlyMaps=="no"){
+      if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
         plotloc <- data.frame(Lat,Lon)
        points(plotloc$Lon, plotloc$Lat, pch=pnch, col=color[k+1], cex=sze[k+1]) 
         
@@ -220,13 +223,14 @@ mapSiteAttributes<-function(#Rshiny
         }else{
           markerList2<-paste0(markerList,"line = list(color = uniqueColsleaf(k+1)),color = uniqueColsleaf(k+1))")
         }
-       
+       if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
       p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter", 
                            mode = "markers",#color = I(color[k+1]),
                            marker = eval(parse(text = markerList2)),
                            name = strlegend,
                            hoverinfo = 'text',
                            text = eval(parse(text = markerText)))
+       }
       }
       
     } #for each middle class k 
@@ -238,7 +242,7 @@ mapSiteAttributes<-function(#Rshiny
     #strlegend<-paste(">",cls[length(cls)],sep=" ")
     #strLegend<-c(strLegend,strlegend)
     
-    if (enable_plotlyMaps=="no"){
+    if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
       plotloc <- data.frame(Lat,Lon)
      points(plotloc$Lon, plotloc$Lat, pch=pnch, col=color[length(cls)], cex=sze[length(cls)])  
      recordGraphics(legend("bottomleft",strLegend,
@@ -253,14 +257,45 @@ mapSiteAttributes<-function(#Rshiny
              getNamespace("graphics"))
      p<-recordPlot()
      
-    }else{#plotly
-    #eval(parse(text = plotLocStr))
-    #p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter", 
-    #                     mode = "markers",color = I(color[length(cls)]),
-    #                     name = paste0("> ",round(cls[(length(cls)-1)],siteAttrClassRounding)),
-    #                     hoverinfo = 'text',
-    #                     text = eval(parse(text = markerText)))
-     #return(p)
+    }else if (enable_plotlyMaps=="leaflet"){
+      mapdata$Lat<- mapdata$xlat
+      mapdata$Lon<- mapdata$xlon
+      
+      markerText<-gsub("~","",markerText)
+      
+      
+      markerTextHTML<-paste0("~lapply(",markerText,",HTML)")
+      
+mapdata$mapColor<-ifelse(mapdata$mapColumn<=cls[1],col2hex(color)[1],NA)
+for (k in 1:(length(cls)-1)) {
+  mapdata$mapColor<-ifelse(mapdata$mapColumn > cls[k] & mapdata$mapColumn <= cls[k+1],
+                           col2hex(color)[k+1],
+                           mapdata$mapColor)
+}
+mapdata$mapColor<-ifelse(is.na(mapdata$mapColor),col2hex(color)[length(color)],mapdata$mapColor)
+
+
+ mapdata<-st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = 4326)
+
+      p <- mapview(mapdata,
+                   fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 
+        .@map %>% 
+        clearMarkers() %>% 
+        clearShapes() %>% 
+        addCircleMarkers(
+          data = mapdata,
+          fillOpacity = 1,
+          opacity = 1,
+          weight = 1,
+          radius = 2,
+          color = ~col2hex(mapColor),
+          fill=TRUE,
+          fillColor = ~col2hex(mapColor),
+          label = eval(parse(text = markerTextHTML))
+          #group = mapColor,
+        ) %>% 
+        addLegend("bottomleft", labels = strLegend, colors = col2hex(color),
+                  title = paste0(mapColumnName,"\n",unitAttr), opacity = 1)
     }
     
   return(p)

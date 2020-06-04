@@ -197,6 +197,7 @@ predictMaps<-function(#Rshiny
     if (Rshiny==TRUE){#Rshiny
       enable_plotlyMaps<-as.character(input$enablePlotly)
       add_plotlyVars<-as.character(input$plotlyDrop)
+
       if (input$batch=="Batch"){
         master_map_list<-allMetrics
         if (mapScenarios==TRUE){
@@ -604,7 +605,7 @@ predictMaps<-function(#Rshiny
       } # end variable loop
       
       #------------------------------------------------------------#     
-      if (enable_plotlyMaps=="yes" & !is.na(add_plotlyVars[1])){
+      if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
         subdataMerge<-merge(dmapfinal,subdata,by.x = commonvar, by.y = "waterid_for_RSPARROW_mapping")
         names(subdataMerge)[names(subdataMerge)==commonvar]<-"waterid_for_RSPARROW_mapping"
         subdataMerge<-subdataMerge[,names(subdataMerge) %in% names(subdata)]
@@ -686,7 +687,7 @@ predictMaps<-function(#Rshiny
 
           if (((input$batch=="Batch" & Rshiny==TRUE) |
                (input$button=="savePDF" & Rshiny==TRUE) |
-               Rshiny==FALSE) & enable_plotlyMaps=="yes"){
+               Rshiny==FALSE) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
 
             htmlFile<-gsub("pdf","html",filename)
          
@@ -743,13 +744,14 @@ cat(y, file=reportPath, sep="\n")
 
 
             }else{#Rhiny interactive or enable_plotlyMaps==no
-              if (enable_plotlyMaps=="no" & (Rshiny==FALSE | 
+              if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
                                              (Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
                 pdf(filename)
               }
               
-              if (enable_plotlyMaps=="yes"){
+             # if (enable_plotlyMaps=="yes"){
+              if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly" | enable_plotlyMaps=="leaflet"){
                 if (mapScenarios==FALSE){
                   titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
                 }else{
@@ -760,6 +762,7 @@ cat(y, file=reportPath, sep="\n")
                   }
                 }
                 
+                if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
                 #start plotly plot
                 p<-plot_ly() %>%
                   layout(
@@ -771,13 +774,14 @@ cat(y, file=reportPath, sep="\n")
                                  showticklabels = TRUE,
                                  title = "Latitude"),
                     title = titleStr)
+                }
               }
               
               
               if (existGeoLines==TRUE){
-                if (enable_plotlyMaps=="no"){
+                if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                 plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
-                  }else{
+                  }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
                     p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                                       stroke = I("black"),color = I(predictionMapBackground),
                                       name = LineShapeGeo) 
@@ -788,7 +792,7 @@ cat(y, file=reportPath, sep="\n")
               
               mapdataname <- paste("vvar",k,sep="")
               # select the shading colors for a given mapping variable
-              if (enable_plotlyMaps=="no"){
+              if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                 mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
                 
@@ -822,13 +826,13 @@ cat(y, file=reportPath, sep="\n")
                                   Mcolors = Mcolors),
                              getNamespace("graphics"))
               p<-recordPlot()
-              if (enable_plotlyMaps=="no" & (Rshiny==FALSE | 
+              if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
                                              (Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
                 dev.off()
               }
               
-              }else{#plotly
+              }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
                 remove(list = c(add_plotlyVars))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -836,7 +840,7 @@ cat(y, file=reportPath, sep="\n")
                   lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
                   mapdata<-lineShape[lineShape$mapColor==c,]
                   mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
-                  save(mapdata,file = "D:/mapdata")
+                  #save(mapdata,file = "D:/mapdata")
                   lineText<-"~paste('</br> ',master_map_list[k],' :',
                    round(mapdataname,predictionClassRounding)"
                   
@@ -852,6 +856,35 @@ cat(y, file=reportPath, sep="\n")
                 }
                 
                 #return(p)
+              }else{#leaflet
+                remove(list = c(add_plotlyVars))
+                uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
+                uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+                lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
+                mapdata<-lineShape
+                mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))
+                lineText<-"~paste('</br> ',master_map_list[k],' :',
+                   round(mapdataname,predictionClassRounding)"
+                
+                lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
+               #lineTextHTML<-paste0("lapply(",lineText,", HTML)")
+                lineText<-gsub("~","",lineText)
+                lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
+                
+               mapdata<-st_transform(mapdata, crs = 4326)
+                p <- mapview(mapdata, fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 
+                  .@map %>% 
+                  clearMarkers() %>% 
+                  clearShapes() %>% 
+                  addPolylines(
+                    data = mapdata, 
+                    opacity = 1,
+                    weight = 1,
+                    color = ~col2hex(mapColor),
+                    label = eval(parse(text = lineTextHTML))
+                  ) %>% 
+                  addLegend("bottomleft", labels = break1[k][[1]], colors = col2hex(uniqueCols),
+                            title = titleStr, opacity = 1)
               }
               return(p)
             }#end Rshiny interactive
@@ -968,7 +1001,7 @@ cat(y, file=reportPath, sep="\n")
           
           if (((input$batch=="Batch" & Rshiny==TRUE) |
                (input$button=="savePDF" & Rshiny==TRUE) |
-               Rshiny==FALSE) & enable_plotlyMaps=="yes"){
+               Rshiny==FALSE) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
             
             htmlFile<-gsub("pdf","html",filename)
             
@@ -1026,14 +1059,15 @@ cat(y, file=reportPath, sep="\n")
               
             
           }else{#Rhiny interactive or enable_plotlyMaps==no
-            if (enable_plotlyMaps=="no" & (Rshiny==FALSE | 
+            if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
                                            (Rshiny==TRUE & input$button=="savePDF") | 
                                            (Rshiny==TRUE & input$batch=="Batch"))){
              # ptm <- proc.time()
               pdf(filename)
             }
             
-            if (enable_plotlyMaps=="yes"){
+            #if (enable_plotlyMaps=="yes"){
+            if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly" | enable_plotlyMaps=="leaflet"){
               if (mapScenarios==FALSE){
                 titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
               }else{
@@ -1044,6 +1078,7 @@ cat(y, file=reportPath, sep="\n")
                 }
               }
               
+              if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
               #start plotly plot
               p<-plot_ly() %>%
                 layout(
@@ -1055,13 +1090,14 @@ cat(y, file=reportPath, sep="\n")
                                showticklabels = TRUE,
                                title = "Latitude"),
                   title = titleStr)
+              }
             }
             
             
             if (existGeoLines==TRUE){
-              if (enable_plotlyMaps=="no"){
+              if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                 plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
-              }else{
+              }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
                 p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                                   stroke = I("black"),color = I(predictionMapBackground),
                                   name = LineShapeGeo) 
@@ -1072,7 +1108,7 @@ cat(y, file=reportPath, sep="\n")
             
             mapdataname <- paste("vvar",k,sep="")
             # select the shading colors for a given mapping variable
-            if (enable_plotlyMaps=="no"){
+            if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
               mapvarname <- paste("polyShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
                 
@@ -1105,15 +1141,15 @@ cat(y, file=reportPath, sep="\n")
               
               
               p<-recordPlot()
-              if (enable_plotlyMaps=="no" & (Rshiny==FALSE | 
+              if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
                                              (Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
-               # dev.off()
+                dev.off()
               #  procTime<-proc.time() - ptm
                
               }
               
-            }else{#plotly
+            }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
               remove(list = c("lat","lon",add_plotlyVars))
               uniqueCols<-eval(parse(text = paste0("as.character(unique(polyShape$",mapvarname,"))")))
               uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -1152,6 +1188,39 @@ cat(y, file=reportPath, sep="\n")
               }
               
               #return(p)
+            }else{#leaflet
+              remove(list = c(add_plotlyVars))
+              uniqueCols<-eval(parse(text = paste0("as.character(unique(polyShape$",mapvarname,"))")))
+              uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+              polyShape$mapColor<-eval(parse(text = paste0("polyShape$",mapvarname)))
+              mapdata<-polyShape
+
+              mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))
+              lineText<-"~paste('</br> ',master_map_list[k],' :',
+                   round(mapdataname,predictionClassRounding)"
+              
+              lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
+              #lineTextHTML<-paste0("lapply(",lineText,", HTML)")
+              lineText<-gsub("~","",lineText)
+              lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
+
+              mapdata<-st_transform(mapdata, crs = 4326)
+              p <- mapview(mapdata, fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 
+                .@map %>% 
+                clearMarkers() %>% 
+                clearShapes() %>% 
+                addPolygons(
+                  data = mapdata, 
+                  color = 'grey', 
+                  weight = 1, 
+                  stroke = FALSE,
+                  fillColor = ~col2hex(mapColor),
+                  fillOpacit = 0.9,
+                  label = eval(parse(text = lineTextHTML))
+                ) %>% 
+                addLegend("bottomleft", labels = break1[k][[1]], colors = col2hex(uniqueCols),
+                          title = titleStr, opacity = 1)
+              
             }
             return(p)
           }#end Rshiny interactive

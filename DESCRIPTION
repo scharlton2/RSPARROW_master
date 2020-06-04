@@ -48,7 +48,9 @@ Imports:
     knitr,
     tools,
     rmarkdown,
-    rhandsontable
+    rhandsontable,
+    mapview,
+    magrittr
 Suggests:
     testthat
 License: GPL (>= 2)

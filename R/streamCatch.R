@@ -51,7 +51,7 @@ streamCatch<-function(id, input, choices, map_uncertainties,sitedata,add_plotlyV
     ),
     
     conditionalPanel(
-      condition = "input.enablePlotly == 'yes'",
+      condition = "input.enablePlotly != 'static'",
       dropdownButton(circle = FALSE,
                      label = "Add Plotly Hover Variable",
                      inputId = ns("dropdown"),

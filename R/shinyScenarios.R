@@ -116,7 +116,7 @@ shinyScenarios<-function(id, input, choices,sitedata,add_plotlyVars){
     ),
     
     conditionalPanel(
-      condition = "input.enablePlotly == 'yes'",
+      condition = "input.enablePlotly != 'static'",
       dropdownButton(circle = FALSE,
                      label = "Add Plotly Hover Variable",
                      inputId = ns("dropdown"),

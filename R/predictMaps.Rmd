@@ -1,5 +1,5 @@
 ---
-title: 'interactive_2020.05.05'
+title: 'interactive_2020.06.04'
 author: ""
 date: "`r paste0('Output on ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
@@ -77,7 +77,7 @@ LineShapeGeo<-params$LineShapeGeo
 mapvarname<-params$mapvarname
 predictionClassRounding<-params$predictionClassRounding
 
-if (enable_plotlyMaps=="no"){
+if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
   
 }else{#plotlystuff
   if (mapScenarios==FALSE){
@@ -89,7 +89,8 @@ if (enable_plotlyMaps=="no"){
       titleStr<-paste(input$scenarioName,master_map_list[k],"\n",mapunits.list[k],sep=" ")
     }
   }
-  
+}
+if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
   #start plotly plot
   p<-plot_ly() %>%
     layout(
@@ -105,9 +106,9 @@ if (enable_plotlyMaps=="no"){
 
 if (existGeoLines==TRUE){
   
-  if (enable_plotlyMaps=="no"){
+  if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
     plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
-  }else{
+  }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
     p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                       stroke = I("black"),color = I(predictionMapBackground),
                       name = LineShapeGeo, hoverinfo = "none")
@@ -122,7 +123,7 @@ if (existGeoLines==TRUE){
 
 # select the shading colors for a given mapping variable
 
-if (enable_plotlyMaps=="no"){
+if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
   mapvarname <- paste("plotShape$MAPCOLORS",k,sep="")
   if (existGeoLines==TRUE){
     if (predictMapType=="stream"){
@@ -139,7 +140,7 @@ if (enable_plotlyMaps=="no"){
     }
     eval(parse(text=xtext))
   }
-}else{#plotly
+}else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
   remove(list = c(add_plotlyVars))
   uniqueCols<-eval(parse(text = paste0("as.character(unique(plotShape$",mapvarname,"))")))
   uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -186,12 +187,66 @@ if (enable_plotlyMaps=="no"){
                         showlegend = FALSE)
     }
   }
-  p
+}else{#leaflet
+  remove(list = c(add_plotlyVars))
+  uniqueCols<-eval(parse(text = paste0("as.character(unique(plotShape$",mapvarname,"))")))
+  uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+  plotShape$mapColor<-eval(parse(text = paste0("plotShape$",mapvarname)))
+  mapdata<-plotShape
+  mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
   
-}
+  lineText<-"~paste('</br> ',master_map_list[k],' :',
+                   round(mapdataname,predictionClassRounding)"
+  
+  lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
+
+  #lineTextHTML<-paste0("lapply(",lineText,", HTML)")
+        lineText<-gsub("~","",lineText)
+      
+      
+      lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
+  mapdata<-st_transform(mapdata, crs = 4326)
+  if (predictMapType=="stream"){
+    p <- mapview(mapdata, fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 
+      .@map %>% 
+      clearMarkers() %>% 
+      clearShapes() %>% 
+      addPolylines(
+        data = mapdata, 
+        opacity = 1,
+        weight = 1,
+        color = ~col2hex(mapColor),
+        label = eval(parse(text = lineTextHTML))
+      ) %>% 
+      addLegend("bottomleft", labels = break1[k][[1]], colors = col2hex(uniqueCols),
+                title = titleStr, opacity = 1)
+  }else{#catchment
+    p <- mapview(mapdata, fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 
+      .@map %>% 
+      clearMarkers() %>% 
+      clearShapes() %>% 
+      addPolygons(
+        data = mapdata, 
+        stroke = T, 
+        color = 'grey', 
+        weight = 1, 
+        layerId = ~waterid, 
+        fillColor = ~col2hex(mapColor),
+        fillOpacit = 0.9,
+        label = eval(parse(text = lineTextHTML))
+      ) %>% 
+      addLegend("bottomleft", labels = break1[k][[1]], colors = col2hex(uniqueCols),
+                title = titleStr, opacity = 1)
+    
+  }
+}#end leaflet
+# if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static"){
+# p
+# 
+# }
 
 
-if (enable_plotlyMaps=="no"){
+if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
   if (mapScenarios==FALSE){
     title(master_map_list[k],cex.main = predictionTitleSize)
   }else{
@@ -209,6 +264,8 @@ if (enable_plotlyMaps=="no"){
   
   
   
+}else{
+  p
 }
 
 

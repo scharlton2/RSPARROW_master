@@ -98,6 +98,8 @@ shinyMap2<-function(
   suppressWarnings(suppressMessages(library(htmlwidgets)))
   suppressWarnings(suppressMessages(library(htmltools)))
   suppressWarnings(suppressMessages(library(plotly)))
+  suppressWarnings(suppressMessages(library(mapview)))
+  suppressWarnings(suppressMessages(library(magrittr)))
   
   unPackList(lists = list(file.output.list = file.output.list,
                           scenario.input.list = scenario.input.list),
@@ -153,7 +155,7 @@ shinyMap2<-function(
                      
                      #top level user input
                      selectInput("batch","Output Mode",c("Interactive","Batch")),
-                     selectInput("enablePlotly","Enable Plotly",c("yes","no"),selected = mapping.input.list$enable_plotlyMaps),
+                     selectInput("enablePlotly","Output Map Format",c("static","plotly","leaflet"),selected = ifelse(mapping.input.list$enable_plotlyMaps=="yes","plotly","static")),
                      textOutput("plotlyExplanation"),
                      br(),
                      selectInput("mapType","Map Type",mapTypeChoices),
@@ -210,11 +212,11 @@ shinyMap2<-function(
         #no plotly catchment maps in interactive mode
         currentSelect<-isolate(input$enablePlotly)
           if (input$mapType=="Catchment" & input$batch=="Interactive"){
-            updateSelectInput(session,"enablePlotly","Enable Plotly",c("no"),selected = "no")
+            updateSelectInput(session,"enablePlotly","Output Map Format",c("static","leaflet"),selected = "static")
             output$plotlyExplanation<-renderText({"Plotly not available for catchment maps in Interactive mode due to long processing time\n to get interactive catchment maps select Batch mode and enable plotly"
             })
               }else{
-            updateSelectInput(session,"enablePlotly","Enable Plotly",c("yes","no"),selected = currentSelect)
+            updateSelectInput(session,"enablePlotly","Output Map Format",c("static","plotly","leaflet"),selected = currentSelect)
             output$plotlyExplanation<-renderText({"Plotly Maps will take longer to render in Interactive mode"})
             
             }
@@ -363,7 +365,6 @@ shinyMap2<-function(
         observeEvent(input$goPlot, {
           testP<-isolate(p1())
         if (class(testP)[1]=="recordedplot"){
-
 #if (isolate(input$enablePlotly)=="no"){
   output$plot<-renderUI({
     plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
@@ -371,7 +372,9 @@ shinyMap2<-function(
            output$plotOne  <- renderPlot({
               p1()
             })
+           save(testP,file="D:/plot")
            output$plotlyPlot<-NULL
+           output$leafPlot<-NULL
           }else if (class(testP)[1]=="plotly"){
             output$plot<-renderUI({
               plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
@@ -380,6 +383,16 @@ shinyMap2<-function(
               p1()
             })
             output$plotOne<-NULL
+            output$leafPlot<-NULL
+          }else if (class(testP)[1]=="leaflet"){
+            output$plot<-renderUI({
+              leafletOutput("leafPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
+            })
+            output$leafPlot<-renderLeaflet({
+              p1()
+            })
+            output$plotOne<-NULL
+            output$plotlyPlot<-NULL
           }
 
         })
@@ -440,7 +453,7 @@ shinyMap2<-function(
 
          p2()
 
-try(dev.off(), silent = TRUE)
+#try(dev.off(), silent = TRUE)
         })
         
       

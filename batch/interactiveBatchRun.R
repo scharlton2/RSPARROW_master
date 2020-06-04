@@ -94,7 +94,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
   
   for (a in inputShiny$dataCheck){
     filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,run_id,"_SiteAttributes_",a,".pdf",sep="")
-    if (inputShiny$enablePlotly=="no"){
+    if (inputShiny$enablePlotly=="static"){
       pdf(filename)
     }else{
       filename<-gsub(".pdf",".html",filename)
@@ -106,7 +106,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
       mapColumn,mapdata,GeoLines,mapping.input.list,
       strTitle,unitAttr,batch_mode)
     
-    if (inputShiny$enablePlotly=="no"){
+    if (inputShiny$enablePlotly=="static"){
       replayPlot(p)
     
       }else{
@@ -130,7 +130,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
         )
         #saveWidget(p,filename,selfcontained = FALSE)
       }
-    if (inputShiny$enablePlotly=="no"){
+    if (inputShiny$enablePlotly=="static"){
       dev.off()
     } 
     if (a==inputShiny$dataCheck[length(inputShiny$dataCheck)]){
