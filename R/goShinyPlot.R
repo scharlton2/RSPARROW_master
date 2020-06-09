@@ -66,12 +66,12 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                       #predict.list,
                       subdata,SelParmValues,
                       #site attr
-                      sitedata,estimate.list,#Mdiagnostics.list,
+                      sitedata,estimate.list,estimate.input.list,#Mdiagnostics.list,
                       #scenarios
                       JacobResults,
                       ConcFactor,DataMatrix.list,dlvdsgn,
                       reach_decay_specification,reservoir_decay_specification,
-                      scenario.input.list,
+                      scenario.input.list,if_predict,
                       #scenarios out
                       add_vars,
                       #batchError
@@ -80,8 +80,9 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
   
   #unpack list objects making contents available by name 
   unPackList(lists = list(file.output.list = file.output.list,
-                          scenario.input.list = scenario.input.list),
-             parentObj = list(NA,NA)) 
+                          scenario.input.list = scenario.input.list, 
+                          mapping.input.list = mapping.input.list),
+             parentObj = list(NA,NA, NA)) 
   
   #compile all user input and convert hottables to dataframes
   compileALL<-compileALL(input, output, session, path_results, choices)
@@ -180,9 +181,10 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                           predictScenarios.list,
                           scenarioFlag,
                           batch_mode)
-          
+          print("line184")
+
           return(p)
-          
+          print("line186")
         }else if (input$mapType=="Site Attributes"){
           showModal(dataModal())
           
@@ -205,7 +207,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           p<<- predictScenarios(#Rshiny
             compiledInput,NA, tolower(as.character(compiledInput$outType)),TRUE,
             #regular
-            estimate.input.list,
+            estimate.input.list,estimate.list,
             predict.list,scenario.input.list,
             data_names,JacobResults,if_predict,
             #bootcorrection,
@@ -311,7 +313,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             p<<- predictScenarios(#Rshiny
               compiledInput,NA, tolower(as.character(compiledInput$outType)),TRUE,
               #regular
-              estimate.input.list,
+              estimate.input.list,estimate.list,
               predict.list,scenario.input.list,
               data_names,JacobResults,if_predict,
               #bootcorrection,

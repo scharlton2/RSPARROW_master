@@ -18,7 +18,7 @@
 
 
 
-testCosmetic<-function(input, output, session, DF, mapType){
+testCosmetic<-function(input, output, session, DF, mapType, scenario.input.list, mapping.input.list){
   #import namespace
   
   if (mapType!=""){
@@ -48,6 +48,9 @@ testCosmetic<-function(input, output, session, DF, mapType){
     
     
     #unpack settings
+    unPackList(lists = list(scenario.input.list = scenario.input.list,
+                            mapping.input.list = mapping.input.list),
+               parentObj = list(NA, NA))
     unPackList(lists = list(compiledInput = compiledInput),
                parentObj = list(NA))
     

@@ -379,7 +379,7 @@ predictScenariosPrep<-function(##Rshiny
     
     negTest<-data[negTest[,1],]
     
-    colnames(negTest)<-DataMatrix.list$dataNames
+    colnames(negTest)<-dataNames
     negTest<-subdata[which(subdata$waterid %in% negTest[,1]),]
     fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_NegativeLanduseFound.csv",sep="")
     fwrite(negTest,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,col.names=TRUE,

@@ -253,7 +253,8 @@ mapSiteAttributes<-function(#Rshiny
                   sze = sze,
                   color = color,
                   unitAttr = unitAttr,
-                  siteAttrLegendSize = siteAttrLegendSize),
+                  siteAttrLegendSize = siteAttrLegendSize,
+                  siteAttrMapBackground = siteAttrMapBackground),
              getNamespace("graphics"))
      p<-recordPlot()
      
@@ -287,7 +288,7 @@ mapdata$mapColor<-ifelse(is.na(mapdata$mapColor),col2hex(color)[length(color)],m
           fillOpacity = 1,
           opacity = 1,
           weight = 1,
-          radius = 2,
+          radius = unique(sze),
           color = ~col2hex(mapColor),
           fill=TRUE,
           fillColor = ~col2hex(mapColor),

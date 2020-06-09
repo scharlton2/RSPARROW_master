@@ -251,9 +251,10 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
                                     #site attr
                                     sitedata,
                                     #scenarios
-                                    estimate.list,
+                                    estimate.list,estimate.input.list,
                                     ConcFactor,DataMatrix.list,dlvdsgn,
                                     reach_decay_specification,reservoir_decay_specification,scenario.input.list,
+                                    if_predict,
                                     #scenarios out
                                     add_vars,
                                     #batchError

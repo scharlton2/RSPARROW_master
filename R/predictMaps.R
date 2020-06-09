@@ -879,13 +879,14 @@ cat(y, file=reportPath, sep="\n")
                   addPolylines(
                     data = mapdata, 
                     opacity = 1,
-                    weight = 1,
+                    weight = lineWidth,
                     color = ~col2hex(mapColor),
                     label = eval(parse(text = lineTextHTML))
                   ) %>% 
                   addLegend("bottomleft", labels = break1[k][[1]], colors = col2hex(uniqueCols),
                             title = titleStr, opacity = 1)
               }
+
               return(p)
             }#end Rshiny interactive
         }#end variable loop

@@ -60,7 +60,7 @@
 predictScenarios <- function(#Rshiny
   input,allMetrics, output_map_type,Rshiny,
   #regular
-  estimate.input.list,
+  estimate.input.list,estimate.list,
   predict.list,scenario.input.list,
   data_names,JacobResults, if_predict,
   #bootcorrection,

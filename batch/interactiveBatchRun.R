@@ -177,7 +177,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
   predictScenarios(#Rshiny
     inputShiny,allMetrics, output_map_type,TRUE,
     #regular
-    estimate.input.list,
+    estimate.input.list,estimate.list,
     predict.list,scenario.input.list,
     data_names,JacobResults,if_predict,
     #bootcorrection,

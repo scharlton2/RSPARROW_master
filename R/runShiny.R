@@ -21,9 +21,10 @@ runShiny<-function(path_PastResults){
   if (file.exists(path_PastResults)){
     load(path_PastResults)
   
-    unPackList(lists = list(file.output.list = file.output.list,
-                          shinyArgs = shinyArgs),
-             parentObj = list(NA,NA)) 
+    unPackList(lists = list(shinyArgs = shinyArgs),
+             parentObj = list(NA)) 
+    unPackList(lists = list(file.output.list = file.output.list),
+               parentObj = list(NA)) 
   
 
     #trigger shiny
@@ -36,10 +37,10 @@ runShiny<-function(path_PastResults){
     #site attr
     sitedata,
     #scenarios
-    estimate.list,
+    estimate.list,estimate.input.list,
     ConcFactor,DataMatrix.list,dlvdsgn,
     reach_decay_specification,reservoir_decay_specification,
-    scenario.input.list,
+    scenario.input.list,if_predict,
     #scenarios out
     add_vars,
     #batchError
@@ -49,6 +50,6 @@ runShiny<-function(path_PastResults){
     
   
     }else{
-    message(paste0(path_user,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs \nFILE NOT FOUND\nRShiny NOT AVAILABLE"))
+    message(paste0(path_PastResults,.Platform$file.sep,results_directoryName,.Platform$file.sep,run_id,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs \nFILE NOT FOUND\nRShiny NOT AVAILABLE"))
   }
 }

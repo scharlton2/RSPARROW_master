@@ -72,16 +72,17 @@ shinyMap2<-function(
   #site attr
   sitedata,
   #scenarios
-  estimate.list,
+  estimate.list,estimate.input.list,
   ConcFactor,DataMatrix.list,dlvdsgn,
   reach_decay_specification,reservoir_decay_specification,
-  scenario.input.list,
+  scenario.input.list,if_predict,
   #scenarios out
   add_vars,
   #batchError
   batch_mode,
   RSPARROW_errorOption){
   
+
   
   suppressWarnings(suppressMessages(library(shiny)))
   suppressWarnings(suppressMessages(library(shinycssloaders)))
@@ -102,8 +103,9 @@ shinyMap2<-function(
   suppressWarnings(suppressMessages(library(magrittr)))
   
   unPackList(lists = list(file.output.list = file.output.list,
-                          scenario.input.list = scenario.input.list),
-             parentObj = list(NA,NA)) 
+                          scenario.input.list = scenario.input.list,
+                          mapping.input.list = mapping.input.list),
+             parentObj = list(NA,NA, NA)) 
   
   #load predicitons if available
   if (file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))){
@@ -169,7 +171,7 @@ shinyMap2<-function(
                      shinySiteAttr("nsSiteAttr",input,choices,sitedata,add_plotlyVars),
                      
                      #scenarios arguments
-                     shinyScenarios("nsScenarios",input,choices,sitedata,add_plotlyVars),
+                     shinyScenarios("nsScenarios",input,choices,sitedata,add_plotlyVars, scenario.input.list),
                      
                      #output shape file ifBatch
                      shapeFunc("nsBatch",input),
@@ -189,7 +191,20 @@ shinyMap2<-function(
                      )
         ),
         mainPanel(width = 6,
-                uiOutput("plot")
+                 uiOutput("plot")
+                 #tags$div(id="placeholder")
+                 # conditionalPanel(
+                 #   condition = "input.enablePlotly=='static'",
+                 #   plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
+                 # ),
+                 # conditionalPanel(
+                 #   condition = "input.enablePlotly=='leaflet'",
+                 #   leafletOutput("leafPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
+                 # ),
+                 # conditionalPanel(
+                 #   condition = "input.enablePlotly=='plotly'",
+                 #   plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
+                 # )
 
                   
         )
@@ -288,17 +303,19 @@ shinyMap2<-function(
       
       observe({
         if (input$mapType %in% c("Source Change Scenarios")){
-          callModule(shinyScenariosMod,"nsScenarios",scenarioRtables,path_results)
+          callModule(shinyScenariosMod,"nsScenarios",scenarioRtables,path_results,scenario.input.list, mapping.input.list)
           
         }else if (input$mapType %in% c("Stream","Catchment")){
           testRow<-testCosmetic(input, output, session, 
-                                DF = as.data.frame(scenarioRtables$cosmeticPred),mapType = input$mapType)$rowNums
+                                DF = as.data.frame(scenarioRtables$cosmeticPred),mapType = input$mapType,
+                                scenario.input.list, mapping.input.list)$rowNums
           callModule(validCosmetic,"nsStreamCatch-nsCosmetic", 
                      DF = as.data.frame(scenarioRtables$cosmeticPred),rowNum = testRow)
           
         }else if (input$mapType == "Site Attributes"){
           testRow<-testCosmetic(input, output, session, 
-                                DF = as.data.frame(scenarioRtables$cosmeticSite),mapType = input$mapType)$rowNums
+                                DF = as.data.frame(scenarioRtables$cosmeticSite),mapType = input$mapType,
+                                scenario.input.list, mapping.input.list)$rowNums
           callModule(validCosmetic,"nsSiteAttr-nsCosmetic", 
                      DF = as.data.frame(scenarioRtables$cosmeticSite),rowNum = testRow)
           
@@ -312,15 +329,36 @@ shinyMap2<-function(
       #interactive plot
       #output$plotOne  <- renderPlot({
         p1<-eventReactive(input$goPlot, {
+          gc()
+          # output$plot<-renderUI({
+          #   plotOutput("plotOne", width=900,height=900)
+          #   })
+          #   output$plotOne<-renderPlot({
+          #     plot(1,1,type="n",bty="n", axes=FALSE,xlab="",ylab="")
+          #   text("Please wait\nPlot is rendering", x = 1, y = 1)
+          #   })
+          
+                    output$plotOne<-NULL
+                    output$plotlyPlot<-NULL
+                    output$leafPlot<-NULL
+          # removeUI(selector = "#plotlyPlot", immediate = TRUE)
+          # removeUI(selector = "#leafPlot", immediate = TRUE)
+          # removeUI(selector = "#plotOne", immediate = TRUE)
+          
 
+                    suppressWarnings(remove(p,envir = .GlobalEnv))
+                    suppressWarnings(remove(currentP))
+                    
           #test bad Settings
           badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
           names(badSettings)<-c("Setting","CurrentValue","Type","Test")
           errMsg<-NA
           if (input$mapType %in% c("Stream","Catchment")){
-            badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticPred),mapType =input$mapType)$badSettings
+            badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticPred),mapType =input$mapType,
+                                      scenario.input.list, mapping.input.list)$badSettings
           }else if (input$mapType == "Site Attributes"){
-            badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticSite),mapType =input$mapType)$badSettings
+            badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticSite),mapType =input$mapType,
+                                      scenario.input.list, mapping.input.list)$badSettings
           }else{
             errMsg1<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$sourceRed))$errMsg
             errMsg2<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$allSourcesDF))$errMsg
@@ -334,68 +372,124 @@ shinyMap2<-function(
               errMsg<-errMsg[1]
             }
             
-            badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios")$badSettings
+            badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios",
+                                      scenario.input.list, mapping.input.list)$badSettings
             
           }
           
 
-            goShinyPlot(input, output, session, choices,"goPlot", badSettings,errMsg,
+          currentP<-goShinyPlot(input, output, session, choices,"goPlot", badSettings,errMsg,
                       file.output.list,map_uncertainties,BootUncertainties,
                       data_names,mapping.input.list,
                       #predict.list,
                       subdata,SelParmValues,
                       #site attr
-                      sitedata,estimate.list,#Mdiagnostics.list,
+                      sitedata,estimate.list,estimate.input.list,#Mdiagnostics.list,
                       #scenarios
                       JacobResults,
                       ConcFactor,DataMatrix.list,dlvdsgn,
                       reach_decay_specification,reservoir_decay_specification,
-                      scenario.input.list,
+                      scenario.input.list,if_predict,
                       #scenarios out
                       add_vars,
                       #batchError
                       batch_mode,
                       RSPARROW_errorOption)
-          
-       
-             
- 
-        })
 
-        observeEvent(input$goPlot, {
-          testP<-isolate(p1())
-        if (class(testP)[1]=="recordedplot"){
-#if (isolate(input$enablePlotly)=="no"){
-  output$plot<-renderUI({
-    plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
-  })
-           output$plotOne  <- renderPlot({
-              p1()
+          
+          #if (class(currentP)[1]=="recordedplot"){
+          if (input$enablePlotly=="static"){ 
+            # output$plotlyPlot<-NULL
+            # output$leafPlot<-NULL
+           # removeUI(selector = "#plotlyPlot")
+           # removeUI(selector = "#leafPlot")
+            
+           #insertUI("#placeholder","afterEnd",ui = plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1"))
+            output$plot<-renderUI({
+              plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
             })
-           save(testP,file="D:/plot")
-           output$plotlyPlot<-NULL
-           output$leafPlot<-NULL
-          }else if (class(testP)[1]=="plotly"){
+            output$plotOne  <- renderPlot({
+              isolate(currentP)
+            })
+            
+            
+          #}else if (class(currentP)[1]=="plotly"){
+          }else if (input$enablePlotly=="plotly"){
+            # output$plotOne<-NULL
+            # output$leafPlot<-NULL
+            # removeUI(selector = "#plotOne")
+            # removeUI(selector = "#leafPlot")
+            # 
             output$plot<-renderUI({
               plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
             })
+            #insertUI("#placeholder","afterEnd",ui = plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1"))
+            
             output$plotlyPlot <- renderPlotly({
-              p1()
+              isolate(currentP)
             })
-            output$plotOne<-NULL
-            output$leafPlot<-NULL
-          }else if (class(testP)[1]=="leaflet"){
+            
+         # }else if (class(currentP)[1]=="leaflet"){
+          }else if (input$enablePlotly=="leaflet"){
+            # output$plotOne<-NULL
+            # output$plotlyPlot<-NULL
+            # removeUI(selector = "#plotOne")
+            # removeUI(selector = "#plotlyPlot")
+            # 
             output$plot<-renderUI({
               leafletOutput("leafPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
             })
+            #insertUI("#placeholder","afterEnd",ui = leafletOutput("leafPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1"))
+            
             output$leafPlot<-renderLeaflet({
-              p1()
+              isolate(currentP)
             })
-            output$plotOne<-NULL
-            output$plotlyPlot<-NULL
           }
-
         })
+
+        
+        observe({
+          p1()
+        })
+#         observeEvent(input$goPlot, {
+#           testP<-isolate(p1())
+#           output$plotOne<-NULL
+#           output$plotlyPlot<-NULL
+#           output$leafPlot<-NULL
+#         if (class(testP)[1]=="recordedplot"){
+# #if (isolate(input$enablePlotly)=="no"){
+#   output$plot<-renderUI({
+#     plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
+#   })
+#            output$plotOne  <- renderPlot({
+#               p1()
+#             })
+# 
+#            output$plotlyPlot<-NULL
+#            output$leafPlot<-NULL
+#           }else if (class(testP)[1]=="plotly"){
+#             output$plot<-renderUI({
+#               plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
+#             })
+#             output$plotlyPlot <- renderPlotly({
+#               p1()
+#             })
+#             output$plotOne<-NULL
+#             output$leafPlot<-NULL
+#           }else if (class(testP)[1]=="leaflet"){
+#             output$plot<-renderUI({
+#               leafletOutput("leafPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
+#             })
+#             output$leafPlot<-renderLeaflet({
+#               p1()
+#             })
+#             output$plotOne<-NULL
+#             output$plotlyPlot<-NULL
+#           }
+# 
+#         })
+
+
         
            
 
@@ -410,9 +504,11 @@ shinyMap2<-function(
         names(badSettings)<-c("Setting","CurrentValue","Type","Test")
         errMsg<-NA
         if (input$mapType %in% c("Stream","Catchment")){
-          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticPred),mapType =input$mapType)$badSettings
+          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticPred),mapType =input$mapType,
+                                    scenario.input.list, mapping.input.list)$badSettings
         }else if (input$mapType == "Site Attributes"){
-          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticSite),mapType =input$mapType)$badSettings
+          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticSite),mapType =input$mapType,
+                                    scenario.input.list, mapping.input.list)$badSettings
         }else{
           errMsg1<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$sourceRed))$errMsg
           errMsg2<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$allSourcesDF))$errMsg
@@ -426,7 +522,8 @@ shinyMap2<-function(
             errMsg<-errMsg[1]
           }
           
-          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios")$badSettings
+          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios",
+                                    scenario.input.list, mapping.input.list)$badSettings
           
         }
         
@@ -436,12 +533,12 @@ shinyMap2<-function(
                     #predict.list,
                     subdata,SelParmValues,
                     #site attr
-                    sitedata,estimate.list,#Mdiagnostics.list,
+                    sitedata,estimate.list,estimate.input.list,#Mdiagnostics.list,
                     #scenarios
                     JacobResults,
                     ConcFactor,DataMatrix.list,dlvdsgn,
                     reach_decay_specification,reservoir_decay_specification,
-                    scenario.input.list,
+                    scenario.input.list,if_predict,
                     #scenarios out
                     add_vars,
                     #batchError
@@ -465,9 +562,11 @@ shinyMap2<-function(
         names(badSettings)<-c("Setting","CurrentValue","Type","Test")
         errMsg<-NA
         if (input$mapType %in% c("Stream","Catchment")){
-          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticPred),mapType =input$mapType)$badSettings
+          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticPred),mapType =input$mapType,
+                                    scenario.input.list, mapping.input.list)$badSettings
         }else if (input$mapType == "Site Attributes"){
-          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticSite),mapType =input$mapType)$badSettings
+          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticSite),mapType =input$mapType,
+                                    scenario.input.list, mapping.input.list)$badSettings
         }else{
           errMsg1<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$sourceRed))$errMsg
           errMsg2<-testRedTbl(input, output, session, DF = as.data.frame(scenarioRtables$allSourcesDF))$errMsg
@@ -481,7 +580,8 @@ shinyMap2<-function(
             errMsg<-errMsg[1]
           }
           
-          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios")$badSettings
+          badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios",
+                                    scenario.input.list, mapping.input.list)$badSettings
           
         }
         
@@ -491,12 +591,12 @@ shinyMap2<-function(
                     #predict.list,
                     subdata,SelParmValues,
                     #site attr
-                    sitedata,estimate.list,#Mdiagnostics.list,
+                    sitedata,estimate.list,estimate.input.list,#Mdiagnostics.list,
                     #scenarios
                     JacobResults,
                     ConcFactor,DataMatrix.list,dlvdsgn,
                     reach_decay_specification,reservoir_decay_specification,
-                    scenario.input.list,
+                    scenario.input.list,if_predict,
                     #scenarios out
                     add_vars,
                     #batchError

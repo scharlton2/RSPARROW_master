@@ -13,7 +13,7 @@
 
 
 shinyScenariosMod<-function(input, output, session, scenarioRtables,
-                            path_results){
+                            path_results,scenario.input.list, mapping.input.list){
   
   #button for flaging targets
   observeEvent(input$openTarget, {
@@ -42,7 +42,8 @@ shinyScenariosMod<-function(input, output, session, scenarioRtables,
       callModule(handsOnMod, "nsSourceRedALL", DF = as.data.frame(scenarioRtables$sourceRed))
     }
     
-    testRow<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios")$rowNums
+    testRow<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticScen), "Source Change Scenarios",
+                          scenario.input.list, mapping.input.list)$rowNums
     callModule(validCosmetic,"nsCosmetic", DF = as.data.frame(scenarioRtables$cosmeticScen),rowNum = testRow)
     
     

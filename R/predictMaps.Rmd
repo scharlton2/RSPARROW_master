@@ -214,7 +214,7 @@ if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
       addPolylines(
         data = mapdata, 
         opacity = 1,
-        weight = 1,
+        weight = lineWidth,
         color = ~col2hex(mapColor),
         label = eval(parse(text = lineTextHTML))
       ) %>% 

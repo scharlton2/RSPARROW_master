@@ -35,10 +35,10 @@ shinySiteAttr<-function(id, input, choices,sitedata,add_plotlyVars){
     conditionalPanel(
       condition = "input.enablePlotly != 'static'",
       dropdownButton(circle = FALSE,
-                     label = "Add Plotly Hover Variable",
+                     label = "Add Hover Variable(s)",
                      inputId = ns("dropdown"),
      # dropFunc("nsPlotlyDrop","",choices))
-      checkboxGroupInput(ns("plotlyDrop"), "Add Plotly Hover Variable", 
+      checkboxGroupInput(ns("plotlyDrop"), "Add Hover Variable(s)", 
                          names(sitedata),
                          selected = names(sitedata)[which(names(sitedata) %in% add_plotlyVars)],
                          inline=FALSE))

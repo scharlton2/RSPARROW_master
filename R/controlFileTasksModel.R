@@ -381,7 +381,7 @@ controlFileTasksModel <- function(# pathnames
   predictScenarios(#Rshiny
     input,NA, output_map_type,FALSE,
     #regular
-    estimate.input.list,
+    estimate.input.list,estimate.list,
     predict.list,scenario.input.list,
     data_names,estimate.list$JacobResults,if_predict,
     #bootcorrection,
