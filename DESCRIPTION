@@ -132,7 +132,7 @@ Collate:
     'hydseq.R'
     'hydseqTerm.R'
     'importCSVcontrol.R'
-    'installRSPARROWpackages.R'
+    'installPackages.R'
     'isScriptSaved.R'
     'makePaths.R'
     'mapBreaks.R'

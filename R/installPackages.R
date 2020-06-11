@@ -1,4 +1,4 @@
-#'@title installRSPARROWpackages
+#'@title installPackages
 #'@description installs all required packages for RSPARROW in batch mode \\cr \\cr
 #'Executed By: sparrow_control.R \\cr
 #'Executes Routines: pkgInstall.R \\cr
@@ -8,7 +8,7 @@
 #'       'RSPARROW_master/R/' subdirectory
 
 
-installRSPARROWpackages <- function(if_install_packages,path_master){
+installPackages <- function(if_install_packages,path_master){
   
   if(substr(path_master,nchar(path_master),nchar(path_master))==.Platform$file.sep){
     path_master<-substr(path_master,1,nchar(path_master)-1)
@@ -55,9 +55,7 @@ installRSPARROWpackages <- function(if_install_packages,path_master){
                 "htmltools",
                 "htmlwidgets",
                 "plotly",
-                "leaflet.extras",
-                "mapview",
-                "magrittr"
+                "leaflet.extras"
     )
     
     #get path to Rscript.exe
