@@ -47,6 +47,8 @@ shinyScenariosMod<-function(input, output, session, scenarioRtables,
     callModule(validCosmetic,"nsCosmetic", DF = as.data.frame(scenarioRtables$cosmeticScen),rowNum = testRow)
     
     
+
+    
     
   }) 
   

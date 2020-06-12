@@ -226,15 +226,27 @@ shinyMap2<-function(
         
         #no plotly catchment maps in interactive mode
         currentSelect<-isolate(input$enablePlotly)
-          if (input$mapType=="Catchment" & input$batch=="Interactive"){
-            updateSelectInput(session,"enablePlotly","Output Map Format",c("static","leaflet"),selected = "static")
-            output$plotlyExplanation<-renderText({"Plotly not available for catchment maps in Interactive mode due to long processing time\n to get interactive catchment maps select Batch mode and enable plotly"
-            })
-              }else{
+        if (input$mapType=="Catchment" & input$batch=="Interactive"){
+          updateSelectInput(session,"enablePlotly","Output Map Format",c("static","leaflet"),selected = "static")
+          output$plotlyExplanation<-renderText({"Plotly not available for catchment maps in Interactive mode due to long processing time\n to get interactive catchment maps select Batch mode and enable plotly"
+          })
+        }else if (input$mapType=="Source Change Scenarios"){
+          if (length(input$`nsScenarios-outType`)==0){
             updateSelectInput(session,"enablePlotly","Output Map Format",c("static","plotly","leaflet"),selected = currentSelect)
             output$plotlyExplanation<-renderText({"Plotly Maps will take longer to render in Interactive mode"})
-            
+          }else{
+            if (input$`nsScenarios-outType`=="Catchment" & input$batch=="Interactive"){
+              updateSelectInput(session,"enablePlotly","Output Map Format",c("static","leaflet"),selected = "static")
+              output$plotlyExplanation<-renderText({"Plotly not available for catchment maps in Interactive mode due to long processing time\n to get interactive catchment maps select Batch mode and enable plotly"})
+            }else{
+              updateSelectInput(session,"enablePlotly","Output Map Format",c("static","plotly","leaflet"),selected = currentSelect)
+              output$plotlyExplanation<-renderText({"Plotly Maps will take longer to render in Interactive mode"})
             }
+          }
+        }else{
+          updateSelectInput(session,"enablePlotly","Output Map Format",c("static","plotly","leaflet"),selected = currentSelect)
+          output$plotlyExplanation<-renderText({"Plotly Maps will take longer to render in Interactive mode"})
+        }
         
         
       })  
