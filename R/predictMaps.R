@@ -833,7 +833,7 @@ cat(y, file=reportPath, sep="\n")
               }
               
               }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
-                remove(list = c(add_plotlyVars))
+                suppressWarnings(remove(list = c(add_plotlyVars)))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
                 for (c in uniqueCols){
@@ -857,7 +857,7 @@ cat(y, file=reportPath, sep="\n")
                 
                 #return(p)
               }else{#leaflet
-                remove(list = c(add_plotlyVars))
+                suppressWarnings(remove(list = c(add_plotlyVars)))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
                 lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
@@ -1190,7 +1190,7 @@ cat(y, file=reportPath, sep="\n")
               
               #return(p)
             }else{#leaflet
-              remove(list = c(add_plotlyVars))
+              suppressWarnings(remove(list = c(add_plotlyVars)))
               uniqueCols<-eval(parse(text = paste0("as.character(unique(polyShape$",mapvarname,"))")))
               uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
               polyShape$mapColor<-eval(parse(text = paste0("polyShape$",mapvarname)))
