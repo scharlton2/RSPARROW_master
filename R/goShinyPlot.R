@@ -181,10 +181,10 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                           predictScenarios.list,
                           scenarioFlag,
                           batch_mode)
-          print("line184")
+
 
           return(p)
-          print("line186")
+
         }else if (input$mapType=="Site Attributes"){
           showModal(dataModal())
           
