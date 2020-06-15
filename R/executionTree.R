@@ -419,10 +419,13 @@ executionTree<-function(path_main,startRoutine = "runRsparrow.R",
     lineCols<-which(regexpr("line",names(traceProgram))>0)
     traceProgram[, (lineCols) := lapply(.SD, function(x) as.numeric(as.character(x))), .SDcols = lineCols]
     linenames<-which(regexpr("line",names(traceProgram))>0)
-    strOrder<-paste0("traceProgram[,",linenames,"]",collapse = ",")
-    strOrder<-paste0("traceProgram<-traceProgram[order(",strOrder,"),]")
+    #strOrder<-paste0("traceProgram[,",linenames,"]",collapse = ",")
+    #strOrder<-paste0("traceProgram<-traceProgram[order(",strOrder,"),]")
+    strOrder<-paste0("'",names(traceProgram)[linenames],"'")
+    strOrder<-paste(strOrder,collapse = ",")
+    strOrder<-paste0("setorderv(traceProgram,c(",strOrder,"))")
     eval(parse(text = strOrder))
-    
+
     
     if (outputType=="data.tree"){
       if (is.na(treeLimit)){
