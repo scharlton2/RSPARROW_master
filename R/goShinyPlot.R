@@ -171,7 +171,9 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           
           mapScenarios<-FALSE
           scenarioFlag<-NA
-          p<<-predictMaps(compiledInput,NA,output_map_type,TRUE,
+
+          #p<<-predictMaps(compiledInput,NA,output_map_type,TRUE,
+          p<-predictMaps(compiledInput,NA,output_map_type,TRUE,
                           file.output.list,
                           data_names,mapping.input.list,
                           subdata,
@@ -182,13 +184,12 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                           scenarioFlag,
                           batch_mode)
 
-
           return(p)
 
         }else if (input$mapType=="Site Attributes"){
           showModal(dataModal())
           
-          p<<-mapSiteAttributes(#Rshiny
+          p<-mapSiteAttributes(#Rshiny
             compiledInput,NA, path_gis, sitedata, LineShapeGeo,data_names,TRUE,
             #regular
             mapColumn,mapdata,GeoLines,mapping.input.list,

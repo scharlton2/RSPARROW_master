@@ -87,6 +87,7 @@ shinyMap2<-function(
   suppressWarnings(suppressMessages(library(shiny)))
   suppressWarnings(suppressMessages(library(shinycssloaders)))
   suppressWarnings(suppressMessages(library(sp)))
+  suppressWarnings(suppressMessages(library(sf)))
   suppressWarnings(suppressMessages(library(data.table)))
   suppressWarnings(suppressMessages(library(maptools)))
   suppressWarnings(suppressMessages(library(rgdal)))
@@ -101,6 +102,7 @@ shinyMap2<-function(
   suppressWarnings(suppressMessages(library(plotly)))
   suppressWarnings(suppressMessages(library(mapview)))
   suppressWarnings(suppressMessages(library(magrittr)))
+  suppressWarnings(suppressMessages(library(gplots)))
   
   unPackList(lists = list(file.output.list = file.output.list,
                           scenario.input.list = scenario.input.list,
@@ -353,6 +355,7 @@ shinyMap2<-function(
                     output$plotOne<-NULL
                     output$plotlyPlot<-NULL
                     output$leafPlot<-NULL
+                    gc()
           # removeUI(selector = "#plotlyPlot", immediate = TRUE)
           # removeUI(selector = "#leafPlot", immediate = TRUE)
           # removeUI(selector = "#plotOne", immediate = TRUE)
@@ -407,8 +410,12 @@ shinyMap2<-function(
                       #batchError
                       batch_mode,
                       RSPARROW_errorOption)
-
-          
+          env <- environment()
+          objs<-data.frame(
+            object = ls(env),
+            size = unlist(lapply(ls(env), function(x) {
+              object.size(get(x, envir = env, inherits = FALSE))})))
+          print(objs)
           #if (class(currentP)[1]=="recordedplot"){
           if (input$enablePlotly=="static"){ 
             # output$plotlyPlot<-NULL

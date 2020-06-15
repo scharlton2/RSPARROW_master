@@ -780,7 +780,11 @@ cat(y, file=reportPath, sep="\n")
               
               if (existGeoLines==TRUE){
                 if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-                plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
+               #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
+                  p<-ggplot() +
+                    geom_sf(data = st_geometry(GeoLines),size = 0.1, fill = predictionMapBackground,colour ="black") +
+                    theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                                       panel.grid.minor = element_blank(), axis.line = element_blank())
                   }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
                     p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                                       stroke = I("black"),color = I(predictionMapBackground),
@@ -796,16 +800,35 @@ cat(y, file=reportPath, sep="\n")
                 mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
                 
-                xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
-                eval(parse(text=xtext))
+                #xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
+                #eval(parse(text=xtext))
+                # save(list = c("GeoLines","lineShape","Mcolors","k","break1","predictionMapBackground",
+                #               "lat_limit","lon_limit","CRStext","lineWidth","mapvarname",
+                #               "mapunits.list"),file ="D:/plotData")
+                
+
+                 p<-p %+% geom_sf(data = st_geometry(lineShape),size = lineWidth, colour = eval(parse(text = mapvarname)),
+                                  show.legend = TRUE) +
+                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
+                                       breaks = break1[k][[1]],
+                                       name = mapunits.list[k])
               } else {
-                xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
-                eval(parse(text=xtext))
+                # xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
+                # eval(parse(text=xtext))
+                p<-ggplot() + 
+                  geom_sf(data = st_geometry(lineShape),size = lineWidth, colour = eval(parse(text = mapvarname)),
+                          show.legend = TRUE) +
+                  coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+                  scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
+                                      breaks = break1[k][[1]],
+                                      name = mapunits.list[k])
+                
               }
               if (mapScenarios==FALSE){
-                title(master_map_list[k],cex.main = predictionTitleSize)
+               # title(master_map_list[k],cex.main = predictionTitleSize)
               }else{
-                  title(paste(input$scenarioName,master_map_list[k],sep=" "),cex.main = predictionTitleSize)  
+                #  title(paste(input$scenarioName,master_map_list[k],sep=" "),cex.main = predictionTitleSize)  
                 
               }
               
@@ -813,19 +836,20 @@ cat(y, file=reportPath, sep="\n")
               
               #legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
               #       bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
-              
-              recordGraphics(legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
-                                    bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o"), 
-                             list(break1 = break1,
-                                  k = k,
-                                  nlty = nlty,
-                                  predictionLegendSize = predictionLegendSize,
-                                  mapunits.list = mapunits.list,
-                                  predictionLegendBackground = predictionLegendBackground,
-                                  nlwd = nlwd,
-                                  Mcolors = Mcolors),
-                             getNamespace("graphics"))
-              p<-recordPlot()
+
+              # recordGraphics(legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
+              #                       bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o"),
+              #                list(break1 = break1,
+              #                     k = k,
+              #                     nlty = nlty,
+              #                     predictionLegendSize = predictionLegendSize,
+              #                     mapunits.list = mapunits.list,
+              #                     predictionLegendBackground = predictionLegendBackground,
+              #                     nlwd = nlwd,
+              #                     Mcolors = Mcolors),
+              #                getNamespace("graphics"))
+              # p<-recordPlot()
+
               if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
                                              (Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
@@ -840,7 +864,7 @@ cat(y, file=reportPath, sep="\n")
                   lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
                   mapdata<-lineShape[lineShape$mapColor==c,]
                   mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
-                  #save(mapdata,file = "D:/mapdata")
+
                   lineText<-"~paste('</br> ',master_map_list[k],' :',
                    round(mapdataname,predictionClassRounding)"
                   
