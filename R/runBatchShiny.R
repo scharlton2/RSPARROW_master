@@ -1,9 +1,13 @@
-runBatchShiny<-function(path_PastResults){
+runBatchShiny<-function(path_PastResults, path_shinyBrowser = NA){
   path_PastResults<-paste0(path_PastResults,"/maps/shinyArgs")
   
   if (file.exists(path_PastResults)){
     load(path_PastResults)
-    file.copy(path_PastResults,paste0(shinyArgs$file.output.list$path_main,.Platform$file.sep,"batch",.Platform$file.sep,"shinyBatch.RData"))
+    
+    shinyArgs$path_shinyBrowser<-path_shinyBrowser
+    save(shinyArgs, 
+         file = paste0(shinyArgs$file.output.list$path_main,.Platform$file.sep,"batch",.Platform$file.sep,"shinyBatch.RData"))
+    #file.copy(path_PastResults,paste0(shinyArgs$file.output.list$path_main,.Platform$file.sep,"batch",.Platform$file.sep,"shinyBatch.RData"))
     
     system(paste(Sys.which("Rscript.exe")," ",
                  file.path(paste(shinyArgs$file.output.list$path_main,.Platform$file.sep,"batch",.Platform$file.sep,"shinyBatch.R",sep="")),sep=""), 

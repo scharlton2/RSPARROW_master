@@ -80,8 +80,10 @@ if (RSPARROW_errorOption=="yes"){
   show.error.locations = TRUE,keep.source = TRUE)
 }#end Error 
 
+if (!is.na(path_shinyBrowser)){
+options(browser = path_shinyBrowser)
+}
 
-#options(browser = "C:/Program Files (x86)/Internet Explorer/iexplore.exe")
 #trigger shiny
 shiny::runApp(shinyMap2(
   #stream/catchment
