@@ -7,7 +7,12 @@ res<-normalizePath(sub(needle, "", cmdArgs[match]))
 #get paths
 load(gsub("shinyBatch.R","shinyBatch.RData",res))
 
-source(paste0(shinyArgs$file.output.list$path_master,.Platform$file.sep,"unPackList.R"))
+#load RSPARROW
+runRsparrow<-"no"
+if_install_packages<-"no"
+devtools::load_all(shinyArgs$file.output.list$path_main,recompile = FALSE)
+
+#source(paste0(shinyArgs$file.output.list$path_master,.Platform$file.sep,"unPackList.R"))
 
 unPackList(lists = list(shinyArgs = shinyArgs),
            parentObj = list(NA)) 
@@ -26,23 +31,24 @@ unPackList(lists = list(file.output.list = file.output.list),
 # 
 # #load required functions
 # sapply(listFuncs, source)
-reqFuncs<-c("shinyMap2.R", "unPackList.R", "createInteractiveChoices.R", 
-            "createRTables.R", "streamCatch.R", "shinySiteAttr.R", "shinyScenarios.R", 
-            "shapeFunc.R", "selectAll.R", "updateVariable.R", "shinyScenariosMod.R", 
-            "testCosmetic.R", "validCosmetic.R", "testRedTbl.R", "goShinyPlot.R", 
-            "dropFunc.R", "handsOnUI.R", "handsOnMod.R", "compileInput.R", 
-            "convertHotTables.R", "getNumSett.R", "getSpecialSett.R", "compileALL.R", 
-            "shinyErrorTrap.R", "predictMaps.R", "mapSiteAttributes.R", "sourceRedFunc.R", 
-            "predictScenarios.R", "allowRemoveRow.R", "areColors.R", "checkBinaryMaps.R", 
-            "mapBreaks.R", "addMarkerText.R", "replaceNAs.R", "predictScenariosPrep.R", 
-            "predictScenariosOutCSV.R", "outputSettings.R", "hydseqTerm.R", 
-            "getVarList.R", "getCharSett.R", "getShortSett.R", "getYesNoSett.R", 
-            "getOptionSett.R", "named.list.R","errorOccurred.R")
-reqFuncs<-paste0(file.output.list$path_master,reqFuncs)
-reqFuncs<-sapply(reqFuncs, source)
+# reqFuncs<-c("shinyMap2.R", "unPackList.R", "createInteractiveChoices.R", 
+#             "createRTables.R", "streamCatch.R", "shinySiteAttr.R", "shinyScenarios.R", 
+#             "shapeFunc.R", "selectAll.R", "updateVariable.R", "shinyScenariosMod.R", 
+#             "testCosmetic.R", "validCosmetic.R", "testRedTbl.R", "goShinyPlot.R", 
+#             "dropFunc.R", "handsOnUI.R", "handsOnMod.R", "compileInput.R", 
+#             "convertHotTables.R", "getNumSett.R", "getSpecialSett.R", "compileALL.R", 
+#             "shinyErrorTrap.R", "predictMaps.R", "mapSiteAttributes.R", "sourceRedFunc.R", 
+#             "predictScenarios.R", "allowRemoveRow.R", "areColors.R", "checkBinaryMaps.R", 
+#             "mapBreaks.R", "addMarkerText.R", "replaceNAs.R", "predictScenariosPrep.R", 
+#             "predictScenariosOutCSV.R", "outputSettings.R", "hydseqTerm.R", 
+#             "getVarList.R", "getCharSett.R", "getShortSett.R", "getYesNoSett.R", 
+#             "getOptionSett.R", "named.list.R","errorOccurred.R")
+# reqFuncs<-paste0(file.output.list$path_master,reqFuncs)
+# reqFuncs<-sapply(reqFuncs, source)
+# 
+# #load libraries
+# suppressWarnings(suppressMessages(library(shiny)))
 
-#load libraries
-suppressWarnings(suppressMessages(library(shiny)))
 
 if (RSPARROW_errorOption=="yes"){
   #errorhandle
