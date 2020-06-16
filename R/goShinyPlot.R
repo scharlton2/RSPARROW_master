@@ -195,7 +195,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             #regular
             mapColumn,mapdata,GeoLines,mapping.input.list,
             strTitle,unitAttr,batch_mode)
-          
+          assign("p",p,envir = .GlobalEnv)
           return(p) 
           
         }else if (input$mapType=="Source Change Scenarios"){
@@ -221,6 +221,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             mapping.input.list,
             batch_mode,
             RSPARROW_errorOption)
+          assign("p",p,envir = .GlobalEnv)
           return(p)
           
         }

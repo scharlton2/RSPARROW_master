@@ -50,7 +50,7 @@ predictMaps<-function(#Rshiny
   scenarioFlag,
   batch_mode) {
   
-  
+
   unPackList(lists = list(file.output.list = file.output.list),
              parentObj = list(NA)) 
   
@@ -799,8 +799,8 @@ cat(y, file=reportPath, sep="\n")
               if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                 mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
-                lineShape$currentColor<-eval(parse(text = mapvarname))
-                p<-p %+% geom_sf(data = lineShape, size = lineWidth, aes(colour = currentColor),
+                lineShape$mapColor<-eval(parse(text = mapvarname))
+                p<-p %+% geom_sf(data = lineShape, size = lineWidth, aes(colour = mapColor),
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
@@ -817,9 +817,9 @@ cat(y, file=reportPath, sep="\n")
                                 guides(col = guide_legend(ncol=1))
 
               } else {
-                lineShape$currentColor<-eval(parse(text = mapvarname))
+                lineShape$mapColor<-eval(parse(text = mapvarname))
                 p<-ggplot() +
-                  geom_sf(data = lineShape, size = lineWidth, aes(colour = currentColor),
+                  geom_sf(data = lineShape, size = lineWidth, aes(colour = mapColor),
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
@@ -1081,7 +1081,7 @@ cat(y, file=reportPath, sep="\n")
             }
             
             #if (enable_plotlyMaps=="yes"){
-            if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly" | enable_plotlyMaps=="leaflet"){
+            #if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly" | enable_plotlyMaps=="leaflet"){
               if (mapScenarios==FALSE){
                 titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
               }else{
@@ -1105,12 +1105,15 @@ cat(y, file=reportPath, sep="\n")
                                title = "Latitude"),
                   title = titleStr)
               }
-            }
+           # }
             
             
             if (existGeoLines==TRUE){
               if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-                plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
+                p <- ggplot() +
+                  geom_sf(data = GeoLines, size = 0.1, fill = predictionMapBackground, colour ="black") +
+                  theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                                     panel.grid.minor = element_blank(), axis.line = element_blank()) 
               }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
                 p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                                   stroke = I("black"),color = I(predictionMapBackground),
@@ -1125,39 +1128,51 @@ cat(y, file=reportPath, sep="\n")
             if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
               mapvarname <- paste("polyShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
-                
-                xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
-                eval(parse(text=xtext))
+                polyShape$mapColor<-eval(parse(text = mapvarname))
+                p<-p %+% geom_sf(data = polyShape, #size = lineWidth, 
+                                 aes(fill = mapColor),colour = NA,
+                                 show.legend = TRUE) +
+                  coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+                  scale_fill_manual(values = Mcolors[1:length(break1[k][[1]])],
+                                      labels = break1[k][[1]],
+                                      name = mapunits.list[k]) +
+                  ggtitle('",titleStr,"') +
+                  theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
+                        legend.position='bottom',
+                        legend.justification = 'left',
+                        legend.text = element_text(size = 24*predictionLegendSize),
+                        legend.title = element_text(size = 26*predictionLegendSize,face ='bold'),
+                        legend.background = element_rect(fill=predictionLegendBackground),
+                        legend.key.size = unit(predictionLegendSize, 'cm')) +
+                  guides(fill = guide_legend(ncol=1))
+                #xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
+                #eval(parse(text=xtext))
               } else {
-                xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground))",sep="")
-                eval(parse(text=xtext))
+                polyShape$mapColor<-eval(parse(text = mapvarname))
+                p<-ggplot() +
+                  geom_sf(data = polyShape, #size = lineWidth, 
+                                 aes(fill = mapColor),colour = NA,
+                                 show.legend = TRUE) +
+                  coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+                  scale_fill_manual(values = Mcolors[1:length(break1[k][[1]])],
+                                    labels = break1[k][[1]],
+                                    name = mapunits.list[k]) +
+                  ggtitle('",titleStr,"') +
+                  theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
+                        legend.position='bottom',
+                        legend.justification = 'left',
+                        legend.text = element_text(size = 24*predictionLegendSize),
+                        legend.title = element_text(size = 26*predictionLegendSize,face ='bold'),
+                        legend.background = element_rect(fill=predictionLegendBackground),
+                        legend.key.size = unit(predictionLegendSize, 'cm')) +
+                  guides(fill = guide_legend(ncol=1))
               }
-              if (mapScenarios==FALSE){
-                title(master_map_list[k],cex.main = predictionTitleSize)
-              }else{
-                title(paste(input$scenarioName,master_map_list[k],sep=" "),cex.main = predictionTitleSize)  
-                
-              }
+
               
-              
-              
-              recordGraphics(legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
-                     bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o"), 
-                     list(break1 = break1,
-                          k = k,
-                          nlty = nlty,
-                          predictionLegendSize = predictionLegendSize,
-                          mapunits.list = mapunits.list,
-                          predictionLegendBackground = predictionLegendBackground,
-                          nlwd = nlwd,
-                          Mcolors = Mcolors),
-                     getNamespace("graphics"))
-              
-              
-              p<-recordPlot()
               if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
                                              (Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
+                print(p)
                 dev.off()
               #  procTime<-proc.time() - ptm
                
@@ -1226,7 +1241,7 @@ cat(y, file=reportPath, sep="\n")
                 addPolygons(
                   data = mapdata, 
                   color = 'grey', 
-                  weight = 1, 
+                  weight = 0, 
                   stroke = FALSE,
                   fillColor = ~col2hex(mapColor),
                   fillOpacit = 0.9,
