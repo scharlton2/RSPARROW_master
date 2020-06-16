@@ -87,7 +87,11 @@ if (RSPARROW_errorOption=="yes"){
 }#end Error 
 
 if (!is.na(path_shinyBrowser)){
+  if (file.exists(path_shinyBrowser)){
 options(browser = path_shinyBrowser)
+  }else{
+    message(paste0("INVALID path_shinyBrowser : ",path_shinyBrowser,"/nDefault browser will be used for shiny"))
+  }
 }
 
 #trigger shiny
