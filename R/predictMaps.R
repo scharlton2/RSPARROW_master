@@ -780,12 +780,6 @@ cat(y, file=reportPath, sep="\n")
               
               if (existGeoLines==TRUE){
                 if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-               #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
-                  # p<-ggplot() +
-                  #   geom_sf(data = GeoLines,size = 0.1, fill = predictionMapBackground,colour ="black") +
-                  #   theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-                  #                      panel.grid.minor = element_blank(), axis.line = element_blank())
-
                   p <- ggplot() +
                     geom_sf(data = GeoLines, size = 0.1, fill = predictionMapBackground, colour ="black") +
                     theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
@@ -805,69 +799,49 @@ cat(y, file=reportPath, sep="\n")
               if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                 mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
-                
-                #xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
-                #eval(parse(text=xtext))
-                # save(list = c("GeoLines","lineShape","Mcolors","k","break1","predictionMapBackground",
-                #               "lat_limit","lon_limit","CRStext","lineWidth","mapvarname",
-                #               "mapunits.list"),file ="D:/plotData")
-
-                xtext <- paste0("p<-p %+% geom_sf(data = lineShape, size = lineWidth, aes(colour = MAPCOLORS",k,"),
+                lineShape$currentColor<-eval(parse(text = mapvarname))
+                p<-p %+% geom_sf(data = lineShape, size = lineWidth, aes(colour = currentColor),
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
                                       labels = break1[k][[1]],
                                       name = mapunits.list[k]) +
                                 ggtitle('",titleStr,"') +
-                                theme(plot.title = element_text(hjust = 0.5,size = 18, face = 'bold'),
-                                legend.justification = 'top')")
-                eval(parse(text=xtext))
-                 # p<-p %+% geom_sf(data = lineShape,size = lineWidth,colour = eval(parse(text = mapvarname)),
-                 #                  show.legend = TRUE) +
-                 #   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-                 #   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
-                 #                       breaks = break1[k][[1]],
-                 #                       name = mapunits.list[k])
+                                theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
+                                legend.position='bottom',
+                                legend.justification = 'left',
+                                legend.text = element_text(size = 24*predictionLegendSize),
+                                legend.title = element_text(size = 26*predictionLegendSize,face ='bold'),
+                                legend.background = element_rect(fill=predictionLegendBackground),
+                                legend.key.size = unit(predictionLegendSize, 'cm')) +
+                                guides(col = guide_legend(ncol=1))
+
               } else {
-                # xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
-                # eval(parse(text=xtext))
-                p<-ggplot() + 
-                  geom_sf(data = st_geometry(lineShape),size = lineWidth, aes(colour = eval(parse(text = mapvarname))),
-                          show.legend = TRUE) +
+                lineShape$currentColor<-eval(parse(text = mapvarname))
+                p<-ggplot() +
+                  geom_sf(data = lineShape, size = lineWidth, aes(colour = currentColor),
+                                 show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
-                                      breaks = break1[k][[1]],
-                                      name = mapunits.list[k])
+                                      labels = break1[k][[1]],
+                                      name = mapunits.list[k]) +
+                  ggtitle('",titleStr,"') +
+                  theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
+                        legend.position='bottom',
+                        legend.justification = 'left',
+                        legend.text = element_text(size = 24*predictionLegendSize),
+                        legend.title = element_text(size = 26*predictionLegendSize,face ='bold'),
+                        legend.background = element_rect(fill=predictionLegendBackground),
+                        legend.key.size = unit(predictionLegendSize, 'cm')) +
+                  guides(col = guide_legend(ncol=1))
                 
               }
-              if (mapScenarios==FALSE){
-               # title(master_map_list[k],cex.main = predictionTitleSize)
-              }else{
-                #  title(paste(input$scenarioName,master_map_list[k],sep=" "),cex.main = predictionTitleSize)  
                 
-              }
-              
-              
-              
-              #legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
-              #       bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
-
-              # recordGraphics(legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
-              #                       bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o"),
-              #                list(break1 = break1,
-              #                     k = k,
-              #                     nlty = nlty,
-              #                     predictionLegendSize = predictionLegendSize,
-              #                     mapunits.list = mapunits.list,
-              #                     predictionLegendBackground = predictionLegendBackground,
-              #                     nlwd = nlwd,
-              #                     Mcolors = Mcolors),
-              #                getNamespace("graphics"))
-              # p<-recordPlot()
-
+                
               if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
                                              (Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
+                print(p)
                 dev.off()
               }
               

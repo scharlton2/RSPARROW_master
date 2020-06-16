@@ -183,6 +183,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                           predictScenarios.list,
                           scenarioFlag,
                           batch_mode)
+          assign("p",p,envir = .GlobalEnv)
 
           return(p)
 
@@ -205,7 +206,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           
           #delete previously generated scenario output with same scenario name
           unlink(list.files(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,sep=""),full.names = TRUE),recursive = TRUE)
-          p<<- predictScenarios(#Rshiny
+          p<- predictScenarios(#Rshiny
             compiledInput,NA, tolower(as.character(compiledInput$outType)),TRUE,
             #regular
             estimate.input.list,estimate.list,
@@ -231,17 +232,18 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             modalButton("OK")
           )
         ))
-        if (class(p)[1]=="recordedplot" & input$enablePlotly=="static"){
+        if (class(p)[1]=="gg" & input$enablePlotly=="static"){
           pdf(filename)
         }else if (class(p)[1]=="plotly" | class(p)[1]=="leaflet") {
           filename<-gsub(".pdf",".html",filename)
         }
         
-        if ((class(p)[1]=="recordedplot" & input$enablePlotly=="static") | 
+        if ((class(p)[1]=="gg" & input$enablePlotly=="static") | 
             (class(p)[1]=="plotly" & input$enablePlotly=="plotly") | 
             (class(p)[1]=="leaflet" & input$enablePlotly=="leaflet")){
-          if (class(p)[1]=="recordedplot" & input$enablePlotly=="static"){
-            replayPlot(p)
+          if (class(p)[1]=="gg" & input$enablePlotly=="static"){
+            #replayPlot(p)
+            print(p)
           }else if (class(p)[1]=="plotly" | class(p)[1]=="leaflet") {
             reportPath<-paste0(path_master,"shinySavePlot.Rmd")
             #edit title of report
@@ -283,7 +285,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             showModal(dataModal())
             mapScenarios<-FALSE
             scenarioFlag<-NA
-            p<<-predictMaps(compiledInput,NA,output_map_type,TRUE,
+            p<-predictMaps(compiledInput,NA,output_map_type,TRUE,
                             file.output.list,
                             data_names,mapping.input.list,
                             subdata,
@@ -298,7 +300,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             
           }else if (input$mapType=="Site Attributes"){
             showModal(dataModal())
-            p<<-mapSiteAttributes(#Rshiny
+            p<-mapSiteAttributes(#Rshiny
               compiledInput,NA, path_gis, sitedata, LineShapeGeo,data_names,TRUE,
               #regular
               mapColumn,mapdata,GeoLines,mapping.input.list,
@@ -311,7 +313,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             
             #delete previously generated scenario output with same scenario name
             unlink(list.files(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,sep=""),full.names = TRUE),recursive = TRUE)
-            p<<- predictScenarios(#Rshiny
+            p<- predictScenarios(#Rshiny
               compiledInput,NA, tolower(as.character(compiledInput$outType)),TRUE,
               #regular
               estimate.input.list,estimate.list,
@@ -330,13 +332,15 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             
           }
           
-          if (class(p)[1]=="recordedplot" & input$enablePlotly=="static"){
+          if (class(p)[1]=="gg" & input$enablePlotly=="static"){
             pdf(filename)
           }else if (class(p)[1]=="plotly" | class(p)[1]=="leaflet") {
             filename<-gsub(".pdf",".html",filename)
           }
-          if (class(p)[1]=="recordedplot" & input$enablePlotly=="static"){
-            replayPlot(p)
+          if (class(p)[1]=="gg" & input$enablePlotly=="static"){
+            #replayPlot(p)
+           print(p)
+            #ggsave(p,height = 7, width = 7,filename = filename, units = "in")
           }else if (class(p)[1]=="plotly" | class(p)[1]=="leaflet") {
             reportPath<-paste0(path_master,"shinySavePlot.Rmd")
             #edit title of report
