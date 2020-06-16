@@ -81,6 +81,7 @@ if (RSPARROW_errorOption=="yes"){
 }#end Error 
 
 
+#options(browser = "C:/Program Files (x86)/Internet Explorer/iexplore.exe")
 #trigger shiny
 shiny::runApp(shinyMap2(
   #stream/catchment

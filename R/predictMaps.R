@@ -749,10 +749,7 @@ cat(y, file=reportPath, sep="\n")
                                              (Rshiny==TRUE & input$batch=="Batch"))){
                 pdf(filename)
               }
-              
-             # if (enable_plotlyMaps=="yes"){
-              if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly" | enable_plotlyMaps=="leaflet"){
-                if (mapScenarios==FALSE){
+             if (mapScenarios==FALSE){
                   titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
                 }else{
                   if (Rshiny==FALSE){
@@ -761,6 +758,9 @@ cat(y, file=reportPath, sep="\n")
                     titleStr<-paste(input$scenarioName,master_map_list[k],"\n",mapunits.list[k],sep=" ")
                   }
                 }
+             # if (enable_plotlyMaps=="yes"){
+             # if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly" | enable_plotlyMaps=="leaflet"){
+
                 
                 if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
                 #start plotly plot
@@ -775,16 +775,22 @@ cat(y, file=reportPath, sep="\n")
                                  title = "Latitude"),
                     title = titleStr)
                 }
-              }
+              #}
               
               
               if (existGeoLines==TRUE){
                 if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
-                  p<-ggplot() +
-                    geom_sf(data = st_geometry(GeoLines),size = 0.1, fill = predictionMapBackground,colour ="black") +
+                  # p<-ggplot() +
+                  #   geom_sf(data = GeoLines,size = 0.1, fill = predictionMapBackground,colour ="black") +
+                  #   theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                  #                      panel.grid.minor = element_blank(), axis.line = element_blank())
+
+                  p <- ggplot() +
+                    geom_sf(data = GeoLines, size = 0.1, fill = predictionMapBackground, colour ="black") +
                     theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-                                       panel.grid.minor = element_blank(), axis.line = element_blank())
+                                       panel.grid.minor = element_blank(), axis.line = element_blank()) 
+
                   }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
                     p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                                       stroke = I("black"),color = I(predictionMapBackground),
@@ -805,19 +811,28 @@ cat(y, file=reportPath, sep="\n")
                 # save(list = c("GeoLines","lineShape","Mcolors","k","break1","predictionMapBackground",
                 #               "lat_limit","lon_limit","CRStext","lineWidth","mapvarname",
                 #               "mapunits.list"),file ="D:/plotData")
-                
 
-                 p<-p %+% geom_sf(data = st_geometry(lineShape),size = lineWidth, colour = eval(parse(text = mapvarname)),
-                                  show.legend = TRUE) +
-                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
-                                       breaks = break1[k][[1]],
-                                       name = mapunits.list[k])
+                xtext <- paste0("p<-p %+% geom_sf(data = lineShape, size = lineWidth, aes(colour = MAPCOLORS",k,"),
+                                 show.legend = TRUE) +
+                  coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+                  scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
+                                      labels = break1[k][[1]],
+                                      name = mapunits.list[k]) +
+                                ggtitle('",titleStr,"') +
+                                theme(plot.title = element_text(hjust = 0.5,size = 18, face = 'bold'),
+                                legend.justification = 'top')")
+                eval(parse(text=xtext))
+                 # p<-p %+% geom_sf(data = lineShape,size = lineWidth,colour = eval(parse(text = mapvarname)),
+                 #                  show.legend = TRUE) +
+                 #   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+                 #   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
+                 #                       breaks = break1[k][[1]],
+                 #                       name = mapunits.list[k])
               } else {
                 # xtext <- paste("plot(st_geometry(lineShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
                 # eval(parse(text=xtext))
                 p<-ggplot() + 
-                  geom_sf(data = st_geometry(lineShape),size = lineWidth, colour = eval(parse(text = mapvarname)),
+                  geom_sf(data = st_geometry(lineShape),size = lineWidth, aes(colour = eval(parse(text = mapvarname))),
                           show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],

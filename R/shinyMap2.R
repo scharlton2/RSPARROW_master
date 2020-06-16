@@ -103,6 +103,7 @@ shinyMap2<-function(
   suppressWarnings(suppressMessages(library(mapview)))
   suppressWarnings(suppressMessages(library(magrittr)))
   suppressWarnings(suppressMessages(library(gplots)))
+  suppressWarnings(suppressMessages(library(ggplot2)))
   
   unPackList(lists = list(file.output.list = file.output.list,
                           scenario.input.list = scenario.input.list,
