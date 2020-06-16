@@ -481,30 +481,29 @@ startModelRun<-function(file.output.list,
   }
   assign("map_uncertainties",map_uncertainties,envir = .GlobalEnv)
   assign("BootUncertainties",BootUncertainties,envir = .GlobalEnv)
-  
-  if (enable_ShinyApp=="yes" & batch_mode=="no"){
+
     #setup for interactive Mapping
-    shiny::runApp(shinyMap2(
-      #stream/catchment
-      file.output.list,map_uncertainties,BootUncertainties,
-      data_names,mapping.input.list,
-      #predict.list,
-      subdata,SelParmValues,
-      #site attr
-      sitedata,
-      #scenarios
-      estimate.list,estimate.input.list,
-      ConcFactor,DataMatrix.list,dlvdsgn,
-      reach_decay_specification,reservoir_decay_specification,
-      scenario.input.list,if_predict,
-      #scenarios out
-      add_vars,
-      #batchError
-      batch_mode,
-      RSPARROW_errorOption))
-    stopApp()
+    shinyArgs<-named.list(file.output.list,map_uncertainties,BootUncertainties,
+                          data_names,mapping.input.list,
+                          #predict.list,
+                          subdata,SelParmValues,
+                          #site attr
+                          sitedata,
+                          #scenarios
+                          estimate.list,estimate.input.list,
+                          ConcFactor,DataMatrix.list,dlvdsgn,
+                          reach_decay_specification,reservoir_decay_specification,scenario.input.list,
+                          if_predict,
+                          #scenarios out
+                          add_vars,
+                          #batchError
+                          batch_mode,RSPARROW_errorOption)
     
     
+    save(shinyArgs, file= paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs"))    
+  
+    if (enable_ShinyApp=="yes" & batch_mode=="no"){
+    runBatchShiny(path_results,path_shinyBrowser)
   }#end interactive maps
   
   # }#if runScript=yes

@@ -132,24 +132,9 @@ if (length(res)!=0){
                   batch_mode,
                   RSPARROW_errorOption)
     
-    #add to run shiny independently
-    shinyArgs<-named.list(file.output.list,map_uncertainties,BootUncertainties,
-                          data_names,mapping.input.list,
-                          #predict.list,
-                          subdata,SelParmValues,
-                          #site attr
-                          sitedata,
-                          #scenarios
-                          estimate.list,
-                          ConcFactor,DataMatrix.list,dlvdsgn,
-                          reach_decay_specification,reservoir_decay_specification,scenario.input.list,
-                          #scenarios out
-                          add_vars,
-                          #batchError
-                          batch_mode,RSPARROW_errorOption)
-    save.image(file=paste(path_results,.Platform$file.sep,"batchSessionInfo",.Platform$file.sep,run_id,".RData",sep=""))
-    save(shinyArgs, file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs"))
     
+    save.image(file=paste(path_results,.Platform$file.sep,"batchSessionInfo",.Platform$file.sep,run_id,".RData",sep=""))
+
     
     sink()
   }
