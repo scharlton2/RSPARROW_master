@@ -58,6 +58,25 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     
   }#end setup mapType    
   
+  #create function to make a vector of classes for legend
+  makeAESvector<-function(mapdata, values, breaks,include = "all"){
+    #first break
+    if (include %in% c("all","first")){
+      colData<-ifelse(mapdata$mapColumn<=breaks[1],values[1],NA)
+    }else{
+      colData<-rep(NA,nrow(mapdata))
+    }
+    for (k in 1:(length(breaks)-1)) {
+      colData<-ifelse(mapdata$mapColumn > breaks[k] & mapdata$mapColumn <= breaks[k+1],
+                      values[k+1],
+                      colData)
+    }
+    #last break
+    if (include %in% c("all","last")){
+      colData<-ifelse(mapdata$mapColumn>breaks[(length(breaks)-1)],values[length(breaks)],colData)
+    }
+    return(colData)
+  } 
   
   #point size and color  
   if (enable_plotlyMaps=="no"){
@@ -70,17 +89,15 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
   uniqueColsleaf<-colorNumeric(color, 1:length(color))
   cbckgrd <- residualMapBackground
   
-  # Symbol types:
-  
- # pnchPlotly<-c("triangle-up-open","triangle-up-open","circle-open","circle-open","circle-open","circle-open",
-#                "triangle-down-open","triangle-down-open")
   
   if (enable_plotlyMaps=="no"){
     pnch <- residualPointStyle
     par(mfrow=c(1,1))    # 1 plots on one page
     
-    plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
-   # title(strTitle, cex.main =siteAttrTitleSize)
+    p <- ggplot() +
+      geom_sf(data = GeoLines, size = 0.1, fill = cbckgrd, colour ="black") +
+      theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                         panel.grid.minor = element_blank(), axis.line = element_blank())
     
   }else{#plotly
     pnch<-sapply(residualPointStyle, function(x) as.character(pchPlotlyCross[pchPlotlyCross$pch==x,]$plotly))
@@ -133,11 +150,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     nabove <- eval(parse(text=paste("length(above$",mapColumn,")",sep="")))
 
     #for below threshold
-   # plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
-    if (enable_plotlyMaps=="no"){
-   title(bquote(paste(.(strTitle)," - Over Predictions - n=",.(nabove))),cex.main=residualTitleSize)
-    }else{
     strTitle2<-paste(strTitle," - Over Predictions - n=",nabove)
+    if (enable_plotlyMaps=="yes"){
     p <- p %>% layout(title = strTitle2)  
     } 
     
@@ -146,14 +160,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     Lat<- map1$xlat
     Lon<- map1$xlon
     
-    #plotloc <- data.frame(Lat,Lon)
-    #points(plotloc$Lon, plotloc$Lat, pch=pnch[1], col=color[1], cex=sze[1])  
-    
-    if (enable_plotlyMaps=="no"){
-      plotloc <- data.frame(Lat,Lon)
-      points(plotloc$Lon, plotloc$Lat, pch=pnch[1], col=color[1], cex=sze[1])  
-      
-    }else{#plotly
+ 
+    if (enable_plotlyMaps=="yes"){#plotly
       
       eval(parse(text = plotLocStr))
       #update markerList for marker styling
@@ -179,16 +187,12 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn,"<= cls[k+1]), ]",sep="")))
       Lat<- map1$xlat
       Lon<- map1$xlon
-     # plotloc <- data.frame(Lat,Lon)
-    #  points(plotloc$Lon, plotloc$Lat, pch=pnch[k+1], col=color[k+1], cex=sze[k+1])
+
       strlegend<-paste(cls[k]," to ",cls[k+1],sep="")
       strLegend<-c(strLegend,strlegend)
       
-      if (enable_plotlyMaps=="no"){
-        plotloc <- data.frame(Lat,Lon)
-        points(plotloc$Lon, plotloc$Lat, pch=pnch[k+1], col=color[k+1], cex=sze[k+1]) 
+      if (enable_plotlyMaps=="yes"){#plotly
         
-      }else{#plotly
         eval(parse(text = plotLocStr))
         #update markerList for marker styling
         markerList<-paste0("list(symbol = pnch[k+1], size = sze[k+1],")
@@ -211,28 +215,52 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     }
     
     if (enable_plotlyMaps=="no"){
-      legend("bottomleft",strLegend,
-             bg=cbckgrd, bty="o",pch = residualPointStyle[1:4], pt.cex = residualPointSize_breakpoints[1:4]*residualPointSize_factor, col=color[1:4]
-             ,cex=residualLegendSize)
       
-    }else{#plotly
-      return(p)
+      mapdata$mapColumn<-eval(parse(text = paste0("mapdata$",mapColumn)))
+      map1<-mapdata[mapdata$mapColumn<=cls[4],]
+      
+      #create vector of classes for legend
+      map1$cls<-makeAESvector(map1,values = seq(1,4,1), breaks = cls[1:4], include = "first")
+      
+      #make sf object
+      map1<-st_as_sf(map1,coords = c("xlon", "xlat"), crs = CRStext)
+
+      p<-p +
+        geom_sf(data = map1,
+                aes(colour = as.factor(cls), size = as.factor(cls), shape = as.factor(cls)), 
+                show.legend = TRUE) +
+        coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+        scale_colour_manual(values = residualColors[1:4],
+                            labels = strLegend[1:4],
+                            name = "Over Predictions") +
+        scale_shape_manual(values = pnch[1:4],
+                           labels = strLegend,
+                           name = "Over Predictions") +
+        scale_size_manual(values = sze[1:4]*residualPointSize_factor,
+                          labels = strLegend[1:4],
+                          name = "Over Predictions") +
+        ggtitle(paste0(mapColumnName,"\n",strTitle2)) +
+        theme(plot.title = element_text(hjust = 0.5,size =residualTitleSize, face = 'bold'),
+              legend.position='bottom',
+              legend.justification = 'left',
+              legend.text = element_text(size = 24*residualLegendSize),
+              legend.title = element_text(size = 26*residualLegendSize,face ='bold'),
+              legend.background = element_rect(fill=residualMapBackground),
+              legend.key.size = unit(residualLegendSize, 'cm'),
+              legend.key = element_rect(fill = residualMapBackground)) +
+        guides(col = guide_legend(ncol=1), size = "legend", shape = "legend")
+
+      
     }
+      return(p)
+    
   }else if ("threshold-below" %in% map.list){ 
     below <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn,">",threshold,"),]",sep="")))
     nbelow <- eval(parse(text=paste("length(below$",mapColumn,")",sep="")))
-    
-    if (enable_plotlyMaps=="no"){
-      par(mfrow=c(1,1), pch=1)    # 1 plots on one page
-      
-      #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
-      # title(strTitle, cex.main =siteAttrTitleSize)
-      
-    }else{#plotly
-      
 
-      
-      #plotly plot
+    if (enable_plotlyMaps=="yes"){
+#plotly
+ #plotly plot
       p<-plot_ly() %>%
         layout(
           showlegend =TRUE,
@@ -246,26 +274,20 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
                stroke = I("black"),color = I(cbckgrd),
                name = LineShapeGeo)
     }   
-    
+
     #for above threshold
-    #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
-    if (enable_plotlyMaps=="no"){
-      title(bquote(paste(.(strTitle)," - Under Predictions - n=",.(nbelow))),cex.main=residualTitleSize)
-    }else{
-      strTitle2<-paste(strTitle," - Under Predictions - n=",nbelow)
+    strTitle2<-paste(strTitle," - Under Predictions - n=",nbelow)
+    if (enable_plotlyMaps=="yes"){
       p <- p %>% layout(title = strTitle2)  
     }
-
-
-    
+ 
     strLegend<-vector('character')
-    
+
     for (k in 4:7) {
       map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]",sep="")))
       Lat<- map1$xlat
       Lon<- map1$xlon
-      #plotloc <- data.frame(Lat,Lon)
-      #points(plotloc$Lon, plotloc$Lat, pch=pnch[k+1], col=color[k+1], cex=sze[k+1]) 
+
       if (k!=7){
         strlegend<-paste(cls[k]," to ",cls[k+1],sep="")
       }else{
@@ -273,11 +295,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       }
       strLegend<-c(strLegend,strlegend)
       
-      if (enable_plotlyMaps=="no"){
-        plotloc <- data.frame(Lat,Lon)
-        points(plotloc$Lon, plotloc$Lat, pch=pnch[k+1], col=color[k+1], cex=sze[k+1]) 
-        
-      }else{#plotly
+      if (enable_plotlyMaps=="yes"){
+       #plotly
         eval(parse(text = plotLocStr))
         #update markerList for marker styling
         markerList<-paste0("list(symbol = pnch[k+1], size = sze[k+1],")
@@ -299,17 +318,13 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       
     }
     
-    
-        map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[7]), ]",sep="")))
+
+    map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[7]), ]",sep="")))
     Lat<- map1$xlat
     Lon<- map1$xlon
-   # plotloc <- data.frame(Lat,Lon)
-  #  points(plotloc$Lon, plotloc$Lat, pch=pnch[8], col=color[8], cex=sze[8])  
-    if (enable_plotlyMaps=="no"){
-      plotloc <- data.frame(Lat,Lon)
-      points(plotloc$Lon, plotloc$Lat, pch=pnch[8], col=color[8], cex=sze[8])  
-      
-    }else{#plotly
+
+    if (enable_plotlyMaps=="yes"){
+#plotly
       
       eval(parse(text = plotLocStr))
       #update markerList for marker styling
@@ -327,30 +342,53 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
                            hoverinfo = 'text',
                            text = eval(parse(text = markerText)))
     }
-    
+
     if (enable_plotlyMaps=="no"){
-      legend("bottomleft",strLegend,
-             bg=cbckgrd, bty="o",pch = residualPointStyle[5:8], pt.cex = residualPointSize_breakpoints[5:8]*residualPointSize_factor, 
-             col=color[5:8],cex=residualLegendSize)
+      mapdata$mapColumn<-eval(parse(text = paste0("mapdata$",mapColumn)))
+      map1<-mapdata[mapdata$mapColumn>cls[4],]
+
+      #create vector of classes for legend
+      map1$cls<-makeAESvector(map1,values = seq(4,8,1), breaks = cls[4:8], include = "last")
+
+      map1<-st_as_sf(map1,coords = c("xlon", "xlat"), crs = CRStext)
+
+      p<-p +
+        geom_sf(data = map1,
+                aes(colour = as.factor(cls), size = as.factor(cls), shape = as.factor(cls)), 
+                show.legend = TRUE) +
+        coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+        scale_colour_manual(values = residualColors[5:8],
+                            labels = strLegend[1:4],
+                            name = "Under Predictions") +
+        scale_shape_manual(values = pnch[5:8],
+                           labels = strLegend[1:4],
+                           name = "Under Predictions") +
+        scale_size_manual(values = sze[5:8]*residualPointSize_factor,
+                          labels = strLegend[1:4],
+                          name = "Under Predictions") +
+        ggtitle(paste0(mapColumnName,"\n",strTitle2)) +
+        theme(plot.title = element_text(hjust = 0.5,size =residualTitleSize, face = 'bold'),
+              legend.position='bottom',
+              legend.justification = 'left',
+              legend.text = element_text(size = 24*residualLegendSize),
+              legend.title = element_text(size = 26*residualLegendSize,face ='bold'),
+              legend.background = element_rect(fill=residualMapBackground),
+              legend.key.size = unit(residualLegendSize, 'cm'),
+              legend.key = element_rect(fill = residualMapBackground)) +
+        guides(col = guide_legend(ncol=1), size = "legend", shape = "legend")
       
-    }else{#plotly
-      return(p)
+      
     }
+      return(p)
+    
 
   }#end if threshold map    
   
   if ("all" %in% map.list){
     #for all cls
-    #par(mfrow=c(1,1), pch=16)    # 1 plots on one page
     
-    #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
-    #title(strTitle,cex.main=residualTitleSize)
-    
-    if (enable_plotlyMaps=="no"){
-      par(mfrow=c(1,1))    # 1 plots on one page
-      #plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = cbckgrd)
-      
-    }else{#plotly
+    if (enable_plotlyMaps=="yes"){
+#plotly
 
       #plotly plot
       p<-plot_ly() %>%
@@ -368,10 +406,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     }   
     
 
-    if (enable_plotlyMaps=="no"){
-      title(strTitle,cex.main=residualTitleSize)
-    }else{
-      strTitle2<-strTitle
+    strTitle2<-strTitle
+    if (enable_plotlyMaps=="yes"){
       p <- p %>% layout(title = strTitle2)  
     }
     
@@ -382,11 +418,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
 
     strLegend<-paste("< ",cls[1],sep="")
     
-    if (enable_plotlyMaps=="no"){
-      plotloc <- data.frame(Lat,Lon)
-      points(plotloc$Lon, plotloc$Lat, pch=pnch[1], col=color[1], cex=sze[1]) 
-      
-    }else{#plotly
+    if (enable_plotlyMaps=="yes"){#plotly
       eval(parse(text = plotLocStr))
       #update markerList for marker styling
       markerList<-paste0("list(symbol = pnch[1], size = sze[1],")
@@ -408,9 +440,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]",sep="")))
       Lat<- map1$xlat
       Lon<- map1$xlon
-      #plotloc <- data.frame(Lat,Lon)
-      #points(plotloc$Lon, plotloc$Lat, pch=pnch[k+1], col=color[k+1], cex=sze[k+1]) 
-      
+
       if (k!=7){
         strlegend<-paste(cls[k]," to ",cls[k+1],sep="")
       }else{
@@ -419,11 +449,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       strLegend<-c(strLegend,strlegend)
     
     
-    if (enable_plotlyMaps=="no"){
-      plotloc <- data.frame(Lat,Lon)
-      points(plotloc$Lon, plotloc$Lat, pch=pnch[k+1], col=color[k+1], cex=sze[k+1]) 
-      
-    }else{#plotly
+    if (enable_plotlyMaps=="yes"){
+#plotly
       eval(parse(text = plotLocStr))
       #update markerList for marker styling
       markerList<-paste0("list(symbol = pnch[k+1], size = sze[k+1],")
@@ -443,32 +470,49 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[7]), ]",sep="")))
     Lat<- map1$xlat
     Lon<- map1$xlon
-    #plotloc <- data.frame(Lat,Lon)
-    #points(plotloc$Lon, plotloc$Lat, pch=pnch[8], col=color[8], cex=sze[8])  
-    
+
     if (enable_plotlyMaps=="no"){
-      plotloc <- data.frame(Lat,Lon)
-      points(plotloc$Lon, plotloc$Lat, pch=pnch[8], col=color[8], cex=sze[8]) 
-      legend("bottomleft",strLegend,
-           bg=cbckgrd, bty="o",pch = residualPointStyle, 
-           pt.cex = sze, col=color,cex=residualLegendSize)
-    }else{#plotly
-     # eval(parse(text = plotLocStr))
-    #  #update markerList for marker styling
-    #  markerList<-paste0("list(symbol = pnch[8], size = sze[8],")
-    #  if (regexpr("open",pnch)>0){
-    #    markerList1<-paste0(markerList,"color = uniqueColsleaf8))")
-    #  }else{
-    #    markerList1<-paste0(markerList,"line = list(color = uniqueColsleaf(8)),color = uniqueColsleaf(8))")
-    #  }
-    #  p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter", 
-    #                       mode = "markers",
-    #                       marker = eval(parse(text = markerList1)),
-    #                       name = strLegend[length(strLegend)],
-    #                       hoverinfo = 'text',
-    #                       text = eval(parse(text = markerText)))
-      return(p)
+
+      mapdata$mapColumn<-eval(parse(text = paste0("mapdata$",mapColumn)))
+      map1<-mapdata
+      
+      #create vector of classes for legend
+      map1$cls<-makeAESvector(map1,values = seq(1,8,1), breaks = cls, include = "all")
+
+      map1<-st_as_sf(map1,coords = c("xlon", "xlat"), crs = CRStext)
+      # save(list = c("mapdata","CRStext","residualColors","strLegend",
+      #               "strTitle2","mapColumnName","residualTitleSize","residualLegendSize",
+      #               "residualMapBackground","pnch","sze",
+      #               "residualPointSize_factor","GeoLines","mapColumn","cls"),file = "D:/mapdata")
+      p<-p +
+        geom_sf(data = map1,
+                aes(colour = as.factor(cls), size = as.factor(cls), shape = as.factor(cls)), 
+                show.legend = TRUE) +
+        coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
+        scale_colour_manual(values = residualColors[1:8],
+                            labels = strLegend[1:8],
+                            name = "Over Predictions") +
+        scale_shape_manual(values = pnch[1:8],
+                           labels = strLegend,
+                           name = "Over Predictions") +
+        scale_size_manual(values = sze[1:8]*residualPointSize_factor,
+                          labels = strLegend[1:8],
+                          name = "Over Predictions") +
+        ggtitle(paste0(mapColumnName,"\n",strTitle2)) +
+        theme(plot.title = element_text(hjust = 0.5,size =residualTitleSize, face = 'bold'),
+              legend.position='bottom',
+              legend.justification = 'left',
+              legend.text = element_text(size = 24*residualLegendSize),
+              legend.title = element_blank(),
+              legend.background = element_rect(fill=residualMapBackground),
+              legend.key.size = unit(residualLegendSize, 'cm'),
+              legend.key = element_rect(fill = residualMapBackground)) +
+        guides(col = guide_legend(ncol=1), size = "legend", shape = "legend")
+      
+
     }
+      return(p)
+    
     
     
     
