@@ -482,6 +482,9 @@ startModelRun<-function(file.output.list,
   assign("map_uncertainties",map_uncertainties,envir = .GlobalEnv)
   assign("BootUncertainties",BootUncertainties,envir = .GlobalEnv)
 
+  if (exists("estimate.list")){
+    
+  
     #setup for interactive Mapping
     shinyArgs<-named.list(file.output.list,map_uncertainties,BootUncertainties,
                           data_names,mapping.input.list,
@@ -501,7 +504,7 @@ startModelRun<-function(file.output.list,
     
     
     save(shinyArgs, file= paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"shinyArgs"))    
-  
+  }
     if (enable_ShinyApp=="yes" & batch_mode=="no"){
     runBatchShiny(path_results,path_shinyBrowser)
   }#end interactive maps
