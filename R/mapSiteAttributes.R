@@ -240,7 +240,7 @@ mapSiteAttributes<-function(#Rshiny
                   shape = siteAttr_mapPointStyle,
                      show.legend = TRUE) +
           coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-           scale_colour_manual(values = unique(mapdata$mapColor),
+           scale_colour_manual(values = color,
                                labels = strLegend,
                                name = unitAttr) +
            ggtitle(paste0(mapColumnName,"\n",unitAttr)) +
