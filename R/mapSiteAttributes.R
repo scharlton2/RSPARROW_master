@@ -229,13 +229,13 @@ mapSiteAttributes<-function(#Rshiny
                                  mapdata$mapColor)
       }
       mapdata$mapColor<-ifelse(is.na(mapdata$mapColor),col2hex(color)[length(color)],mapdata$mapColor)
-      
+      mapdata$mapColor<-factor(mapdata$mapColor, levels = col2hex(color))
       if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
         mapdata<-st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = CRStext)
         
          p<-p +
           geom_sf(data = mapdata,
-                  aes(colour = mapColor), 
+                  aes(colour = factor(mapColor, levels = col2hex(color))), 
                   size = siteAttr_mapPointSize, 
                   shape = siteAttr_mapPointStyle,
                      show.legend = TRUE) +

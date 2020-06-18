@@ -800,13 +800,14 @@ cat(y, file=reportPath, sep="\n")
                 mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
                 lineShape$mapColor<-eval(parse(text = mapvarname))
-                p<-p %+% geom_sf(data = lineShape, size = lineWidth, aes(colour = mapColor),
+                p<-p %+% geom_sf(data = lineShape, size = lineWidth, 
+                                 aes(colour = factor(mapColor,levels =  Mcolors[1:length(break1[k][[1]])])),
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
                                       labels = break1[k][[1]],
                                       name = mapunits.list[k]) +
-                                ggtitle('",titleStr,"') +
+                                ggtitle(titleStr) +
                                 theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
                                 legend.position='bottom',
                                 legend.justification = 'left',
@@ -819,7 +820,8 @@ cat(y, file=reportPath, sep="\n")
               } else {
                 lineShape$mapColor<-eval(parse(text = mapvarname))
                 p<-ggplot() +
-                  geom_sf(data = lineShape, size = lineWidth, aes(colour = mapColor),
+                  geom_sf(data = lineShape, size = lineWidth, 
+                          aes(colour = factor(mapColor,levels =  Mcolors[1:length(break1[k][[1]])])),
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
@@ -1130,7 +1132,7 @@ cat(y, file=reportPath, sep="\n")
               if (existGeoLines==TRUE){
                 polyShape$mapColor<-eval(parse(text = mapvarname))
                 p<-p %+% geom_sf(data = polyShape, #size = lineWidth, 
-                                 aes(fill = mapColor),colour = NA,
+                                 aes(fill = factor(mapColor,levels =  Mcolors[1:length(break1[k][[1]])])),colour = NA,
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
                   scale_fill_manual(values = Mcolors[1:length(break1[k][[1]])],
@@ -1151,7 +1153,7 @@ cat(y, file=reportPath, sep="\n")
                 polyShape$mapColor<-eval(parse(text = mapvarname))
                 p<-ggplot() +
                   geom_sf(data = polyShape, #size = lineWidth, 
-                                 aes(fill = mapColor),colour = NA,
+                          aes(fill = factor(mapColor,levels =  Mcolors[1:length(break1[k][[1]])])),colour = NA,
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
                   scale_fill_manual(values = Mcolors[1:length(break1[k][[1]])],
