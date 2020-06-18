@@ -827,7 +827,7 @@ cat(y, file=reportPath, sep="\n")
                   scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
                                       labels = break1[k][[1]],
                                       name = mapunits.list[k]) +
-                  ggtitle('",titleStr,"') +
+                  ggtitle(titleStr) +
                   theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
                         legend.position='bottom',
                         legend.justification = 'left',
@@ -1138,7 +1138,7 @@ cat(y, file=reportPath, sep="\n")
                   scale_fill_manual(values = Mcolors[1:length(break1[k][[1]])],
                                       labels = break1[k][[1]],
                                       name = mapunits.list[k]) +
-                  ggtitle('",titleStr,"') +
+                  ggtitle(titleStr) +
                   theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
                         legend.position='bottom',
                         legend.justification = 'left',
@@ -1159,7 +1159,7 @@ cat(y, file=reportPath, sep="\n")
                   scale_fill_manual(values = Mcolors[1:length(break1[k][[1]])],
                                     labels = break1[k][[1]],
                                     name = mapunits.list[k]) +
-                  ggtitle('",titleStr,"') +
+                  ggtitle(titleStr) +
                   theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
                         legend.position='bottom',
                         legend.justification = 'left',
