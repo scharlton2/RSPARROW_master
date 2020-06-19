@@ -72,6 +72,8 @@ verifyDemtarea<-function(if_verify_demtarea,data1,compareData,
         paste("Number of reaches with different (>1%) total drainage areas (see records in DAreaFailCheckObj): ",
               nrow(DAreaFailCheckObj),sep="")
       
+    }else{
+      DAreaFailCheckMessage<-" "
     }
     
     #output results
