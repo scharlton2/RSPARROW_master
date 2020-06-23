@@ -168,8 +168,9 @@ path_gis,path to users gis data
 path_main,character string path to RSPARROW_master directory
 path_master,character string path to RSPARROW_master directory.  Internally reset to 'RSPARROW_master/R/' subdirectory
 path_masterFormat,character string normalized path to RSPARROW master program
-path_PastResults,path to previously generated results including run_id subdirectory
+path_PastResults,character string path to previously generated results including run_id subdirectory
 path_results,path to results model subdirectory
+path_shinyBrowser,"character string path to browser executible, if NA defualt browser will be used"
 path_user,"character string path to RSPARROW user directory containing results, data, and gis subdirectories"
 plotTitle,character string for title of plot
 plotShape,"shapefile used to generate prediction map, either lineShape for stream maps or polyShape for catchment maps"

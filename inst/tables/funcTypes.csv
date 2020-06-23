@@ -128,8 +128,8 @@ readParameters.R,,1,,,,,,,,,
 removeObjects.R,1,,,,,,,,,,
 replaceData1Names.R,,1,,,,,,,,,
 replaceNAs.R,,,,,,,1,,,,1
+runBatchShiny.R,,,,1,,,,,,,1
 runRsparrow.R,,,1,,,,,,,,
-runShiny.R,,,,1,,,,,,,1
 selectAll.R,,,,1,,,1,,,,
 selectCalibrationSites.R,,,1,,,,,,,,
 selectDesignMatrix.R,,,1,,,,,,,,
