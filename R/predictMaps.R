@@ -529,6 +529,7 @@ predictMaps<-function(#Rshiny
             if (regexpr("percent_",master_map_list[k])>0){
              
             chk<-(chk-1)*100
+            vvar<-(vvar-1)*100
             #iprob<-(1-iprob)*100
 
               }
@@ -963,9 +964,11 @@ cat(y, file=reportPath, sep="\n")
         
       }
       
+
       if (((paste(output_map_type,collapse="") %in% c("catchment","both") & Rshiny==FALSE) | 
            (Rshiny==TRUE & input$mapType=="Catchment" & mapScenarios==FALSE) |
            (Rshiny==TRUE & regexpr("catchment",paste(output_map_type,collapse=","))>0  & mapScenarios==TRUE)) & existpolyShape==TRUE) {
+       
         commonvar <- polyWaterid
         names(dmapfinal)[1]<-commonvar
         names(dmapAll)[1]<-commonvar
