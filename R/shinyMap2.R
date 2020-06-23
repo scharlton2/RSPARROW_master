@@ -195,20 +195,6 @@ shinyMap2<-function(
         ),
         mainPanel(width = 6,
                  uiOutput("plot")
-                 #tags$div(id="placeholder")
-                 # conditionalPanel(
-                 #   condition = "input.enablePlotly=='static'",
-                 #   plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
-                 # ),
-                 # conditionalPanel(
-                 #   condition = "input.enablePlotly=='leaflet'",
-                 #   leafletOutput("leafPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
-                 # ),
-                 # conditionalPanel(
-                 #   condition = "input.enablePlotly=='plotly'",
-                 #   plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
-                 # )
-
                   
         )
       )))#end ui function
@@ -342,25 +328,14 @@ shinyMap2<-function(
       
       
       #interactive plot
-      #output$plotOne  <- renderPlot({
         p1<-eventReactive(input$goPlot, {
           gc()
-          # output$plot<-renderUI({
-          #   plotOutput("plotOne", width=900,height=900)
-          #   })
-          #   output$plotOne<-renderPlot({
-          #     plot(1,1,type="n",bty="n", axes=FALSE,xlab="",ylab="")
-          #   text("Please wait\nPlot is rendering", x = 1, y = 1)
-          #   })
+
           
                     output$plotOne<-NULL
                     output$plotlyPlot<-NULL
                     output$leafPlot<-NULL
                     gc()
-          # removeUI(selector = "#plotlyPlot", immediate = TRUE)
-          # removeUI(selector = "#leafPlot", immediate = TRUE)
-          # removeUI(selector = "#plotOne", immediate = TRUE)
-          
 
                     suppressWarnings(remove(p,envir = .GlobalEnv))
                     suppressWarnings(remove(currentP))
@@ -411,103 +386,55 @@ shinyMap2<-function(
                       #batchError
                       batch_mode,
                       RSPARROW_errorOption)
+          
+          #print plot size
           env <- environment()
           objs<-data.frame(
             object = ls(env),
             size = unlist(lapply(ls(env), function(x) {
               object.size(get(x, envir = env, inherits = FALSE))})))
-          print(objs)
-          #if (class(currentP)[1]=="recordedplot"){
+          
+          print(paste0("Plot size : ",objs[which(objs$object=="currentP"),]$size))
+          
+
           if (input$enablePlotly=="static"){ 
-            # output$plotlyPlot<-NULL
-            # output$leafPlot<-NULL
-           # removeUI(selector = "#plotlyPlot")
-           # removeUI(selector = "#leafPlot")
-            
-           #insertUI("#placeholder","afterEnd",ui = plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1"))
             output$plot<-renderUI({
               plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
             })
+            #time plot render
             output$plotOne  <- renderPlot({
               isolate(currentP)
             })
+
             
-            
-          #}else if (class(currentP)[1]=="plotly"){
           }else if (input$enablePlotly=="plotly"){
-            # output$plotOne<-NULL
-            # output$leafPlot<-NULL
-            # removeUI(selector = "#plotOne")
-            # removeUI(selector = "#leafPlot")
-            # 
+
             output$plot<-renderUI({
               plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
             })
-            #insertUI("#placeholder","afterEnd",ui = plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1"))
-            
+
             output$plotlyPlot <- renderPlotly({
               isolate(currentP)
             })
             
-         # }else if (class(currentP)[1]=="leaflet"){
+
           }else if (input$enablePlotly=="leaflet"){
-            # output$plotOne<-NULL
-            # output$plotlyPlot<-NULL
-            # removeUI(selector = "#plotOne")
-            # removeUI(selector = "#plotlyPlot")
-            # 
             output$plot<-renderUI({
               leafletOutput("leafPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
             })
-            #insertUI("#placeholder","afterEnd",ui = leafletOutput("leafPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1"))
-            
+
             output$leafPlot<-renderLeaflet({
               isolate(currentP)
             })
           }
+          
+
         })
 
         
         observe({
           p1()
         })
-#         observeEvent(input$goPlot, {
-#           testP<-isolate(p1())
-#           output$plotOne<-NULL
-#           output$plotlyPlot<-NULL
-#           output$leafPlot<-NULL
-#         if (class(testP)[1]=="recordedplot"){
-# #if (isolate(input$enablePlotly)=="no"){
-#   output$plot<-renderUI({
-#     plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
-#   })
-#            output$plotOne  <- renderPlot({
-#               p1()
-#             })
-# 
-#            output$plotlyPlot<-NULL
-#            output$leafPlot<-NULL
-#           }else if (class(testP)[1]=="plotly"){
-#             output$plot<-renderUI({
-#               plotlyOutput("plotlyPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
-#             })
-#             output$plotlyPlot <- renderPlotly({
-#               p1()
-#             })
-#             output$plotOne<-NULL
-#             output$leafPlot<-NULL
-#           }else if (class(testP)[1]=="leaflet"){
-#             output$plot<-renderUI({
-#               leafletOutput("leafPlot", width=900,height=900) %>% withSpinner(color="#0dc5c1")
-#             })
-#             output$leafPlot<-renderLeaflet({
-#               p1()
-#             })
-#             output$plotOne<-NULL
-#             output$plotlyPlot<-NULL
-#           }
-# 
-#         })
 
 
         
