@@ -21,7 +21,6 @@ getYesNoSett<-function(){
                    "if_predict",
                    "if_boot_predict",
                    "batch_mode",
-                   "if_install_packages",
                    "if_create_binary_maps",
                    "create_initial_dataDictionary",
                    "create_initial_parameterControlFiles",

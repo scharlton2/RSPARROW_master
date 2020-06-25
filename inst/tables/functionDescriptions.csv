@@ -93,7 +93,6 @@ handsOnUI.R,shiny ui to setup place for rhandsontable
 hydseq.R,"Creates values for the REQUIRED system variables specified in the 'calculate_reach_attribute_list' control setting, including  'hydseq', 'headflag',  and/or 'demtarea'. "
 hydseqTerm.R,flags all reaches upstream of the designated target reaches for execution of source reduction scenarios
 importCSVcontrol.R,Imports csv control file and checks/corrects the number of columns used by the 'syncVarNames' function. 
-installPackages.R,installs all required packages for RSPARROW in batch mode
 interactiveBatchRun.R,"sourced batch script, runs shiny maps in batch mode"
 isScriptSaved.R,outputs question to the console asking if the current sparrow_control.R file has been saved and stopping execution until the user indicates that it has been saved
 makePaths.R,creates all internal path variables for file input/output
@@ -106,7 +105,6 @@ openDesign.R,opens the design_matrix.csv control file for edit
 openParameters.R,opens the parameters.csv control file for edit
 openVarnames.R,opens the dataDictionary.csv control file for edit
 outputSettings.R,outputs archived list of all control settings
-pkgInstall.R,"sourced batch script, installs individual required R packages"
 plotlyLayout.R,initiates plotly plot and sets up layout for plot area and axes
 predict.R,"Calculates all conditioned and unconditioned model predictions for reaches for the control setting if_predict<-""yes"". "
 predictBoot.R,"Calculates all conditioned and unconditioned model predictions for reaches for each bootstrap iteration, for the control setting if_boot_predict<-""yes"". "

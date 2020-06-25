@@ -9,7 +9,6 @@ load(gsub("interactiveBatchRun.R","interactiveBatch.RData",res))
 
 #load RSPARROW
 runRsparrow<-"no"
-if_install_packages<-"no"
 devtools::load_all(path_main,recompile = FALSE)
 
 #get batch plot data

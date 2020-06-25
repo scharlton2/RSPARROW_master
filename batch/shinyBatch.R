@@ -9,7 +9,6 @@ load(gsub("shinyBatch.R","shinyBatch.RData",res))
 
 #load RSPARROW
 runRsparrow<-"no"
-if_install_packages<-"no"
 devtools::load_all(shinyArgs$file.output.list$path_main,recompile = FALSE)
 
 #source(paste0(shinyArgs$file.output.list$path_master,.Platform$file.sep,"unPackList.R"))
