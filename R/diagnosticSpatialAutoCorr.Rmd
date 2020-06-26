@@ -1,5 +1,5 @@
 ---
-title: ""
+title: 'interactive_2020.06.26_diagnostic_spatialautocorr'
 author: ""
 date: "`r paste0('Generated: ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
@@ -88,23 +88,23 @@ strExplanation<-paste("
   1. CDF of Station Hydrological Distances (units of 'length' variable)\n
   2. CDF of Station Euclidean Distances (kilometers)\n
   3. Four panel plot with Moran's I results by river basin:\n
-    * P-value (Euclidean weights)\n
-    * Standard deviate (Euclidean weights)\n
-    * P-value (Hydrological weights)\n
-    * Standard deviate (Hydrological weights)\n
+      + P-value (Euclidean weights)\n
+      + Standard deviate (Euclidean weights)\n
+      + P-value (Hydrological weights)\n
+      + Standard deviate (Hydrological weights)\n
   4. Two panel plot with Moran's I results by Class variable and full domain:\n
-    * P-value (Euclidean weights)\n
-    * Standard deviate (Euclidean weights)
+      + P-value (Euclidean weights)\n
+      + Standard deviate (Euclidean weights)
           ")
 
 ```  
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-title<-paste(run_id,"_diagnostic_spatialautocor.pdf Document Contents",sep="")
-
-title<-paste("#",title,"\n")
-cat(title,"##Document Contents ",strExplanation,sep="\n")
-
+# title<-paste(run_id,"_diagnostic_spatialautocor.pdf Document Contents",sep="")
+# 
+# title<-paste("#",title,"\n")
+# cat(title,"##Document Contents ",strExplanation,sep="\n")
+cat("## Document Contents ",strExplanation,sep="\n")
 ```
 
 ```{r pagebreak, results='asis', echo=FALSE}

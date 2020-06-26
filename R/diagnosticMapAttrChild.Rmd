@@ -10,7 +10,7 @@ mapdata<-data.frame(xlat,xlon,siteAttr)
 input<-list(var=NA, sizeBatch=NA,size=NA)
 ```
 
-###`r titleAttr`
+### `r titleAttr`
 ```{r chunkCont{{s}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
 
 mapSiteAttributes(#Rshiny

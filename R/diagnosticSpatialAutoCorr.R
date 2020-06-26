@@ -46,6 +46,17 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
   filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.html",sep="")
   
   path_masterFormat <- normalizePath(path_master)
+  reportPath<-paste0(path_master,"diagnosticSpatialAutoCorr.Rmd")
+  #edit title of report
+  reportTitle<-paste(run_id,"_diagnostic_spatialautocorr",sep="")
+  #read Rmd file as text
+  x <- readLines(reportPath)
+  #find where title is designated
+  editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
+  #replace with current reportTitle
+  y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
+  #overwrite the file
+  cat(y, file=reportPath, sep="\n") 
   
   rmarkdown::render(paste0(path_master,"diagnosticSpatialAutoCorr.Rmd"),
                     params = list(

@@ -64,6 +64,17 @@ path_diagnosticClassvarChild <- file_path_as_absolute(paste0(path_master,"diagno
 path_diagnosticClassLandChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassLandChild.Rmd"))
 path_diagnosticContiguousChild<- file_path_as_absolute(paste0(path_master,"diagnosticContiguousChild.Rmd"))
 path_diagnosticDiagMapChild<-file_path_as_absolute(paste0(path_master,"diagnosticDiagMapChild.Rmd"))
+
+#edit title of report
+reportTitle<-paste(run_id,"_diagnostic_plots",sep="")
+#read Rmd file as text
+x <- readLines(reportPath)
+#find where title is designated
+editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
+#replace with current reportTitle
+y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
+#overwrite the file
+cat(y, file=reportPath, sep="\n") 
   
 rmarkdown::render(paste0(path_master,"diagnosticPlotsNLLS.Rmd"),
     params = list(
