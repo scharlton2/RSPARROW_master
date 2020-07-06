@@ -151,7 +151,7 @@ shinyMap2<-function(
     fluidPage(tags$head(
       tags$style("h5{color: red}")),
       titlePanel(
-        h1(paste("Rshiny Interactive Map : ",run_id,sep=""),h5(div(HTML("DO NOT CLICK ON ITEMS ABOVE THIS POINT!"))))),
+        h1(paste("RShiny Decision Support System : ",run_id,sep=""),h5(div(HTML("DO NOT CLICK ON ITEMS ABOVE THIS POINT!"))))),
       
       sidebarLayout(
         sidebarPanel(width=6,
