@@ -45,7 +45,9 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
              parentObj = list(NA))
   filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.html",sep="")
   
-  path_masterFormat <- normalizePath(path_master)
+  path_masterFormat <- file_path_as_absolute(paste0(path_master,"diagnosticSpatialAutoCorr.R"))
+  path_masterFormat<-gsub("diagnosticSpatialAutoCorr.R","",path_masterFormat)
+  
   reportPath<-paste0(path_master,"diagnosticSpatialAutoCorr.Rmd")
   #edit title of report
   reportTitle<-paste(run_id,"_diagnostic_spatialautocorr",sep="")
