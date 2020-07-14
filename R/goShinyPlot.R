@@ -133,11 +133,15 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
         batchFilename<-paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData",sep="")
         
       }else{#add check for if scenario exists ask user if proceed
-        if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,sep=""))){
-          dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,sep=""))
+        if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,
+                              as.character(compiledInput$outType),.Platform$file.sep,sep=""))){
+          dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,
+                           as.character(compiledInput$outType),.Platform$file.sep,sep=""))
         }
         filename<- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,
-                         compiledInput$scenarioName,"_",run_id,"_",compiledInput$variable,".pdf",sep="")
+                         as.character(compiledInput$outType),.Platform$file.sep,
+                         compiledInput$scenarioName,"_",run_id,"_",compiledInput$var,".pdf",sep="")
+
         batchFilename<-paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData",sep="")
         
       }

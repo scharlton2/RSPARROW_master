@@ -672,6 +672,9 @@ predictMaps<-function(#Rshiny
                 filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
               }            
               }else{
+                if (Rshiny==FALSE){
+                  input$scenarioName<-scenario_name
+                }
               if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
                 dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""),showWarnings = FALSE)
               }
@@ -680,6 +683,7 @@ predictMaps<-function(#Rshiny
               }
               filename<- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Stream",.Platform$file.sep,
                                input$scenarioName,"_",run_id,"_",scenario_map_list[k],".pdf",sep="")
+      
             }
            # pdf(filename)
           }#end if create filename      
@@ -746,7 +750,7 @@ cat(y, file=reportPath, sep="\n")
 
             }else{#Rhiny interactive or enable_plotlyMaps==no
               if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
-                                             (Rshiny==TRUE & input$button=="savePDF") | 
+                                             #(Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
                 pdf(filename)
               }
@@ -842,7 +846,7 @@ cat(y, file=reportPath, sep="\n")
                 
                 
               if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
-                                             (Rshiny==TRUE & input$button=="savePDF") | 
+                                             #(Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
                 print(p)
                 dev.off()
@@ -1003,6 +1007,9 @@ cat(y, file=reportPath, sep="\n")
                 filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
               }
             }else{
+              if (Rshiny==FALSE){
+                input$scenarioName<-scenario_name
+              }
               if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
                 dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""),showWarnings = FALSE)
               }
@@ -1079,7 +1086,7 @@ cat(y, file=reportPath, sep="\n")
             
           }else{#Rhiny interactive or enable_plotlyMaps==no
             if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
-                                           (Rshiny==TRUE & input$button=="savePDF") | 
+                                          # (Rshiny==TRUE & input$button=="savePDF") | 
                                            (Rshiny==TRUE & input$batch=="Batch"))){
              # ptm <- proc.time()
               pdf(filename)
@@ -1175,7 +1182,7 @@ cat(y, file=reportPath, sep="\n")
 
               
               if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
-                                             (Rshiny==TRUE & input$button=="savePDF") | 
+                                            # (Rshiny==TRUE & input$button=="savePDF") | 
                                              (Rshiny==TRUE & input$batch=="Batch"))){
                 print(p)
                 dev.off()
