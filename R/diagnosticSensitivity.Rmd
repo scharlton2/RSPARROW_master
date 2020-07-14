@@ -116,10 +116,10 @@ for (i in 1:length(Estimate)) {
   xx <- data.frame(x1,depvar,xclass)
   parmsens <- xx[(xx$depvar > 0), ] 
   xvalue2[i] <- i
-  xiqr[,i] <- quantile(parmsens$x1, c(0.10,0.25,0.75,0.90)) 
+  xiqr[,i] <- quantile(parmsens$x1, c(0.05,0.25,0.75,0.95)) 
   xmed[i] <- median(parmsens$x1)
   xparm[i] <- Parmnames[i]
-  xsens[,i] <- parmsens$x1   # sensitivites for all calibration sites
+  xsens[,i] <- parmsens$x1   # sensitivities for all calibration sites
 }   
 # save results to directory and global environment
 sensitivities.list <- named.list(xparm,xmed,xiqr,xsens)
@@ -160,19 +160,19 @@ p <- plotlyLayout(NA,data$xmed, log = "", nTicks = 5, digits = 0,
                   plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
                   legend = TRUE,showPlotGrid = showPlotGrid)
 p <- p %>% add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
-                     name = 'Standard Deviation Interval',
+                     name = '90% Interval',
                      error_y = ~list(symetric = FALSE,
                                      array = supper,
                                      arrayminus = slower,
                                      color = "#0000FF"))
 p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
-                     name = '95% Interval',
+                     name = '50% Interval',
                      error_y = ~list(symetric = FALSE,
                                      array = xupper,
                                      arrayminus = xlower,
                                      color = "#FF0000"))
 
-p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'mean')#,
+p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'median')#,
 
 
 p
@@ -191,19 +191,19 @@ p <- plotlyLayout(NA,data$xmed, log = "y", nTicks = 5, digits = 0,
                   plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
                   legend = TRUE,showPlotGrid = showPlotGrid)
 p <- p %>% add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
-                     name = 'Standard Deviation Interval',
+                     name = '90% Interval',
                      error_y = ~list(symetric = FALSE,
                                      array = supper,
                                      arrayminus = slower,
                                      color = "#0000FF"))
 p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
-                     name = '95% Interval',
+                     name = '50% Interval',
                      error_y = ~list(symetric = FALSE,
                                      array = xupper,
                                      arrayminus = xlower,
                                      color = "#FF0000"))
 
-p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'mean')#,
+p <- p %>% add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'median')#,
 
 p
 ```
