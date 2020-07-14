@@ -31,13 +31,13 @@ if(chk1 == 0) {
   
 } else {  # non-unique classes
   
-  p <- plotlyLayout(NA,ratio.obs.pred, log = "y", nTicks = 7, digits = 0,
+  p <- plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
                     xTitle = classvar2[k],  
                     xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
                     yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
                     plotTitle = "Ratio Observed to Predicted",
                     legend = FALSE,showPlotGrid = showPlotGrid)
-  p <- p %>% add_trace(y = ratio.obs.pred,x = vvar, type = 'box', color = I("black"), 
+  p <- p %>% add_trace(y = boxvar,x = vvar, type = 'box', color = I("black"), 
                        fillcolor = "white")
   p <- p %>% layout(shapes = list(hline(1)))
   
