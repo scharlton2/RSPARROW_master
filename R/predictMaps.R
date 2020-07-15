@@ -691,7 +691,7 @@ predictMaps<-function(#Rshiny
           reportPath<-paste0(path_master,"predictMaps.Rmd")
 
           if (((input$batch=="Batch" & Rshiny==TRUE) |
-               (input$button=="savePDF" & Rshiny==TRUE) |
+               #(input$button=="savePDF" & Rshiny==TRUE) |
                Rshiny==FALSE) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
 
             htmlFile<-gsub("pdf","html",filename)
@@ -1034,7 +1034,7 @@ cat(y, file=reportPath, sep="\n")
           reportPath<-paste0(path_master,"predictMaps.Rmd")
           
           if (((input$batch=="Batch" & Rshiny==TRUE) |
-               (input$button=="savePDF" & Rshiny==TRUE) |
+               #(input$button=="savePDF" & Rshiny==TRUE) |
                Rshiny==FALSE) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
             
             htmlFile<-gsub("pdf","html",filename)
