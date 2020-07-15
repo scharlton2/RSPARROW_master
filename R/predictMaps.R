@@ -805,11 +805,14 @@ cat(y, file=reportPath, sep="\n")
                 mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
                 lineShape$mapColor<-eval(parse(text = mapvarname))
+                uniqueCols<-eval(parse(text = paste0("as.character(unique(",mapvarname,"))")))
+                uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+                break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
                 p<-p %+% geom_sf(data = lineShape, size = lineWidth, 
-                                 aes(colour = factor(mapColor,levels =  Mcolors[1:length(break1[k][[1]])])),
+                                 aes(colour = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-                  scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
+                  scale_colour_manual(values = uniqueCols[1:length(break1[k][[1]])],
                                       labels = break1[k][[1]],
                                       name = mapunits.list[k]) +
                                 ggtitle(titleStr) +
@@ -824,12 +827,15 @@ cat(y, file=reportPath, sep="\n")
 
               } else {
                 lineShape$mapColor<-eval(parse(text = mapvarname))
+                uniqueCols<-eval(parse(text = paste0("as.character(unique(",mapvarname,"))")))
+                uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+                break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
                 p<-ggplot() +
                   geom_sf(data = lineShape, size = lineWidth, 
-                          aes(colour = factor(mapColor,levels =  Mcolors[1:length(break1[k][[1]])])),
+                          aes(colour = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-                  scale_colour_manual(values = Mcolors[1:length(break1[k][[1]])],
+                  scale_colour_manual(values = uniqueCols[1:length(break1[k][[1]])],
                                       labels = break1[k][[1]],
                                       name = mapunits.list[k]) +
                   ggtitle(titleStr) +
@@ -856,6 +862,7 @@ cat(y, file=reportPath, sep="\n")
                 suppressWarnings(remove(list = c(add_plotlyVars)))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+                break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
                 for (c in uniqueCols){
                   lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
                   mapdata<-lineShape[lineShape$mapColor==c,]
@@ -880,6 +887,7 @@ cat(y, file=reportPath, sep="\n")
                 suppressWarnings(remove(list = c(add_plotlyVars)))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+                break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
                 lineShape$mapColor<-eval(parse(text = paste0("lineShape$",mapvarname)))
                 mapdata<-lineShape
                 mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))
@@ -1141,11 +1149,14 @@ cat(y, file=reportPath, sep="\n")
               mapvarname <- paste("polyShape$MAPCOLORS",k,sep="")
               if (existGeoLines==TRUE){
                 polyShape$mapColor<-eval(parse(text = mapvarname))
+                uniqueCols<-eval(parse(text = paste0("as.character(unique(",mapvarname,"))")))
+                uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+                break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
                 p<-p %+% geom_sf(data = polyShape, #size = lineWidth, 
-                                 aes(fill = factor(mapColor,levels =  Mcolors[1:length(break1[k][[1]])])),colour = NA,
+                                 aes(fill = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),colour = NA,
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-                  scale_fill_manual(values = Mcolors[1:length(break1[k][[1]])],
+                  scale_fill_manual(values = uniqueCols[1:length(break1[k][[1]])],
                                       labels = break1[k][[1]],
                                       name = mapunits.list[k]) +
                   ggtitle(titleStr) +
@@ -1161,12 +1172,15 @@ cat(y, file=reportPath, sep="\n")
                 #eval(parse(text=xtext))
               } else {
                 polyShape$mapColor<-eval(parse(text = mapvarname))
+                uniqueCols<-eval(parse(text = paste0("as.character(unique(",mapvarname,"))")))
+                uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+                break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
                 p<-ggplot() +
                   geom_sf(data = polyShape, #size = lineWidth, 
-                          aes(fill = factor(mapColor,levels =  Mcolors[1:length(break1[k][[1]])])),colour = NA,
+                          aes(fill = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),colour = NA,
                                  show.legend = TRUE) +
                   coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-                  scale_fill_manual(values = Mcolors[1:length(break1[k][[1]])],
+                  scale_fill_manual(values = uniqueCols[1:length(break1[k][[1]])],
                                     labels = break1[k][[1]],
                                     name = mapunits.list[k]) +
                   ggtitle(titleStr) +
@@ -1194,6 +1208,7 @@ cat(y, file=reportPath, sep="\n")
               remove(list = c("lat","lon",add_plotlyVars))
               uniqueCols<-eval(parse(text = paste0("as.character(unique(polyShape$",mapvarname,"))")))
               uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+              break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
               for (c in uniqueCols){
                 polyShape$mapColor<-eval(parse(text = paste0("polyShape$",mapvarname)))
                 mapdata<-polyShape[polyShape$mapColor==c,]
@@ -1233,6 +1248,7 @@ cat(y, file=reportPath, sep="\n")
               suppressWarnings(remove(list = c(add_plotlyVars)))
               uniqueCols<-eval(parse(text = paste0("as.character(unique(polyShape$",mapvarname,"))")))
               uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
+              break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
               polyShape$mapColor<-eval(parse(text = paste0("polyShape$",mapvarname)))
               mapdata<-polyShape
 
