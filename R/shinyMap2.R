@@ -183,14 +183,14 @@ shinyMap2<-function(
                      conditionalPanel(
                        condition = "input.batch=='Interactive'",
                        fluidRow(
-                         actionButton("goPlot","Generate Plot"),
-                         actionButton("savePDF", "SavePlot"))       
+                         actionButton("goPlot","Generate Map"),
+                         actionButton("savePDF", "Save Map"))       
                        
                      ),
                      
                      conditionalPanel(
                        condition = "input.batch=='Batch'",
-                       actionButton("batchPlot","Save Plot(s)")      
+                       actionButton("batchPlot","Save Map(s)")      
                      )
         ),
         mainPanel(width = 6,
