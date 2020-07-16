@@ -45,7 +45,7 @@ shinyScenarios<-function(id, input, choices,sitedata,add_plotlyVars, scenario.in
     
     #scenario_name 
     fluidRow(
-      column(width=9,textInput(ns("scenarioName"), label = "", 
+      column(width=9,textInput(ns("scenarioName"), label = "Enter Scenario Name", 
                                scenario_name)),
       column(width=3,checkboxGroupInput(ns("overwriteScenario"), "","Overwrite",
                                         inline=TRUE))
