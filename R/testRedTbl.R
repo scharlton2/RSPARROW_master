@@ -75,7 +75,8 @@ testRedTbl<-function(input, output, session, DF){
                                    col = which(names(SourceRedALL)=="LanduseConversion"))
                 rowNums<-rbind(rowNums,rowNum)
                 errMsg<-"'LanduseConversion' selections cannot be 'Source' variables.  Please select different 'LanduseConversions'"
-              }else if (length(which(names(SourceRedALL)=="SelectionVariable"))!=0){
+              }else if (length(which(names(SourceRedALL)=="SelectionVariable"))!=0 & SourceRedALLcomplete$ChangeCoefficient=="no"){
+
                 #test multiple landusechange per source-PercentChange-selectionVar combo
                 multiLand<-SourceRedALLcomplete[which(SourceRedALLcomplete$LanduseConversion!="None" & SourceRedALLcomplete$ChangeCoefficient=="no"),]
                 multiLand$Min<-ifelse(is.na(multiLand$Min),'NA',multiLand$Min)
