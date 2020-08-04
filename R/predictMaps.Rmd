@@ -134,26 +134,28 @@ if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
     eval(parse(text=xtext))
   } else {
     if (predictMapType=="stream"){
-      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground))",sep="")
+      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground)",sep="")
     }else{#catchment
-      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground))",sep="")
+      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground)",sep="")
     }
     eval(parse(text=xtext))
   }
 }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
+  mapvarname <- paste("MAPCOLORS",k,sep="")
   suppressWarnings(remove(list = c(add_plotlyVars)))
   uniqueCols<-eval(parse(text = paste0("as.character(unique(plotShape$",mapvarname,"))")))
   uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
   for (c in uniqueCols){
     plotShape$mapColor<-eval(parse(text = paste0("plotShape$",mapvarname)))
     mapdata<-plotShape[plotShape$mapColor==c,]
-    mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))     
+    mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))   
     
+
     lineText<-"~paste('</br> ',master_map_list[k],' :',
                    round(mapdataname,predictionClassRounding)"
     
     lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
-    
+
     if (predictMapType=="stream"){
       p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
                         color = I(c),
@@ -188,6 +190,7 @@ if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
     }
   }
 }else{#leaflet
+  mapvarname <- paste("MAPCOLORS",k,sep="")
   suppressWarnings(remove(list = c(add_plotlyVars)))
   uniqueCols<-eval(parse(text = paste0("as.character(unique(plotShape$",mapvarname,"))")))
   uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -206,6 +209,7 @@ if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
       
       lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
   mapdata<-st_transform(mapdata, crs = 4326)
+  mapdata<-st_zm(mapdata, drop = T, what = "ZM")
   if (predictMapType=="stream"){
     p <- mapview(mapdata, fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 
       .@map %>% 

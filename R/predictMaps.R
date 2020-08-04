@@ -107,7 +107,7 @@ predictMaps<-function(#Rshiny
         #test numeric
         testvar<-subdata[,which(names(subdata)==l)]
         testNum<-class(testvar)
-        if (testNum!="numeric"){
+        if (testNum!="numeric" & any(unique(as.numeric(testvar)-testvar)!=0)){
           testList<-testList[which(testList!=l)]
           noMaplist<-c(noMaplist,l)
           message(paste0("\n \nWARNING : MAPPING VARIABLE ", l, " NOT NUMERIC MAPPING NOT COMPLETED."))
@@ -693,7 +693,7 @@ predictMaps<-function(#Rshiny
           if (((input$batch=="Batch" & Rshiny==TRUE) |
                #(input$button=="savePDF" & Rshiny==TRUE) |
                Rshiny==FALSE) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
-
+            if (existGeoLines==FALSE){GeoLines<-NA}
             htmlFile<-gsub("pdf","html",filename)
          
 
@@ -859,7 +859,8 @@ cat(y, file=reportPath, sep="\n")
               }
               
               }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
-                suppressWarnings(remove(list = c(add_plotlyVars)))
+                mapvarname <- paste("MAPCOLORS",k,sep="")
+                 suppressWarnings(remove(list = c(add_plotlyVars)))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
                 break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
@@ -884,6 +885,7 @@ cat(y, file=reportPath, sep="\n")
                 
                 #return(p)
               }else{#leaflet
+                mapvarname <- paste("MAPCOLORS",k,sep="")
                 suppressWarnings(remove(list = c(add_plotlyVars)))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -900,6 +902,7 @@ cat(y, file=reportPath, sep="\n")
                 lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
                 
                mapdata<-st_transform(mapdata, crs = 4326)
+               mapdata<-st_zm(mapdata, drop = T, what = "ZM")
                 p <- mapview(mapdata, fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 
                   .@map %>% 
                   clearMarkers() %>% 
@@ -1036,7 +1039,7 @@ cat(y, file=reportPath, sep="\n")
           if (((input$batch=="Batch" & Rshiny==TRUE) |
                #(input$button=="savePDF" & Rshiny==TRUE) |
                Rshiny==FALSE) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
-            
+            if (existGeoLines==FALSE){GeoLines<-NA}
             htmlFile<-gsub("pdf","html",filename)
             
             
@@ -1245,6 +1248,7 @@ cat(y, file=reportPath, sep="\n")
               
               #return(p)
             }else{#leaflet
+              mapvarname <- paste("MAPCOLORS",k,sep="")
               suppressWarnings(remove(list = c(add_plotlyVars)))
               uniqueCols<-eval(parse(text = paste0("as.character(unique(polyShape$",mapvarname,"))")))
               uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -1262,6 +1266,7 @@ cat(y, file=reportPath, sep="\n")
               lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
 
               mapdata<-st_transform(mapdata, crs = 4326)
+              mapdata<-st_zm(mapdata, drop = T, what = "ZM")
               p <- mapview(mapdata, fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 
                 .@map %>% 
                 clearMarkers() %>% 

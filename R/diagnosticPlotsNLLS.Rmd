@@ -1215,7 +1215,7 @@ cat(rendered6, sep = "\n")
 ```
 
 ```{r echo=FALSE, results='asis', eval=TRUE}
-existGeoLines<-TRUE
+
 if(existGeoLines==TRUE) { 
   strExplanation<-"# Maps of Model Residuals and Observed to Predicted Ratios for the Calibration Sites
 ### The maps include:
