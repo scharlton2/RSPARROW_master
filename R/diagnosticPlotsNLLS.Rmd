@@ -51,7 +51,7 @@ data_names<-params$data_names
 add_vars<-params$add_vars
 batch_mode<-params$batch_mode
 
-if (validation==FALSE){
+if (!validation){
   # create global variable from list names (Mdiagnostics.list)
   unPackList(lists = list(mapping.input.list = mapping.input.list,
                           Mdiagnostics.list = estimate.list$Mdiagnostics.list,
@@ -119,15 +119,15 @@ if(!is.na( class_landuse[1])){
 #map site attributes
 ################################
 existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
-if (validation==FALSE){  
-  if(!is.na(map_siteAttributes.list) & existGeoLines==TRUE){
+if (!validation){  
+  if(!is.na(map_siteAttributes.list) & existGeoLines){
     strExplanation1<-TRUE
     strExplanation<-"#### Output is presented for the following sections:
 1. Calibration Site Maps for User-Selected Attributes
 2. Model Estimation Performance Diagnostics
 3. Model Simulation Performance Diagnostics
 4. Maps of Model Residuals and Observed to Predicted Ratios for the Calibration Sites"
-  }else if (existGeoLines==TRUE){
+  }else if (existGeoLines){
     strExplanation<-"### Output is presented for the following sections:
 1. Model Estimation Performance Diagnostics
 2. Model Simulation Performance Diagnostics
@@ -138,7 +138,7 @@ if (validation==FALSE){
 2. Model Simulation Performance Diagnostics"
   }
 }else{#validation text
-  if (existGeoLines==TRUE){
+  if (existGeoLines){
     strExplanation<-"### Output is presented for the following sections:
 1. Model Simulation Performance Diagnostics
 2. Maps of Model Residuals and Observed to Predicted Ratios for the Calibration Sites"
@@ -149,27 +149,20 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-# if (validation==FALSE){ 
-#   title<-paste(run_id,"_diagnostic_plots",sep="")
-# }else{#validation
-#   title<-paste(run_id,"_validation_plots",sep="")
-# }
 
-# title<-paste("#",title,"\n")
-# cat(title,"##Document Contents ",strExplanation,sep="\n")
 cat("### Document Contents ",strExplanation,sep="\n")
 
 ```
 
 ```{r pagebreak1, results='asis', echo=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("<P style='page-break-before: always'>") 
 }
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){   
-  if(existGeoLines==TRUE) { 
+if (!validation){   
+  if(existGeoLines) { 
     
     #map site attributes
     if (!is.na(map_siteAttributes.list)){
@@ -185,8 +178,8 @@ if (validation==FALSE){
 
 #    #map site attributes
 
-if (validation==FALSE){ 
-  if(existGeoLines==TRUE) { 
+if (!validation){ 
+  if(existGeoLines) { 
     map_siteAttributes.list<-map_siteAttributes.list[which(map_siteAttributes.list %in% names(sitedata))]  
     #map site attributes
     if (!is.na(map_siteAttributes.list) & length(map_siteAttributes.list)!=0){
@@ -205,8 +198,8 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if (validation==FALSE){  
-  if(existGeoLines==TRUE) { 
+if (!validation){  
+  if(existGeoLines) { 
     if (!is.na(map_siteAttributes.list) & length(map_siteAttributes.list)!=0){
       rendered <- knit(text = rmd, quiet = TRUE)
       cat("\n \n")
@@ -217,7 +210,7 @@ if (validation==FALSE){
 
 
 ```{r echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){ 
+if (!validation){ 
   strExplanation<-"# Model Estimation Performance Diagnostics
 Diagnostics are based on the use of conditioned (monitoring-adjusted) predictions. These predictions provide the most accurate reach predictions for use in calibrating the model. The associated residuals and observed to predicted ratios shown in the following section provide the most relevant measures of the accuracy of the model fit to observed loads.
 
@@ -242,19 +235,19 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 ```
 
 ```{r pagebreak2, results='asis', echo=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("<P style='page-break-before: always'>") 
 }
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("## Observed vs. predicted for loads and yields and log residuals vs. predicted loads and yields\n")
 }
 ```
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
-if (validation==FALSE){ 
+if (!validation){ 
   ##################################################
   # PERFORMANCE METRICS FOR MONITORING ADJUSTMENT
   ##################################################
@@ -396,13 +389,13 @@ cat("<P style='page-break-before: always'>")
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("## Boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads\n")
 }
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.height=8, fig.width=8}  
-if (validation==FALSE){ 
+if (!validation){ 
   ##########################
   #par(mfrow=c(2,2), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 4 plots on one page
   
@@ -519,19 +512,19 @@ if (validation==FALSE){
 ```
 
 ```{r pagebreak5, results='asis', echo=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("<P style='page-break-before: always'>") 
 }
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("## Conditioned prediction loads vs. unconditioned (simulated) prediction loads\n")
 }
 ```    
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
-if (validation==FALSE){ 
+if (!validation){ 
   #par(mfrow=c(1,1), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 1 plots on one page
   
   #  plot(ppredict,predict,log="xy",main="Monitoring-Adjusted vs. Simulated Loads",
@@ -566,13 +559,13 @@ if (validation==FALSE){
 ```
 
 ```{r pagebreak6, results='asis', echo=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("<P style='page-break-before: always'>") 
 }
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("## Observed to predicted ratio vs. the area-weighted mean values of the user-selected explanatory variables for the incremental areas between calibration sites \n
 Output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file.
 ")
@@ -581,7 +574,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
-if (validation==FALSE){  
+if (!validation){  
   # Plots of the Obs-Pred ratio vs. the area-weighted mean values of the explanatory variables 
   #   for the incremental areas between calibration sites
   
@@ -600,7 +593,7 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   if(!is.na(Cor.ExplanVars.list)){ 
     rendered <- knit(text = rmd, quiet = TRUE)
     cat("\n \n")
@@ -611,14 +604,14 @@ if (validation==FALSE){
 
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("## Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites\n
 ")
 }
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}    
-if (validation==FALSE){ 
+if (!validation){ 
   ####################################################
   # Diagnostics for Ratio by class (one plot per page)
   
@@ -640,20 +633,20 @@ if (validation==FALSE){
 ``` 
 
 ```{r pagebreak7, results='asis', echo=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("<P style='page-break-before: always'>") 
 }
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("## Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4) \n
 ")
 }
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   # "classvar" regions
   
   if (classvar!="sitedata.demtarea.class"){
@@ -670,7 +663,7 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   if (classvar!="sitedata.demtarea.class"){
     rendered <- knit(text = rmd, quiet = TRUE)
     cat("\n \n")
@@ -682,7 +675,7 @@ if (validation==FALSE){
 
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("## Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable specified by users in the 'class_landuse' control setting\n
 The land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
 ")
@@ -690,7 +683,7 @@ The land-use classes expressed as a percentage of the incremental drainage area 
 ```  
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   # 'classvar2" decile boxplots
   
   if(!is.na( class_landuse[1])){
@@ -707,7 +700,7 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   if(!is.na( class_landuse[1])){
     rendered2 <- knit(text = rmd2, quiet = TRUE)
     cat("\n \n")
@@ -719,7 +712,7 @@ if (validation==FALSE){
 
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("## Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting\n
 The panels include:  observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted loads, and log residuals vs. predicted yields 
 ")
@@ -736,7 +729,7 @@ grp <- table(class[,1])   # get labels
 xx <- as.data.frame(grp)  # convert table to dataframe...
 grp <- as.numeric(levels(xx$Var1)[xx$Var1])  # convert factor levels to numeric values
 
-if (validation==FALSE){ 
+if (!validation){ 
   
   plotclass<-class[,1]
   plotObs<-Obs
@@ -752,7 +745,7 @@ if (validation==FALSE){
 ```
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   rmd3 <- sapply(
     1:(length(grp)),
     function(i) {
@@ -764,7 +757,7 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   rendered3 <- knit(text = rmd3, quiet = TRUE)
   cat("\n \n")
   cat(rendered3, sep = "\n")
@@ -788,7 +781,7 @@ Diagnostics are based on the use of unconditioned predictions (i.e., predictions
 3. Plot of conditioned prediction loads vs. unconditioned (simulated) prediction loads\n
 
 ")
-if (validation==FALSE){ 
+if (!validation){ 
   strExplanation<-paste0(strExplanation,
                          "4. Plots of the observed to predicted ratio vs. the area-weighted mean values of the user-selected explanatory variables for the incremental areas between calibration sites (output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file)\n
 
@@ -1071,13 +1064,13 @@ p
 ```
 
 ```{r pagebreak9, results='asis', echo=FALSE}
-if (validation==FALSE){ 
+if (!validation){ 
   cat("<P style='page-break-before: always'>") 
 }
 ```
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
-if (validation==FALSE){ 
+if (!validation){ 
   ##############################  
   # Plots of the Obs-Pred ratio vs. the area-weighted mean values of the explanatory variables 
   #   for the incremental areas between calibration sites
@@ -1097,7 +1090,7 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if (validation==FALSE){  
+if (!validation){  
   if(!is.na(Cor.ExplanVars.list)){ 
     rendered <- knit(text = rmd, quiet = TRUE)
     cat("\n \n")
@@ -1216,7 +1209,7 @@ cat(rendered6, sep = "\n")
 
 ```{r echo=FALSE, results='asis', eval=TRUE}
 
-if(existGeoLines==TRUE) { 
+if(existGeoLines) { 
   strExplanation<-"# Maps of Model Residuals and Observed to Predicted Ratios for the Calibration Sites
 ### The maps include:
 1. Log residuals, based on monitoring conditioned predictions (i.e., Model Estimation Log Residuals)
@@ -1243,9 +1236,9 @@ cat("<P style='page-break-before: always'>")
 
 
 # Setup GEOLINES basemap, if available
-if (validation==FALSE){ 
+if (!validation){ 
   #8.8.17 if(!is.na(LineShapeGeo)) {
-  if(existGeoLines==TRUE) { 
+  if(existGeoLines) { 
     
     
     mapdata <- data.frame(xlat,xlon,Resids,ratio.obs.pred)
@@ -1268,8 +1261,8 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if (validation==FALSE){
-  if(existGeoLines==TRUE) { 
+if (!validation){
+  if(existGeoLines) { 
     rendered <- knit(text = rmd, quiet = TRUE)
     cat("\n \n")
     cat(rendered, sep = "\n")
@@ -1286,7 +1279,7 @@ if (validation==FALSE){
 # Setup GEOLINES basemap, if available
 
 #8.8.17 if(!is.na(LineShapeGeo)) {
-if(existGeoLines==TRUE) { 
+if(existGeoLines) { 
   ##########################  
   
   # Single map of prediction residuals (8 classes) - no monitoring adjustment
@@ -1309,7 +1302,7 @@ if(existGeoLines==TRUE) {
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if(existGeoLines==TRUE) { 
+if(existGeoLines) { 
   rendered <- knit(text = rmd, quiet = TRUE)
   cat("\n \n")
   cat(rendered, sep = "\n")
@@ -1317,8 +1310,8 @@ if(existGeoLines==TRUE) {
 ```
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
-if (validation==FALSE){
-  if(existGeoLines==TRUE) { 
+if (!validation){
+  if(existGeoLines) { 
     #Map Standardized Residuals
     smapdata <- data.frame(xlat,xlon,standardResids)
     
@@ -1340,8 +1333,8 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if (validation==FALSE){
-  if(existGeoLines==TRUE) { 
+if (!validation){
+  if(existGeoLines) { 
     rendered <- knit(text = rmd, quiet = TRUE)
     cat("\n \n")
     cat(rendered, sep = "\n")
@@ -1350,8 +1343,8 @@ if (validation==FALSE){
 ```
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
-if (validation==FALSE){
-  if(existGeoLines==TRUE) {     
+if (!validation){
+  if(existGeoLines) {     
     ##########################
     # Map Ratios observed to predicted 
     
@@ -1373,8 +1366,8 @@ if (validation==FALSE){
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if (validation==FALSE){ 
-  if(existGeoLines==TRUE) { 
+if (!validation){ 
+  if(existGeoLines) { 
     rendered <- knit(text = rmd, quiet = TRUE)
     cat("\n \n")
     cat(rendered, sep = "\n")
@@ -1383,7 +1376,7 @@ if (validation==FALSE){
 ```
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
-if(existGeoLines==TRUE) {     
+if(existGeoLines) {     
   ##########################
   # Map Ratios observed to predicted for no monitoring adjustment
   
@@ -1404,7 +1397,7 @@ if(existGeoLines==TRUE) {
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-if(existGeoLines==TRUE) { 
+if(existGeoLines) { 
   rendered <- knit(text = rmd, quiet = TRUE)
   cat("\n \n")
   cat(rendered, sep = "\n")

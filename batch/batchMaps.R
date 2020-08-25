@@ -101,10 +101,10 @@ if (length(res)!=0){
   
   #run predictMaps
   
-  if (Rshiny==FALSE){
+  if (!Rshiny){
     input<-list(mapType=NA, batch="no",scenarioName="",var="")
   }
-  if (mapScenarios==FALSE){
+  if (!mapScenarios){
     scenario_map_list<-NA
     predictScenarios.list<-NA
     scenario_name<-NA

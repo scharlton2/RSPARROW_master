@@ -29,7 +29,7 @@ executionTree<-function(path_main,startRoutine = "runRsparrow.R",
                         outputType = "data.tree",pruneTree = NA, treeLimit = NA){
   
   #if output to data.tree only use first occurances
-  allOccurances<-ifelse(allOccurances==TRUE & outputType=="data.tree",FALSE,allOccurances)
+  allOccurances<-ifelse(allOccurances & outputType=="data.tree",FALSE,allOccurances)
   
   
   #get all files

@@ -52,7 +52,7 @@ lineShape <- merge(lineShape, dmap, by.x = commonvar, by.y = commonvar)
     #showarrow = F
 #  )
   
-  if(existGeoLines==TRUE) {
+  if(existGeoLines) {
       p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                       stroke = I("black"),color = I(predictionMapBackground),
                       name = LineShapeGeo, hoverinfo = "none")
@@ -81,7 +81,7 @@ lineShape <- merge(lineShape, dmap, by.x = commonvar, by.y = commonvar)
     }
 p
   }else{#not plotly
-                if(existGeoLines==TRUE){
+                if(existGeoLines){
                  p <- ggplot() +
                     geom_sf(data = GeoLines, size = 0.1, fill = predictionMapBackground, colour ="black") +
                     theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
@@ -90,7 +90,7 @@ p
               
               lineShape <- merge(lineShape, dmap, by.x = commonvar, by.y = commonvar)
               #if(!is.na(LineShapeGeo)) {
-              if(existGeoLines==TRUE) {
+              if(existGeoLines) {
 
                 #plot(st_geometry(lineShape),col=lineShape$MAPCOLORS,lwd=0.8, add=TRUE
                 p<-p %+% geom_sf(data = lineShape, size = lineWidth, 

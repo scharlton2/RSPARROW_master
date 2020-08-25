@@ -13,7 +13,7 @@ fixDupLatLons <- function(latLon){
   
   xd <- duplicated(latLon)
   for (i in 1:length(xd)) {
-    if(xd[i]==TRUE) {
+    if(xd[i]) {
       latLon[i] <- latLon[i]+runif(1,min=0.000001,max=0.000009)
     }
   }

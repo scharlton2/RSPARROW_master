@@ -56,7 +56,7 @@ createDirs<-function(file.output.list,if_userModifyData,
                                                     paste(path_results,.Platform$file.sep,run_id,.Platform$file.sep,run_id,"_",x,sep=""),overwrite=TRUE))
   fileCopy<-data.frame(success = t(fileCopy)[1,])
   fileCopy$path<-paste(path_results,.Platform$file.sep,filesList,sep="")
-  fileCopy<-fileCopy[which(fileCopy$success==FALSE),]
+  fileCopy<-fileCopy[which(!fileCopy$success),]
   
   if (nrow(fileCopy)!=0){
     for (x in fileCopy$path){

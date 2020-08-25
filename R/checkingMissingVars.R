@@ -27,10 +27,10 @@ checkingMissingVars<-function(checkData, data_names, betavalues,  types , allMis
     datalstMissingdata <- rep(0,length(datalstCheck))
     k<-0
     for (i in 1:length(datalstCheck)) { 
-      if((datalstCheck[i] %in% colnames(data)) == TRUE) {   # check for existence of variable in data1
+      if((datalstCheck[i] %in% colnames(data))) {   # check for existence of variable in data1
         
         if (allMissing){
-          dname <- paste("if(all(is.na(data$",datalstCheck[i],"))==TRUE | all(data$",datalstCheck[i]," == 0))
+          dname <- paste("if(all(is.na(data$",datalstCheck[i],")) | all(data$",datalstCheck[i]," == 0))
                      { k<-k+1; datalstMissingdata[k] <- datalstCheck[i] }",sep="")  
         }else{
           dname <- paste("if(sum(is.na(data$",datalstCheck[i],"))>0)
@@ -57,7 +57,7 @@ checkingMissingVars<-function(checkData, data_names, betavalues,  types , allMis
     xlnames <- betavalues$sparrowNames[betavalues$parmMax != 0]
     for (i in 1:length(xlnames)) { 
       if (allMissing){
-        dname <- paste("if(all(is.na(data$",xlnames[i],"))==TRUE | 
+        dname <- paste("if(all(is.na(data$",xlnames[i],")) | 
                      all(data$",xlnames[i]," == 0))
                      { k<-k+1; datalstMissingdata[k] <- xlnames[i] }",sep="")   
       }else{
@@ -76,7 +76,7 @@ checkingMissingVars<-function(checkData, data_names, betavalues,  types , allMis
   if (length(grep("vrnames",types))==1){
     vrnames <- data_names$sparrowNames
     for (i in 1:length(vrnames)) { 
-      dname <- paste("if(all(is.na(data$",vrnames[i],"))==TRUE | 
+      dname <- paste("if(all(is.na(data$",vrnames[i],")) | 
                      all(data$",vrnames[i]," == 0))
                      { k<-k+1; datalstMissingdata[k] <- vrnames[i] }",sep="")   
       eval(parse(text=dname))  # tag as all values missing

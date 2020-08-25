@@ -88,7 +88,7 @@ predictScenarios <- function(#Rshiny
                           estimate.input.list = estimate.input.list),
              parentObj = list(NA,NA,NA)) 
   
-  if (Rshiny==TRUE){
+  if (Rshiny){
     scenario_name<-as.character(input$scenarioName)
   }
   #delete files in subdirectory
@@ -100,7 +100,7 @@ predictScenarios <- function(#Rshiny
     }
   }
   
-  if (Rshiny==FALSE){
+  if (!Rshiny){
     #save flag_TargetReachWatersheds.csv
     fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv",sep="")
     outFlag<-subdata[,which(names(subdata) %in% c("waterid_for_RSPARROW_mapping","demtarea","demiarea","rchname",add_vars))]
@@ -111,14 +111,14 @@ predictScenarios <- function(#Rshiny
            dec = csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")
   }
   
-  if ((select_scenarioReachAreas!="none" & Rshiny==FALSE) | Rshiny==TRUE){ 
+  if ((select_scenarioReachAreas!="none" & !Rshiny) | Rshiny){ 
     
-    if (Rshiny==TRUE){
+    if (Rshiny){
       scenario_sources<-as.character(input$scenario_sources)
     }
     
     # Calculate and output with bias-corrected predictions
-    if(is.null(JacobResults$mean_exp_weighted_error) == TRUE) {
+    if(is.null(JacobResults$mean_exp_weighted_error)) {
       bootcorrection <- 1.0
     } else {
       bootcorrection <- JacobResults$mean_exp_weighted_error
@@ -184,7 +184,7 @@ predictScenarios <- function(#Rshiny
         ###################################
         ###################################
         
-        if (scenarioError==FALSE){  
+        if (!scenarioError){  
           
           # transfer the baseline predictions for load and yield
           predmatrix_base <- predict.list$predmatrix
@@ -689,7 +689,7 @@ predictScenarios <- function(#Rshiny
           yieldunits[2] <- ConcUnits
           
           
-          if (Rshiny==TRUE){
+          if (Rshiny){
             scenario_name<-as.character(input$scenarioName)
           }
           
@@ -724,7 +724,7 @@ predictScenarios <- function(#Rshiny
           
           ###########Start predictStreamMapsScenarios###
           
-          if(!is.na(scenario_map_list[1]) & Rshiny==FALSE){  
+          if(!is.na(scenario_map_list[1]) & !Rshiny){  
             message("Running scenario mapping in batch mode...")
             mapScenarios<-TRUE
             

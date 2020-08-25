@@ -52,7 +52,7 @@ predictScenariosPrep<-function(##Rshiny
   
   #create scenario_name directory
   options(warn=-1)
-  if (Rshiny==FALSE){
+  if (!Rshiny){
     if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,sep=""))){
       dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,sep=""))
     }#if directory not found
@@ -77,7 +77,7 @@ predictScenariosPrep<-function(##Rshiny
                                    PercentChange = rep(0,length(JacobResults$oEstimate)))
   
   #convert Rshiny metrics to control setting names 
-  if (Rshiny==TRUE){
+  if (Rshiny){
     scenario_name<-as.character(input$scenarioName)
     scenario_sources<-as.character(input$scenario_sources)
     select_targetReachWatersheds<-as.character(input$target)
@@ -189,10 +189,10 @@ predictScenariosPrep<-function(##Rshiny
     }else{#selected reaches
       
       if (!is.na(landuseConversion[i]) & !exists(paste0("S_",scenario_sources[i],"_LC"))){
-        if (Rshiny==TRUE){
+        if (Rshiny){
           eval(parse(text = paste0("S_",scenario_sources[i],"_LC <- ifelse(S_",scenario_sources[i],"!=1,'",landuseConversion[i],"',NA)"))) 
         }
-      }else if (Rshiny==FALSE & exists(paste0("S_",scenario_sources[i],"_LC"))){
+      }else if (!Rshiny & exists(paste0("S_",scenario_sources[i],"_LC"))){
         temp<-eval(parse(text =paste0("S_",scenario_sources[i],"_LC") ))
         
         if (length(unique(temp))==1 & is.na(unique(temp))){
@@ -352,7 +352,7 @@ predictScenariosPrep<-function(##Rshiny
   #if sumarea!=0 where reduction occurs
   errorLU<-any(errorMat[which(sumarea!=0)]!=0)
   
-  if (errorLU==FALSE){
+  if (!errorLU){
     #apply landuse conversions
     testApply<-data
     testApply[,jsrcvar]<-testApply[,jsrcvar]+sumarea
@@ -364,13 +364,13 @@ predictScenariosPrep<-function(##Rshiny
     
   }
   
-  if (errorLU==FALSE & length(LUsourceError)==0 & negTest==FALSE){#apply reductions to data
+  if (!errorLU & length(LUsourceError)==0 & !negTest){#apply reductions to data
     data[,jsrcvar]<-data[,jsrcvar]+sumarea
     data[,jsrcvar]<-data[,jsrcvar]-reducMat  
     
   }
   
-  if (negTest==TRUE){#negative landuse data
+  if (negTest){#negative landuse data
     negTest<-testApply[,jsrcvar]
     negTest<-which(sumarea!=0 & negTest<0,arr.ind = TRUE)
     
@@ -387,7 +387,7 @@ predictScenariosPrep<-function(##Rshiny
     message("\n \nWARNING : Invalid Landuse Conversion.  Negative landuse data found for ",nrow(negTest)," waterids, saved to \n",fileout)
     
     
-  }else if (any(sumarea!=0) & errorLU==TRUE){#compound reductions
+  }else if (any(sumarea!=0) & errorLU){#compound reductions
     message("\n \nWARNING : Invalid Landuse Conversion.  Compound reductions found.\nNO SCENARIO EXECUTED")
     scenarioError<-TRUE
   }else if (length(LUsourceError)!=0){

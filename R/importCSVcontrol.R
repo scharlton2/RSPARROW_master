@@ -59,7 +59,7 @@ importCSVcontrol<-function(filein,Ctype,NAMES,strEndMessage,
       }#end batch_mode
       
       
-      if (exitRun==TRUE){
+      if (exitRun){
         errorOccurred("importCSVcontrol.R",batch_mode)    
       }else{
         data<-"error"

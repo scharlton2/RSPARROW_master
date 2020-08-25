@@ -52,7 +52,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
       # Loop through variable list
       
       #if (!is.na(LineShapeGeo) & !is.na(lineShapeName)) {  # map if shape files available
-      if (existGeoLines==TRUE & existlineShape==TRUE){# map if shape files available
+      if (existGeoLines & existlineShape){# map if shape files available
         
         map.vars.list <- c("demtarea","hydseq","hydseq_new","AreaRatio_NewOld")
         title_name <- c("Pre-calculated DEMTAREA","HYDSEQ","new HYDSEQ for unmatched areas","AreaRatio_New:Old")

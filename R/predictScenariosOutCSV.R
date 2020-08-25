@@ -34,7 +34,7 @@ predictScenariosOutCSV <- function(#Rshiny
   #################################################
   
   
-  if (Rshiny==TRUE){
+  if (Rshiny){
     scenario_name<-input$scenarioName
   }
   # define "space" for printing
@@ -228,7 +228,7 @@ predictScenariosOutCSV <- function(#Rshiny
   # Output meta data to text file documenting settings for scenario 
   fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_scenario_metainfo.txt",sep="")
   sink(file=fileout,split="FALSE",append=FALSE)
-  if (Rshiny==FALSE){
+  if (!Rshiny){
     
     
     outvars2<-named.list(select_scenarioReachAreas,select_targetReachWatersheds,
@@ -272,7 +272,7 @@ predictScenariosOutCSV <- function(#Rshiny
   sink()
   
   
-  if (Rshiny==FALSE){
+  if (!Rshiny){
     #save the modifySubdata routine with a record of the source change settings
     filesList<-c("_modifySubdata.R")
     sapply(filesList, function(x) file.copy(paste(path_results,run_id,x,sep=""),

@@ -56,7 +56,7 @@ predictMaps<-function(#Rshiny
   
   # obtain uncertainties, if available
   objfile <- paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_BootUncertainties",sep="")
-  if(file.exists(objfile) == TRUE) {
+  if(file.exists(objfile)) {
     load(objfile)
     map_uncertainties <- c("se_pload_total","ci_pload_total")
   } else {
@@ -65,9 +65,9 @@ predictMaps<-function(#Rshiny
   }
   
   testList<-character(0)
-  if (mapScenarios==FALSE){
+  if (!mapScenarios){
     #test if mapped variable not prediction or scenario
-    if (Rshiny==TRUE){ #shiny
+    if (Rshiny){ #shiny
       if (input$batch=="Interactive"){
         master_map_list<-c(trimws(gsub("-","",input$var)))
         
@@ -121,10 +121,11 @@ predictMaps<-function(#Rshiny
     
   }#if map scenarios FALSE
   
-  if ((file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep="")) & mapScenarios==FALSE) | 
-      mapScenarios==TRUE |
-      (length(testList)>0 & mapScenarios==FALSE)){
-    if (mapScenarios==FALSE & file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))){
+  if ((file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep="")) 
+       & !mapScenarios) | 
+      mapScenarios |
+      (length(testList)>0 & !mapScenarios)){
+    if (!mapScenarios & file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))){
       if (!exists("predict.list")){
         load(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))
       }
@@ -138,12 +139,12 @@ predictMaps<-function(#Rshiny
                parentObj = list(NA))
     output_map_type<-output_map_typeArg
     
-    if (mapScenarios==FALSE & exists("predict.list")){
+    if (!mapScenarios & exists("predict.list")){
       # create global variable from list names (predict.list)
       unPackList(lists = list(predict.list = predict.list),
                  parentObj = list(NA))
       
-    }else if (mapScenarios==TRUE){
+    }else if (mapScenarios){
       # create global variable from list names (predict.list)
       unPackList(lists = list(predictScenarios.list = predictScenarios.list),
                  parentObj = list(NA))
@@ -160,7 +161,7 @@ predictMaps<-function(#Rshiny
     unPackList(lists = list(datalstreq = datalstreq),
                parentObj = list(subdata = subdata))
     
-    if (Rshiny==TRUE){ #shiny
+    if (Rshiny){ #shiny
       if (input$batch=="Interactive"){
         master_map_list<-c(trimws(gsub("-","",input$var)))
         
@@ -176,39 +177,39 @@ predictMaps<-function(#Rshiny
       predictionClassRounding<-as.numeric(input$predictionClassRounding)
       predictionMapBackground<-gsub("\"","",gsub("'","",input$predictionMapBackground))
       lineWidth<-as.numeric(input$lineWidth)
-      if (mapScenarios==FALSE){
+      if (!mapScenarios){
         predictionMapColors<-eval(parse(text=input$predictionMapColors))
       }else{
         scenarioMapColors<-eval(parse(text=input$scenarioMapColors))
       }
     }
     
-    if (mapScenarios==FALSE){
+    if (!mapScenarios){
       mapgo.list <- numeric(length(master_map_list))
       mapunits.list <- character(length(master_map_list))
       nintervals <- numeric(length(master_map_list))
       intervals <- matrix(0,nrow=length(master_map_list),ncol=length(predictionMapColors)+1)
     }else{
-      if (Rshiny==FALSE){
+      if (!Rshiny){
         master_map_list<-scenario_map_list
         
       }
     }#scenario
-    if (Rshiny==TRUE){#Rshiny
+    if (Rshiny){#Rshiny
       enable_plotlyMaps<-as.character(input$enablePlotly)
       add_plotlyVars<-as.character(input$plotlyDrop)
 
       if (input$batch=="Batch"){
         master_map_list<-allMetrics
-        if (mapScenarios==TRUE){
+        if (mapScenarios){
           scenario_map_list<-allMetrics
         }
         output_map_type<-tolower(as.character(input$outCheck))
         
-        if ((input$mapType=="Stream" | (mapScenarios==TRUE & regexpr("stream",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
+        if ((input$mapType=="Stream" | (mapScenarios & regexpr("stream",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
           outputESRImaps[1]<-"yes"
         }
-        if ((input$mapType=="Catchment" | (mapScenarios==TRUE & regexpr("catchment",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
+        if ((input$mapType=="Catchment" | (mapScenarios & regexpr("catchment",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
           outputESRImaps[2]<-"yes"
         }
       }else{
@@ -220,7 +221,7 @@ predictMaps<-function(#Rshiny
         
       }
     }#ewnd Rshiny
-    if (mapScenarios==TRUE){
+    if (mapScenarios){
       mapgo.list <- numeric(length(scenario_map_list))
       mapunits.list <- character(length(scenario_map_list))
       nintervals <- numeric(length(scenario_map_list))
@@ -229,28 +230,28 @@ predictMaps<-function(#Rshiny
     
     #get geoLines
     existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
-    if (existGeoLines==TRUE){
+    if (existGeoLines){
       load(paste(path_gis,.Platform$file.sep,"GeoLines",sep=""))
     }
     
     existlineShape<-FALSE
-    if ((paste(output_map_type,collapse="") %in% c("stream","both") & Rshiny==FALSE) | 
-        (Rshiny==TRUE & input$mapType=="Stream" & mapScenarios==FALSE) | 
-        (Rshiny==TRUE & regexpr("stream",paste(output_map_type,collapse=","))>0 & mapScenarios==TRUE)){
+    if ((paste(output_map_type,collapse="") %in% c("stream","both") & !Rshiny) | 
+        (Rshiny & input$mapType=="Stream" & !mapScenarios) | 
+        (Rshiny & regexpr("stream",paste(output_map_type,collapse=","))>0 & mapScenarios)){
       #get lineShape
       existlineShape<-checkBinaryMaps(lineShapeName,path_gis,batch_mode)
-      if (existlineShape==TRUE){
+      if (existlineShape){
         load(paste(path_gis,.Platform$file.sep,"lineShape",sep=""))
       }
       
     }
     existpolyShape<-FALSE
-    if ((paste(output_map_type,collapse="") %in% c("catchment","both") & Rshiny==FALSE) | 
-        (Rshiny==TRUE & input$mapType=="Catchment" & mapScenarios==FALSE) |
-        (Rshiny==TRUE & regexpr("catchment",paste(output_map_type,collapse=","))>0  & mapScenarios==TRUE)){
+    if ((paste(output_map_type,collapse="") %in% c("catchment","both") & !Rshiny) | 
+        (Rshiny & input$mapType=="Catchment" & !mapScenarios) |
+        (Rshiny & regexpr("catchment",paste(output_map_type,collapse=","))>0  & mapScenarios)){
       #get polyShape
       existpolyShape<-checkBinaryMaps(polyShapeName,path_gis,batch_mode)
-      if (existpolyShape==TRUE){
+      if (existpolyShape){
         load(paste(path_gis,.Platform$file.sep,"polyShape",sep=""))
       }
     }
@@ -272,12 +273,12 @@ predictMaps<-function(#Rshiny
     
     # remove bad variables from master_map_list
     
-    if (mapScenarios==FALSE){
+    if (!mapScenarios){
       master_map_list<-master_map_list[which(!master_map_list %in% noMaplist)]
       testmaster<-character(0)
       if (exists("oparmlist")){testmaster<-c(testmaster,master_map_list[which(master_map_list %in% oparmlist)])}
       if (exists("oyieldlist")){testmaster<-c(testmaster,master_map_list[which(master_map_list %in% oyieldlist)])}
-      if (mapScenarios==FALSE & !is.na(map_uncertainties[1])){testmaster<-c(testmaster,master_map_list[which(master_map_list %in% map_uncertainties)])}
+      if (!mapScenarios & !is.na(map_uncertainties[1])){testmaster<-c(testmaster,master_map_list[which(master_map_list %in% map_uncertainties)])}
       testmaster<-c(testmaster,master_map_list[which(master_map_list %in% datalstreq)])
       testmaster<-master_map_list
     }else{
@@ -291,7 +292,8 @@ predictMaps<-function(#Rshiny
         icolumn<-0
         if (exists("oparmlist")){
           for(i in 1:length(oparmlist)) {
-            if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
+            if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0)
+                | !mapScenarios){
               if(oparmlist[i] == master_map_list[k]) {
                 icolumn <- i
                 
@@ -305,9 +307,10 @@ predictMaps<-function(#Rshiny
           }
           
           if(icolumn>0) {
-            if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
+            if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) 
+                | !mapScenarios){
               vvar <- predmatrix[,icolumn] 
-              if (mapScenarios==TRUE){
+              if (mapScenarios){
                 vvar<-ifelse(scenarioFlag==0,NA,vvar)
               }
               
@@ -330,22 +333,25 @@ predictMaps<-function(#Rshiny
         if (exists("oyieldlist")){
           if(icolumn == 0) {
             for(i in 1:length(oyieldlist)) {
-              if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
+              if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) 
+                  | !mapScenarios){
                 if(oyieldlist[i] == master_map_list[k]) {
                   icolumn <- i
                 }
                 
               }else{#ratio
-                ratioMetric<-ifelse(master_map_list[k]=="ratio_total" | master_map_list[k]=="percent_total","pload_total","pload_inc")
+                ratioMetric<-ifelse(master_map_list[k]=="ratio_total" | 
+                                      master_map_list[k]=="percent_total","pload_total","pload_inc")
                 if(oyieldlist[i] == ratioMetric) {
                   icolumn <- i
                 }
               }
             }
             if(icolumn>0) {
-              if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
+              if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) 
+                  | !mapScenarios){
                 vvar <- yldmatrix[,icolumn] 
-                if (mapScenarios==TRUE){
+                if (mapScenarios){
                   vvar<-ifelse(scenarioFlag==0,NA,vvar)
                 }
                 mapunits <- yieldunits[icolumn]
@@ -363,7 +369,7 @@ predictMaps<-function(#Rshiny
           }
         }#exists oyieldlist
         
-        if (mapScenarios==FALSE){
+        if (!mapScenarios){
           # check list of uncertainties:  map_uncertainties  
           if(icolumn == 0) {
             if(!is.na(map_uncertainties[1])){
@@ -425,7 +431,7 @@ predictMaps<-function(#Rshiny
           ###############test 1 class
           
           
-          if (mapScenarios==TRUE & (regexpr("ratio_",master_map_list[k])>0 | regexpr("percent_",master_map_list[k])>0)){
+          if (mapScenarios & (regexpr("ratio_",master_map_list[k])>0 | regexpr("percent_",master_map_list[k])>0)){
            
              vvar1 <- vvar[vvar==1]
             vvar2 <- vvar[vvar!=1]
@@ -434,10 +440,10 @@ predictMaps<-function(#Rshiny
           
           
           #set breakpoints
-          if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
+          if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | !mapScenarios){
             
             #set colors
-            if (mapScenarios==TRUE){
+            if (mapScenarios){
               Mcolors<-scenarioMapColors[2:length(scenarioMapColors)]
             }else{
               Mcolors<-predictionMapColors
@@ -478,7 +484,7 @@ predictMaps<-function(#Rshiny
               qvars<-as.integer(cut(as.numeric(vvar), chk1, include.lowest=TRUE))
               qvars<-ifelse(is.na(qvars),0,qvars)
               qvars<-qvars+1
-              if (mapScenarios==FALSE){
+              if (!mapScenarios){
                 Mcolors <- c("gray",Mcolors)
               }else{
                 Mcolors<-scenarioMapColors
@@ -541,7 +547,7 @@ predictMaps<-function(#Rshiny
           mapdataname<-paste("vvar",k,sep="")
           colnames(dmap) <- c(commonvar,mapvarname,mapdataname)
           #colnames(dmap) <- c(commonvar,mapvarname) # ,master_map_list[k])
-          if ((mapScenarios==FALSE | (regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0)) & testNAvar==0){
+          if ((!mapScenarios | (regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0)) & testNAvar==0){
             intervals[k,1:length(uniqueBrks)] <- uniqueBrks
           }else{
             intervals[k,1:length(chk)] <- chk
@@ -551,7 +557,8 @@ predictMaps<-function(#Rshiny
           
           
           eval(parse(text=paste("break1$",master_map_list[k],"<-as.character(intervals[1:nintervals[k]])",sep="")))
-          if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | mapScenarios==FALSE){
+          if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) |
+              !mapScenarios){
             if (testNAvar==0){
               if (length(unique(vvar))!=1){
                 for (i in 1:nintervals[k]) {
@@ -561,7 +568,7 @@ predictMaps<-function(#Rshiny
                 break1[k][[1]][1] <- paste(round(unique(vvar),digit=predictionClassRounding)," TO ",round(unique(vvar),digit=predictionClassRounding),sep="")
               }
             }else{#testNAvar!=0
-              if (mapScenarios==FALSE){
+              if (!mapScenarios){
                 break1[k][[1]][1] <- 'NA'
               }else{
                 break1[k][[1]][1] <- 'No Change'
@@ -615,38 +622,28 @@ predictMaps<-function(#Rshiny
       }
       
       # merge selected variables to the shape file\
-      if ((paste(output_map_type,collapse="") %in% c("stream","both") & Rshiny==FALSE) | 
-          (Rshiny==TRUE & input$mapType=="Stream" & mapScenarios==FALSE) | 
-          (Rshiny==TRUE & regexpr("stream",paste(output_map_type,collapse=","))>0 & mapScenarios==TRUE)){
+      if ((paste(output_map_type,collapse="") %in% c("stream","both") & !Rshiny) | 
+          (Rshiny & input$mapType=="Stream" & !mapScenarios) | 
+          (Rshiny & regexpr("stream",paste(output_map_type,collapse=","))>0 & mapScenarios)){
         commonvar <- lineWaterid
         names(dmapfinal)[1]<-commonvar
         names(dmapAll)[1]<-commonvar
         lineShape <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = commonvar)
         
-        #if (Rshiny==FALSE){
-        #  if (mapScenarios==FALSE){
-        #    # Create and output maps
-        #    filename <- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,run_id,"_prediction_stream_maps.pdf",sep="") 
-        #  }else{
-        #    filename <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_prediction_stream_maps.pdf",sep="")
-        #    
-        #  }
-        #  
-        #  pdf(file=filename)
-        #}
+
         # loop through each of the variables...
         for (k in 1:length(master_map_list)) {
           testNAvar<-eval(parse(text = paste0("testNA$",master_map_list[k])))
-          if (mapScenarios==FALSE | regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0){
+          if (!mapScenarios | regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0){
             #set up colors
-            if (mapScenarios==FALSE){
+            if (!mapScenarios){
               Mcolors <- predictionMapColors
             }else{
               Mcolors<-scenarioMapColors[2:length(scenarioMapColors)]
             }
             #set NA class
             if (testNAvar!=0){
-              if (mapScenarios==FALSE){
+              if (!mapScenarios){
                 Mcolors <- c("gray",Mcolors)
               }else{
                 Mcolors<-scenarioMapColors
@@ -658,12 +655,12 @@ predictMaps<-function(#Rshiny
           }
           
           #output maps
-          if (Rshiny==FALSE){
+          if (!Rshiny){
             input$button<-""
           }
-          if (((input$batch=="Batch" & Rshiny==TRUE) | (input$button=="savePDF" & Rshiny==TRUE) | Rshiny==FALSE)){
-            if (mapScenarios==FALSE){
-              if (Rshiny==TRUE){
+          if (((input$batch=="Batch" & Rshiny) | (input$button=="savePDF" & Rshiny) | !Rshiny)){
+            if (!mapScenarios){
+              if (Rshiny){
                 filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
               }else{
                 if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream"))){
@@ -672,7 +669,7 @@ predictMaps<-function(#Rshiny
                 filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
               }            
               }else{
-                if (Rshiny==FALSE){
+                if (!Rshiny){
                   input$scenarioName<-scenario_name
                 }
               if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
@@ -690,10 +687,9 @@ predictMaps<-function(#Rshiny
           
           reportPath<-paste0(path_master,"predictMaps.Rmd")
 
-          if (((input$batch=="Batch" & Rshiny==TRUE) |
-               #(input$button=="savePDF" & Rshiny==TRUE) |
-               Rshiny==FALSE) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
-            if (existGeoLines==FALSE){GeoLines<-NA}
+          if (((input$batch=="Batch" & Rshiny) |
+               !Rshiny) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
+            if (!existGeoLines){GeoLines<-NA}
             htmlFile<-gsub("pdf","html",filename)
          
 
@@ -738,15 +734,14 @@ predictMaps<-function(#Rshiny
 
 
             }else{#Rhiny interactive or enable_plotlyMaps==no
-              if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
-                                             #(Rshiny==TRUE & input$button=="savePDF") | 
-                                             (Rshiny==TRUE & input$batch=="Batch"))){
+              if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (!Rshiny | 
+                                             (Rshiny & input$batch=="Batch"))){
                 pdf(filename)
               }
-             if (mapScenarios==FALSE){
+             if (!mapScenarios){
                   titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
                 }else{
-                  if (Rshiny==FALSE){
+                  if (!Rshiny){
                     titleStr<-paste(scenario_name,scenario_map_list[k],"\n",mapunits.list[k],sep=" ")
                   }else{
                     titleStr<-paste(input$scenarioName,master_map_list[k],"\n",mapunits.list[k],sep=" ")
@@ -772,7 +767,7 @@ predictMaps<-function(#Rshiny
               #}
               
               
-              if (existGeoLines==TRUE){
+              if (existGeoLines){
                 if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                   p <- ggplot() +
                     geom_sf(data = GeoLines, size = 0.1, fill = predictionMapBackground, colour ="black") +
@@ -792,7 +787,7 @@ predictMaps<-function(#Rshiny
               # select the shading colors for a given mapping variable
               if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                 mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
-              if (existGeoLines==TRUE){
+              if (existGeoLines){
                 lineShape$mapColor<-eval(parse(text = mapvarname))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -840,9 +835,8 @@ predictMaps<-function(#Rshiny
               }
                 
                 
-              if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
-                                             #(Rshiny==TRUE & input$button=="savePDF") | 
-                                             (Rshiny==TRUE & input$batch=="Batch"))){
+              if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (!Rshiny | 
+                                             (Rshiny & input$batch=="Batch"))){
                 print(p)
                 dev.off()
               }
@@ -911,17 +905,14 @@ predictMaps<-function(#Rshiny
             }#end Rshiny interactive
         }#end variable loop
         
-        #if (Rshiny==FALSE){
-        #  dev.off()  # shuts down current graphics device
-        #  graphics.off()  # shuts down all open graphics devices    
-        #}
+
         
         #output shapefile
         if (outputESRImaps[1]=="yes"){
           lineShape <- merge(lineShape, dmapAll, by.x = commonvar, by.y = commonvar)
           lineShape<-lineShape[,which(regexpr("MAPCOLORS",names(lineShape))<0)]
           
-          if (Rshiny==FALSE){
+          if (!Rshiny){
             if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
@@ -936,7 +927,7 @@ predictMaps<-function(#Rshiny
            st_write(lineShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
                            .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
             
-          }else if (mapScenarios==TRUE & input$batch=="Batch"){
+          }else if (mapScenarios & input$batch=="Batch"){
             if (!dir.exists(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
@@ -969,9 +960,9 @@ predictMaps<-function(#Rshiny
       }
       
 
-      if (((paste(output_map_type,collapse="") %in% c("catchment","both") & Rshiny==FALSE) | 
-           (Rshiny==TRUE & input$mapType=="Catchment" & mapScenarios==FALSE) |
-           (Rshiny==TRUE & regexpr("catchment",paste(output_map_type,collapse=","))>0  & mapScenarios==TRUE)) & existpolyShape==TRUE) {
+      if (((paste(output_map_type,collapse="") %in% c("catchment","both") & !Rshiny) | 
+           (Rshiny & input$mapType=="Catchment" & !mapScenarios) |
+           (Rshiny & regexpr("catchment",paste(output_map_type,collapse=","))>0  & mapScenarios)) & existpolyShape) {
        
         commonvar <- polyWaterid
         names(dmapfinal)[1]<-commonvar
@@ -979,26 +970,18 @@ predictMaps<-function(#Rshiny
         # merge selected variables to the shape file
         polyShape <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = commonvar)
         
-        #if (Rshiny==FALSE){
-        #  # Create and output maps
-        #  if (mapScenarios==FALSE){
-        #    filename <- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,run_id,"_prediction_catchment_maps.pdf",sep="")
-        #  }else{
-        #    filename <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_prediction_catchment_maps.pdf",sep="")
-        #  }
-        #  pdf(file=filename)
-        #}
+
         
         # loop through each of the variables...
         for (k in 1:length(master_map_list)) {
           
           
-          if (Rshiny==FALSE){
+          if (!Rshiny){
             input$button<-""
           }
-          if (((input$batch=="Batch" & Rshiny==TRUE) | (input$button=="savePDF" & Rshiny==TRUE) | Rshiny==FALSE)){
-            if (mapScenarios==FALSE){
-              if (Rshiny==TRUE){
+          if (((input$batch=="Batch" & Rshiny) | (input$button=="savePDF" & Rshiny) | !Rshiny)){
+            if (!mapScenarios){
+              if (Rshiny){
                              filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
               }else{
                 if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment"))){
@@ -1007,7 +990,7 @@ predictMaps<-function(#Rshiny
                 filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
               }
             }else{
-              if (Rshiny==FALSE){
+              if (!Rshiny){
                 input$scenarioName<-scenario_name
               }
               if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
@@ -1025,10 +1008,9 @@ predictMaps<-function(#Rshiny
           }
           reportPath<-paste0(path_master,"predictMaps.Rmd")
           
-          if (((input$batch=="Batch" & Rshiny==TRUE) |
-               #(input$button=="savePDF" & Rshiny==TRUE) |
-               Rshiny==FALSE) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
-            if (existGeoLines==FALSE){GeoLines<-NA}
+          if (((input$batch=="Batch" & Rshiny) |
+               !Rshiny) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
+            if (!existGeoLines){GeoLines<-NA}
             htmlFile<-gsub("pdf","html",filename)
             
             
@@ -1076,19 +1058,18 @@ predictMaps<-function(#Rshiny
               
             
           }else{#Rhiny interactive or enable_plotlyMaps==no
-            if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
-                                          # (Rshiny==TRUE & input$button=="savePDF") | 
-                                           (Rshiny==TRUE & input$batch=="Batch"))){
+            if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (!Rshiny | 
+                                           (Rshiny & input$batch=="Batch"))){
              # ptm <- proc.time()
               pdf(filename)
             }
             
             #if (enable_plotlyMaps=="yes"){
             #if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly" | enable_plotlyMaps=="leaflet"){
-              if (mapScenarios==FALSE){
+              if (!mapScenarios){
                 titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
               }else{
-                if (Rshiny==FALSE){
+                if (!Rshiny){
                   titleStr<-paste(scenario_name,scenario_map_list[k],"\n",mapunits.list[k],sep=" ")
                 }else{
                   titleStr<-paste(input$scenarioName,master_map_list[k],"\n",mapunits.list[k],sep=" ")
@@ -1111,7 +1092,7 @@ predictMaps<-function(#Rshiny
            # }
             
             
-            if (existGeoLines==TRUE){
+            if (existGeoLines){
               if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                 p <- ggplot() +
                   geom_sf(data = GeoLines, size = 0.1, fill = predictionMapBackground, colour ="black") +
@@ -1130,7 +1111,7 @@ predictMaps<-function(#Rshiny
             # select the shading colors for a given mapping variable
             if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
               mapvarname <- paste("polyShape$MAPCOLORS",k,sep="")
-              if (existGeoLines==TRUE){
+              if (existGeoLines){
                 polyShape$mapColor<-eval(parse(text = mapvarname))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -1178,9 +1159,8 @@ predictMaps<-function(#Rshiny
               }
 
               
-              if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (Rshiny==FALSE | 
-                                            # (Rshiny==TRUE & input$button=="savePDF") | 
-                                             (Rshiny==TRUE & input$batch=="Batch"))){
+              if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (!Rshiny | 
+                                             (Rshiny & input$batch=="Batch"))){
                 print(p)
                 dev.off()
               #  procTime<-proc.time() - ptm
@@ -1269,61 +1249,17 @@ predictMaps<-function(#Rshiny
           ######################
           ######################
           #######################
-    #      if (existGeoLines==TRUE){
-    #        plot(st_geometry(GeoLines),lwd=0.1,xlim=lon_limit,ylim=lat_limit,col = predictionMapBackground)
-    #      }
-    #      
-    #      # obtain variable settings
-    #      mapvarname <- paste("polyShape$MAPCOLORS",k,sep="")
-    #      
-    #      # select the shading colors for a given mapping variable
-    #      if (existGeoLines==TRUE){
-    #        xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
-    #        eval(parse(text=xtext))
-    #      } else {
-    #        xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground)",sep="")
-    #        eval(parse(text=xtext))
-    #      }
-    #      
-    #      if (mapScenarios==FALSE){
-    #        title(master_map_list[k],cex.main = predictionTitleSize)
-    #      }else{
-    #        if (Rshiny==FALSE){
-    #          title(paste(scenario_name,scenario_map_list[k],sep=" "))  
-    #        }else{
-    #          title(paste(input$scenarioName,scenario_map_list[k],sep=" "),cex.main = predictionTitleSize)  
-    #        }
-    #        
-    #        
-    #      }
-    #      
-    #      
-    #      
-    #      legend("bottomleft",break1[k][[1]],lty=nlty,cex=predictionLegendSize,title=mapunits.list[k],
-    #             bg=predictionLegendBackground,lwd=nlwd, col=Mcolors[1:length(break1[k][[1]])], bty="o")
-    #      if (((input$batch=="Batch" & Rshiny==TRUE) | Rshiny==FALSE) & enable_plotlyMaps=="no"){
-    #        dev.off()
-    #        if (k==length(master_map_list)){
-    #          if (input$batch=="Batch" & Rshiny==TRUE){
-    #           shell.exec(filename) 
-    #          }
-    #          
-    #        }
-    #      }
+ 
     #      
         }#end variable loop
-        
-       # if (Rshiny==FALSE){
-      #    dev.off()  # shuts down current graphics device
-      #    graphics.off()  # shuts down all open graphics devices
-      #  }
+
         
         #output shapefile
         if (outputESRImaps[2]=="yes"){
           polyShape <- merge(polyShape, dmapAll, by.x = commonvar, by.y = commonvar)
           polyShape<-polyShape[,which(regexpr("MAPCOLORS",names(polyShape))<0)]
           
-          if (Rshiny==FALSE){
+          if (!Rshiny){
             if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }
@@ -1336,7 +1272,7 @@ predictMaps<-function(#Rshiny
                                       "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp",sep=""))
           
             
-          }else if (mapScenarios==TRUE  & input$batch=="Batch"){
+          }else if (mapScenarios  & input$batch=="Batch"){
             if (!dir.exists(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
               dir.create(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
             }

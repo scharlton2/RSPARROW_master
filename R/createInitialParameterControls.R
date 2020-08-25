@@ -21,7 +21,7 @@ createInitialParameterControls<-function(file.output.list,batch_mode){
   
   #load varnames
   #test if file exists if not design and betas cannot be created
-  if (file.exists(file.path(paste(dirname(path_results),.Platform$file.sep,"dataDictionary.csv",sep="")))==TRUE){
+  if (file.exists(file.path(paste(dirname(path_results),.Platform$file.sep,"dataDictionary.csv",sep="")))){
     filein <- file.path(paste(dirname(path_results),.Platform$file.sep,"dataDictionary.csv",sep=""))
     Ctype <- c("character","character","character","character","character")
     NAMES<-c("varType","sparrowNames","data1UserNames","varunits","explanation")
@@ -41,7 +41,7 @@ createInitialParameterControls<-function(file.output.list,batch_mode){
     if(nrow(betaTypes)!=0){
       
       #test if previous design matrix exists
-      if (file.exists(file.path(paste(dirname(path_results),.Platform$file.sep,"design_matrix.csv",sep="")))==FALSE){
+      if (!file.exists(file.path(paste(dirname(path_results),.Platform$file.sep,"design_matrix.csv",sep="")))){
         
         #create initial design Matrix
         initialdesignMatrix<-data.frame(sparrowNames=betaTypes[which(betaTypes$varType=="SOURCE"),]$sparrowNames)
@@ -68,7 +68,7 @@ createInitialParameterControls<-function(file.output.list,batch_mode){
         }#if missing
         
         #if betas exists test for mismatches in SOURCE and DELIVF
-        if (file.exists(file.path(paste(dirname(path_results),"parameters.csv",sep="")))==TRUE){
+        if (file.exists(file.path(paste(dirname(path_results),"parameters.csv",sep="")))){
           filebetas <- file.path(paste(dirname(path_results),"parameters.csv",sep=""))
           Ctype <- c("character","character","character","numeric","numeric","numeric","character","numeric")
           NAMES<- c("sparrowNames","description","parmUnits","parmInit","parmMin","parmMax","parmType","parmCorrGroup")   
@@ -147,7 +147,7 @@ createInitialParameterControls<-function(file.output.list,batch_mode){
         message(paste(paste(dirname(path_results),.Platform$file.sep,"design_matrix.csv",sep="")," ALREADY EXISTS.\n
 NEW DESIGN_MATRIX FILE NOT CREATED.\n
 SET create_initial_parameterControlFiles<-'no' to RUN RSPARROW WITH CURRENT DESIGN_MATRIX.",sep=""))
-        if (exists("initialBetas")==TRUE){
+        if (exists("initialBetas")){
           cat("\n \n")
           message("RUN EXECUTION TERMINATED")
           exit()
@@ -157,9 +157,9 @@ SET create_initial_parameterControlFiles<-'no' to RUN RSPARROW WITH CURRENT DESI
       }#end if no design
       
       #####################################################################################################################
-      if (exists("initialBetas")==FALSE){    
+      if (!exists("initialBetas")){    
         #test if previous betas exists
-        if (file.exists(file.path(paste(dirname(path_results),.Platform$file.sep,"parameters.csv",sep="")))==FALSE){
+        if (!file.exists(file.path(paste(dirname(path_results),.Platform$file.sep,"parameters.csv",sep="")))){
           #create get variables and types
           for (t in allTypes[which(allTypes %in% betaTypes$varType)]){
             if (t == allTypes[which(allTypes %in% betaTypes$varType)][1]){
@@ -200,7 +200,7 @@ SET create_initial_parameterControlFiles<-'no' to RUN RSPARROW WITH CURRENT DESI
           }#if missing
           
           #test for missing source or delivf variables found in design matrix
-          if (exists("initialdesignMatrix")==FALSE){
+          if (!exists("initialdesignMatrix")){
             initialdesignMatrix<-read.csv(file=file.path(paste(dirname(path_results),"design_matrix.csv",sep="")),
                                           dec = csv_decimalSeparator,sep=csv_columnSeparator)
             

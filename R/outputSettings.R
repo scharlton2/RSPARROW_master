@@ -39,7 +39,7 @@ outputSettings<-function(file.output.list,save){
     settings[which(settings$setting==s),]$value<-paste(capture.output(dput(get(s))),collapse=", ")
   }
   
-  if (save==TRUE){
+  if (save){
     #output to csv
     fwrite(settings, file=paste(path_results,run_id,"_userSettings.csv",sep=""),
            showProgress = FALSE,row.names=FALSE,dec = csv_decimalSeparator,sep=csv_columnSeparator,

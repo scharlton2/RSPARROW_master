@@ -106,7 +106,7 @@ testCosmetic<-function(input, output, session, DF, mapType, scenario.input.list,
         fail<-(paste(" \nINVALID SETTING : ",setting," should be meet the required test \n",specialSettings$fail[s],"\n ",sep=""))
         goodvalue<-eval(parse(text=test))
         goodvalue<-ifelse(is.na(goodvalue),FALSE,goodvalue)
-        if (goodvalue==TRUE){
+        if (goodvalue){
         }else{
           badSet<-data.frame(Setting = setting)
           CurrentValue<-capture.output(dput(eval(parse(text = setting))))

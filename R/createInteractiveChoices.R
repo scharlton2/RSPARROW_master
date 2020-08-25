@@ -15,7 +15,7 @@
 
 
 createInteractiveChoices<-function(SelParmValues,existPredict,subdata, data_names, map_uncertainties){
-  if (existPredict==TRUE){
+  if (existPredict){
     sources<-as.character(SelParmValues$srcvar)
     
     

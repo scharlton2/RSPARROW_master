@@ -118,7 +118,7 @@ testSettings<-function(settings,saved){
       fail<-specialSettings$fail[s]
       value<-
         goodvalue<-eval(parse(text=test))
-      if (goodvalue==TRUE){
+      if (goodvalue){
       }else{
         message(paste(" \nINVALID SETTING : ",setting," should be meet the required test \n",fail,"\n ",sep=""))
         badSet<-data.frame(Setting = setting)

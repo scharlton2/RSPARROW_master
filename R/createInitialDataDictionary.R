@@ -22,7 +22,7 @@ createInitialDataDictionary<-function(file.output.list,input_data_fileName,
   unPackList(lists = list(file.output.list = file.output.list),
              parentObj = list(NA)) 
   
-  if (file.exists(file.path(paste(dirname(path_results),.Platform$file.sep,"dataDictionary.csv",sep="")))==FALSE){
+  if (!file.exists(file.path(paste(dirname(path_results),.Platform$file.sep,"dataDictionary.csv",sep="")))){
     #read data1 or indata
     data1<-readData(file.output.list,input_data_fileName)
     

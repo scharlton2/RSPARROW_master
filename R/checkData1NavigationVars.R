@@ -22,7 +22,7 @@ checkData1NavigationVars <- function(data1,if_reverse_hydseq,batch_mode) {
     var<-eval(parse(text=paste("data1$",v,sep="")))
     var<-ifelse(is.na(var),0,var)
     var<-all(var==0)
-    if (var==TRUE){
+    if (var){
       #all missing terminate
       
       cat("\n \n")

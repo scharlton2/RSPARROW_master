@@ -44,13 +44,13 @@ mapSiteAttributes<-function(#Rshiny
   unPackList(lists = list(mapping.input.list = mapping.input.list),
              parentObj = list(NA)) 
   
-  if (((input$var!="" |!is.na(attr)) & Rshiny==TRUE)|Rshiny==FALSE){
+  if (((input$var!="" |!is.na(attr)) & Rshiny)| !Rshiny){
       
     
-      if (Rshiny==TRUE){
+      if (Rshiny){
       #get geoLines
       existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
-      if (existGeoLines==TRUE){
+      if (existGeoLines){
         load(paste(path_gis,.Platform$file.sep,"GeoLines",sep=""))
       }   
         

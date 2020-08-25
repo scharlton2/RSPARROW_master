@@ -37,7 +37,7 @@ findControlFiles<-function(path_user,if_userModifyData,
   
   fileExist<-data.frame(success = t(fileExist)[1,])
   fileExist$path<-paste(path_results,.Platform$file.sep,filesList,sep="")
-  fileExist<-fileExist[(fileExist$success==FALSE),]
+  fileExist<-fileExist[(!fileExist$success),]
   
   if (nrow(fileExist)!=0){
     for (x in fileExist$path){
