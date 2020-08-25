@@ -1,5 +1,5 @@
 ---
-title: 'interactive_2020.06.26_diagnostic_spatialautocorr'
+title: "`r paste0(params$file.output.list$run_id,'_diagnostic_spatialautocorr')`"
 author: ""
 date: "`r paste0('Generated: ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document

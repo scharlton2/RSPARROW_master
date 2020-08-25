@@ -697,20 +697,9 @@ predictMaps<-function(#Rshiny
             htmlFile<-gsub("pdf","html",filename)
          
 
-
-#edit title of report
-reportTitle<-run_id
-#read Rmd file as text
-x <- readLines(reportPath)
-#find where title is designated
-editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
-#replace with current reportTitle
-y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
-#overwrite the file
-cat(y, file=reportPath, sep="\n") 
-
             rmarkdown::render(paste0(path_master,"predictMaps.Rmd"),
             params = list(
+              file.output.list = file.output.list,
               predictMapType = "stream",
               GeoLines = GeoLines,
               plotShape = lineShape,
@@ -1044,19 +1033,10 @@ cat(y, file=reportPath, sep="\n")
             
             
             
-            #edit title of report
-            reportTitle<-run_id
-            #read Rmd file as text
-            x <- readLines(reportPath)
-            #find where title is designated
-            editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
-            #replace with current reportTitle
-            y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
-            #overwrite the file
-            cat(y, file=reportPath, sep="\n") 
             #ptm <- proc.time()
             rmarkdown::render(
               reportPath, params = list(
+                file.output.list = file.output.list,
                 predictMapType = "catchment",
                 GeoLines = GeoLines,
                 plotShape = polyShape,

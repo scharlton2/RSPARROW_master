@@ -1,9 +1,10 @@
 ---
-title: 'interactive_2020.06.04'
+title: "`r params$file.output.list$run_id`"
 author: ""
 date: "`r paste0('Output on ',format(Sys.time(), '%m-%d-%Y'))`"
 output: html_document
 params:
+  file.output.list: file.output.list
   predictMapType: predictMapType
   GeoLines: GeoLines
   plotShape: plotShape

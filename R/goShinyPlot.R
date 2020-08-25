@@ -251,20 +251,12 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             print(p)
           }else if (class(p)[1]=="plotly" | class(p)[1]=="leaflet") {
             reportPath<-paste0(path_master,"shinySavePlot.Rmd")
-            #edit title of report
-            reportTitle<-run_id
-            #read Rmd file as text
-            x <- readLines(reportPath)
-            #find where title is designated
-            editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
-            #replace with current reportTitle
-            y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
-            #overwrite the file
-            cat(y, file=reportPath, sep="\n") 
+
             #ptm <- proc.time()
             rmarkdown::render(
               reportPath, params = list(
-                p = p
+                p = p,
+                run_id = run_id
               ),
               output_file = filename, quiet = TRUE
             )
@@ -348,20 +340,12 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             #ggsave(p,height = 7, width = 7,filename = filename, units = "in")
           }else if (class(p)[1]=="plotly" | class(p)[1]=="leaflet") {
             reportPath<-paste0(path_master,"shinySavePlot.Rmd")
-            #edit title of report
-            reportTitle<-run_id
-            #read Rmd file as text
-            x <- readLines(reportPath)
-            #find where title is designated
-            editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
-            #replace with current reportTitle
-            y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
-            #overwrite the file
-            cat(y, file=reportPath, sep="\n") 
+
             #ptm <- proc.time()
             rmarkdown::render(
               reportPath, params = list(
-                p = p
+                p = p,
+                run_id = run_id
               ),
               output_file = filename, quiet = TRUE
             )

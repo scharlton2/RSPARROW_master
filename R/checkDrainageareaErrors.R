@@ -64,16 +64,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
             
           filename<-gsub("pdf","html",filename)
 
-            #edit title of report
-            reportTitle<-run_id
-            #read Rmd file as text
-            x <- readLines(reportPath)
-            #find where title is designated
-            editthis<-x[which(regexpr("title:",gsub(" ","",x))>0)]
-            #replace with current reportTitle
-            y <- gsub( editthis, paste0("title: '",reportTitle,"'"), x )
-            #overwrite the file
-            cat(y, file=reportPath, sep="\n") 
+
             
             rmarkdown::render(paste0(path_master,"checkDrainageareaErrors.Rmd"),
               params = list(
