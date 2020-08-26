@@ -58,7 +58,7 @@ if (length(res)!=0){
   GeoLines<-st_transform(GeoLines,CRS(CRStext))
 
   #save file
-  objfile <- paste(path_gis,.Platform$file.sep,"GeoLines",sep="")
+  objfile <- paste0(path_gis,.Platform$file.sep,"GeoLines")
   save(GeoLines,file=objfile) 
   
   if (RSPARROW_errorOption=="yes"){

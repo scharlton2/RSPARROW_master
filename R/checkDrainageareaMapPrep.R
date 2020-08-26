@@ -34,11 +34,11 @@ checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
 
     
     if(k >= 3) {
-      dname <- paste("vvar <- DAreaFailCheckObj$",map.vars.list[k],sep="")
+      dname <- paste0("vvar <- DAreaFailCheckObj$",map.vars.list[k])
       eval(parse(text=dname)) 
       waterid <- DAreaFailCheckObj$waterid
     } else {
-      dname <- paste("vvar <- data1$",map.vars.list[k],sep="")
+      dname <- paste0("vvar <- data1$",map.vars.list[k])
       eval(parse(text=dname)) 
       waterid <- data1$waterid
     }
@@ -94,7 +94,7 @@ checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
       if(k >= 3) {
         break1 <- as.character(chk[1:iprob]+1)
         for (i in 1:iprob) {
-          break1[i] <- paste(round(chk[i],digit=2)," TO ",round(chk[i+1],digit=2),sep="")
+          break1[i] <- paste0(round(chk[i],digit=2)," TO ",round(chk[i+1],digit=2))
         }
         break1[iprob+1] <- "Areas Match"
         nlty <-rep(1,iprob)
@@ -105,7 +105,7 @@ checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
       } else {
         break1 <- as.character(chk[1:iprob])
         for (i in 1:iprob) {
-          break1[i] <- paste(round(chk[i],digit=2)," TO ",round(chk[i+1],digit=2),sep="")
+          break1[i] <- paste0(round(chk[i],digit=2)," TO ",round(chk[i+1],digit=2))
         }
         nlty <-rep(1,iprob)
         nlwd <- rep(0.8,iprob)

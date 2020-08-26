@@ -125,24 +125,24 @@ if (existGeoLines){
 # select the shading colors for a given mapping variable
 
 if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-  mapvarname <- paste("plotShape$MAPCOLORS",k,sep="")
+  mapvarname <- paste0("plotShape$MAPCOLORS",k)
   if (existGeoLines){
     if (predictMapType=="stream"){
-      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)",sep="")
+      xtext <- paste0("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth, add=TRUE)")
     }else{#catchment
-      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
+      xtext <- paste0("plot(st_geometry(plotShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)")
     }
     eval(parse(text=xtext))
   } else {
     if (predictMapType=="stream"){
-      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground)",sep="")
+      xtext <- paste0("plot(st_geometry(plotShape),col=",mapvarname,",lwd=lineWidth,bg = predictionMapBackground)")
     }else{#catchment
-      xtext <- paste("plot(st_geometry(plotShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground)",sep="")
+      xtext <- paste0("plot(st_geometry(plotShape),col=",mapvarname,",lwd=0.01, lty=0,bg = predictionMapBackground)")
     }
     eval(parse(text=xtext))
   }
 }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
-  mapvarname <- paste("MAPCOLORS",k,sep="")
+  mapvarname <- paste0("MAPCOLORS",k)
   suppressWarnings(remove(list = c(add_plotlyVars)))
   uniqueCols<-eval(parse(text = paste0("as.character(unique(plotShape$",mapvarname,"))")))
   uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -191,7 +191,7 @@ if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
     }
   }
 }else{#leaflet
-  mapvarname <- paste("MAPCOLORS",k,sep="")
+  mapvarname <- paste0("MAPCOLORS",k)
   suppressWarnings(remove(list = c(add_plotlyVars)))
   uniqueCols<-eval(parse(text = paste0("as.character(unique(plotShape$",mapvarname,"))")))
   uniqueCols<-Mcolors[Mcolors %in% uniqueCols]

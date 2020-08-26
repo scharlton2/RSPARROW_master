@@ -146,8 +146,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
   if ("threshold-above" %in% map.list){   
    # par(mfrow=c(1,1), pch=16)    # 1 plots on one page
     #subset data
-    above <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn,"<",threshold,"),]",sep="")))  # over predictions (neg residuals)
-    nabove <- eval(parse(text=paste("length(above$",mapColumn,")",sep="")))
+    above <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn,"<",threshold,"),]")))  # over predictions (neg residuals)
+    nabove <- eval(parse(text=paste0("length(above$",mapColumn,")")))
 
     #for below threshold
     strTitle2<-paste(strTitle," - Over Predictions - n=",nabove)
@@ -156,7 +156,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     } 
     
     
-    map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn,"<= cls[1]), ]",sep="")))
+    map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn,"<= cls[1]), ]")))
     Lat<- map1$xlat
     Lon<- map1$xlon
     
@@ -175,20 +175,20 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
                            mode = "markers",#color = I(color[1]),
                            #marker = list(symbol = pnchPlotly[1],size = sze[1]),
                            marker = eval(parse(text = markerList1)),
-                           name = paste("< ",cls[1],sep=""),
+                           name = paste0("< ",cls[1]),
                            hoverinfo = 'text',
                            text = eval(parse(text = markerText)))
     }
     
     
-    strLegend<-paste("< ",cls[1],sep="")
+    strLegend<-paste0("< ",cls[1])
     
     for (k in 1:3) {
-      map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn,"<= cls[k+1]), ]",sep="")))
+      map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn,"<= cls[k+1]), ]")))
       Lat<- map1$xlat
       Lon<- map1$xlon
 
-      strlegend<-paste(cls[k]," to ",cls[k+1],sep="")
+      strlegend<-paste0(cls[k]," to ",cls[k+1])
       strLegend<-c(strLegend,strlegend)
       
       if (enable_plotlyMaps=="yes"){#plotly
@@ -255,8 +255,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       return(p)
     
   }else if ("threshold-below" %in% map.list){ 
-    below <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn,">",threshold,"),]",sep="")))
-    nbelow <- eval(parse(text=paste("length(below$",mapColumn,")",sep="")))
+    below <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn,">",threshold,"),]")))
+    nbelow <- eval(parse(text=paste0("length(below$",mapColumn,")")))
 
     if (enable_plotlyMaps=="yes"){
 #plotly
@@ -284,14 +284,14 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     strLegend<-vector('character')
 
     for (k in 4:7) {
-      map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]",sep="")))
+      map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]")))
       Lat<- map1$xlat
       Lon<- map1$xlon
 
       if (k!=7){
-        strlegend<-paste(cls[k]," to ",cls[k+1],sep="")
+        strlegend<-paste0(cls[k]," to ",cls[k+1])
       }else{
-        strlegend<-paste("> ",cls[k],sep="")
+        strlegend<-paste0("> ",cls[k])
       }
       strLegend<-c(strLegend,strlegend)
       
@@ -319,7 +319,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     }
     
 
-    map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[7]), ]",sep="")))
+    map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[7]), ]")))
     Lat<- map1$xlat
     Lon<- map1$xlon
 
@@ -338,7 +338,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
                            mode = "markers",#color = I(color[8]),
                            #marker = list(symbol = pnchPlotly[8],size = sze[8]),
                            marker = eval(parse(text = markerList1)),
-                           name = paste("> ",cls[7],sep=""),
+                           name = paste0("> ",cls[7]),
                            hoverinfo = 'text',
                            text = eval(parse(text = markerText)))
     }
@@ -412,11 +412,11 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     }
     
     
-    map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," <= cls[1]), ]",sep="")))
+    map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," <= cls[1]), ]")))
     Lat<- map1$xlat
     Lon<- map1$xlon
 
-    strLegend<-paste("< ",cls[1],sep="")
+    strLegend<-paste0("< ",cls[1])
     
     if (enable_plotlyMaps=="yes"){#plotly
       eval(parse(text = plotLocStr))
@@ -437,14 +437,14 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     }
     
     for (k in 1:7) {
-      map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]",sep="")))
+      map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]")))
       Lat<- map1$xlat
       Lon<- map1$xlon
 
       if (k!=7){
-        strlegend<-paste(cls[k]," to ",cls[k+1],sep="")
+        strlegend<-paste0(cls[k]," to ",cls[k+1])
       }else{
-        strlegend<-paste("> ",cls[k],sep="")
+        strlegend<-paste0("> ",cls[k])
       }
       strLegend<-c(strLegend,strlegend)
     
@@ -467,7 +467,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
                            text = eval(parse(text = markerText)))
     }
     }
-    map1 <- eval(parse(text=paste("mapdata[(mapdata$",mapColumn," > cls[7]), ]",sep="")))
+    map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[7]), ]")))
     Lat<- map1$xlat
     Lon<- map1$xlon
 

@@ -54,7 +54,7 @@ if (length(res)!=0){
               "unPackList.R",
               "addMarkerText.R")
   for (r in routines){
-    source(paste(path_main,.Platform$file.sep,"R",.Platform$file.sep,r,sep=""))
+    source(paste0(path_main,.Platform$file.sep,"R",.Platform$file.sep,r))
   }
   
   unPackList(lists = list(file.output.list = file.output.list,
@@ -73,7 +73,7 @@ if (length(res)!=0){
   
   
   #start sink
-  sink(file=paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",.Platform$file.sep,run_id,"_log.txt",sep=""),split=FALSE)
+  sink(file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",.Platform$file.sep,run_id,"_log.txt"),split=FALSE)
   cat("\n \n")
   cat("RSPARROW MODEL NAME: ",run_id,sep="")
   cat("\n \n")
@@ -89,13 +89,13 @@ if (length(res)!=0){
   ptm <- proc.time()
   
   #method 1
-  if (file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predictList",sep=""))){
-    load(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predictList",sep="")) }
+  if (file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predictList"))){
+    load(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predictList")) }
   #load individual object previously saved
   
-  load(paste(path_results,.Platform$file.sep,"data",.Platform$file.sep,"subdata",sep=""))
+  load(paste0(path_results,.Platform$file.sep,"data",.Platform$file.sep,"subdata"))
   # load all other required objects
-  load(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData",sep=""))
+  load(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData"))
   
   
   

@@ -92,7 +92,7 @@ predictScenarios <- function(#Rshiny
     scenario_name<-as.character(input$scenarioName)
   }
   #delete files in subdirectory
-  dirout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,sep="")
+  dirout <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep)
   if (dir.exists(dirout)){
     filesList<-list.files(dirout,recursive = TRUE,full.names=TRUE)
     if (length(filesList)!=0){
@@ -102,7 +102,7 @@ predictScenarios <- function(#Rshiny
   
   if (!Rshiny){
     #save flag_TargetReachWatersheds.csv
-    fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv",sep="")
+    fileout <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv")
     outFlag<-subdata[,which(names(subdata) %in% c("waterid_for_RSPARROW_mapping","demtarea","demiarea","rchname",add_vars))]
     names(outFlag)[which(names(outFlag)=="waterid_for_RSPARROW_mapping")]<-"waterid"
     outFlag$flag<-rep(0,nrow(outFlag))
@@ -123,9 +123,9 @@ predictScenarios <- function(#Rshiny
     } else {
       bootcorrection <- JacobResults$mean_exp_weighted_error
     }
-    if (file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep="")) | if_predict == "yes"){
+    if (file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list")) | if_predict == "yes"){
       if (if_predict == "no"){
-        load(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))
+        load(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list"))
       } 
       
       # perform checks on scenario variable names designated by user
@@ -269,8 +269,8 @@ predictScenarios <- function(#Rshiny
           
           for (j in 1:length(jsrcvar)) {  
             ddliv <- as.matrix((ddliv2[,j] * data[,jsrcvar[j]]) * beta1[,jbsrcvar[j]] ) 
-            assign(paste("pload_inc_",Parmnames[j],sep=""),as.vector(ddliv))   # create variable 'pload_inc_(source name)'
-            srclist_inc[j] <- paste("pload_inc_",Parmnames[j],sep="")
+            assign(paste0("pload_inc_",Parmnames[j]),as.vector(ddliv))   # create variable 'pload_inc_(source name)'
+            srclist_inc[j] <- paste0("pload_inc_",Parmnames[j])
           }
           
           ####################################################
@@ -389,11 +389,11 @@ predictScenarios <- function(#Rshiny
                                     ee=as.double(ee),PACKAGE="ptnoder") 
             pred <- return_data$ee
             
-            assign(paste("pload_",Parmnames[j],sep=""),pred)   # create variable 'pload_(source name)'
-            srclist_total[j] <- paste("pload_",Parmnames[j],sep="")
+            assign(paste0("pload_",Parmnames[j]),pred)   # create variable 'pload_(source name)'
+            srclist_total[j] <- paste0("pload_",Parmnames[j])
             
-            assign(paste("mpload_",Parmnames[j],sep=""),pred)   # create variable 'mpload_(source name)'
-            srclist_mtotal[j] <- paste("mpload_",Parmnames[j],sep="")
+            assign(paste0("mpload_",Parmnames[j]),pred)   # create variable 'mpload_(source name)'
+            srclist_mtotal[j] <- paste0("mpload_",Parmnames[j])
             
             # Nondecayed total source load
             pred <- matrix(0,nrow=nreach,ncol=1)
@@ -413,8 +413,8 @@ predictScenarios <- function(#Rshiny
                                     ee=as.double(ee),PACKAGE="ptnoder") 
             pred <- return_data$ee
             
-            assign(paste("pload_nd_",Parmnames[j],sep=""),pred)   # create variable 'pload_(source name)'
-            srclist_nd_total[j] <- paste("pload_nd_",Parmnames[j],sep="")
+            assign(paste0("pload_nd_",Parmnames[j]),pred)   # create variable 'pload_(source name)'
+            srclist_nd_total[j] <- paste0("pload_nd_",Parmnames[j])
           } 
           
           
@@ -453,8 +453,8 @@ predictScenarios <- function(#Rshiny
                                       ee=as.double(ee),PACKAGE="mptnoder") 
               pred <- return_data$ee
               
-              assign(paste("mpload_",Parmnames[j],sep=""),pred)   # create variable 'mpload_(source name)'
-              srclist_mtotal[j] <- paste("mpload_",Parmnames[j],sep="")
+              assign(paste0("mpload_",Parmnames[j]),pred)   # create variable 'mpload_(source name)'
+              srclist_mtotal[j] <- paste0("mpload_",Parmnames[j])
             }
           }
           
@@ -487,17 +487,17 @@ predictScenarios <- function(#Rshiny
           
           srclist_inc_deliv <- character(length(jsrcvar))   # delivered incremental load
           for (i in 1:length(jsrcvar)) {
-            srclist_inc_deliv[i] <- paste(srclist_inc[i],"_deliv",sep="")
+            srclist_inc_deliv[i] <- paste0(srclist_inc[i],"_deliv")
           }
           
           srclist_inc_share <- character(length(jsrcvar))   # incremental source share (percent)
           for (i in 1:length(jsrcvar)) {
-            srclist_inc_share[i] <- paste("share_inc_",srcvar[i],sep="")
+            srclist_inc_share[i] <- paste0("share_inc_",srcvar[i])
           }
           
           srclist_total_share <- character(length(jsrcvar))   # total source share (percent)
           for (i in 1:length(jsrcvar)) {
-            srclist_total_share[i] <- paste("share_total_",srcvar[i],sep="")
+            srclist_total_share[i] <- paste0("share_total_",srcvar[i])
           }
           
           oparmlist <- c("waterid","pload_total",srclist_total,
@@ -700,7 +700,7 @@ predictScenarios <- function(#Rshiny
                                               predict.source.list,predmatrix_chg,yldmatrix_chg,scenarioCoefficients,scenarioFlag)
           assign("predictScenarios.list",predictScenarios.list, envir=.GlobalEnv)
           
-          objfile <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_predictScenarios.list",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_predictScenarios.list")
           save(predictScenarios.list,file=objfile)
           
           # Save the data input matrix with altered source values per scenario adjustments
@@ -708,7 +708,7 @@ predictScenarios <- function(#Rshiny
           DataMatrixScenarios.list <- named.list(dataNames,data)
           assign("DataMatrixScenarios.list",DataMatrixScenarios.list, envir=.GlobalEnv)
           
-          objfile <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_DataMatrixScenarios.list",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_DataMatrixScenarios.list")
           save(DataMatrixScenarios.list,file=objfile)
           
           #########################################
@@ -728,20 +728,20 @@ predictScenarios <- function(#Rshiny
             message("Running scenario mapping in batch mode...")
             mapScenarios<-TRUE
             
-            dir.create(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",sep=""))
+            dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch"))
             save(list = c(as.character(outputSettings(file.output.list,FALSE)$setting),
                           "runScript","run2","file.output.list","scenario.input.list","RSPARROW_errorOption",
                           ls()[which(regexpr("file_",ls())>0)],"estimate.input.list","mapping.input.list","Rshiny","allMetrics","scenarioFlag",
                           "mapScenarios","predictScenarios.list"),
-                 file=paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData",sep=""))
+                 file=paste0(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData"))
             
             save(list=c("data_names"),
-                 file=paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData",sep=""),compress = FALSE)
+                 file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",.Platform$file.sep,"batch.RData"),compress = FALSE)
             
-            system(paste(Sys.which("Rscript.exe")," ",file.path(paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchMaps.R",sep="")),sep=""), wait = TRUE, invisible = TRUE)
+            system(paste0(Sys.which("Rscript.exe")," ",file.path(paste0(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"batchMaps.R"))), wait = TRUE, invisible = TRUE)
             
             
-            unlink(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch",sep=""),recursive=TRUE)
+            unlink(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"batch"),recursive=TRUE)
             
           }else{
             mapScenarios<-TRUE

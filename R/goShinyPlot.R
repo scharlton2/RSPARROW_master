@@ -95,54 +95,54 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
   if (is.na(errMsg)){
     
     #load predicitons if available
-    if (file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))){
-      load(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))
+    if (file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list"))){
+      load(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list"))
     }
     
     #estimation objects
-    if (file.exists(paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults",sep=""))){
+    if (file.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults"))){
       if (!exists("JacobResults")){
-        load(paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults",sep=""))
+        load(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults"))
       }
     }
     
     #setup output file paths for batch and pdf output
     if (button=="savePDF" | input$batch=="Batch"){
-      if (!dir.exists(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,sep=""))){
-        dir.create(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,sep=""))
+      if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep))){
+        dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep))
       }
       if (input$mapType=="Stream"){
-        if (!dir.exists(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,sep=""))){
-          dir.create(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,sep=""))
+        if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep))){
+          dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep))
         }
-        filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",compiledInput$var,".pdf",sep="")
-        batchFilename<-paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData",sep="")
+        filename<- paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",compiledInput$var,".pdf")
+        batchFilename<-paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData")
         
       }else if (input$mapType=="Catchment"){
-        if (!dir.exists(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,sep=""))){
-          dir.create(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,sep=""))
+        if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep))){
+          dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep))
         }
-        filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",compiledInput$var,".pdf",sep="")
-        batchFilename<-paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData",sep="")
+        filename<- paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",compiledInput$var,".pdf")
+        batchFilename<-paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData")
         
       }else if (input$mapType=="Site Attributes"){
-        if (!dir.exists(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,sep=""))){
-          dir.create(paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,sep=""))
+        if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep))){
+          dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep))
         }
-        filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,run_id,"_SiteAttributes_",compiledInput$var,".pdf",sep="")
-        batchFilename<-paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData",sep="")
+        filename<- paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,run_id,"_SiteAttributes_",compiledInput$var,".pdf")
+        batchFilename<-paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"SiteAttributes",.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData")
         
       }else{#add check for if scenario exists ask user if proceed
-        if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,
-                              as.character(compiledInput$outType),.Platform$file.sep,sep=""))){
-          dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,
-                           as.character(compiledInput$outType),.Platform$file.sep,sep=""))
+        if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,
+                              as.character(compiledInput$outType),.Platform$file.sep))){
+          dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,
+                           as.character(compiledInput$outType),.Platform$file.sep))
         }
-        filename<- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,
+        filename<- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,
                          as.character(compiledInput$outType),.Platform$file.sep,
-                         compiledInput$scenarioName,"_",run_id,"_",compiledInput$var,".pdf",sep="")
+                         compiledInput$scenarioName,"_",run_id,"_",compiledInput$var,".pdf")
 
-        batchFilename<-paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData",sep="")
+        batchFilename<-paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,"batch_",format(Sys.time(),"%Y-%m-%d_%H.%M.%S"),".RData")
         
       }
       
@@ -209,7 +209,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           compiledInput<-sourceRedFunc(compiledInput)
           
           #delete previously generated scenario output with same scenario name
-          unlink(list.files(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,sep=""),full.names = TRUE),recursive = TRUE)
+          unlink(list.files(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep),full.names = TRUE),recursive = TRUE)
           p<- predictScenarios(#Rshiny
             compiledInput,NA, tolower(as.character(compiledInput$outType)),TRUE,
             #regular
@@ -309,7 +309,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
             compiledInput<-sourceRedFunc(compiledInput)
             
             #delete previously generated scenario output with same scenario name
-            unlink(list.files(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep,sep=""),full.names = TRUE),recursive = TRUE)
+            unlink(list.files(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,compiledInput$scenarioName,.Platform$file.sep),full.names = TRUE),recursive = TRUE)
             p<- predictScenarios(#Rshiny
               compiledInput,NA, tolower(as.character(compiledInput$outType)),TRUE,
               #regular
@@ -428,9 +428,9 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
       
       #save batchfileName to batch folder in master
       save(list = c("path_main","batchFilename","RSPARROW_errorOption"),
-           file=paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"interactiveBatch.RData",sep=""))
+           file=paste0(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"interactiveBatch.RData"))
       
-      system(paste(Sys.which("Rscript.exe")," ",file.path(paste(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"interactiveBatchRun.R",sep="")),sep=""), wait = FALSE, invisible = FALSE)
+      system(paste0(Sys.which("Rscript.exe")," ",file.path(paste0(path_main,.Platform$file.sep,"batch",.Platform$file.sep,"interactiveBatchRun.R"))), wait = FALSE, invisible = FALSE)
       
       
       

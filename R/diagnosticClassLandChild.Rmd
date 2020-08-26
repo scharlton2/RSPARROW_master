@@ -1,7 +1,7 @@
 ```{r chunkLand{{l}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
 k <- {{l}}
 
-vvar <- as.numeric(eval(parse(text=paste("sitedata.landuse$",classvar2[k],sep="") )))
+vvar <- as.numeric(eval(parse(text=paste0("sitedata.landuse$",classvar2[k]) )))
 iprob<-10
 chk <- unique(quantile(vvar, probs=0:iprob/iprob))
 chk1 <- 11 - length(chk)
@@ -16,7 +16,7 @@ if(chk1 == 0) {
       }
     }
   }
-  xxlab <- paste("Upper Bound for ",classvar2[k],sep="")  
+  xxlab <- paste0("Upper Bound for ",classvar2[k])  
   
   p <- plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
                     xTitle = xxlab,  

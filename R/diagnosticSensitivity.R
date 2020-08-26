@@ -50,17 +50,9 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
   unPackList(lists = list(file.output.list = file.output.list),
                parentObj = list(NA))
   
- # # contiguous class variables by sites
-#  class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar))) 
-#  for (k in 1:length(classvar)) { 
-#    for (i in 1:nrow(sitedata)) {
-#      class[i,k] <- as.numeric(eval(parse(text=paste("sitedata$",classvar[k],"[",i,"]",sep=""))))
-#    } 
-#  }
-#  depvar <- subdata$depvar
-#  xclass <- eval(parse(text=paste("subdata$",classvar[1],sep="")))
 
-  filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_sensitivity.html",sep="")
+
+  filename <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_sensitivity.html")
   reportPath<-paste0(path_master,"diagnosticSensitivity.Rmd")
   
   path_diagnosticSensParamChild <- file_path_as_absolute(paste0(path_master,"diagnosticSensParamChild.Rmd"))
@@ -83,17 +75,13 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
   )
   ####################################################################
   
- # filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_sensitivity.pdf",sep="")
-#pdf(file=filename)
-  objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sensitivities.list",sep="") 
+  objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sensitivities.list") 
   load(objfile)
   assign("sensitivities.list",sensitivities.list,envir = .GlobalEnv)
   
   
  
- # dev.off()  # shuts down current graphics device
-#  graphics.off()  # shuts down all open graphics devices
-  
+
   
 }#end function
 

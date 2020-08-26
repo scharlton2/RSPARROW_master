@@ -159,7 +159,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
     #   Files checked include:  sparrowEsts, HessianResults, JacobResults
     #   These files are needed for prediction and bootstrap prediction
     
-    objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts",sep="")
+    objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts")
     if(file.exists(objfile) == TRUE & if_estimate_simulation=="no") {
       load(objfile)
       # Load SPARROW object file from a prior run if available
@@ -173,7 +173,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
       # $upper - upper parameter bounds for the least squares estimation
       
       
-      objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults",sep="")
+      objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults")
       if(file.exists(objfile) == TRUE) {
         load(objfile)
       }
@@ -182,7 +182,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
       assign("estimate.list",estimate.list, envir=.GlobalEnv)
       
       # load the Hessian results if object exists
-      objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_HessianResults",sep="")
+      objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_HessianResults")
       if(file.exists(objfile) == TRUE) {
         load(objfile)
         estimate.list <- named.list(sparrowEsts,JacobResults,HesResults)
@@ -231,7 +231,7 @@ estimate <- function(if_estimate,if_predict,file.output.list,
           estimate.list <- named.list(sparrowEsts,JacobResults,HesResults,ANOVA.list,Mdiagnostics.list)
           
           # save sparrowEsts file to support prediction
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts")
           save(sparrowEsts,file=objfile)
           
           
@@ -263,10 +263,10 @@ estimate <- function(if_estimate,if_predict,file.output.list,
                                               SelParmValues$decvar,SelParmValues$resvar))
           
           
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults")
           save(JacobResults,file=objfile)
           
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sparrowEsts")
           save(sparrowEsts,file=objfile)
           
           estimate.list <- named.list(sparrowEsts,JacobResults)
@@ -314,16 +314,16 @@ estimate <- function(if_estimate,if_predict,file.output.list,
       assign(l,get(l),envir=.GlobalEnv)   
       if (l=="Mdiagnostics.list"){
         # store Mdiagnostics.list and ANOVA.list objects as list
-        objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_Mdiagnostics.list",sep="")
+        objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_Mdiagnostics.list")
         save(list=l,file=objfile)
-        objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_ANOVA.list",sep="")
+        objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_ANOVA.list")
         save(ANOVA.list,file=objfile)
         
         if(if_validate == "yes" & if_estimate_simulation=="no") {
           # store vMdiagnostics.list and vANOVA.list objects as list
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_vMdiagnostics.list",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_vMdiagnostics.list")
           save(vMdiagnostics.list,file=objfile)
-          objfile <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_vANOVA.list",sep="")
+          objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_vANOVA.list")
           save(vANOVA.list,file=objfile)
         }
       }

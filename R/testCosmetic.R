@@ -75,7 +75,7 @@ testCosmetic<-function(input, output, session, DF, mapType, scenario.input.list,
     numericSettings<-getNumSett()[which(getNumSett() %in% DF$setting)]
     for (s in numericSettings){
       setting<-eval(parse(text = s))
-      fail<-paste(" \nINVALID SETTING : ",s," should be a numeric class\n ",sep="")
+      fail<-paste0(" \nINVALID SETTING : ",s," should be a numeric class\n ")
       # fail<-paste0(s," should be a numeric")
       if (class(setting)=="numeric" | is.na(setting)){
       }else{
@@ -103,7 +103,7 @@ testCosmetic<-function(input, output, session, DF, mapType, scenario.input.list,
         
         
         
-        fail<-(paste(" \nINVALID SETTING : ",setting," should be meet the required test \n",specialSettings$fail[s],"\n ",sep=""))
+        fail<-(paste0(" \nINVALID SETTING : ",setting," should be meet the required test \n",specialSettings$fail[s],"\n "))
         goodvalue<-eval(parse(text=test))
         goodvalue<-ifelse(is.na(goodvalue),FALSE,goodvalue)
         if (goodvalue){

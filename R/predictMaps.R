@@ -55,7 +55,7 @@ predictMaps<-function(#Rshiny
              parentObj = list(NA)) 
   
   # obtain uncertainties, if available
-  objfile <- paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_BootUncertainties",sep="")
+  objfile <- paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_BootUncertainties")
   if(file.exists(objfile)) {
     load(objfile)
     map_uncertainties <- c("se_pload_total","ci_pload_total")
@@ -121,13 +121,13 @@ predictMaps<-function(#Rshiny
     
   }#if map scenarios FALSE
   
-  if ((file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep="")) 
+  if ((file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list")) 
        & !mapScenarios) | 
       mapScenarios |
       (length(testList)>0 & !mapScenarios)){
-    if (!mapScenarios & file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))){
+    if (!mapScenarios & file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list"))){
       if (!exists("predict.list")){
-        load(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))
+        load(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list"))
       }
     }
     
@@ -231,7 +231,7 @@ predictMaps<-function(#Rshiny
     #get geoLines
     existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
     if (existGeoLines){
-      load(paste(path_gis,.Platform$file.sep,"GeoLines",sep=""))
+      load(paste0(path_gis,.Platform$file.sep,"GeoLines"))
     }
     
     existlineShape<-FALSE
@@ -241,7 +241,7 @@ predictMaps<-function(#Rshiny
       #get lineShape
       existlineShape<-checkBinaryMaps(lineShapeName,path_gis,batch_mode)
       if (existlineShape){
-        load(paste(path_gis,.Platform$file.sep,"lineShape",sep=""))
+        load(paste0(path_gis,.Platform$file.sep,"lineShape"))
       }
       
     }
@@ -252,7 +252,7 @@ predictMaps<-function(#Rshiny
       #get polyShape
       existpolyShape<-checkBinaryMaps(polyShapeName,path_gis,batch_mode)
       if (existpolyShape){
-        load(paste(path_gis,.Platform$file.sep,"polyShape",sep=""))
+        load(paste0(path_gis,.Platform$file.sep,"polyShape"))
       }
     }
     
@@ -263,7 +263,7 @@ predictMaps<-function(#Rshiny
     # Loop through variable list
     
     
-    MAPID <- eval(parse(text=paste("subdata$","waterid_for_RSPARROW_mapping",sep="") ))   # added 3-25-2017
+    MAPID <- eval(parse(text=paste0("subdata$","waterid_for_RSPARROW_mapping") ))   # added 3-25-2017
     dmapfinal <- data.frame(MAPID)                                   # added 3-25-2017
     colnames(dmapfinal) <- c(commonvar)
     break1<-list()
@@ -380,7 +380,7 @@ predictMaps<-function(#Rshiny
                 }
               }
               if(icolumn>0) {
-                dname <- paste("vvar <- BootUncertainties$",map_uncertainties[icolumn],sep="")
+                dname <- paste0("vvar <- BootUncertainties$",map_uncertainties[icolumn])
                 eval(parse(text=dname)) 
               }
             }
@@ -396,7 +396,7 @@ predictMaps<-function(#Rshiny
               }
             }
             if(icolumn>0) {
-              dname <- paste("vvar <- ",datalstreq[icolumn],sep="")
+              dname <- paste0("vvar <- ",datalstreq[icolumn])
               eval(parse(text=dname)) 
             }
           }
@@ -543,8 +543,8 @@ predictMaps<-function(#Rshiny
           
          # dmap <- data.frame(MAPID,as.character(MAPCOLORS))   # ,vvar)    # added 3-25-2017
           dmap <- data.frame(MAPID,as.character(MAPCOLORS),vvar)
-          mapvarname <- paste("MAPCOLORS",k,sep="")
-          mapdataname<-paste("vvar",k,sep="")
+          mapvarname <- paste0("MAPCOLORS",k)
+          mapdataname<-paste0("vvar",k)
           colnames(dmap) <- c(commonvar,mapvarname,mapdataname)
           #colnames(dmap) <- c(commonvar,mapvarname) # ,master_map_list[k])
           if ((!mapScenarios | (regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0)) & testNAvar==0){
@@ -556,16 +556,16 @@ predictMaps<-function(#Rshiny
           }
           
           
-          eval(parse(text=paste("break1$",master_map_list[k],"<-as.character(intervals[1:nintervals[k]])",sep="")))
+          eval(parse(text=paste0("break1$",master_map_list[k],"<-as.character(intervals[1:nintervals[k]])")))
           if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) |
               !mapScenarios){
             if (testNAvar==0){
               if (length(unique(vvar))!=1){
                 for (i in 1:nintervals[k]) {
-                  break1[k][[1]][i] <- paste(round(intervals[k,i],digit=predictionClassRounding)," TO ",round(intervals[k,i+1],digit=predictionClassRounding),sep="")
+                  break1[k][[1]][i] <- paste0(round(intervals[k,i],digit=predictionClassRounding)," TO ",round(intervals[k,i+1],digit=predictionClassRounding))
                 }
               }else{
-                break1[k][[1]][1] <- paste(round(unique(vvar),digit=predictionClassRounding)," TO ",round(unique(vvar),digit=predictionClassRounding),sep="")
+                break1[k][[1]][1] <- paste0(round(unique(vvar),digit=predictionClassRounding)," TO ",round(unique(vvar),digit=predictionClassRounding))
               }
             }else{#testNAvar!=0
               if (!mapScenarios){
@@ -577,7 +577,7 @@ predictMaps<-function(#Rshiny
               j<-1
               for (i in 2:nintervals[k]) {
                 j <- j+1
-                break1[k][[1]][j] <- paste(round(intervals[k,i-1],digit=predictionClassRounding)," TO ",round(intervals[k,i],digit=predictionClassRounding),sep="")
+                break1[k][[1]][j] <- paste0(round(intervals[k,i-1],digit=predictionClassRounding)," TO ",round(intervals[k,i],digit=predictionClassRounding))
               }
             }
           }else{
@@ -591,7 +591,7 @@ predictMaps<-function(#Rshiny
               j<-1
               for (i in (nintervals[k]):2) {
                 j <- j+1
-                break1[k][[1]][j] <- paste(round(intervals[k,i-1],digit=predictionClassRounding)," TO ",round(intervals[k,i],digit=predictionClassRounding),sep="")
+                break1[k][[1]][j] <- paste0(round(intervals[k,i-1],digit=predictionClassRounding)," TO ",round(intervals[k,i],digit=predictionClassRounding))
               }
             }#legnth(vvar2)!=0
           }
@@ -606,7 +606,7 @@ predictMaps<-function(#Rshiny
           
           
           dmapfinal <- merge(dmapfinal,dmap,by=commonvar)
-          mapvarname <- paste("dmapfinal$MAPCOLORS",k," <- as.character(dmapfinal$MAPCOLORS",k,")",sep="")
+          mapvarname <- paste0("dmapfinal$MAPCOLORS",k," <- as.character(dmapfinal$MAPCOLORS",k,")")
           eval(parse(text=mapvarname))
           
         }
@@ -661,25 +661,25 @@ predictMaps<-function(#Rshiny
           if (((input$batch=="Batch" & Rshiny) | (input$button=="savePDF" & Rshiny) | !Rshiny)){
             if (!mapScenarios){
               if (Rshiny){
-                filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
+                filename<- paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf")
               }else{
                 if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream"))){
                   dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream"))
                 }
-                filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
+                filename<- paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Stream",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf")
               }            
               }else{
                 if (!Rshiny){
                   input$scenarioName<-scenario_name
                 }
-              if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
-                dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""),showWarnings = FALSE)
+              if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName))){
+                dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName),showWarnings = FALSE)
               }
-              if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Stream",.Platform$file.sep,sep=""))){
-                dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Stream",.Platform$file.sep,sep=""),showWarnings = FALSE)
+              if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Stream",.Platform$file.sep))){
+                dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Stream",.Platform$file.sep),showWarnings = FALSE)
               }
-              filename<- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Stream",.Platform$file.sep,
-                               input$scenarioName,"_",run_id,"_",scenario_map_list[k],".pdf",sep="")
+              filename<- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Stream",.Platform$file.sep,
+                               input$scenarioName,"_",run_id,"_",scenario_map_list[k],".pdf")
       
             }
            # pdf(filename)
@@ -783,10 +783,10 @@ predictMaps<-function(#Rshiny
               
               # obtain variable settings
               
-              mapdataname <- paste("vvar",k,sep="")
+              mapdataname <- paste0("vvar",k)
               # select the shading colors for a given mapping variable
               if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-                mapvarname <- paste("lineShape$MAPCOLORS",k,sep="")
+                mapvarname <- paste0("lineShape$MAPCOLORS",k)
               if (existGeoLines){
                 lineShape$mapColor<-eval(parse(text = mapvarname))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(",mapvarname,"))")))
@@ -842,7 +842,7 @@ predictMaps<-function(#Rshiny
               }
               
               }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
-                mapvarname <- paste("MAPCOLORS",k,sep="")
+                mapvarname <- paste0("MAPCOLORS",k)
                  suppressWarnings(remove(list = c(add_plotlyVars)))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -868,7 +868,7 @@ predictMaps<-function(#Rshiny
                 
                 #return(p)
               }else{#leaflet
-                mapvarname <- paste("MAPCOLORS",k,sep="")
+                mapvarname <- paste0("MAPCOLORS",k)
                 suppressWarnings(remove(list = c(add_plotlyVars)))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(lineShape$",mapvarname,"))")))
                 uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -913,46 +913,46 @@ predictMaps<-function(#Rshiny
           lineShape<-lineShape[,which(regexpr("MAPCOLORS",names(lineShape))<0)]
           
           if (!Rshiny){
-            if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
             }
-            if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
             }
             
              
                suppressWarnings(unlink(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
                             .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
             
-           st_write(lineShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
-                           .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
+           st_write(lineShape, paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+                           .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
             
           }else if (mapScenarios & input$batch=="Batch"){
-            if (!dir.exists(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
             }
             
              
             suppressWarnings(unlink(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
                            .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
             
-           st_write(lineShape, paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
-                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
+           st_write(lineShape, paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
+                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
             
           }else if (input$batch=="Batch"){
-            if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
             }
-            if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
             }
             
              
             suppressWarnings(unlink(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
                            .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
             
-           st_write(lineShape, paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
-                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp",sep=""))
+           st_write(lineShape, paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
+                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
             }
         }
         
@@ -982,25 +982,25 @@ predictMaps<-function(#Rshiny
           if (((input$batch=="Batch" & Rshiny) | (input$button=="savePDF" & Rshiny) | !Rshiny)){
             if (!mapScenarios){
               if (Rshiny){
-                             filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
+                             filename<- paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf")
               }else{
                 if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment"))){
                   dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment"))
                 }
-                filename<- paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf",sep="")
+                filename<- paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Catchment",.Platform$file.sep,run_id,"_",master_map_list[k],".pdf")
               }
             }else{
               if (!Rshiny){
                 input$scenarioName<-scenario_name
               }
-              if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
-                dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""),showWarnings = FALSE)
+              if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName))){
+                dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName),showWarnings = FALSE)
               }
-              if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Catchment",.Platform$file.sep,sep=""))){
-                dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Catchment",.Platform$file.sep,sep=""),showWarnings = FALSE)
+              if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Catchment",.Platform$file.sep))){
+                dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Catchment",.Platform$file.sep),showWarnings = FALSE)
               }
-              filename<- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Catchment",.Platform$file.,
-                               input$scenarioName,"_",run_id,"_",scenario_map_list[k],".pdf",sep="")
+              filename<- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep,"Catchment",.Platform$file.,
+                               input$scenarioName,"_",run_id,"_",scenario_map_list[k],".pdf")
              
               }
             
@@ -1107,10 +1107,10 @@ predictMaps<-function(#Rshiny
             
             # obtain variable settings
             
-            mapdataname <- paste("vvar",k,sep="")
+            mapdataname <- paste0("vvar",k)
             # select the shading colors for a given mapping variable
             if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-              mapvarname <- paste("polyShape$MAPCOLORS",k,sep="")
+              mapvarname <- paste0("polyShape$MAPCOLORS",k)
               if (existGeoLines){
                 polyShape$mapColor<-eval(parse(text = mapvarname))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(",mapvarname,"))")))
@@ -1132,8 +1132,6 @@ predictMaps<-function(#Rshiny
                         legend.background = element_rect(fill=predictionLegendBackground),
                         legend.key.size = unit(predictionLegendSize, 'cm')) +
                   guides(fill = guide_legend(ncol=1))
-                #xtext <- paste("plot(st_geometry(polyShape),col=",mapvarname,",lwd=0.01, lty=0, add=TRUE)",sep="")
-                #eval(parse(text=xtext))
               } else {
                 polyShape$mapColor<-eval(parse(text = mapvarname))
                 uniqueCols<-eval(parse(text = paste0("as.character(unique(",mapvarname,"))")))
@@ -1208,7 +1206,7 @@ predictMaps<-function(#Rshiny
               
               #return(p)
             }else{#leaflet
-              mapvarname <- paste("MAPCOLORS",k,sep="")
+              mapvarname <- paste0("MAPCOLORS",k)
               suppressWarnings(remove(list = c(add_plotlyVars)))
               uniqueCols<-eval(parse(text = paste0("as.character(unique(polyShape$",mapvarname,"))")))
               uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
@@ -1260,37 +1258,37 @@ predictMaps<-function(#Rshiny
           polyShape<-polyShape[,which(regexpr("MAPCOLORS",names(polyShape))<0)]
           
           if (!Rshiny){
-            if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
             }
-            if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
             }
             suppressWarnings(unlink(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
                                            .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
-            st_write(polyShape, paste(path_results,.Platform$file.sep,"maps",.Platform$file.sep,
-                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp",sep=""))
+            st_write(polyShape, paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,
+                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp"))
           
             
           }else if (mapScenarios  & input$batch=="Batch"){
-            if (!dir.exists(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
             }
             suppressWarnings(unlink(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
                                            .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
-            st_write(polyShape, paste(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,
-                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp",sep=""))
+            st_write(polyShape, paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,
+                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp"))
           }else if (input$batch=="Batch"){
-            if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
             }
-            if (!dir.exists(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""))){
-              dir.create(paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,sep=""),showWarnings = FALSE)
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
             }
             suppressWarnings(unlink(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
                                            .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
-            st_write(polyShape, paste(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,
-                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp",sep=""))}
+            st_write(polyShape, paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,
+                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp"))}
         }
       }
     }else {#if length(master_map_list)

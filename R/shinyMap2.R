@@ -111,14 +111,14 @@ shinyMap2<-function(
              parentObj = list(NA,NA, NA)) 
   
   #load predicitons if available
-  if (file.exists(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))){
-    load(paste(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list",sep=""))
+  if (file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list"))){
+    load(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list"))
   }
   
   #estimation objects
-  if (file.exists(paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults",sep=""))){
+  if (file.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults"))){
     if (!exists("JacobResults")){
-      load(paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults",sep=""))
+      load(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_JacobResults"))
     }
   }
   
@@ -151,7 +151,7 @@ shinyMap2<-function(
     fluidPage(tags$head(
       tags$style("h5{color: red}")),
       titlePanel(
-        h1(paste("RShiny Decision Support System : ",run_id,sep=""),h5(div(HTML("DO NOT CLICK ON ITEMS ABOVE THIS POINT!"))))),
+        h1(paste0("RShiny Decision Support System : ",run_id),h5(div(HTML("DO NOT CLICK ON ITEMS ABOVE THIS POINT!"))))),
       
       sidebarLayout(
         sidebarPanel(width=6,

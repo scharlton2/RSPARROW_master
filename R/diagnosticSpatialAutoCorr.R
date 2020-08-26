@@ -43,7 +43,7 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
   # transfer required variables to global environment from 'DataMatrix.list$data.index.list'
   unPackList(lists = list(file.output.list = file.output.list),
              parentObj = list(NA))
-  filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.html",sep="")
+  filename <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.html")
   
   path_masterFormat <- file_path_as_absolute(paste0(path_master,"diagnosticSpatialAutoCorr.R"))
   path_masterFormat<-gsub("diagnosticSpatialAutoCorr.R","",path_masterFormat)
@@ -87,7 +87,7 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
   unPackList(lists = list(saveList = saveList),
              parentObj = list(NA))
   
-  filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.txt",sep="")
+  filename <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_spatialautocor.txt")
   sink(file=filename,split="FALSE",append=FALSE)
   
   print(outcharfun("MORAN'S I EUCLIDEAN AND HYDROLOGIC DISTANCE WEIGHTED RESULTS"))

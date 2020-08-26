@@ -51,7 +51,7 @@ mapSiteAttributes<-function(#Rshiny
       #get geoLines
       existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
       if (existGeoLines){
-        load(paste(path_gis,.Platform$file.sep,"GeoLines",sep=""))
+        load(paste0(path_gis,.Platform$file.sep,"GeoLines"))
       }   
         
       #set shiny variables
@@ -72,7 +72,7 @@ mapSiteAttributes<-function(#Rshiny
       }
       
       mapColumnName<-mapColumn 
-      siteAttr<-eval(parse(text= paste("data.frame(",mapColumn,"=sitedata$",mapColumn,")",sep="")))
+      siteAttr<-eval(parse(text= paste0("data.frame(",mapColumn,"=sitedata$",mapColumn,")")))
       titleAttr<-data_names[which(data_names$sparrowNames==mapColumn),]
       unitAttr<-titleAttr$varunits
       titleAttr<-as.character(titleAttr$explanation)
@@ -90,7 +90,7 @@ mapSiteAttributes<-function(#Rshiny
     }
     
     #set map data
-    mapdata$mapColumn<-eval(parse(text=paste("mapdata$",mapColumn,sep="")))
+    mapdata$mapColumn<-eval(parse(text=paste0("mapdata$",mapColumn)))
     
     #replace NAs
     mapColumn<-mapdata$mapColumn
@@ -170,7 +170,7 @@ mapSiteAttributes<-function(#Rshiny
     map1 <- mapdata[(mapdata$mapColumn <= cls[1]), ]
     Lat<- map1$xlat
     Lon<- map1$xlon
-    strLegend<-paste(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1],sep="")
+    strLegend<-paste0(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1])
     
     if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){  
       eval(parse(text = plotLocStr))
@@ -185,7 +185,7 @@ mapSiteAttributes<-function(#Rshiny
       p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter",
                            mode = "markers",
                            marker = eval(parse(text = markerList1)),
-                           name = paste(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1],sep=""),
+                           name = paste0(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1]),
                            hoverinfo = 'text',
                            text = eval(parse(text = markerText)))
     } 
@@ -196,9 +196,9 @@ mapSiteAttributes<-function(#Rshiny
         Lon<- map1$xlon
         
         if (k!=(length(cls)-1)){
-          strlegend<-paste(cls[k]," to ",cls[k+1],sep="")
+          strlegend<-paste0(cls[k]," to ",cls[k+1])
         }else{
-          strlegend<-paste(cls[k]," to ",round(max(mapdata$mapColumn),siteAttrClassRounding),sep="")
+          strlegend<-paste0(cls[k]," to ",round(max(mapdata$mapColumn),siteAttrClassRounding))
         }
         strLegend<-c(strLegend,strlegend)
         

@@ -36,7 +36,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
                           mapping.input.list = mapping.input.list),
              parentObj = list(NA, NA)) 
   
-  filename <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_darea_mismatches.pdf",sep="")
+  filename <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_darea_mismatches.pdf")
   if (length(na.omit(DAreaFailCheckObj$demtarea))!=0){
     
     if (if_verify_demtarea_maps=="yes"){
@@ -112,7 +112,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
   
   pout <- data.frame(waterid,origWaterid,fnode_pre,tnode_pre,frac_pre,demtarea_pre,demtarea_post,hydseq_new,
                      AreaRatio_NewOld,headflag_new,headflag_check)
-  fileout <- paste(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_darea_mismatches.csv",sep="")
+  fileout <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_darea_mismatches.csv")
   write.table(pout,file=fileout,row.names=F,append=F,quote=F,
               dec=csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE)
   

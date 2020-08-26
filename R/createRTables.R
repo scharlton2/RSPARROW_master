@@ -67,8 +67,7 @@ createRTables<-function(selectSources,data_names, mapping.input.list){
                                          "scenario")))
     sub$setting<-c
     sub$settingValue<-ifelse(length(setting)!=1,
-                             paste("c(",paste("'",setting,"'",collapse=",",sep=""),")",sep=""),
-                             #paste("'",setting,"'",sep=""))
+                             paste0("c(",paste("'",setting,"'",collapse=","),")"),
                              setting)
     
     cosmeticDF<-rbind(cosmeticDF,sub)

@@ -53,12 +53,12 @@ predictScenariosPrep<-function(##Rshiny
   #create scenario_name directory
   options(warn=-1)
   if (!Rshiny){
-    if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,sep=""))){
-      dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,sep=""))
+    if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name))){
+      dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name))
     }#if directory not found
   }else{#Rshiny TRUE
-    if (!dir.exists(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""))){
-      dir.create(paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,sep=""),showWarnings = FALSE)
+    if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName))){
+      dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName),showWarnings = FALSE)
     }#if direcotry not found
   }#if Rshiny TRUE
   options(warn=0)  
@@ -119,12 +119,12 @@ predictScenariosPrep<-function(##Rshiny
       select_targetReachWatersheds<-NA
     }else if (tolower(select_targetReachWatersheds)=="import"){
       #read flag file
-      filein <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv",sep="")
+      filein <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,"flag_TargetReachWatersheds.csv")
       select_targetReachWatersheds <- fread(filein,header=TRUE,stringsAsFactors=FALSE,
                                             dec = csv_decimalSeparator,sep=csv_columnSeparator)
       
       #save flag file to subdirectory
-      fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_flag_TargetReachWatersheds.csv",sep="")
+      fileout <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_flag_TargetReachWatersheds.csv")
       fwrite(select_targetReachWatersheds,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,col.names=TRUE,
              dec = csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")      
       
@@ -140,7 +140,7 @@ predictScenariosPrep<-function(##Rshiny
         
         
         #save flag file to subdirectory
-        fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_flag_TargetReachWatersheds.csv",sep="")
+        fileout <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_flag_TargetReachWatersheds.csv")
         fwrite(select_targetReachWatersheds,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,col.names=TRUE,
                dec = csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")
         
@@ -381,7 +381,7 @@ predictScenariosPrep<-function(##Rshiny
     
     colnames(negTest)<-dataNames
     negTest<-subdata[which(subdata$waterid %in% negTest[,1]),]
-    fileout <- paste(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_NegativeLanduseFound.csv",sep="")
+    fileout <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_NegativeLanduseFound.csv")
     fwrite(negTest,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,col.names=TRUE,
            dec = csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")
     message("\n \nWARNING : Invalid Landuse Conversion.  Negative landuse data found for ",nrow(negTest)," waterids, saved to \n",fileout)

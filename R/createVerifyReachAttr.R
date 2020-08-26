@@ -38,7 +38,7 @@ createVerifyReachAttr <- function(if_verify_demtarea,calculate_reach_attribute_l
   # Select reaches to be included in the analysis (exclude coastal shorelines)
   # NAs removed first or will create NA records in 'sub1'
   for (c in c("termflag","fnode","tnode","demiarea","demtarea")){
-    eval(parse(text = paste("data1$",c,"<-ifelse(is.na(data1$",c,"),0,data1$",c,")",sep="")))
+    eval(parse(text = paste0("data1$",c,"<-ifelse(is.na(data1$",c,"),0,data1$",c,")")))
   }
   
   sub1 <- data1[(data1$fnode > 0 & data1$tnode > 0 & data1$termflag != 3), ]
@@ -47,7 +47,7 @@ createVerifyReachAttr <- function(if_verify_demtarea,calculate_reach_attribute_l
     
     if (nrow(sub1)==0){
       cat("\n \n")
-      message(paste("HYDSEQ VARIABLE CANNOT BE CALCULATED\n DATASET WITH FNODE>0, TNODE>0 and TERMFLAG!=0 IS EMPTY\nRUN EXECUTION TERMINATED.",sep=""))
+      message(paste0("HYDSEQ VARIABLE CANNOT BE CALCULATED\n DATASET WITH FNODE>0, TNODE>0 and TERMFLAG!=0 IS EMPTY\nRUN EXECUTION TERMINATED."))
       if (batch_mode=="yes"){#if batch output message to log
         cat("HYDSEQ VARIABLE CANNOT BE CALCULATED\n DATASET WITH FNODE>0, TNODE>0 and TERMFLAG!=0 IS EMPTY\nRUN EXECUTION TERMINATED.",sep="")
       }
@@ -154,7 +154,7 @@ createVerifyReachAttr <- function(if_verify_demtarea,calculate_reach_attribute_l
       
       # add attributes to data1
       for (i in 1:length(calculate_reach_attribute_list)) {
-        name1 <- paste("hs_data <- data.frame(waterid,",calculate_reach_attribute_list[i],")",sep="")
+        name1 <- paste0("hs_data <- data.frame(waterid,",calculate_reach_attribute_list[i],")")
         eval(parse(text=name1))
         hs_data <- hs_data[hs_data$waterid != 0, ] # eliminate 0 cases where vector dimension max > no. reaches
         data1 <- merge(data1,hs_data,by="waterid",all.y=TRUE,all.x=TRUE)

@@ -31,7 +31,7 @@ addMarkerText<-function(markerText,add_plotlyVars,mapData, sourceData){
       if (m %in% names(sourceData)){
         markerText<-paste0(markerText,",'</br> ",m," : ',",m)
         if (!m %in% names(mapData)){
-        markerAttrs<-eval(parse(text= paste("data.frame(",m,"=sourceData$",m,")",sep=""))) 
+        markerAttrs<-eval(parse(text= paste0("data.frame(",m,"=sourceData$",m,")"))) 
         mapData<-cbind(mapData,markerAttrs)
         }
       }
