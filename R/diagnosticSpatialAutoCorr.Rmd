@@ -229,18 +229,18 @@ Fn<-ecdf(sdist)
 y<-Fn(sdist)
 plotData<-data.frame(sdist=sdist, y = y)
 plotData<-plotData[order(plotData$sdist),]
-p<-plotlyLayout(plotData$sdist,plotData$y, log = "", nTicks = 7, digits = 0,
+plotlyLayout(plotData$sdist,plotData$y, log = "", nTicks = 7, digits = 0,
                 xTitle = "Distance Between Sites", xZeroLine = FALSE,xminTick = 0,
                 yTitle = "Fn(x)",  yZeroLine = FALSE,ymax = 1,ymin = 0,ymaxTick = 1,
                 plotTitle = "Station Hydrologic Distances",
-                legend = FALSE,showPlotGrid = showPlotGrid)
+                legend = FALSE,showPlotGrid = showPlotGrid) %>%
 
-p<- p %>% add_trace(x  = plotData$sdist, y = plotData$y,type="scatter",mode="lines",color=I('black'),
-                    line = list(color=I('black')))
-p<-p %>% layout(shapes = list(hline(1, color = "black", dash = 'dash'),
+add_trace(x  = plotData$sdist, y = plotData$y,type="scatter",mode="lines",color=I('black'),
+                    line = list(color=I('black'))) %>%
+layout(shapes = list(hline(1, color = "black", dash = 'dash'),
                               hline(0, color = "black",dash = 'dash')))
 
-p
+
 ```
 
 ```{r pagebreak0, results='asis', echo=FALSE}
@@ -344,18 +344,18 @@ Fn<-ecdf(edist)
 y<-Fn(edist)
 plotData<-data.frame(edist=edist, y = y)
 plotData<-plotData[order(plotData$edist),]
-p<-plotlyLayout(plotData$edist,plotData$y, log = "", nTicks = 7, digits = 0,
+plotlyLayout(plotData$edist,plotData$y, log = "", nTicks = 7, digits = 0,
                 xTitle = "Distance Between Sites", xZeroLine = FALSE,xminTick = 0,
                 yTitle = "Fn(x)",  yZeroLine = FALSE,ymax = 1,ymin = 0,ymaxTick = 1,
                 plotTitle = "Station Euclidean Distances (kilometers)",
-                legend = FALSE,showPlotGrid = showPlotGrid)
+                legend = FALSE,showPlotGrid = showPlotGrid) %>%
 
-p<- p %>% add_trace(x  = plotData$edist, y = plotData$y,type="scatter",mode="lines",color=I('black'),
-                    line = list(color = I('black')))
-p<-p %>% layout(shapes = list(hline(1, color = "black", dash = 'dash'),
+add_trace(x  = plotData$edist, y = plotData$y,type="scatter",mode="lines",color=I('black'),
+                    line = list(color = I('black'))) %>%
+layout(shapes = list(hline(1, color = "black", dash = 'dash'),
                               hline(0, color = "black",dash = 'dash')))
 
-p
+
 ```
 
 ```{r pagebreak1, results='asis', echo=FALSE}

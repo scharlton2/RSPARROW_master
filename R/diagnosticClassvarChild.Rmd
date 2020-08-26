@@ -3,16 +3,16 @@ k <- {{k}}
 
 vvar <- as.numeric(eval(parse(text=paste0("sitedata$",classvar[k]) )))
 
-p <- plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
+plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
                   xTitle = classvar[k],  
                   xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
                   yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
                   plotTitle = "Ratio Observed to Predicted",
-                  legend = FALSE,showPlotGrid = showPlotGrid)
-p <- p %>% add_trace(y = boxvar,x = vvar, type = 'box', color = I("black"), 
-                     fillcolor = "white")
-p <- p %>% layout(shapes = list(hline(1)))
-p
+                  legend = FALSE,showPlotGrid = showPlotGrid) %>%
+add_trace(y = boxvar,x = vvar, type = 'box', color = I("black"), 
+                     fillcolor = "white") %>%
+layout(shapes = list(hline(1)))
+
 
 
 ```

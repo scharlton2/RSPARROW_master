@@ -18,31 +18,31 @@ if(chk1 == 0) {
   }
   xxlab <- paste0("Upper Bound for ",classvar2[k])  
   
-  p <- plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
+plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
                     xTitle = xxlab,  
                     xZeroLine = FALSE,xLabs = sort(as.numeric(unique(qvars2))),
                     yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
                     plotTitle = "Ratio Observed to Predicted by Deciles",
-                    legend = FALSE,showPlotGrid = showPlotGrid)
-  p <- p %>% add_trace(y = boxvar,x = qvars2, type = 'box', color = I("black"), 
-                       fillcolor = "white")
-  p <- p %>% layout(shapes = list(hline(1)))
+                    legend = FALSE,showPlotGrid = showPlotGrid) %>%
+add_trace(y = boxvar,x = qvars2, type = 'box', color = I("black"), 
+                       fillcolor = "white") %>%
+layout(shapes = list(hline(1)))
   
   
 } else {  # non-unique classes
   
-  p <- plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
+plotlyLayout(NA,boxvar, log = "y", nTicks = 7, digits = 0,
                     xTitle = classvar2[k],  
                     xZeroLine = FALSE,xLabs = sort(as.numeric(unique(vvar))),
                     yTitle ="Observed to Predicted Ratio",  yZeroLine = FALSE,
                     plotTitle = "Ratio Observed to Predicted",
-                    legend = FALSE,showPlotGrid = showPlotGrid)
-  p <- p %>% add_trace(y = boxvar,x = vvar, type = 'box', color = I("black"), 
-                       fillcolor = "white")
-  p <- p %>% layout(shapes = list(hline(1)))
+                    legend = FALSE,showPlotGrid = showPlotGrid) %>%
+add_trace(y = boxvar,x = vvar, type = 'box', color = I("black"), 
+                       fillcolor = "white") %>%
+layout(shapes = list(hline(1)))
   
 }
-p
+
 
 
 ```
