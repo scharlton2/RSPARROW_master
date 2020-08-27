@@ -40,17 +40,7 @@ if (enable_plotlyMaps=="yes"){
                    title = "Latitude"),
       title = titleStr,
       legend = TRUE)#list(x = 1.1, y = 0.95)) %>%
-  #add_annotations(
-  #x= 1.1,
-  #y= 0.95,
-  #yanchor = "bottom",
-  #xanchor = "left",
-  #align = "center",
-  #xref = "paper",
-  #yref = "paper",
-  #text = title_name[k],
-  #showarrow = F
-  #  )
+
   
   if(existGeoLines) {
     p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
@@ -130,9 +120,7 @@ if (enable_plotlyMaps=="yes"){
       guides(col = guide_legend(ncol=1))
   }
   print(p)  
-  # title(title_name[k])
-  # legend("bottomleft",break1,lty=nlty,cex=0.6,title=title_name[k],
-  #        bg="grey",lwd=nlwd, col=Mcol, bty="o")
+
 }
 drops <- c("MAPCOLORS","VVAR","fMAPCOLORS",gsub("waterid","waterid_for_RSPARROW_mapping",add_plotlyVars)) # list of col names
 lineShape <- lineShape[,!(names(lineShape) %in% drops)]   # drop MAPCOLORS for re-creation

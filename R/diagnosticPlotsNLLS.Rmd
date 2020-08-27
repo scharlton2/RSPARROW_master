@@ -256,9 +256,6 @@ if (!validation){
   par(mfrow=c(2,2), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 4 plots on one page
   
   # observed vs. predicted mass 
-  # plot(predict,Obs,log="xy",pch=1,main="MODEL ESTIMATION PERFORMANCE \n(Monitoring-Adjusted Predictions) \nObserved vs Predicted Load",
-  #     ylab=paste0("OBSERVED LOAD (",loadUnits,")"),xlab=paste0("PREDICTED LOAD (",loadUnits,")"))
-  #lines(Obs,Obs, col=2)
   markerText<-"~paste('</br> Observed Load: ',Obs,
                    '</br> Predicted Load: ',predict"
   
@@ -295,10 +292,6 @@ if (!validation){
   
   
   # observed vs. predicted yield
-  #plot(yldpredict,yldobs,log="xy",pch=1,main="MODEL ESTIMATION PERFORMANCE \nObserved vs Predicted Yield",
-  #     ylab=paste0("OBSERVED YIELD (",yieldUnits,")"),xlab=paste0("PREDICTED YIELD (",yieldUnits,")"))
-  #lines(yldobs,yldobs, col=2)
-  
   markerText<-"~paste('</br> Observed Yield: ',yldobs,
                    '</br> Predicted Yield: ',yldpredict"
   data<-data.frame(yldpredict = yldpredict, yldobs = yldobs)
@@ -327,10 +320,6 @@ if (!validation){
   
   #  
   #  # mass residual plot
-  #  #plot(predict,Resids,log="x",pch=1,main="Residuals vs Predicted \nLoad",
-  #  #     ylab="LOG RESIDUAL",xlab=paste0("PREDICTED LOAD (",loadUnits,")"))
-  #  #abline(h=0,col=2)
-  #  
   markerText<-"~paste('</br> Log Residual: ',Resids,
                    '</br> Predicted Load: ',predict"
   data<-data.frame(predict = predict, Resids = Resids)
@@ -354,10 +343,6 @@ if (!validation){
   p3 <- p3 %>% layout(shapes = list(hline(0)))
   
   # yield residual plot
-  #plot(yldpredict,Resids,log="x",pch=1,main="Residuals vs Predicted \nYield",
-  #     ylab="LOG RESIDUAL",xlab=paste0("PREDICTED YIELD (",yieldUnits,")"))
-  #abline(h=0,col=2)
-  
   markerText<-"~paste('</br> Log Residual: ',Resids,
                    '</br> Predicted Yield: ',yldpredict"
   data<-data.frame(yldpredict = yldpredict, Resids = Resids)#
@@ -397,10 +382,8 @@ if (!validation){
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.height=8, fig.width=8}  
 if (!validation){ 
   ##########################
-  #par(mfrow=c(2,2), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 4 plots on one page
   
   # Residual plots
-  #boxplot(Resids,ylab="LOG RESIDUAL",main="MODEL ESTIMATION PERFORMANCE \nResiduals")
   p1 <- plotlyLayout(NA,Resids, log = "", nTicks = 4, digits = 0,
                      xTitle = "",  xZeroLine = FALSE,
                      yTitle = "LOG RESIDUAL",  yZeroLine = FALSE,
@@ -411,8 +394,7 @@ if (!validation){
   
   
   # Obs-Pred ratio boxplot
-  #boxplot(ratio.obs.pred,ylim = c(0,2),ylab="RATIO OBSERVED TO PREDICTED",
-  #        main="MODEL ESTIMATION PERFORMANCE \nObserved / Predicted Ratio")
+  
   p2 <- plotlyLayout(NA,ratio.obs.pred, log = "", nTicks = 4, digits = 0,
                      xTitle = "", xZeroLine = FALSE,
                      yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
@@ -423,8 +405,7 @@ if (!validation){
   
   
   # Normality probability plot
-  #qqnorm(standardResids,ylab="Standardized Residuals")
-  #qqline(standardResids, col = 2)
+  
   markerText<-"~paste('</br> Standard Residual: ',standardResids,
                       '</br> Theoretical Value: ',y.theo"
   data<-data.frame(standardResids = standardResids)
@@ -456,7 +437,7 @@ if (!validation){
                      yTitle = "Standardized Residuals", yZeroLine = FALSE,
                      plotTitle = "Normal Q-Q Plot",
                      legend = FALSE,showPlotGrid = showPlotGrid)
-  #plot( data ~ x.norm, type = "p", xlab = "Normal quantiles", pch = 20)
+  
   p3 <- p3 %>% add_trace(data = data, x = ~x.norm, y = ~standardResids, 
                          type = "scatter", 
                          mode = "markers",
@@ -473,8 +454,7 @@ if (!validation){
   
   # Squared residuals vs predicted
   Resids2 <- Resids**2
-  #plot(predict,Resids2,log="xy",pch=1,main="Squared Residuals vs Predicted Load",
-  #     ylab="SQUARED LOG RESIDUALS",xlab=paste0("PREDICTED LOAD (",loadUnits,")"))
+  
   lwresids <- lowess(predict,Resids2, f = 0.5, iter = 3)
   
   lwy <- lwresids$y[1:(length(lwresids$y)-1)]
@@ -525,11 +505,7 @@ if (!validation){
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"}  
 if (!validation){ 
-  #par(mfrow=c(1,1), pch=diagnosticPlotPointStyle, cex = diagnosticPlotPointSize)  # 1 plots on one page
   
-  #  plot(ppredict,predict,log="xy",main="Monitoring-Adjusted vs. Simulated Loads",
-  #       ylab=paste0("Monitoring-Adjusted Load (",loadUnits,")"),xlab=paste0("Simulated Load (",loadUnits,")"))
-  #  lines(ppredict,ppredict,col="red")
   markerText<-"~paste('</br> Squared Log Residual: ',Resids2,
                    '</br> Predicted Load: ',predict"
   data<-data.frame(ppredict = ppredict,predict = predict)
@@ -738,9 +714,7 @@ if (!validation){
   plotyldpredict<-yldpredict
   plotResids<-Resids
   
-  # for (i in 1:length(grp)) {
-  #    plotmrb(grp[i],class[,1],Obs,predict,yldobs,yldpredict,Resids)
-  #  }
+  
 }
 ```
 

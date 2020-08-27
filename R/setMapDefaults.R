@@ -43,7 +43,7 @@ setMapDefaults<-function(settings){
                  
   )
   
-  #listSettings<-ls() 
+
   listSettings<-names(settings)[which(names(settings) %in% names(defaults))]
   
   for (s in listSettings){

@@ -179,7 +179,7 @@ shinyMap2<-function(
                      #output shape file ifBatch
                      shapeFunc("nsBatch",input),
                      
-                     # actionButton("showInput","Show Input"),
+
                      conditionalPanel(
                        condition = "input.batch=='Interactive'",
                        fluidRow(
@@ -444,7 +444,7 @@ shinyMap2<-function(
         
         
       #pdf output
-      #observeEvent(input$savePDF, {
+
         p2<-eventReactive(input$savePDF, {
           #test bad Settings
         badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
@@ -497,13 +497,12 @@ shinyMap2<-function(
 
          p2()
 
-#try(dev.off(), silent = TRUE)
+
         })
         
       
       #batchplot
         p3<-eventReactive(input$batchPlot, {
-     # observeEvent(input$batchPlot, {
         #test bad Settings
         badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
         names(badSettings)<-c("Setting","CurrentValue","Type","Test")

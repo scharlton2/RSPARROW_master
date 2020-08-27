@@ -66,26 +66,26 @@ data1sub<-data1sub[match(DAreaFailCheckObj$waterid,data1sub$waterid),]
 markerText<-addMarkerText(markerText,add_plotlyVars,data, data1sub)$markerText
 data<-addMarkerText(markerText,add_plotlyVars, data,data1sub)$mapData
 
-p <- plotlyLayout(data$preCalc,data$Calc, log = "xy", nTicks = 5, digits = 0,
+plotlyLayout(data$preCalc,data$Calc, log = "xy", nTicks = 5, digits = 0,
                   xTitle ="Pre-calculated Total Drainage Area", xZeroLine = TRUE,
                   yTitle = "Newly-calculated Total Drainage Area",  yZeroLine = TRUE,
                   plotTitle = "Comparison of Total Drainage Areas",
-                  legend = FALSE,showPlotGrid = showPlotGrid)
+                  legend = FALSE,showPlotGrid = showPlotGrid) %>%
 
   
-p <- p %>% add_trace(data = data, x = ~preCalc, y = ~Calc, 
+add_trace(data = data, x = ~preCalc, y = ~Calc, 
                      type = "scatter", 
                      mode = "markers",
                     marker = eval(parse(text = markerList)),
                      hoverinfo = 'text',
-                     text = eval(parse(text = markerText)))
-p <- p %>% add_trace(data = data, x = ~preCalc, y = ~preCalc, 
+                     text = eval(parse(text = markerText))) %>%
+add_trace(data = data, x = ~preCalc, y = ~preCalc, 
                      type = "scatter", 
                      mode = "lines",
                      color = I("red"),
                      hoverinfo = 'text',
                      text = "Pre-calculated Total Drainage Area")
-p
+
 
 ```
 

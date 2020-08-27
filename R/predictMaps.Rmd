@@ -151,12 +151,12 @@ if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
     mapdata<-plotShape[plotShape$mapColor==c,]
     mapdata$mapdataname<-eval(parse(text = paste0("mapdata$",mapdataname)))   
     
-
+    
     lineText<-"~paste('</br> ',master_map_list[k],' :',
                    round(mapdataname,predictionClassRounding)"
     
     lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
-
+    
     if (predictMapType=="stream"){
       p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
                         color = I(c),
@@ -203,12 +203,11 @@ if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
                    round(mapdataname,predictionClassRounding)"
   
   lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
-
-  #lineTextHTML<-paste0("lapply(",lineText,", HTML)")
-        lineText<-gsub("~","",lineText)
-      
-      
-      lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
+  
+  lineText<-gsub("~","",lineText)
+  
+  
+  lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
   mapdata<-st_transform(mapdata, crs = 4326)
   mapdata<-st_zm(mapdata, drop = T, what = "ZM")
   if (predictMapType=="stream"){
@@ -245,10 +244,6 @@ if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
     
   }
 }#end leaflet
-# if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static"){
-# p
-# 
-# }
 
 
 if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){

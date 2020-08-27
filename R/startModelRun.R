@@ -133,7 +133,7 @@ startModelRun<-function(file.output.list,
   # (B) Setup the parameter and system variables
   SelParmValues <- selectParmValues(betavalues,if_estimate,if_estimate_simulation,batch_mode)
   assign("SelParmValues",SelParmValues,envir = .GlobalEnv)
-  #print("SELECTED PARAMETER VALUES")
+
   #SelParmValues 
   
   # deactivates unnecessary computation of parameter correlations, Eigenvalues in cases of one predictor variable
@@ -508,8 +508,7 @@ startModelRun<-function(file.output.list,
     runBatchShiny(path_results,path_shinyBrowser)
   }#end interactive maps
   
-  # }#if runScript=yes
-  #}#if exists(runScript)
+
   
   
   

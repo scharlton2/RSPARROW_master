@@ -38,14 +38,7 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
   
   ####################################################################
   # create global variables
- # unPackList(lists = list(SelParmValues = SelParmValues,
-#                          JacobResults = estimate.list$JacobResults,
-#                          file.output.list = file.output.list,
-#                          mapping.input.list = mapping.input.list),
-#             parentObj = list(NA,
-#                              NA,
-#                              NA,
-#                              NA))
+
   
   unPackList(lists = list(file.output.list = file.output.list),
                parentObj = list(NA))

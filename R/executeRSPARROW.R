@@ -173,7 +173,6 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
             ##############################################################
             if (batch_mode=="no"){    
               {cat("\n \n")
-                #run2<-ifelse(run_dataImport=="yes" & load_previousDataImport=="no",1,0)
                 run2<-ifelse(load_previousDataImport=="no",1,0)
                 assign("run2",run2,envir = .GlobalEnv)
                 cat("RSPARROW MODEL NAME: ",run_id,sep="")

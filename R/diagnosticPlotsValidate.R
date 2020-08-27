@@ -134,10 +134,7 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
       
     }
     
-  #}  # end check for existence of line map
-  
- # dev.off()  # shuts down current graphics device
-#  graphics.off()  # shuts down all open graphics devices
+
   
   
 }#end function

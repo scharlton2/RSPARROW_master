@@ -804,8 +804,7 @@ predictMaps<-function(#Rshiny
                     titleStr<-paste(input$scenarioName,master_map_list[k],"\n",mapunits.list[k],sep=" ")
                   }
                 }
-             # if (enable_plotlyMaps=="yes"){
-             # if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly" | enable_plotlyMaps=="leaflet"){
+
 
                 
                 if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
@@ -913,7 +912,7 @@ predictMaps<-function(#Rshiny
                    round(mapdataname,predictionClassRounding)"
                   
                   lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
-                  #mapdata<-addMarkerText(lineText,add_plotlyVars, mapdata, data)$mapData
+
                   
                   p <- p %>% add_sf(data = mapdata, mode = "lines", type = "scatter",
                                     color = I(c),
@@ -937,7 +936,7 @@ predictMaps<-function(#Rshiny
                    round(mapdataname,predictionClassRounding)"
                 
                 lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
-               #lineTextHTML<-paste0("lapply(",lineText,", HTML)")
+
                 lineText<-gsub("~","",lineText)
                 lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
                 
@@ -1051,7 +1050,7 @@ predictMaps<-function(#Rshiny
              
               }
             
-           # pdf(filename)
+
           }
           reportPath<-paste0(path_master,"predictMaps.Rmd")
           
@@ -1062,7 +1061,7 @@ predictMaps<-function(#Rshiny
             
             
             
-            #ptm <- proc.time()
+
             rmarkdown::render(
               reportPath, params = list(
                 file.output.list = file.output.list,
@@ -1101,18 +1100,17 @@ predictMaps<-function(#Rshiny
               ),
               output_file = htmlFile, quiet = TRUE
             )
-            #procTime<-proc.time() - ptm
+
               
             
           }else{#Rhiny interactive or enable_plotlyMaps==no
             if ((enable_plotlyMaps=="no" | enable_plotlyMaps=="static") & (!Rshiny | 
                                            (Rshiny & input$batch=="Batch"))){
-             # ptm <- proc.time()
+
               pdf(filename)
             }
             
-            #if (enable_plotlyMaps=="yes"){
-            #if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly" | enable_plotlyMaps=="leaflet"){
+
               if (!mapScenarios){
                 titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
               }else{
@@ -1136,7 +1134,7 @@ predictMaps<-function(#Rshiny
                                title = "Latitude"),
                   title = titleStr)
               }
-           # }
+
             
             
             if (existGeoLines){
@@ -1266,7 +1264,7 @@ predictMaps<-function(#Rshiny
                    round(mapdataname,predictionClassRounding)"
               
               lineText<-addMarkerText(lineText,add_plotlyVars,mapdata, mapdata)$markerText
-              #lineTextHTML<-paste0("lapply(",lineText,", HTML)")
+
               lineText<-gsub("~","",lineText)
               lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
 

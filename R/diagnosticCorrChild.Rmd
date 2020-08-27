@@ -16,20 +16,20 @@ data<-data.frame(xvar = Cor.ExplanVars.list$cmatrixM_all[,i],ratio.obs.pred = ra
 markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
 data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
 
-p <- plotlyLayout( Cor.ExplanVars.list$cmatrixM_all[,i],corrData, log = logStr, nTicks = 5, digits = 0,
+plotlyLayout( Cor.ExplanVars.list$cmatrixM_all[,i],corrData, log = logStr, nTicks = 5, digits = 0,
                    xTitle = paste0("AREA-WEIGHTED EXPLANATORY VARIABLE (",Cor.ExplanVars.list$names[i],")"), 
                    xZeroLine = FALSE,
                    yTitle = "RATIO OBSERVED TO PREDICTED", yZeroLine = FALSE,
                    plotTitle = paste("Observed to Predicted Ratio vs Area-Weighted Explanatory Variable \nFor Incremental Areas between Calibration Sites; Variable Name = ",Cor.ExplanVars.list$names[i]) ,
-                   legend = FALSE,showPlotGrid = showPlotGrid)
-p <- p %>% add_trace(data = data, x = ~xvar, y = ~ratio.obs.pred, 
+                   legend = FALSE,showPlotGrid = showPlotGrid) %>%
+add_trace(data = data, x = ~xvar, y = ~ratio.obs.pred, 
                      type = "scatter", 
                      mode = "markers",
                      marker = eval(parse(text = markerList)),
                      hoverinfo = 'text',
                      text = eval(parse(text = markerText)))
 
-p
+
 
 ```
 
