@@ -214,7 +214,6 @@ predictMaps<-function(#Rshiny
         #if ((input$mapType=="Stream" | (mapScenarios & regexpr("stream",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
         if (shinyMapType=="stream" &  input$shapeFile=="yes"){ 
          outputESRImaps[1]<-"yes"
-         save(outputESRImaps,file = "D:/line217")
         }
         #if ((input$mapType=="Catchment" | (mapScenarios & regexpr("catchment",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
         if (shinyMapType=="catchment" &  input$shapeFile=="yes"){ 
@@ -295,13 +294,18 @@ predictMaps<-function(#Rshiny
     
     if (length(testmaster)!=0){
       for (k in 1:length(master_map_list)) {
+        #set if criteria
+        if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0)
+            | !mapScenarios){ ratioScenario<-FALSE
+        }else{
+          ratioScenario<-TRUE
+        }
         
         # Load matrix
         icolumn<-0
         if (exists("oparmlist")){
           for(i in 1:length(oparmlist)) {
-            if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0)
-                | !mapScenarios){
+            if (!ratioScenario){
               if(oparmlist[i] == master_map_list[k]) {
                 icolumn <- i
                 
@@ -315,8 +319,7 @@ predictMaps<-function(#Rshiny
           }
           
           if(icolumn>0) {
-            if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) 
-                | !mapScenarios){
+            if (!ratioScenario){
               vvar <- predmatrix[,icolumn] 
               if (mapScenarios){
                 vvar<-ifelse(scenarioFlag==0,NA,vvar)
@@ -341,8 +344,7 @@ predictMaps<-function(#Rshiny
         if (exists("oyieldlist")){
           if(icolumn == 0) {
             for(i in 1:length(oyieldlist)) {
-              if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) 
-                  | !mapScenarios){
+              if (!ratioScenario){
                 if(oyieldlist[i] == master_map_list[k]) {
                   icolumn <- i
                 }
@@ -356,8 +358,7 @@ predictMaps<-function(#Rshiny
               }
             }
             if(icolumn>0) {
-              if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) 
-                  | !mapScenarios){
+              if (!ratioScenario){
                 vvar <- yldmatrix[,icolumn] 
                 if (mapScenarios){
                   vvar<-ifelse(scenarioFlag==0,NA,vvar)
@@ -448,7 +449,7 @@ predictMaps<-function(#Rshiny
           
           
           #set breakpoints
-          if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) | !mapScenarios){
+          if (!ratioScenario){
             
             #set colors
             if (mapScenarios){
@@ -565,8 +566,7 @@ predictMaps<-function(#Rshiny
           
           
           eval(parse(text=paste0("break1$",master_map_list[k],"<-as.character(intervals[1:nintervals[k]])")))
-          if ((regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0) |
-              !mapScenarios){
+          if (!ratioScenario){
             if (testNAvar==0){
               if (length(unique(vvar))!=1){
                 for (i in 1:nintervals[k]) {
@@ -633,7 +633,7 @@ predictMaps<-function(#Rshiny
       if ((paste(output_map_type,collapse="") %in% c("stream","both") & !Rshiny) | 
           (Rshiny & input$mapType=="Stream" & !mapScenarios) | 
           (Rshiny & regexpr("stream",paste(output_map_type,collapse=","))>0 & mapScenarios)){
-        save(outputESRImaps,file="D:/line635")
+
         commonvar <- lineWaterid
         names(dmapfinal)[1]<-commonvar
         names(dmapAll)[1]<-commonvar
@@ -642,7 +642,7 @@ predictMaps<-function(#Rshiny
         if (outputESRImaps[1]=="yes"){
           lineShape2 <- merge(lineShape, dmapAll, by.x = commonvar, by.y = commonvar)
           lineShape2<-lineShape2[,which(regexpr("MAPCOLORS",names(lineShape2))<0)]
-          save(input,file = "D:/line922")
+
           if (!Rshiny){
             if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
               dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
@@ -671,7 +671,7 @@ predictMaps<-function(#Rshiny
                                       .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
             
           }else if (input$batch=="Batch"){
-            save(outputESRImaps,file = "D:/line951")
+
             if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
               dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
             }
