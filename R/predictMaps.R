@@ -206,11 +206,19 @@ predictMaps<-function(#Rshiny
         }
         output_map_type<-tolower(as.character(input$outCheck))
         
-        if ((input$mapType=="Stream" | (mapScenarios & regexpr("stream",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
-          outputESRImaps[1]<-"yes"
+        shinyMapType<-ifelse(input$mapType=="Stream" | 
+                                (mapScenarios & regexpr("stream",paste(output_map_type,collapse=","))>0),"stream",
+                             "catchment")
+
+        
+        #if ((input$mapType=="Stream" | (mapScenarios & regexpr("stream",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
+        if (shinyMapType=="stream" &  input$shapeFile=="yes"){ 
+         outputESRImaps[1]<-"yes"
+         save(outputESRImaps,file = "D:/line217")
         }
-        if ((input$mapType=="Catchment" | (mapScenarios & regexpr("catchment",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
-          outputESRImaps[2]<-"yes"
+        #if ((input$mapType=="Catchment" | (mapScenarios & regexpr("catchment",paste(output_map_type,collapse=","))>0)) & input$shapeFile=="yes"){
+        if (shinyMapType=="catchment" &  input$shapeFile=="yes"){ 
+         outputESRImaps[2]<-"yes"
         }
       }else{
         output_map_type<-tolower(as.character(input$outType))
@@ -625,11 +633,60 @@ predictMaps<-function(#Rshiny
       if ((paste(output_map_type,collapse="") %in% c("stream","both") & !Rshiny) | 
           (Rshiny & input$mapType=="Stream" & !mapScenarios) | 
           (Rshiny & regexpr("stream",paste(output_map_type,collapse=","))>0 & mapScenarios)){
+        save(outputESRImaps,file="D:/line635")
         commonvar <- lineWaterid
         names(dmapfinal)[1]<-commonvar
         names(dmapAll)[1]<-commonvar
         lineShape <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = commonvar)
-        
+        #output shapefile
+        if (outputESRImaps[1]=="yes"){
+          lineShape2 <- merge(lineShape, dmapAll, by.x = commonvar, by.y = commonvar)
+          lineShape2<-lineShape2[,which(regexpr("MAPCOLORS",names(lineShape2))<0)]
+          save(input,file = "D:/line922")
+          if (!Rshiny){
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
+            }
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
+            }
+            
+             
+               suppressWarnings(unlink(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+                            .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
+            
+           st_write(lineShape2, paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+                           .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
+            
+          }else if (mapScenarios & input$batch=="Batch"){
+            if (!dir.exists(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
+            }
+            
+             
+            suppressWarnings(unlink(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
+                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
+            
+           st_write(lineShape2, paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
+                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
+            
+          }else if (input$batch=="Batch"){
+            save(outputESRImaps,file = "D:/line951")
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
+            }
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
+            }
+            
+             
+            suppressWarnings(unlink(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
+                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
+            
+           st_write(lineShape2, paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
+                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
+            }
+        }#end output esri stream
 
         # loop through each of the variables...
         for (k in 1:length(master_map_list)) {
@@ -906,55 +963,8 @@ predictMaps<-function(#Rshiny
         }#end variable loop
         
 
+       
         
-        #output shapefile
-        if (outputESRImaps[1]=="yes"){
-          lineShape <- merge(lineShape, dmapAll, by.x = commonvar, by.y = commonvar)
-          lineShape<-lineShape[,which(regexpr("MAPCOLORS",names(lineShape))<0)]
-          
-          if (!Rshiny){
-            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
-              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
-            }
-            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
-              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
-            }
-            
-             
-               suppressWarnings(unlink(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
-                            .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
-            
-           st_write(lineShape, paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
-                           .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
-            
-          }else if (mapScenarios & input$batch=="Batch"){
-            if (!dir.exists(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
-              dir.create(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
-            }
-            
-             
-            suppressWarnings(unlink(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
-                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
-            
-           st_write(lineShape, paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
-                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
-            
-          }else if (input$batch=="Batch"){
-            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
-              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
-            }
-            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
-              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
-            }
-            
-             
-            suppressWarnings(unlink(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
-                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
-            
-           st_write(lineShape, paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
-                                      .Platform$file.sep,"prediction",.Platform$file.sep,"lineShape.shp"))
-            }
-        }
         
         
       }
@@ -969,7 +979,44 @@ predictMaps<-function(#Rshiny
         names(dmapAll)[1]<-commonvar
         # merge selected variables to the shape file
         polyShape <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = commonvar)
-        
+         #output shapefile
+        if (outputESRImaps[2]=="yes"){
+          polyShape2 <- merge(polyShape, dmapAll, by.x = commonvar, by.y = commonvar)
+          polyShape2<-polyShape2[,which(regexpr("MAPCOLORS",names(polyShape2))<0)]
+          
+          if (!Rshiny){
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
+            }
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
+            }
+            suppressWarnings(unlink(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
+                                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
+            st_write(polyShape2, paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,
+                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp"))
+          
+            
+          }else if (mapScenarios  & input$batch=="Batch"){
+            if (!dir.exists(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
+            }
+            suppressWarnings(unlink(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
+                                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
+            st_write(polyShape2, paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,
+                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp"))
+          }else if (input$batch=="Batch"){
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
+            }
+            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
+              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
+            }
+            suppressWarnings(unlink(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
+                                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
+            st_write(polyShape2, paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,
+                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp"))}
+        }
 
         
         # loop through each of the variables...
@@ -1252,44 +1299,7 @@ predictMaps<-function(#Rshiny
         }#end variable loop
 
         
-        #output shapefile
-        if (outputESRImaps[2]=="yes"){
-          polyShape <- merge(polyShape, dmapAll, by.x = commonvar, by.y = commonvar)
-          polyShape<-polyShape[,which(regexpr("MAPCOLORS",names(polyShape))<0)]
-          
-          if (!Rshiny){
-            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
-              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
-            }
-            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
-              dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
-            }
-            suppressWarnings(unlink(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",
-                                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
-            st_write(polyShape, paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,
-                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp"))
-          
-            
-          }else if (mapScenarios  & input$batch=="Batch"){
-            if (!dir.exists(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
-              dir.create(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
-            }
-            suppressWarnings(unlink(paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,"ESRI_ShapeFiles",
-                                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
-            st_write(polyShape, paste0(path_results,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,
-                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp"))
-          }else if (input$batch=="Batch"){
-            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
-              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
-            }
-            if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep))){
-              dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep),showWarnings = FALSE)
-            }
-            suppressWarnings(unlink(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",
-                                           .Platform$file.sep,"prediction",.Platform$file.sep), recursive = TRUE))
-            st_write(polyShape, paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,
-                                      "ESRI_ShapeFiles",.Platform$file.sep,"prediction",.Platform$file.sep,"polyShape.shp"))}
-        }
+       
       }
     }else {#if length(master_map_list)
       message(' \nWARNING : No mapping executions because predictions are not available and/or mapping variable not available for all reaches\n ')
