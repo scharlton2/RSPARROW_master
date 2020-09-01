@@ -12,7 +12,10 @@
 #'@param attr character string shiny user input of attribute to map in `mapSiteAttributes.R`
 #'@param path_gis path to users gis data
 #'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
-#'                & subdata$calsites==1), ]`
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
 #'@param LineShapeGeo character string control settting indicating which binary map file to 
 #'       load for the Geolines background layer
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file

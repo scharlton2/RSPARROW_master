@@ -31,7 +31,10 @@
 #'       ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")`
 #'@param subdata data.frame input data (subdata)
 #'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
-#'                & subdata$calsites==1), ]`
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
 #'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
 #'                       for optimization
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 

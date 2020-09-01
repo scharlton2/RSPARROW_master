@@ -16,7 +16,10 @@
 #'@param classvar character vector of user specified spatially contiguous discrete 
 #'       classification variables from sparrow_control.  First element is reach classification variable.
 #'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
-#'                & subdata$calsites==1), ]`
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
 #'@param numsites number of sites selected for calibration
 #'@param ANOVA.list list output of  model performance-related variables for the calibration sites 
 #'                  from `estimateNLLSmetrics.R` contained in the estimate.list object. For more 

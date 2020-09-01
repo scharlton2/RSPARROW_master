@@ -25,8 +25,11 @@
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
 #'                       for optimization
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0 & 
-#'                subdata$calsites==1), ]`
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
 #'@param Vsites.list named list of sites for validation
 #'@param vsitedata sitedata for validation. Calculated by `subdata[(subdata$vdepvar > 0
 #'                 & subdata$calsites==1), ]`

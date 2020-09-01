@@ -37,7 +37,10 @@
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`
 #'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
-#'                & subdata$calsites==1), ]`
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
 #'@param estimate.list list output from `estimate.R`
 #'@param JacobResults list output of Jacobian first-order partial derivatives of the model 
 #'       residuals `estimateNLLSmetrics.R` contained in the estimate.list object.  For more details see 

@@ -17,8 +17,11 @@
 #'                          CRStext, convertShapeToBinary.list, map_siteAttributes.list, 
 #'                          residual_map_breakpoints, site_mapPointScale, 
 #'                          if_verify_demtarea_maps
-#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0  
-#'                & subdata$calsites==1), ]`
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
 
 
 diagnosticMaps<-function(mapColumn,mapdata,GeoLines,

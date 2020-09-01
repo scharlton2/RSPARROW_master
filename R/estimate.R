@@ -33,7 +33,10 @@
 #'@param Csites.weights.list regression weights as proportional to incremental area size
 #'@param Csites.list list output from `selectCalibrationSites.R` modified in `startModelRun.R`
 #'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
-#'                & subdata$calsites==1), ]`
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
 #'@param numsites number of sites selected for calibration
 #'@param if_validate yes/no indicating whether or not validation is run
 #'@param Vsites.list named list of sites for validation
