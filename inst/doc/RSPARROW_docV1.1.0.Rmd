@@ -74,14 +74,16 @@ Two directories contain the contents of RSPARROW (See Figure \ref{directory1} fo
 
 2. **UserTutorial**:  Contains the SPARROW total nitrogen models that are used for the tutorials presented in Chapter 6. 
 
-    * The *"results"* sub-directory contains a control script, input control files to execute the SPARROW model, and sub-directories for the tutorial models. The control script executes a predetermined sequence of function calls, governed by user settings in the control script (see the *executionTree* section of chapter 7 for a list of functions). Separate execution of RSPARROW library functions by users (e.g., to estimate models or generate predictions and maps) is not supported; however, the R Shiny interactive mapper can be independently enabled for any previously executed model within an RStudio session (see Chapter sub-section 4.4.8.5.2). 
+    * The *"results"* sub-directory contains a control script, input control files to execute the SPARROW model, and sub-directories for the tutorial models. The control script executes a predetermined sequence of function calls, governed by user settings in the control script (see the *executionTree* section of chapter 7 for a list of functions). **Once the RSPARROW directories and required software are installed (see below), users can begin by running the control script in RStudio (without any edits), which will execute the final SPARROW tutorial model 6 and enable the RShiny DSS.**
     
-    * The directory structure and contents for the tutorial model, including the control scipt and input control files, can be used as a template to guide the setup and execution of user developed models.  
+    * The directory structure and contents for the tutorial model, including the control script and input control files, can be used as a template to guide the setup and execution of user developed models.  
+    
+    * Separate execution of RSPARROW library functions by users (e.g., to estimate models or generate predictions and maps) is not supported; however, the R Shiny interactive mapper can be independently enabled for any previously executed model within an RStudio session (see Chapter sub-section 4.4.8.5.2).
 
 
 ### Download of the required R software
 
-RSPARROW 1.1.0 was tested for compatibility with versions of R, RStudio, and the required R library functions available at the time of public release (Sept. 2020): These include R-4.0.2, RStudio 1.3.959, and the required versions of R library dependencies that are listed in the DESCRIPTION file. RSPARROW may operate with more current versions of the software, but full compatibility of RSPARROW with newer versions is not guaranteed. 
+RSPARROW 1.1.0 was tested for compatibility with versions of R, RStudio, and the required R library functions available at the time of public release (Sept. 2020): These include R-4.0.2, RStudio 1.3.959, and the required versions of R library dependencies that are listed in the DESCRIPTION file located in the "RSPARROW_master" directory. RSPARROW may operate with more current versions of the software, but full compatibility of RSPARROW with newer versions is not guaranteed. 
 
 
 \begin{figure}
@@ -93,7 +95,6 @@ RSPARROW 1.1.0 was tested for compatibility with versions of R, RStudio, and the
 
 
 
-\break
 
 **The required software can be obtained as follows:**
 
@@ -117,7 +118,7 @@ After making these selections, *"Apply"* the change(s) and restart RStudio. The 
 
 ### R package installation during execution of the RSPARROW control script
 
-When opening and executing the RSPARROW control script in RStudio, users should be attentive to messages and prompts associated with the R package installations:
+When opening and executing the RSPARROW control script (located in the "UserTutorial/results" directory) in RStudio, users should be attentive to messages and prompts associated with the R package installations:
 
 * *Initial installation of R packages:*  RStudio will print the following message in a yellow banner when the RSPARROW control script is opened in RStudio for the first time with a new R version:  *"Packages devtools and rstudioapi required but are not installed."* Users should ignore this message and instead execute (*"Source"*) the control script, which will install these and the other required R packages (**User caution:** Package installation using the yellow banner prompt may exclude certain required packages such as *"backports"*). 
 
@@ -3216,6 +3217,7 @@ The mean yield predictions include the variables and naming syntax as shown belo
 
 ```{r, eval=FALSE}
 #-------------------------------------------------------------------------------
+  # Add a relative or absolute path name (No spaces are allowed)
   path_master <- "~/RSPARROW_master"
   
   #results, data, and gis directories should be in Users Directory
@@ -3224,11 +3226,11 @@ The mean yield predictions include the variables and naming syntax as shown belo
   data_directoryName<-"data"
   gis_directoryName<-"gis"
 ```
-Users should specify the full path name for the Master directory, using forward slashes. 
+Users should specify an absolute or relative path name for the Master directory, using forward slashes. **No spaces are allowed in the path name.**
 
-Users should specify names for the three required sub-directories in the User Directory; the names shown above are examples and are not required. The subdirectories must be located parallel to one another (see Figure \ref{directory1}). Multiple "results" directories and/or other non-RSPARROW directories can also exist parallel to the required three directories. 
+Users should specify names for the three required sub-directories in the User Directory (no spaces are allowed!); the names shown above are examples and are not required. The subdirectories must be located parallel to one another (see Figure \ref{directory1}). Multiple "results" directories and/or other non-RSPARROW directories can also exist parallel to the required three directories. 
 
-Executing the *sparrow_control.R* script in RStudio automatically determines the location (path name) of the User Directory, which is internally stored in R, and will create the sub-directories for use in saving file output. 
+Executing the *sparrow_control.R* script in RStudio automatically determines the location (path name) of the "results" directory for the model, which is internally stored in R and will allow the creation of sub-directories for saving model output files. 
 
 
 
@@ -6342,7 +6344,7 @@ Users are also directed to select *"No"* as the response to the following questi
 
 ### Function and routine types
 
-There are 163 functions and routines in the RSPARROW system, classified according to 11 functional types. These type categories allow developers to search the functions (and their dependencies) by type when using the developer tools in Section 7.2.2.  Some functions/routines are classified according to more than one category.
+There are 163 functions and routines in the RSPARROW system, classified according to 11 functional types (with many functions classified by more than one type). These type categories allow developers to search the functions (and their dependencies) by type when using the developer tools in Section 7.2.2.  Some functions/routines are classified according to more than one category.
 
 The function types are:
 
