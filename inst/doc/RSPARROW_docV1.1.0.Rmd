@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Overview of SPARROW
 [SPARROW (SPAtially Referenced Regressions on Watershed attributes](https://pubs.usgs.gov/fs/2009/3019/pdf/fs_2009_3019.pdf); Smith et al., 1997; Schwarz, et al., 2006) is a spatially explicit, hybrid (statistical and mechanistic) water-quality model developed by the USGS. The model has been used to quantify the sources and transport of contaminants in watersheds of widely varying sizes, from catchment to continental scales (e.g., Preston et al.,2011a,b; Alexander et al., 2000). 
 
-SPARROW applications have included studies of the sources of nutrients and sediment in watersheds and their delivery to inland lakes and coastal water bodies (Alexander et al., 2001; Alexander et al., 2002; Moore et al., 2004; Elliott et al., 2005; Hoos and McMahon, 2009; Alexander et al., 2008, Robertson et al., 2009; Brakebill et al, 2010; Preston et al., 2011; Robertson and Saad, 2011; Hoos et al., 2019). The studies have evaluated the water-quality effects of natural and anthropogenic factors, including the effects of denitrification  (e.g., Alexander et al., 2000, 2007), impounded waters (Schmadel et al, 2018, 2019), and farm conservation practices (Garcia et al., 2016) on stream nutrients. SPARROW has also been used in studies of total streamflow across continental scales (Alexander et al., 2019a,b) and baseflow in western basins (Miller et al., 2016). SPARROW predictions have informed regional carbon budgets for coastal ecosystems (Najjar et al., 2018) and regional assessments of the effects of coastal fluxes of nutrients and organic carbon on estuarine ecosystem production (Herrmann et al., 2015). The model has also been used to simulate potential stream water-quality effects of hypothetical changes in land use and managed reductions in nutrient sources (Miller et al., 2019). Forecasting studies have used SPARROW to assess the effects of future climate and land-use change on nutrient and sediment fluxes and carbon storage in U.S. coastal waters (Bergamaschi et al., 2014). Internationally, SPARROW has been applied in New Zealand (Alexander et al., 2002; Elliott et al., 2005; Harris et al., 2009), Japan (Duan et al., 2015); and Canada (Robertson et al., 2019; Benoy et al., 2016; Wellen et al., 2014, 2012), with models currently under development for selected river basins in Brazil through [collaborative projects](https://www.usgs.gov/centers/sa-water/science/brazilian-agencies-partner-usgs-water-programs?qt-science_center_objects=1#qt-science_center_objects) between the USGS and the National Water Agency of Brazil (ANA) and Geological Survey of Brazil (CPRM). 
+SPARROW applications have included studies of the sources of nutrients and sediment in watersheds and their delivery to inland lakes and coastal water bodies (Alexander et al., 2001; Alexander et al., 2002; Moore et al., 2004; Elliott et al., 2005; Hoos and McMahon, 2009; Alexander et al., 2008, Robertson et al., 2009; Brakebill et al, 2010; Preston et al., 2011; Robertson and Saad, 2011; Hoos et al., 2019). The studies have evaluated the water-quality effects of natural and anthropogenic factors, including the effects of denitrification  (e.g., Alexander et al., 2000, 2007), impounded waters (Schmadel et al, 2018, 2019), and farm conservation practices (Garcia et al., 2016) on stream nutrients. SPARROW has also been used in studies of total streamflow across continental scales (Alexander et al., 2019a,b) and baseflow in western basins (Miller et al., 2016). SPARROW predictions have informed regional carbon budgets for coastal ecosystems (Najjar et al., 2018) and regional assessments of the effects of coastal fluxes of nutrients and organic carbon on estuarine ecosystem production (Herrmann et al., 2015). The model has also been used to simulate potential stream water-quality effects of hypothetical changes in land use and managed reductions in nutrient sources (Miller et al., 2019). Forecasting studies have used SPARROW to assess the effects of future climate and land-use change on nutrient and sediment fluxes and carbon storage in U.S. coastal waters (Bergamaschi et al., 2014). Internationally, SPARROW has been applied in New Zealand (Alexander et al., 2002; Elliott et al., 2005; Harris et al., 2009), Japan (Duan et al., 2015); and Canada (Robertson et al., 2019; Benoy et al., 2016; Wellen et al., 2014, 2012), with models applied recently to selected river basins in Brazil (Miller et al., 2020) through [collaborative projects](https://www.usgs.gov/centers/sa-water/science/brazilian-agencies-partner-usgs-water-programs?qt-science_center_objects=1#qt-science_center_objects) between the USGS and the National Water Agency of Brazil (ANA) and Geological Survey of Brazil (CPRM). 
 
 SPARROW conceptually includes three major process components that explain spatial variability in stream water quality:  contaminant source generation, land-to-water delivery, and stream and reservoir transport and decay. The non-linear and mechanistic structure of the model includes mass balance constraints and non-conservative transport components. This includes factors that control the attenuation and delivery of contaminants to streams via surficial and subsurface pathways and the removal of contaminants in streams and reservoirs, according to first-order decay kinetics. SPARROW is structured as a network of one-dimensional stream segments and their contributing drainage areas. 
 
@@ -74,16 +74,16 @@ Two directories contain the contents of RSPARROW (See Figure \ref{directory1} fo
 
 2. **UserTutorial**:  Contains the SPARROW total nitrogen models that are used for the tutorials presented in Chapter 6. 
 
-    * The *"results"* sub-directory contains a control script, input control files to execute the SPARROW model, and sub-directories for the tutorial models. The control script executes a predetermined sequence of function calls, governed by user settings in the control script (see the *executionTree* section of chapter 7 for a list of functions). **Once the RSPARROW directories and required software are installed (see below), users can begin by running the control script in RStudio (without any edits), which will execute the final SPARROW tutorial model 6 and enable the RShiny DSS.**
+    * The *"results"* sub-directory contains a control script, input control files to execute the SPARROW model, and sub-directories for the tutorial models. The control script executes a predetermined sequence of function calls, governed by user settings in the control script (see the *executionTree* section of Chapter 7 for a list of functions). **Once the RSPARROW directories and required software are installed (see below), users can begin by running the control script in RStudio (without any edits), which will execute the final SPARROW tutorial model 6 (with results written to the "Model6_User" directory) and enable the RShiny DSS.  To verify the software installation and model execution, users can compare the results with those provided in the "Model6" directory. **
     
     * The directory structure and contents for the tutorial model, including the control script and input control files, can be used as a template to guide the setup and execution of user developed models.  
     
-    * Separate execution of RSPARROW library functions by users (e.g., to estimate models or generate predictions and maps) is not supported; however, the R Shiny interactive mapper can be independently enabled for any previously executed model within an RStudio session (see Chapter sub-section 4.4.8.5.2).
+    * Separate execution of RSPARROW library functions by users (e.g., to estimate models or generate predictions and maps) is not supported; however, the R Shiny interactive mapper can be independently enabled for any previously executed model within an RStudio session (see Chapter sub-section 4.4.9.1.2).
 
 
 ### Download of the required R software
 
-RSPARROW 1.1.0 was tested for compatibility with versions of R, RStudio, and the required R library functions available at the time of public release (Sept. 2020): These include R-4.0.2, RStudio 1.3.959, and the required versions of R library dependencies that are listed in the DESCRIPTION file located in the "RSPARROW_master" directory. RSPARROW may operate with more current versions of the software, but full compatibility of RSPARROW with newer versions is not guaranteed. 
+RSPARROW 1.1.0 was tested for compatibility with versions of R, RStudio, and the required R library functions available at the time of public release (November 2020): These include R-4.0.3, RStudio 1.3.959, and the required versions of R library dependencies that are listed in the DESCRIPTION file located in the "RSPARROW_master" directory. RSPARROW may operate with more current versions of the software, but full compatibility of RSPARROW with newer versions is not guaranteed. 
 
 
 \begin{figure}
@@ -102,7 +102,7 @@ RSPARROW 1.1.0 was tested for compatibility with versions of R, RStudio, and the
 
 * *RStudio:* The most current version is available at *https://rstudio.com/products/rstudio/download/*, with older versions available at *https://rstudio.com/products/rstudio/older-versions/*. 
 
-* *R library dependencies:* Execution of the RSPARROW control script automatically installs the most recent versions of the required R library packages and functions in the user's default R library as specified in RStudio (see the next sub-section for instructions on setting RStudio defaults).  
+* *R library dependencies:* Execution of the RSPARROW control script automatically installs the most recent versions of the required R library packages and functions in the user's default R library as specified in RStudio (see the next sub-sections for instructions on setting RStudio defaults and information on the installation of RSPARROW library dependencies).  
 
 
 ### RStudio defaults 
@@ -120,48 +120,18 @@ After making these selections, *"Apply"* the change(s) and restart RStudio. The 
 
 When opening and executing the RSPARROW control script (located in the "UserTutorial/results" directory) in RStudio, users should be attentive to messages and prompts associated with the R package installations:
 
-* *Initial installation of R packages:*  RStudio will print the following message in a yellow banner when the RSPARROW control script is opened in RStudio for the first time with a new R version:  *"Packages devtools and rstudioapi required but are not installed."* Users should ignore this message and instead execute (*"Source"*) the control script, which will install these and the other required R packages (**User caution:** Package installation using the yellow banner prompt may exclude certain required packages such as *"backports"*). 
+* *Initial opening of the control script:*  RStudio will print the following message in a yellow banner when the RSPARROW control script is opened in RStudio for the first time with a new R version:  *"Packages devtools and rstudioapi required but are not installed."* Users should ignore this message and instead execute (*"Source"*) the control script, which will install these and the other required R packages (**User caution:** Package installation using the yellow banner prompt may exclude certain required packages such as *"backports"*). 
 
-* *R package installation from source:*  Users should select *"No"* as the response to the following question, if it appears in a pop-up box in RStudio during the installation of R library dependencies: *"Do you want to install from sources the packages which need compilation?"*. A *"No"* response installs R packages from binary versions; these satisfy the RSPARROW required dependencies at the time of public release but may not include the most recent versions of the packages. The selection of *"Yes"* requires that users have installed *Rtools* (an R developer package) on the Windows operating system; this enables the compilation and installation of R packages from their source. 
+* *R package installation and updating:*  The required RSPARROW library dependencies (and the most recent library versions) are automatically installed when the control script is initially executed with a newly installed version of R (>=R-4.0.3). In subsequent executions of the control script, no updates are made to the library dependencies (see Chapter sub-section 4.4.12 for details). Users are not required to update the R packages to versions that are more recent than those listed for the RSPARROW compatibility versions in the DESCRIPTION file. Note that RSPARROW compatibility with updated R package versions (more recent than those listed in the DESCRIPTION file) is not guaranteed.
 
-* *R package updating:*  When the control script is executed, users are notified of the availability of more recent versions of the required R packages, based on comparisons of the installed versions with those available on the Cran server. If a newer version is available, then the user is asked whether the installed R package should be updated, as illustrated below for the *plyr* R package.  Users are not required to update the R packages to versions that are more recent than those listed for the RSPARROW compatibility versions in the DESCRIPTION file; RSPARROW compatibility with updated R package versions is not guaranteed. If all R packages are up to date, RSPARROW will run without any installation of R packages.
+* *R package installation from source:*  If the following question appears in a pop-up box in RStudio during the installation of R library dependencies, users should select *"No"* as the response: *"Do you want to install from sources the packages which need compilation?"*. A *"No"* response installs the most current R packages from binary versions. The selection of *"Yes"* requires that users have installed *Rtools40* (an R developer package) on the Windows operating system; this enables the compilation and installation of R packages from their source.
 
-&nbsp;
-
+Note that the following warning message will appear when the RSPARROW library is loaded to an RStudio session. The warning is of no concern because the cited S3 method is not used by RSPARROW. 
 ```{r, eval=FALSE}
-# AUTOMATED R PACKAGE UPDATING DURING EXECUTION OF THE RSPARROW CONTROL SCRIPT
-#
-# Illustration of the RSPARROW control script checks of R package versions
-#
-# The following statements are printed to the RStudio Console window because a more 
-# recent version of the required R package "plyr" is available on the Cran server:
-#
-These packages have more recent versions available.
-It is recommended to update all of them.
-Which would you like to update?
-
-1: All                         
-2: CRAN packages only          
-3: None                        
-4: plyr (1.8.5 -> 1.8.6) [CRAN]
-
-Enter one or more numbers, or an empty line to skip updates:
-4
-
-plyr (1.8.5 -> 1.8.6) [CRAN]  # RSPARROW was tested for compatibility with version 1.8.6
-Installing 1 packages: plyr
-trying URL 'https://cran.rstudio.com/bin/windows/contrib/4.0/plyr_1.8.6.zip'
-Content type 'application/zip' length 1499854 bytes (1.4 MB)
-downloaded 1.4 MB
-
-package ‘plyr’ successfully unpacked and MD5 sums checked
-
-The downloaded binary packages are in
-	C:\Users\...\AppData\Local\Temp\RtmpeAHyOz\downloaded_packages
-
-Loading RSPARROW
+Registered S3 method overwritten by 'gdata':
+  method         from  
+  reorder.factor gplots
 ```
-
 
 
 \break
@@ -3397,21 +3367,65 @@ if (RSPARROW_errorOption=="yes"){
 ```{r, eval=FALSE}
 #-------------------------------------------------------------------------------
   # Install required packages
-  #   This is a one time process unless a new version of R is installed or more recent 
-  #   packages are found on Cran. Packages previously installed by user will be skipped.
+  #   This is a one time process to install the current versions of the RSPARROW library 
+  #   dependencies for a newly installed version of R.  The "never" upgrade option
+  #   will not allow upgrades to more recent versions of the library dependencies during
+  #   subsequent executions of the control script. 
   if(!"devtools" %in% installed.packages()){install.packages("devtools")}   
-  suppressWarnings(devtools::install_deps(path_master, upgrade = "ask", type="binary"))
+  suppressWarnings(devtools::install_deps(path_master, upgrade = "never", type="binary"))
 
   # Load RSPARROW functions (These 2 lines should ALWAYS be run together)
   suppressWarnings(remove(list="runRsparrow"))
   devtools::load_all(path_master,recompile = FALSE) 
 ```  
 
-Execution of the RSPARROW control script (`devtools::install_deps` function) automatically installs the most recent versions of the required R library packages and functions in the user’s default R library as specified in RStudio. See Chapter sub-section 1.3 for details on RSPARROW library dependencies and their installation. 
+The initial execution of the RSPARROW control script (`devtools::install_deps` function) automatically installs the most recent versions of the required RSPARROW library packages and functions in the user’s default R library as specified in RStudio. In subsequent executions of the control script, no updates are made to the RSPARROW library dependencies (i.e., `upgrade="never"`). 
 
-RSPARROW 1.1.0 was tested for compatibility with versions of the required R library functions available at the time of public release that are listed in the DESCRIPTION file. RSPARROW may operate with more current versions of the libraries, but full compatibility of RSPARROW with newer versions is not guaranteed.
+RSPARROW 1.1.0 was tested with R-4.0.3 for compatibility with versions of the required R library functions available at the time of public release that are listed in the DESCRIPTION file. RSPARROW may operate with more current versions of the libraries, but full compatibility of RSPARROW with newer versions is not guaranteed.
 
 When opening and executing the RSPARROW control script in RStudio, users should be attentive to messages and prompts associated with the R package installations. See Chapter sub-section 1.3.5 for details on messages and prompts associated with the installation and updating of the RSPARROW library dependencies. 
+
+Although not recommended, users have the option to use the `upgrade="ask"` option. This will notify users of the availability of more recent versions of the required R packages, based on comparisons of the installed versions with those available on the Cran server. If a newer version is available, then the user is asked whether the installed R package should be updated, as illustrated below for the *plyr* R package. If all R packages are up to date, RSPARROW will run without any installation of R packages.
+
+&nbsp;
+
+```{r, eval=FALSE}
+# AUTOMATED R PACKAGE UPDATING DURING EXECUTION OF THE RSPARROW CONTROL SCRIPT
+#
+# Illustration of the RSPARROW control script checks of R package versions using 
+#  the following devtools options:
+#
+  if(!"devtools" %in% installed.packages()){install.packages("devtools")}   
+  suppressWarnings(devtools::install_deps(path_master, upgrade = "ask", type="binary"))
+#
+# The following statements are printed to the RStudio Console window because a more 
+# recent version of the required R package "plyr" is available on the Cran server:
+#
+These packages have more recent versions available.
+It is recommended to update all of them.
+Which would you like to update?
+
+1: All                         
+2: CRAN packages only          
+3: None                        
+4: plyr (1.8.5 -> 1.8.6) [CRAN]
+
+Enter one or more numbers, or an empty line to skip updates:
+4
+
+plyr (1.8.5 -> 1.8.6) [CRAN]  # RSPARROW was tested for compatibility with version 1.8.6
+Installing 1 packages: plyr
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/4.0/plyr_1.8.6.zip'
+Content type 'application/zip' length 1499854 bytes (1.4 MB)
+downloaded 1.4 MB
+
+package ‘plyr’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\...\AppData\Local\Temp\RtmpeAHyOz\downloaded_packages
+
+Loading RSPARROW
+```
 
 
 
@@ -6315,29 +6329,30 @@ RSPARROW was developed as a system of interconnected R functions and scripts wri
 
 ## Library dependences 
 
-The RSPARROW library dependencies include the following standard R packages: car (>= 3.0-8), data.table (>= 1.12.8), data.tree (>= 0.7.11), devtools (>= 2.3.0), dplyr (>= 1.0.0), evaluate (>= 0.14), formatR (>= 1.7), gear (>= 0.3.4), ggplot2 (>= 3.3.2), gplots (>= 3.0.3), highr (>= 0.8), htmltools (>= 0.5.0), htmlwidgets (>= 1.5.1), inline (>= 0.3.15), knitr (>= 1.29), leaflet (>= 2.0.3), leaflet.extras (>= 1.0.0), magrittr (>= 1.5), maptools (>= 1.0-1), mapview (>= 2.7.8), markdown (>= 1.1), nlmrt (>= 2016.3.2), numDeriv (>= 2016.8-1.1), OpenMx (>= 2.17.4), plotly (>= 4.9.2.1), plyr (>= 1.8.6), rgdal (>= 1.5-10), rhandsontable (>= 0.3.7), rmarkdown (>= 2.3), roxygen2 (>= 7.1.0), rstan (>= 2.19.3), rstudioapi (>= 0.11), sf (>= 0.9-4), shiny (>= 1.4.0.2), shinycssloaders (>= 0.3), shinyWidgets (>= 0.5.3), sp (>= 1.4-2), spdep (>= 1.1-3), stringr (>= 1.4.0), svDialogs (>= 1.0.0), svGUI (>= 1.0.0), tools (>= 4.0.2)
+The RSPARROW library dependencies include the standard R packages listed in the DESCRIPTION file located in the *"RSPARROW_master"* directory. The 1.1.0 version of RSPARROW was tested using the versions of the library dependencies listed in the DESCRIPTION file. 
 
 Execution of the RSPARROW control script runs the R statement shown below (`devtools::install_deps`), which automatically installs (on the first run of the script) the most recent versions of the required R functions in the user's default R library (as specified in RStudio). The installed R library packages are then loaded into the RStudio session by the R statement `devtools::load_all`. 
 
 ```{r, eval=FALSE}
 
   # Install required packages (Section 12 of the control script)
-  #   this is a one time process unless a new version of R is installed 
-  #   or more recent packages are found on Cran
-  #   packages previously installed by user will be skipped
+  #   This is a one time process to install the current versions of the RSPARROW library 
+  #   dependencies for a newly installed version of R.  The "never" upgrade option
+  #   will not allow upgrades to more recent versions of the library dependencies during
+  #   subsequent executions of the control script.
   if(!"devtools" %in% installed.packages()){install.packages("devtools")} 
-  suppressWarnings(devtools::install_deps(path_master, upgrade = "ask", type="binary"))
+  suppressWarnings(devtools::install_deps(path_master, upgrade = "never", type="binary"))
 
   # Load RSPARROW functions (These 2 lines should ALWAYS be run together)
   suppressWarnings(remove(list="runRsparrow"))
   devtools::load_all(path_master,recompile = FALSE)  
 ```
 
-During subsequent executions of the control script, users are notified of the availability of more recent versions of the required R packages, based on comparisons of the installed versions with those available on the Cran server. If a newer version is available, then the user is asked whether the installed R package should be updated (as illustrated in Chapter sub-section 1.3.5 for the *plyr* R package).  Users are not required to update the R packages to versions that are more recent than those listed for the RSPARROW compatibility versions in the DESCRIPTION file; RSPARROW compatibility with updated R package versions is not guaranteed. 
+In subsequent executions of the control script, no updates are made to the library dependencies (see Chapter sub-section 4.4.12 for details). Users are not required to update the R packages to versions that are more recent than those listed for the RSPARROW compatibility versions in the DESCRIPTION file. However, when a more recent version of R is installed (>R-4.0.3), the latest versions of the library dependencies will be automatically installed with the initial execution of the control script. Note that RSPARROW compatibility with updated R package versions (more recent than those listed in the DESCRIPTION file) is not guaranteed.
 
 Note that RStudio will print the following message in a yellow banner when the RSPARROW control script is opened in RStudio for the first time with a new R version:  *"Packages devtools and rstudioapi required but are not installed."* Users should ignore this message and instead execute (*"Source"*) the control script, which will install these and other required R packages (**User caution:** Package installation using the yellow banner prompt may exclude certain required packages such as *"backports"*). 
 
-Users are also directed to select *"No"* as the response to the following question, if it appears in a pop-up box in RStudio during the installation of R library dependencies: *"Do you want to install from sources the packages which need compilation?"*. A *"No"* response installs R packages from binary versions, which may not include the most recent version of a package. The selection of *"Yes"* requires that users have previously set up *Rtools* (an R developer package) to compile R packages from their source, otherwise the installation of R packages from their source will fail. 
+Users are also directed to select *"No"* as the response to the following question, if it appears in a pop-up box in RStudio during the installation of R library dependencies: *"Do you want to install from sources the packages which need compilation?"*. A *"No"* response installs R packages from binary versions, which may not include the most recent version of a package. The selection of *"Yes"* requires that users have previously set up *Rtools40* (an R developer package) to compile R packages from their source, otherwise the installation of R packages from their source will fail. 
 
 
 ## Library function organization and order of execution
@@ -7008,9 +7023,11 @@ Leopold, L.B. and Maddock, T. (1953), [The hydraulic geometry of stream channels
 
 Miller, M.P., Capel, P.D., Garcia, A.M., and Ator, S.W. (2019), [Response of nitrogen loading to the Cheasapeake Bay to source reduction and land use change scenarios:  A SPARROW-informed analysis](https://doi.org/10.1111/1752-1688.12807), Journal of the American Water Resources Association, 56, 100-112. 
 
-Miller, M. P., S.G. Buto, D.D. Susong, and Rumsey, C.A. (2016), [The importance of base flow in sustaining surface water flow in the Upper Colorado River Basin](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2015WR017963). Water Resources Research, (52), 3547-3562.
+Miller, M.P., de Souza, M.L., Alexander, R.B., Sanisaca, L.G., Teixeira, A.A., and Appling, A.P. (2020), [Application of the RSPARROW modeling tool to estimate total nitrogen sources to streams and evaluate source reduction management scenarios in the Grande River Basin, Brazil](https://www.mdpi.com/2073-4441/12/10/2911), Water, 12, 2911. 
 
-Moriasi, D.N., J.G. Arnold, M.W. Van Liew, R.L. Bingner, R.D. Harmel, and Veith, T.L. (2007), [Model evaluation guidelines for systematic quantification of accuracy in watershed simulations](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.532.2506&rep=rep1&type=pdf), Transactions of the American Society of Agricultural and Biological Engineers, 50(3), 885-900.
+Miller, M. P., Buto, S.G. , Susong, D.D. , and Rumsey, C.A. (2016), [The importance of base flow in sustaining surface water flow in the Upper Colorado River Basin](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2015WR017963). Water Resources Research, (52), 3547-3562.
+
+Moriasi, D.N., Arnold, J.G. , Van Liew, M.W. , Bingner, R.L. , Harmel, R.D. , and Veith, T.L. (2007), [Model evaluation guidelines for systematic quantification of accuracy in watershed simulations](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.532.2506&rep=rep1&type=pdf), Transactions of the American Society of Agricultural and Biological Engineers, 50(3), 885-900.
 
 Moore, R.B., C.M. Johnston, K.W. Robinson, and Deacon, J.R. (2004), [Estimation of total titrogen and phosphorus in New England streams using spatially referenced regression models](https://pubs.usgs.gov/sir/2004/5012/), U.S. Geological Survey Scientific Investigations Report 2004-5012. 
 
