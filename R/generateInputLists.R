@@ -72,7 +72,13 @@ generateInputLists<-function(settings){
                                    siteAttrMapBackground,
                                    
                                    #scenarios
-                                   scenarioMapColors) 
+                                   scenarioMapColors,
+                                   
+                                   #dynamic settings
+                                   map_years,
+                                   map_seasons,
+                                   mapsPerPage,
+                                   mapPageGroupBy) 
   
   file.output.list <- named.list(path_master,
                                  path_main,

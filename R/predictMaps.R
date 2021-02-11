@@ -448,6 +448,117 @@ predictMaps<-function(#Rshiny
           }
           
           
+          ###vvar2 must be considered for scenario mapping###
+          
+          #aggregate seasons or years if required
+          if (!is.na(map_years) & map_years=="mean" & (map_seasons!="mean" & !is.na(map_seasons))){
+            mapdata<-data.frame(subdata[c("mapping_waterid","season")],vvar)
+            save(mapdata,file="D:/mapdata453")
+            if (map_seasons!="all"){
+              mapdata<-mapdata[mapdata$season %in% map_seasons,]
+            }
+            mapdata<-aggregate(mapdata["vvar"], by=list(mapping_waterid= mapdata$mapping_waterid,season=mapdata$season),FUN=mean)
+            save(mapdata,file="D:/mapdata458")
+            MAPID<-mapdata$mapping_waterid
+            vvar<-mapdata$vvar
+            names(mapdata)[1]<-commonvar
+            dmapfinal <- data.frame(mapdata[,names(mapdata)!="vvar"])                                   # added 3-25-2017
+            names(dmapfinal)[1] <- c(commonvar)
+            
+            if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
+              add_plotlyVars<-test_addPlotlyvars(add_plotlyVars = c(add_plotlyVars,"lat","lon"),
+                                                 subdata,
+                                                 groupVar=c("season","mapping_waterid"),
+                                                 maxUnique=nrow(mapdata))
+            uniqueSubdata<-subdata[,names(subdata) %in% c(add_plotlyVars,"season","mapping_waterid")]
+            names(uniqueSubdata)[names(uniqueSubdata)=="mapping_waterid"]<-commonvar
+            uniqueSubdata<-unique(uniqueSubdata)
+            uniqueSubdata$year<-rep(1,nrow(uniqueSubdata))
+            if (map_seasons!="all"){
+              uniqueSubdata<-uniqueSubdata[uniqueSubdata$season %in% map_seasons,]
+            }
+            }
+            
+          }else if (!is.na(map_seasons) & map_seasons=="mean" & (map_years!="mean" & !is.na(map_years))){
+            mapdata<-data.frame(subdata[c("mapping_waterid","year")],vvar)
+            if (map_years!="all"){
+              mapdata<-mapdata[mapdata$year %in% map_years,]
+            }
+            mapdata<-aggregate(mapdata["vvar"], by=list(mapping_waterid=mapdata$mapping_waterid,year=mapdata$year),FUN=mean)
+            MAPID<-mapdata$mapping_waterid
+            names(mapdata)[1]<-commonvar
+            vvar<-mapdata$vvar
+            dmapfinal <- data.frame(mapdata[,names(mapdata)!="vvar"])                                   # added 3-25-2017
+            names(dmapfinal)[1] <- c(commonvar)
+            
+            if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
+              add_plotlyVars<-test_addPlotlyvars(add_plotlyVars = c(add_plotlyVars,"lat","lon"),
+                                                 subdata,
+                                                 groupVar=c("year","mapping_waterid"),
+                                                 maxUnique=nrow(mapdata))
+            uniqueSubdata<-subdata[,names(subdata) %in% c(add_plotlyVars,"year","mapping_waterid")]
+            names(uniqueSubdata)[names(uniqueSubdata)=="mapping_waterid"]<-commonvar
+            uniqueSubdata<-unique(uniqueSubdata)
+            uniqueSubdata$season<-rep(1,nrow(uniqueSubdata))
+            if (map_years!="all"){
+              uniqueSubdata<-uniqueSubdata[uniqueSubdata$year %in% map_years,]
+            }
+            }
+            
+          }else if (!is.na(map_years) & map_years=="mean" & !is.na(map_seasons) & map_seasons=="mean"){
+            mapdata<-data.frame(subdata[c("mapping_waterid","year")],vvar)
+            mapdata<-aggregate(mapdata["vvar"], by=list(mapping_waterid=mapdata$mapping_waterid,year=mapdata$year),FUN=mean)
+            mapdata<-aggregate(mapdata["vvar"], by=list(mapping_waterid=mapdata$mapping_waterid),FUN=mean)
+             MAPID<-mapdata$mapping_waterid
+             names(mapdata)[1]<-commonvar
+            vvar<-mapdata$vvar
+            dmapfinal <- data.frame(mapdata[,names(mapdata)!="vvar"])                                   # added 3-25-2017
+            names(dmapfinal)[1] <- c(commonvar)
+            
+            if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
+              add_plotlyVars<-test_addPlotlyvars(add_plotlyVars = c(add_plotlyVars,"lat","lon"),
+                                                 subdata,
+                                                 groupVar=c("mapping_waterid"),
+                                                 maxUnique=nrow(mapdata))
+            uniqueSubdata<-subdata[,names(subdata) %in% c(add_plotlyVars,"mapping_waterid")]
+            names(uniqueSubdata)[names(uniqueSubdata)=="mapping_waterid"]<-commonvar
+            uniqueSubdata<-unique(uniqueSubdata)
+            uniqueSubdata$season<-rep(1,nrow(uniqueSubdata))
+            uniqueSubdata$year<-rep(1,nrow(uniqueSubdata))
+            }
+            
+          }else if ((!is.na(map_years) & map_years=="mean") | (!is.na(map_seasons) & map_seasons=="mean")){
+            mapdata<-data.frame(subdata[c("mapping_waterid")],vvar)
+            mapdata<-aggregate(mapdata["vvar"], by=list(mapping_waterid=mapdata$mapping_waterid),FUN=mean)
+            MAPID<-mapdata$mapping_waterid
+            names(mapdata)[1]<-commonvar
+            vvar<-mapdata$vvar
+            dmapfinal <- data.frame(mapdata[,names(mapdata)!="vvar"])                                   # added 3-25-2017
+            names(dmapfinal)[1] <- c(commonvar)
+            
+            if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
+              add_plotlyVars<-test_addPlotlyvars(add_plotlyVars = c(add_plotlyVars,"lat","lon"),
+                                                 subdata,
+                                                 groupVar=c("mapping_waterid"),
+                                                 maxUnique=nrow(mapdata))
+            uniqueSubdata<-subdata[,names(subdata) %in% c(add_plotlyVars,"mapping_waterid")]
+            names(uniqueSubdata)[names(uniqueSubdata)=="mapping_waterid"]<-commonvar
+            uniqueSubdata<-unique(uniqueSubdata)
+            uniqueSubdata$season<-rep(1,nrow(uniqueSubdata))
+            uniqueSubdata$year<-rep(1,nrow(uniqueSubdata))
+            }
+            
+          }else{
+            uniqueSubdata<-subdata
+            names(uniqueSubdata)[names(uniqueSubdata)=="waterid_for_RSPARROW_mapping"]<-commonvar
+            mapdata<-data.frame(MAPID)
+            colnames(mapdata)<-commonvar
+            dmapfinal <- data.frame(MAPID)                                   
+            colnames(dmapfinal) <- c(commonvar)
+          }
+          save(dmapfinal,file="D:/dmapfinal481")
+          save(uniqueSubdata,file="D:/uniqueSubdata496")
+          
           #set breakpoints
           if (!ratioScenario){
             
@@ -550,11 +661,17 @@ predictMaps<-function(#Rshiny
               }
           }#end ratio plot
           
-         # dmap <- data.frame(MAPID,as.character(MAPCOLORS))   # ,vvar)    # added 3-25-2017
-          dmap <- data.frame(MAPID,as.character(MAPCOLORS),vvar)
+         # dmap <- data.frame(MAPID,as.character(MAPCOLORS))   # ,vvar)# added 3-25-2017
+          dmap<-mapdata
+          dmap$color <- as.character(MAPCOLORS)
           mapvarname <- paste0("MAPCOLORS",k)
+          names(dmap)[names(dmap)=="color"]<-mapvarname
+          
+          dmap$vvar<-vvar
           mapdataname<-paste0("vvar",k)
-          colnames(dmap) <- c(commonvar,mapvarname,mapdataname)
+          names(dmap)[names(dmap)=="vvar"]<-mapdataname
+          
+          #colnames(dmap) <- c(names(mapdata)[names(mapdata)!="vvar"],mapdataname,mapvarname)
           #colnames(dmap) <- c(commonvar,mapvarname) # ,master_map_list[k])
           if ((!mapScenarios | (regexpr("ratio_",master_map_list[k])<0 & regexpr("percent_",master_map_list[k])<0)) & testNAvar==0){
             intervals[k,1:length(uniqueBrks)] <- uniqueBrks
@@ -613,22 +730,93 @@ predictMaps<-function(#Rshiny
         if(mapgo.list[k] > 0){
           
           
-          dmapfinal <- merge(dmapfinal,dmap,by=commonvar)
+          dmapfinal <- merge(dmapfinal,dmap,by=names(mapdata)[names(mapdata)!="vvar"])
           mapvarname <- paste0("dmapfinal$MAPCOLORS",k," <- as.character(dmapfinal$MAPCOLORS",k,")")
           eval(parse(text=mapvarname))
-          
+          save(dmapfinal,file="D:/dmapfinal665")
         }
       } # end variable loop
       
       #------------------------------------------------------------#     
-      if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
-        subdataMerge<-merge(dmapfinal,subdata,by.x = commonvar, by.y = "waterid_for_RSPARROW_mapping")
-        names(subdataMerge)[names(subdataMerge)==commonvar]<-"waterid_for_RSPARROW_mapping"
-        subdataMerge<-subdataMerge[,names(subdataMerge) %in% names(subdata)]
-        dmapfinal<-addMarkerText("",c(add_plotlyVars,"lat","lon"), dmapfinal, subdataMerge)$mapData
-        
-      }
       
+      if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
+         #if (is.na(map_years) & is.na(map_seasons)){
+        # subdataMerge<-merge(dmapfinal,subdata,by.x = commonvar, by.y = "waterid_for_RSPARROW_mapping")
+        # }else{
+          #subdataMerge<-merge(dmapfinal,uniqueSubdata,by.x = commonvar, by.y = "mapping_waterid")
+          #subdataMerge<-merge(dmapfinal,uniqueSubdata,by.x = commonvar, by.y = commonvar)
+        
+        #if(map_seasons=="mean" | map_years=="mean"){
+          subdataMerge<-merge(dmapfinal,uniqueSubdata,by.x = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)], 
+                            by.y = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)])
+        # }else{
+        #   subdataMerge<-merge(dmapfinal,uniqueSubdata,by.x = commonvar, by.y = commonvar)
+        # }
+        
+       # }
+        
+          subdataMerge<-subdataMerge[,names(subdataMerge) %in% c(names(subdata),commonvar)]
+       
+        
+        if ((!is.na(map_seasons) & map_seasons!="mean") & (!is.na(map_years) & map_years!="mean")){
+          names(subdataMerge)[names(subdataMerge)==commonvar]<-"waterid_for_RSPARROW_mapping"
+          subdataMerge<-subdataMerge[,names(subdataMerge) %in% names(subdata)]
+          
+        if (is.na(map_years) & is.na(map_seasons)){
+        dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon")), dmapfinal, subdataMerge)$mapData
+        }else if (is.na(map_seasons)){
+          dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","year","mapping_waterid")), dmapfinal, subdataMerge)$mapData
+        }else if (is.na(map_years)){
+          dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","season","mapping_waterid")), dmapfinal, subdataMerge)$mapData
+        }else{
+          dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","year","season","mapping_waterid")), dmapfinal, subdataMerge)$mapData
+        }
+        
+          }else if ((!is.na(map_years) & map_years=="mean") | (!is.na(map_seasons) & map_seasons=="mean")){
+          uniqueSubdata$mapping_waterid<-eval(parse(text=paste0("uniqueSubdata$",commonvar)))  
+          dmapfinal<-merge(dmapfinal,uniqueSubdata,by.x = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)],
+                           by.y = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)])
+        
+        }else{
+          if (is.na(map_years) & is.na(map_seasons)){
+            NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon"))
+          }else if (is.na(map_seasons)){
+            NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","year","mapping_waterid"))
+          }else if (is.na(map_years)){
+            NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","season","mapping_waterid"))
+          }else{
+            NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","year","season","mapping_waterid"))
+          }
+          dmapfinal<-merge(dmapfinal,uniqueSubdata,by.x = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)],
+                           by.y = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)])
+          dmapfinal<-dmapfinal[,names(dmapfinal) %in% NAMES]
+          
+        }
+          
+      }else if (((!is.na(map_seasons) & map_seasons=="mean") | (!is.na(map_years) & map_years=="mean")) & is.na(add_plotlyVars[1])){
+        uniqueSubdata$mapping_waterid<-eval(parse(text=paste0("uniqueSubdata$",commonvar)))
+        dmapfinal<-merge(dmapfinal,uniqueSubdata,by.x = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)], 
+                            by.y = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)]) 
+        }
+        
+        
+      
+      save(dmapfinal,file="D:/dmapfinal691") 
+      #add dynamic mapping variables
+      # if (!is.na(map_years)){
+      #   subdataMerge<-merge(dmapfinal,subdata,by.x = commonvar, by.y = "waterid_for_RSPARROW_mapping")
+      #   names(subdataMerge)[names(subdataMerge)==commonvar]<-"waterid_for_RSPARROW_mapping"
+      #   subdataMerge<-subdataMerge[,names(subdataMerge) %in% names(subdata)]
+      #   dmapfinal<-addMarkerText("",c("year"), dmapfinal, subdataMerge)$mapData 
+      # }
+      # 
+      # if (!is.na(map_seasons)){
+      #   subdataMerge<-merge(dmapfinal,subdata,by.x = commonvar, by.y = "waterid_for_RSPARROW_mapping")
+      #   names(subdataMerge)[names(subdataMerge)==commonvar]<-"waterid_for_RSPARROW_mapping"
+      #   subdataMerge<-subdataMerge[,names(subdataMerge) %in% names(subdata)]
+      #   dmapfinal<-addMarkerText("",c("season"), dmapfinal, subdataMerge)$mapData 
+      # }
+      # 
       # merge selected variables to the shape file\
       if ((paste(output_map_type,collapse="") %in% c("stream","both") & !Rshiny) | 
           (Rshiny & input$mapType=="Stream" & !mapScenarios) | 
@@ -637,10 +825,23 @@ predictMaps<-function(#Rshiny
         commonvar <- lineWaterid
         names(dmapfinal)[1]<-commonvar
         names(dmapAll)[1]<-commonvar
-        lineShape <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = commonvar)
+        save(lineShape,file='D:/lineShape662')
+        ##################temp merge TAMPA####
+        # if (is.na(map_years) & is.na(map_seasons)){
+        #   lineShape <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = commonvar)
+        # }else{
+        #  lineShape <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = "mapping_waterid") 
+        # }
+        
+        ###############################
+        save(lineShape,file="D:/lineShape663")
         #output shapefile
         if (outputESRImaps[1]=="yes"){
-          lineShape2 <- merge(lineShape, dmapAll, by.x = commonvar, by.y = commonvar)
+          if (is.na(map_years) & is.na(map_seasons)){
+            lineShape2 <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = commonvar)
+          }else{
+            lineShape2 <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = "mapping_waterid") 
+          }
           lineShape2<-lineShape2[,which(regexpr("MAPCOLORS",names(lineShape2))<0)]
 
           if (!Rshiny){
@@ -748,14 +949,19 @@ predictMaps<-function(#Rshiny
                !Rshiny) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
             if (!existGeoLines){GeoLines<-NA}
             htmlFile<-gsub("pdf","html",filename)
-         
+         save(lineShape,file="D:/lineShape")
 
+         path_predictMapsChild<-file_path_as_absolute(paste0(path_master,"predictMapsChild.Rmd"))
+         plots<-setupDynamicMaps(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage)
+         
             rmarkdown::render(paste0(path_master,"predictMaps.Rmd"),
             params = list(
               file.output.list = file.output.list,
               predictMapType = "stream",
               GeoLines = GeoLines,
               plotShape = lineShape,
+              dmapfinal = dmapfinal,
+              plots = plots,
               k = k,
               existGeoLines = existGeoLines,
               Rshiny = Rshiny,
@@ -784,7 +990,12 @@ predictMaps<-function(#Rshiny
               LineShapeGeo = LineShapeGeo,
               mapvarname = mapvarname,
               predictionClassRounding = predictionClassRounding,
-              commonvar = commonvar
+              commonvar = commonvar,
+              map_years = map_years,
+              map_seasons = map_seasons,
+              mapsPerPage = mapsPerPage,
+              mapPageGroupBy = mapPageGroupBy,
+              path_predictMapsChild = path_predictMapsChild
             ),
             output_file = htmlFile, quiet = TRUE
           )
@@ -977,10 +1188,21 @@ predictMaps<-function(#Rshiny
         names(dmapfinal)[1]<-commonvar
         names(dmapAll)[1]<-commonvar
         # merge selected variables to the shape file
-        polyShape <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = commonvar)
+        save(polyShape,file="D:/polyShape1016")
+        # if (is.na(map_years) & is.na(map_seasons)){
+        #   polyShape <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = commonvar)
+        # }else{
+        #   polyShape <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = "mapping_waterid")
+        # }
+
+        save(polyShape,file="D:/polyShape1018")
          #output shapefile
         if (outputESRImaps[2]=="yes"){
-          polyShape2 <- merge(polyShape, dmapAll, by.x = commonvar, by.y = commonvar)
+          if (is.na(map_years) & is.na(map_seasons)){
+            polyShape2 <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = commonvar)
+          }else{
+            polyShape2 <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = "mapping_waterid")
+          }
           polyShape2<-polyShape2[,which(regexpr("MAPCOLORS",names(polyShape2))<0)]
           
           if (!Rshiny){
@@ -1053,13 +1275,13 @@ predictMaps<-function(#Rshiny
 
           }
           reportPath<-paste0(path_master,"predictMaps.Rmd")
-          
+          plots<-setupDynamicMaps(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage)
           if (((input$batch=="Batch" & Rshiny) |
                !Rshiny) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
             if (!existGeoLines){GeoLines<-NA}
             htmlFile<-gsub("pdf","html",filename)
             
-            
+            path_predictMapsChild<-file_path_as_absolute(paste0(path_master,"predictMapsChild.Rmd"))
             
 
             rmarkdown::render(
@@ -1068,6 +1290,8 @@ predictMaps<-function(#Rshiny
                 predictMapType = "catchment",
                 GeoLines = GeoLines,
                 plotShape = polyShape,
+                dmapfinal = dmapfinal,
+                plots = plots,
                 k = k,
                 existGeoLines = existGeoLines,
                 Rshiny = Rshiny,
@@ -1096,7 +1320,12 @@ predictMaps<-function(#Rshiny
                 LineShapeGeo = LineShapeGeo,
                 mapvarname = mapvarname,
                 predictionClassRounding = predictionClassRounding,
-                commonvar = commonvar
+                commonvar = commonvar,              
+                map_years = map_years,
+                map_seasons = map_seasons,
+                mapsPerPage = mapsPerPage,
+                mapPageGroupBy = mapPageGroupBy,
+                path_predictMapsChild = path_predictMapsChild
               ),
               output_file = htmlFile, quiet = TRUE
             )
