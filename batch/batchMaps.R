@@ -54,7 +54,8 @@ if (length(res)!=0){
               "unPackList.R",
               "addMarkerText.R",
               "setupDynamicMaps.R",
-              "test_addPlotlyvars.R")
+              "test_addPlotlyvars.R",
+              "aggDynamicMapdata.R")
   for (r in routines){
     source(paste0(path_main,.Platform$file.sep,"R",.Platform$file.sep,r))
   }

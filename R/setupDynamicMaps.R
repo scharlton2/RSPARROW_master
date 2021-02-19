@@ -1,21 +1,21 @@
 setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage){
-  
+  aggFuncs<-c("mean","median","min","max")
   
   #if "all" selected get list
-  if (!is.na(map_years) & (map_years=="all" | map_years=="mean")){
+  if (!is.na(map_years) & (map_years=="all" | map_years %in% aggFuncs)){
     map_years<-unique(dmapfinal$year)
   }
-  if (!is.na(map_seasons) & (map_seasons=="all" | map_seasons=="mean")){
+  if (!is.na(map_seasons) & (map_seasons=="all" | map_seasons %in% aggFuncs)){
     map_seasons<-unique(dmapfinal$season)
   }
   
   #subset data by year and season
   if (!is.na(map_years[1]) & !is.na(map_seasons[1])
-      & map_years!="mean" & map_seasons!="mean"){ #map specific years or seasons
+      & !map_years %in% aggFuncs & !map_seasons %in% aggFuncs){ #map specific years or seasons
     dmapfinal<-dmapfinal[dmapfinal$year %in% map_years & dmapfinal$season %in% map_seasons,]
-  }else if (!is.na(map_years[1]) & map_years!="mean"){#map specific years
+  }else if (!is.na(map_years[1]) & !map_years %in% aggFuncs){#map specific years
     dmapfinal<-dmapfinal[dmapfinal$year %in% map_years,]
-  }else if (!is.na(map_seasons) & map_seasons!="mean"){#map specific seasons
+  }else if (!is.na(map_seasons) & !map_seasons %in% aggFuncs){#map specific seasons
     dmapfinal<-dmapfinal[dmapfinal$season %in% map_seasons,]
   }else{
     mapPageGroupBy<-NA #all
@@ -32,17 +32,17 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
   #   plots<-plots[order(plots$season,plots$year),]
   # }else 
   if (mapPageGroupBy %in% c("year",NA) &
-            (!is.na(map_years) & map_years!="mean" & !is.na(map_seasons) & map_seasons!="mean")){
+            (!is.na(map_years) & !map_years %in% aggFuncs & !is.na(map_seasons) & !map_seasons %in% aggFuncs)){
     plots<-unique(plotData[c("year","season")])
   }else if (mapPageGroupBy %in% c("year",NA) &
-            ((is.na(map_seasons) | map_seasons=="mean") & !is.na(map_years) & map_years!="mean")){
+            ((is.na(map_seasons) | map_seasons %in% aggFuncs) & !is.na(map_years) & !map_years %in% aggFuncs)){
     plots<-unique(plotData[c("year")])
     plots$season<-rep(1,nrow(plots))
   }else if (mapPageGroupBy %in% c("season",NA) &
-            ((is.na(map_years) | map_years=="mean") & !is.na(map_seasons) & map_seasons!="mean")){
+            ((is.na(map_years) | map_years %in% aggFuncs) & !is.na(map_seasons) & !map_seasons %in% aggFuncs)){
     plots<-unique(plotData[c("season")])
     plots$year<-rep(1,nrow(plots))
-  }else if (is.na(mapPageGroupBy) & (((is.na(map_years) | map_years=="mean") & (is.na(map_seasons) | map_seasons=="mean")) |
+  }else if (is.na(mapPageGroupBy) & (((is.na(map_years) | map_years %in% aggFuncs) & (is.na(map_seasons) | map_seasons %in% aggFuncs)) |
                                      (is.na(map_years) & is.na(map_seasons)))){#all
     plots<-data.frame(year = 1, season = 1, plotKey = 1)
   }else{
@@ -127,7 +127,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
   
   
   #generate plot sequence variable
-  if (is.na(mapPageGroupBy) & ((!is.na(map_years) & map_years=="mean" & !is.na(map_seasons) & map_seasons=="mean") |
+  if (is.na(mapPageGroupBy) & ((!is.na(map_years) & map_years %in% aggFuncs & !is.na(map_seasons) & map_seasons %in% aggFuncs) |
                                (is.na(map_years) & is.na(map_seasons)))){#all
   }else{
     plotSeq<-plotSeq[1:nrow(plots)]

@@ -43,6 +43,7 @@ params:
   map_seasons: map_seasons
   mapsPerPage: mapsPerPage
   mapPageGroupBy: mapPageGroupBy
+  aggFuncs: aggFuncs
   path_predictMapsChild: path_predictMapsChild
 ---
 
@@ -90,6 +91,7 @@ map_years<-params$map_years
 map_seasons<-params$map_seasons
 mapsPerPage<-params$mapsPerPage
 mapPageGroupBy<-params$mapPageGroupBy
+aggFuncs<-params$aggFuncs
 path_predictMapsChild<-params$path_predictMapsChild
     
 ##########################
@@ -143,7 +145,7 @@ for (i in unique(plots$plotKey)){
     save(y,file="D:/y")
 save(s,file="D:/s")
     save(plotdata,file="D:/plotdata137")
-            if ((is.na(map_years) & is.na(map_seasons)) | (!is.na(map_years) & map_years=="mean") | (!is.na(map_seasons) & map_seasons=="mean")){
+            if ((is.na(map_years) & is.na(map_seasons)) | (!is.na(map_years) & map_years %in% aggFuncs) | (!is.na(map_seasons) & map_seasons %in% aggFuncs)){
                 plotdata <- merge(plotShape, plotdata, by.x = commonvar, by.y = commonvar)
               }else{
                  plotdata <- merge(plotShape, plotdata, by.x = commonvar, by.y = "mapping_waterid")
@@ -161,13 +163,37 @@ save(s,file="D:/s")
       titleStr<-paste(input$scenarioName,master_map_list[k],"\n",mapunits.list[k],sep=" ")
     }
   }
-                
-if (!is.na(map_years) & map_years=="mean" & !is.na(map_seasons) & map_seasons=="mean"){
+    
+if(is.na(map_years) & is.na(map_seasons)){
+  subTitle<-""                
+}else if (!is.na(map_years) & map_years %in% aggFuncs & !is.na(map_seasons) & map_seasons %in% aggFuncs){
+  if (is.na(map_years)){
+    titleStr<-paste(map_seasons,titleStr)
+  }else{
+    titleStr<-paste(map_years,titleStr)
+  }
   subTitle<-titleStr
-}else if (is.na(map_seasons) | map_seasons=="mean"){
-  subTitle<-y
-}else if (is.na(map_years) | map_years=="mean"){
-  subTitle<-s
+}else if (is.na(map_seasons) | map_seasons %in% aggFuncs){
+  if (map_seasons %in% aggFuncs){
+    titleStr<-paste(map_seasons,titleStr)
+  }
+  
+    if ((is.na(map_seasons) & map_years %in% aggFuncs) | (is.na(map_years) & map_seasons %in% aggFuncs)){
+   subTitle<-"" 
+  }else{
+    subTitle<-y
+  }
+
+}else if (is.na(map_years) | map_years %in% aggFuncs){
+    if (map_years %in% aggFuncs){
+    titleStr<-paste(map_years,titleStr)
+    }
+  if (is.na(map_years) & map_seasons %in% aggFuncs | (is.na(map_seasons) & map_years %in% aggFuncs)){
+   subTitle<-"" 
+  }else{
+    subTitle<-s
+  }
+
 }else{
   subTitle<-paste(y,s)
 }
@@ -185,11 +211,11 @@ if (!is.na(map_years) & map_years=="mean" & !is.na(map_seasons) & map_seasons=="
     font = list(size = 14)
   )
 
-if (is.na(mapPageGroupBy) & !is.na(map_years) & map_years=="mean" & !is.na(map_seasons) & map_seasons=="mean"){
+if (is.na(mapPageGroupBy) & !is.na(map_years) & map_years %in% aggFuncs & !is.na(map_seasons) & map_seasons %in% aggFuncs){
   plotPageData<-dmapfinal
-}else if (is.na(mapPageGroupBy) & !is.na(map_seasons) & map_seasons=="mean"){
+}else if (is.na(mapPageGroupBy) & !is.na(map_seasons) & map_seasons %in% aggFuncs){
   plotPageData<-dmapfinal[dmapfinal$year %in% plotSub$year,]
-}else if (is.na(mapPageGroupBy) & !is.na(map_years) & map_years=="mean"){
+}else if (is.na(mapPageGroupBy) & !is.na(map_years) & map_years %in% aggFuncs){
   plotPageData<-dmapfinal[dmapfinal$season %in% plotSub$season,]
 }else{
   plotPageData<-dmapfinal[dmapfinal$year %in% plotSub$year & dmapfinal$season %in% plotSub$season,]
