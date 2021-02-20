@@ -429,23 +429,7 @@ predictMaps<-function(#Rshiny
           }
           names(dmapAll)[length(dmapAll)]<-master_map_list[k]
           
-          # check for NAs
-          eval(parse(text = paste0("testNA$",master_map_list[k],"<-length(vvar[which(is.na(vvar))])")))
-          testNAvar<- eval(parse(text = paste0("testNA$",master_map_list[k])))
-          
-          if (testNAvar!=0){
-            vvar1<-vvar[which(is.na(vvar))]
-            vvar2<-na.omit(vvar)
-          }
-          ###############test 1 class
-          
-          
-          if (mapScenarios & (regexpr("ratio_",master_map_list[k])>0 | regexpr("percent_",master_map_list[k])>0)){
-           
-             vvar1 <- vvar[vvar==1]
-            vvar2 <- vvar[vvar!=1]
 
-          }
           
           
           ###vvar2 must be considered for scenario mapping###
@@ -458,14 +442,37 @@ predictMaps<-function(#Rshiny
               errorOccurred("predictMaps.R",batch_mode)
             }
           }
-          add_map.list<-aggDynamicMapdata(map_years,map_seasons,enable_plotlyMaps,add_plotlyVars,
+          
+     
+            
+           add_map.list<-aggDynamicMapdata(map_years,map_seasons,enable_plotlyMaps,add_plotlyVars,
                                           aggFuncs,vvar,MAPID,commonvar,subdata)
           unPackList(lists = list(add_map.list = add_map.list),
-                     parentObj = list(NA))
+                     parentObj = list(NA)) 
+          
+          
           
           
           save(dmapfinal,file="D:/dmapfinal481")
           save(uniqueSubdata,file="D:/uniqueSubdata496")
+          
+          # check for NAs
+          eval(parse(text = paste0("testNA$",master_map_list[k],"<-length(vvar[which(is.na(vvar))])")))
+          testNAvar<- eval(parse(text = paste0("testNA$",master_map_list[k])))
+          
+          if (testNAvar!=0){
+            vvar1<-vvar[which(is.na(vvar))]
+            vvar2<-na.omit(vvar)
+          }
+          ###############test 1 class
+          
+          
+          if (mapScenarios & (regexpr("ratio_",master_map_list[k])>0 | regexpr("percent_",master_map_list[k])>0)){
+            
+            vvar1 <- vvar[vvar==1]
+            vvar2 <- vvar[vvar!=1]
+            
+          }
           
           #set breakpoints
           if (!ratioScenario){
