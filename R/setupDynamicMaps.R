@@ -1,4 +1,4 @@
-setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage){
+setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage, Rshiny, enable_plotlyMaps){
   aggFuncs<-c("mean","median","min","max")
   
   #if "all" selected get list
@@ -27,10 +27,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
   #create plot sequence
   plotSeq<-numeric(0)
 
-  # if (mapPageGroupBy=="season" &  map_years=="mean"){
-  #   plots<-unique(plotData[c("season","year")])
-  #   plots<-plots[order(plots$season,plots$year),]
-  # }else 
+
   if (mapPageGroupBy %in% c("year",NA) &
             (!is.na(map_years) & !map_years %in% aggFuncs & !is.na(map_seasons) & !map_seasons %in% aggFuncs)){
     plots<-unique(plotData[c("year","season")])
@@ -132,6 +129,13 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
   }else{
     plotSeq<-plotSeq[1:nrow(plots)]
     plots$plotKey<-plotSeq
+  }
+  
+  if (Rshiny){
+    plots<-plots[plots$plotKey==1,]
+  }
+  if (enable_plotlyMaps=="leaflet"){
+    plots<-plots[1,]
   }
   print(plots)
   return(plots)

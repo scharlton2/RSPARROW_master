@@ -107,6 +107,7 @@ shinyMap2<-function(
   suppressWarnings(suppressMessages(library(magrittr)))
   suppressWarnings(suppressMessages(library(gplots)))
   suppressWarnings(suppressMessages(library(ggplot2)))
+  suppressWarnings(suppressMessages(library(gridExtra)))
   
   unPackList(lists = list(file.output.list = file.output.list,
                           scenario.input.list = scenario.input.list,
@@ -143,6 +144,17 @@ shinyMap2<-function(
     selectSources<-""
   }
   
+  if ("year" %in% data_names$sparrowNames){
+    yearChoices<-c("mean","median","min","max",unique(subdata$year))
+  }else{
+    yearChoices<-c("")
+  }
+  
+  if ("season" %in% data_names$sparrowNames){
+    seasonChoices<-c("mean","median","min","max",unique(subdata$season))
+  }else{
+    seasonChoices<-c("")
+  }
   
   scenarioRtables<-createRTables(selectSources,data_names,mapping.input.list)
   
@@ -168,7 +180,25 @@ shinyMap2<-function(
                      br(),
                      selectInput("mapType","Map Type",mapTypeChoices),
                      
+
+                     h5(HTML("<font color = 'black'><strong>Dynamic Mapping Settings</strong></font>")),  
+                      fluidRow(dropdownButton(circle = FALSE,
+                                      label = "year(s)",
+                                      inputId = "yearDrop",
+                                      checkboxGroupInput("yearSelect", "Select year(s) to Map", 
+                                                         yearChoices,
+                                                         selected = as.character(mapping.input.list$map_years),
+                                                         inline=FALSE)),
+                     dropdownButton(circle = FALSE,
+                                    label = "season(s)",
+                                    inputId = "seasonDrop",
+                                    checkboxGroupInput("seasonSelect", "Select season(s) to Map", 
+                                                       seasonChoices,
+                                                       selected = as.character(mapping.input.list$map_seasons),
+                                                       inline=FALSE)),
+                      ),
                      
+                     br(),
                      
                      #Stream and Catchment arguments
                      streamCatch("nsStreamCatch", input, choices, map_uncertainties,sitedata,add_plotlyVars),
@@ -346,6 +376,7 @@ shinyMap2<-function(
           #test bad Settings
           badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
           names(badSettings)<-c("Setting","CurrentValue","Type","Test")
+
           errMsg<-NA
           if (input$mapType %in% c("Stream","Catchment")){
             badSettings<-testCosmetic(input, output, session, DF = as.data.frame(scenarioRtables$cosmeticPred),mapType =input$mapType,
@@ -371,7 +402,6 @@ shinyMap2<-function(
             
           }
           
-
           currentP<-goShinyPlot(input, output, session, choices,"goPlot", badSettings,errMsg,
                       file.output.list,map_uncertainties,BootUncertainties,
                       data_names,mapping.input.list,
@@ -389,6 +419,7 @@ shinyMap2<-function(
                       #batchError
                       batch_mode,
                       RSPARROW_errorOption)
+
           
           #print plot size
           env <- environment()
@@ -401,12 +432,13 @@ shinyMap2<-function(
           
 
           if (input$enablePlotly=="static"){ 
+            
             output$plot<-renderUI({
               plotOutput("plotOne", width=900,height=900) %>% withSpinner(color="#0dc5c1")
             })
             #time plot render
             output$plotOne  <- renderPlot({
-              isolate(currentP)
+              grid.arrange(currentP)
             })
 
             
@@ -436,7 +468,9 @@ shinyMap2<-function(
 
         
         observe({
-          p1()
+
+            p1()
+
         })
 
 

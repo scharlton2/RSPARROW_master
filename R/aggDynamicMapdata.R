@@ -1,29 +1,47 @@
 aggDynamicMapdata<-function(map_years,map_seasons,enable_plotlyMaps,add_plotlyVars,
                             aggFuncs,vvar,MAPID,commonvar,subdata){
+  
+  #is static add year and seasons as add_plotlyVars
+  if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
+    if (is.na(map_years) & is.na(map_seasons)){
+      add_plotlyVars<-NA
+    }else if (is.na(map_years)){
+      add_plotlyVars<-"season"
+    }else if (is.na(map_seasons)){
+      add_plotlyVars<-"year"
+    }else{
+      add_plotlyVars<-c("year","season")
+    }
+    
+  }
+  
   #aggregate seasons or years if required
   if (!is.na(map_years) & map_years %in% aggFuncs & (!map_seasons %in% aggFuncs & !is.na(map_seasons))){
     mapdata<-data.frame(subdata[c("mapping_waterid","season")],vvar)
-    save(mapdata,file="D:/mapdata453")
+
     if (map_seasons!="all"){
       mapdata<-mapdata[mapdata$season %in% map_seasons,]
     }
     mapdata<-aggregate(mapdata["vvar"], by=list(mapping_waterid= mapdata$mapping_waterid,season=mapdata$season),
                        FUN=eval(parse(text=map_years)))
-    save(mapdata,file="D:/mapdata458")
+
     MAPID<-mapdata$mapping_waterid
     vvar<-mapdata$vvar
     names(mapdata)[1]<-commonvar
     dmapfinal <- data.frame(mapdata[,names(mapdata)!="vvar"])                                   # added 3-25-2017
     names(dmapfinal)[1] <- c(commonvar)
     
-    if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
+    if ((enable_plotlyMaps!="no" & enable_plotlyMaps!="static") | !is.na(add_plotlyVars[1])){
       add_plotlyVars<-test_addPlotlyvars(add_plotlyVars = c(add_plotlyVars,"lat","lon"),
                                          subdata,
                                          groupVar=c("season","mapping_waterid"),
                                          maxUnique=nrow(mapdata))
       uniqueSubdata<-subdata[,names(subdata) %in% c(add_plotlyVars,"season","mapping_waterid")]
       names(uniqueSubdata)[names(uniqueSubdata)=="mapping_waterid"]<-commonvar
-      uniqueSubdata<-unique(uniqueSubdata)
+      uniqueSubdata<-as.data.frame(unique(uniqueSubdata))
+      if (length(uniqueSubdata)==1){
+        names(uniqueSubdata)<-commonvar 
+      }
       uniqueSubdata$year<-rep(1,nrow(uniqueSubdata))
       if (map_seasons!="all"){
         uniqueSubdata<-uniqueSubdata[uniqueSubdata$season %in% map_seasons,]
@@ -43,14 +61,17 @@ aggDynamicMapdata<-function(map_years,map_seasons,enable_plotlyMaps,add_plotlyVa
     dmapfinal <- data.frame(mapdata[,names(mapdata)!="vvar"])                                   # added 3-25-2017
     names(dmapfinal)[1] <- c(commonvar)
     
-    if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
+    if ((enable_plotlyMaps!="no" & enable_plotlyMaps!="static") | !is.na(add_plotlyVars[1])){
       add_plotlyVars<-test_addPlotlyvars(add_plotlyVars = c(add_plotlyVars,"lat","lon"),
                                          subdata,
                                          groupVar=c("year","mapping_waterid"),
                                          maxUnique=nrow(mapdata))
       uniqueSubdata<-subdata[,names(subdata) %in% c(add_plotlyVars,"year","mapping_waterid")]
       names(uniqueSubdata)[names(uniqueSubdata)=="mapping_waterid"]<-commonvar
-      uniqueSubdata<-unique(uniqueSubdata)
+      uniqueSubdata<-as.data.frame(unique(uniqueSubdata))
+      if (length(uniqueSubdata)==1){
+        names(uniqueSubdata)<-commonvar 
+      }
       uniqueSubdata$season<-rep(1,nrow(uniqueSubdata))
       if (map_years!="all"){
         uniqueSubdata<-uniqueSubdata[uniqueSubdata$year %in% map_years,]
@@ -69,14 +90,17 @@ aggDynamicMapdata<-function(map_years,map_seasons,enable_plotlyMaps,add_plotlyVa
     dmapfinal <- data.frame(mapdata[,names(mapdata)!="vvar"])                                   # added 3-25-2017
     names(dmapfinal)[1] <- c(commonvar)
     
-    if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
+    if ((enable_plotlyMaps!="no" & enable_plotlyMaps!="static") | !is.na(add_plotlyVars[1])){
       add_plotlyVars<-test_addPlotlyvars(add_plotlyVars = c(add_plotlyVars,"lat","lon"),
                                          subdata,
                                          groupVar=c("mapping_waterid"),
                                          maxUnique=nrow(mapdata))
       uniqueSubdata<-subdata[,names(subdata) %in% c(add_plotlyVars,"mapping_waterid")]
       names(uniqueSubdata)[names(uniqueSubdata)=="mapping_waterid"]<-commonvar
-      uniqueSubdata<-unique(uniqueSubdata)
+      uniqueSubdata<-as.data.frame(unique(uniqueSubdata))
+      if (length(uniqueSubdata)==1){
+        names(uniqueSubdata)<-commonvar 
+      }
       uniqueSubdata$season<-rep(1,nrow(uniqueSubdata))
       uniqueSubdata$year<-rep(1,nrow(uniqueSubdata))
     }
@@ -96,14 +120,17 @@ aggDynamicMapdata<-function(map_years,map_seasons,enable_plotlyMaps,add_plotlyVa
     dmapfinal <- data.frame(mapdata[,names(mapdata)!="vvar"])                                   # added 3-25-2017
     names(dmapfinal)[1] <- c(commonvar)
     
-    if (enable_plotlyMaps!="no" & enable_plotlyMaps!="static" & !is.na(add_plotlyVars[1])){
+    if ((enable_plotlyMaps!="no" & enable_plotlyMaps!="static") | !is.na(add_plotlyVars[1])){
       add_plotlyVars<-test_addPlotlyvars(add_plotlyVars = c(add_plotlyVars,"lat","lon"),
                                          subdata,
                                          groupVar=c("mapping_waterid"),
                                          maxUnique=nrow(mapdata))
       uniqueSubdata<-subdata[,names(subdata) %in% c(add_plotlyVars,"mapping_waterid")]
       names(uniqueSubdata)[names(uniqueSubdata)=="mapping_waterid"]<-commonvar
-      uniqueSubdata<-unique(uniqueSubdata)
+      uniqueSubdata<-as.data.frame(unique(uniqueSubdata))
+      if (length(uniqueSubdata)==1){
+        names(uniqueSubdata)<-commonvar 
+      }
       uniqueSubdata$season<-rep(1,nrow(uniqueSubdata))
       uniqueSubdata$year<-rep(1,nrow(uniqueSubdata))
     }

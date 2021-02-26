@@ -74,6 +74,14 @@ if (length(res)!=0){
   suppressWarnings(suppressMessages(library(rmarkdown)))
   suppressWarnings(suppressMessages(library(knitr)))
   suppressWarnings(suppressMessages(library(tools)))
+  suppressWarnings(suppressMessages(library(gridExtra)))
+  suppressWarnings(suppressMessages(library(ggplot2)))
+  suppressWarnings(suppressMessages(library(gplots)))
+  suppressWarnings(suppressMessages(library(mapview)))
+  suppressWarnings(suppressMessages(library(leaflet)))
+  suppressWarnings(suppressMessages(library(leaflet.extras)))
+  suppressWarnings(suppressMessages(library(htmltools)))
+  suppressWarnings(suppressMessages(library(htmlwidgets)))
   
   
   #start sink

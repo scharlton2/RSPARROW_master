@@ -17,7 +17,9 @@ compileALL<-function(input, output, session, path_results, choices){
   
   top<-list(batch = input$batch,
             mapType = input$mapType,
-            enablePlotly = input$enablePlotly)
+            enablePlotly = input$enablePlotly,
+            yearSelect = input$yearSelect,
+            seasonSelect=input$seasonSelect)
   
   nsList<-character(0)
   if (input$batch=="Batch"){
