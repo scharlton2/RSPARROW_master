@@ -136,7 +136,7 @@ shinyMap2<-function(
   #map type choices
   if (exists("predict.list") & exists("JacobResults")){
     mapTypeChoices<-c("","Stream","Catchment","Site Attributes","Source Change Scenarios")
-    selectSources<-as.character(JacobResults$Parmnames[which(JacobResults$btype=="SOURCE")])
+    selectSources<-as.character(JacobResults$Parmnames[which(JacobResults$btype %in% c("SOURCE","DELIVF"))])
     
     
   }else{

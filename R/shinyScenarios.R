@@ -80,7 +80,7 @@ shinyScenarios<-function(id, input, choices,sitedata,add_plotlyVars, scenario.in
       
       conditionalPanel(
         condition = paste0("input['",ns("allSrc"),"']=='yes'"),
-        h4("Select Sources and Percent Change Factors"),
+        h4("Select Parameters and Percent Change Factors"),
         h6("Right click on Row to insert above/below or remove row"),
         handsOnUI(ns("nsSourceRed"),input),
         h4("Reach Selection Criteria"),

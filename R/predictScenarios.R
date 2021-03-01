@@ -702,6 +702,12 @@ predictScenarios <- function(#Rshiny
                                               predict.source.list,predmatrix_chg,yldmatrix_chg,scenarioCoefficients,scenarioFlag)
           assign("predictScenarios.list",predictScenarios.list, envir=.GlobalEnv)
           
+          if (!dir.exists(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep))){
+            dir.create(paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep))
+          }
+
+            
+          
           objfile <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep,scenario_name,"_",run_id,"_predictScenarios.list")
           save(predictScenarios.list,file=objfile)
           
