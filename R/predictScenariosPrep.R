@@ -45,10 +45,49 @@ predictScenariosPrep<-function(##Rshiny
   #paths
   file.output.list){
   
+  
   scenarioError<-FALSE
   unPackList(lists = list(file.output.list = file.output.list,
                           scenario.input.list = scenario.input.list),
              parentObj = list(NA,NA)) 
+  
+  #get coefficient estimates
+  betalst <- JacobResults$oEstimate
+  beta1<-t(matrix(betalst, ncol=nrow(subdata), nrow=length(betalst)))
+
+  scenarioCoefficients<-data.frame(PARAMETER = JacobResults$Parmnames,
+                                   ESTIMATE = JacobResults$oEstimate,
+                                   PercentChange = rep(0,length(JacobResults$oEstimate)))
+ 
+  if (Rshiny){
+    if (length(input$forecast_filename)==0 | input$forecast_filename==""){
+      forecast_filename<-NA
+    }else{
+      forecast_filename<-input$forecast_filename
+    }
+    if (length(input$use_sparrowNames)!=0){
+      if (input$use_sparrowNames==FALSE){
+        use_sparrowNames<-FALSE
+      }else{
+        use_sparrowNames<-TRUE
+      }
+    }else{
+      use_sparrowNames<-FALSE
+      }
+  }#Rshiny
+  
+  if (!is.na(forecast_filename)){
+    fData<-readForecast(file.output.list,forecast_filename,data_names,srcvar,use_sparrowNames, batch_mode)
+    scenario_sources<-names(fData)[names(fData)!="waterid"]
+    matchData<-data[which(data[,1] %in% fData$waterid),]
+    fData<-fData[match(matchData[,1],fData$waterid),]
+    for (n in names(fData)[names(fData)!="waterid"]){
+      varIndex<-jsrcvar[srcvar==n]
+      matchData[,varIndex]<-fData[,names(fData)==n]
+    }
+    scenarioFlag<-ifelse(data[which(data[,1] %in% fData$waterid),],1,0)
+    data[which(data[,1] %in% fData$waterid),]<-matchData
+  }else{#not forecast scenario
   
   #create scenario_name directory
   options(warn=-1)
@@ -68,13 +107,13 @@ predictScenariosPrep<-function(##Rshiny
   unPackList(lists = list(datalstCheck = data_names$sparrowNames),
              parentObj = list(subdata = subdata))
   
-  #get coefficient estimates
-  betalst <- JacobResults$oEstimate
-  beta1<-t(matrix(betalst, ncol=nrow(subdata), nrow=length(betalst)))
+  # #get coefficient estimates
+  # betalst <- JacobResults$oEstimate
+  # beta1<-t(matrix(betalst, ncol=nrow(subdata), nrow=length(betalst)))
   
-  scenarioCoefficients<-data.frame(PARAMETER = JacobResults$Parmnames,
-                                   ESTIMATE = JacobResults$oEstimate,
-                                   PercentChange = rep(0,length(JacobResults$oEstimate)))
+  # scenarioCoefficients<-data.frame(PARAMETER = JacobResults$Parmnames,
+  #                                  ESTIMATE = JacobResults$oEstimate,
+  #                                  PercentChange = rep(0,length(JacobResults$oEstimate)))
   
   #convert Rshiny metrics to control setting names 
   if (Rshiny){
@@ -396,7 +435,7 @@ predictScenariosPrep<-function(##Rshiny
     scenarioError<-TRUE
   }
   
-  
+  }#not forecast
   #outputlist
   scenarioPrep.list<-named.list(data,scenario_name,scenario_sources,
                                 select_scenarioReachAreas,select_targetReachWatersheds,

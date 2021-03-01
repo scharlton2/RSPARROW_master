@@ -92,6 +92,7 @@ generateInputLists<-function(settings){
                                  run_id,
                                  csv_decimalSeparator,
                                  csv_columnSeparator)
+                  
   
   class.input.list<-named.list(classvar,class_landuse,class_landuse_percent)
   
@@ -106,7 +107,9 @@ generateInputLists<-function(settings){
                                   scenarioMapColors,
                                   scenario_sources,
                                   scenario_factors,
-                                  landuseConversion)
+                                  landuseConversion,
+                                  forecast_filename,
+                                  use_sparrowNames)
   
   assign("estimate.input.list",estimate.input.list,envir = .GlobalEnv)
   assign("mapping.input.list",mapping.input.list,envir = .GlobalEnv)

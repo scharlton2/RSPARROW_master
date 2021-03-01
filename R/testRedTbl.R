@@ -32,7 +32,7 @@ testRedTbl<-function(input, output, session, DF){
   rowNums<-data.frame(row = numeric(0), col = numeric(0))
   errMsg<-NA
   
-  
+
   #test nsSourceRedALL      
   if (compiledInput$domain=="all reaches"){
     SourceRedALL<-compiledInput$`nsSourceRedALL-hot`
@@ -135,19 +135,22 @@ testRedTbl<-function(input, output, session, DF){
           }
         }#duplicate sources
       }else{#no sources
+        
         rowNum<-data.frame(row = which(is.na(SourceRedALLcomplete$Source)),
                            col=which(names(SourceRedALL)=="Source"))
         
         rowNums<-rbind(rowNums,rowNum)
         if (any(!is.na(SourceRedALLcomplete$Source))){
           errMsg<-NA
-        }else{
+        }else if (length(compiledInput$forecast_filename)==0 | compiledInput$forecast_filename==""){
           errMsg<-"Please select at least 1 'Source' variable to run a Source Change Scenario"
+        }else{
+          errMsg<-NA
         }
       }
     }#for each row
   }
-  
+
   
   #test selections
   if (compiledInput$domain=="selected reaches"){
@@ -219,7 +222,9 @@ testRedTbl<-function(input, output, session, DF){
             rowNums<-rbind(rowNums,rowNum) 
           }
           if (is.na(errMsg)){ 
+          if (length(compiledInput$forecast_filename)==0 | compiledInput$forecast_filename==""){
             errMsg<-"Please select at least 1 criteria ('Min','Max','Equals', or 'Like') for the 'SelectionVariable' variable/n to run a Source Change Scenario with 'selected reaches'"
+          }
           }
           
         }
@@ -231,7 +236,10 @@ testRedTbl<-function(input, output, session, DF){
         if (any(!is.na(selectionscomplete$SelectionVariable))){
           errMsg<-NA
         }else if (is.na(errMsg)){
+          
+        if (length(compiledInput$forecast_filename)==0 | compiledInput$forecast_filename==""){
           errMsg<-"Please select at least 1 'SelectionVariable' variable to run a Source Change Scenario with 'selected reaches'"
+        }
         }
         
       }

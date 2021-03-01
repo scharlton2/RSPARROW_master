@@ -54,6 +54,14 @@ shinyScenarios<-function(id, input, choices,sitedata,add_plotlyVars, scenario.in
                                         inline=TRUE))
     ),
     
+    #forcast scenario 
+    fluidRow(
+      column(width=9,textInput(ns("forecast_filename"), label = "Enter forecast scenario filename", 
+                               forecast_filename)),
+      column(width=3,checkboxGroupInput(ns("use_sparrowNames"), "","Use sparrowNames to read forecast scenario file",
+                                        inline=TRUE))
+    ),
+    
     #select_scenarioReachAreas
     h4("Select Target Reach Watersheds"),
     h6(HTML("<b>\"default\"</b> = run scenario for watersheds above the original outlet reaches (i.e., based on the user-defined terminal reaches for the network)")), 

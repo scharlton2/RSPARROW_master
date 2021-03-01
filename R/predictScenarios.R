@@ -130,21 +130,22 @@ predictScenarios <- function(#Rshiny
       
       # perform checks on scenario variable names designated by user
       #  scenario only executed if all source variables match
-      
+
       vcheck<-0
+      if (length(input$forecast_filename)==0 | input$forecast_filename==""){
       for (i in 1:length(JacobResults$Parmnames)) {
         for (j in 1:length(scenario_sources)) {
           if(scenario_sources[j] == JacobResults$Parmnames[i]) {vcheck<-vcheck+1}
         }
       }
-      
-      if(vcheck == length(scenario_sources)) {  # source names match
+      }
+      if(vcheck == length(scenario_sources) |
+         (length(input$forecast_filename)==0 | input$forecast_filename=="")) {  # source names match
         
         message("Running predict scenarios...")
         
         #set data object for predictScenarios              
         data <- DataMatrix.list$data 
-        
         
         scenarioPrep.list<-predictScenariosPrep(##Rshiny
           input,allMetrics, output_map_type,Rshiny,
@@ -154,13 +155,14 @@ predictScenarios <- function(#Rshiny
           if_predict,
           #data
           data,
-          SelParmValues$srcvar,DataMatrix.list$data.index.list$jsrcvar,
+          #SelParmValues$srcvar,DataMatrix.list$data.index.list$jsrcvar,
+          c(SelParmValues$srcvar,SelParmValues$dlvvar),c(DataMatrix.list$data.index.list$jsrcvar,DataMatrix.list$data.index.list$jdlvvar),
           DataMatrix.list$dataNames,JacobResults,
           subdata,
           #paths
           file.output.list)
-        
-        
+      
+
         # create global variable from list names (JacobResults)
         # 'oEstimate' containing the estimated mean parameters for all non-constant and constant parameters
         # 'Parmnames' list of variable names 
