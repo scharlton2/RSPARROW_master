@@ -130,7 +130,9 @@ predictScenarios <- function(#Rshiny
       
       # perform checks on scenario variable names designated by user
       #  scenario only executed if all source variables match
-
+if (!Rshiny){
+  input$forecast_filename<-""
+}
       vcheck<-0
       if (length(input$forecast_filename)==0 | input$forecast_filename==""){
       for (i in 1:length(JacobResults$Parmnames)) {
