@@ -73,7 +73,8 @@ predictMaps<-function(#Rshiny
         
       }else{
         master_map_list<-c(trimws(gsub("-","",allMetrics)))
-      } 
+      }
+      scenario_name<-character(0)
     }else{#not shiny
       master_map_list<-mapping.input.list$master_map_list
     }
@@ -830,85 +831,84 @@ predictMaps<-function(#Rshiny
            # pdf(filename)
           }#end if create filename      
           
-          reportPath<-paste0(path_master,"predictMaps.Rmd")
+          reportPath<-paste0(path_master,"outputMaps.Rmd")
           
           #create plot sequence
           plots<-setupDynamicMaps(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage, Rshiny, enable_plotlyMaps)
-
+          if ((input$batch=="Batch" & Rshiny) | !Rshiny){
+          }else{
+            mapdataname <- paste0("vvar",k) 
+          }
+          mapLoopInput.list<- list(
+                file.output.list = file.output.list,
+                GeoLines = GeoLines,
+                plotShape = lineShape,
+                dmapfinal = dmapfinal,
+                plots = plots,
+                k = k,
+                existGeoLines = existGeoLines,
+                Rshiny = Rshiny,
+                input = input,
+                predictionTitleSize = predictionTitleSize,
+                scenario_name = scenario_name,
+              scenario_map_list = scenario_map_list,
+              master_map_list = master_map_list,
+              predictionLegendSize = predictionLegendSize,
+                mapunits.list = mapunits.list,
+                predictionLegendBackground = predictionLegendBackground,
+                break1 = break1,
+                Mcolors = Mcolors,
+                enable_plotlyMaps = enable_plotlyMaps,
+                output_map_type = output_map_type,
+                lineWidth = lineWidth,
+                lon_limit = lon_limit,
+                lat_limit = lat_limit,
+                nlty = nlty,
+                nlwd = nlwd,
+                CRStext = mapping.input.list$CRStext,
+                mapdataname = mapdataname,
+                predictionMapColors = predictionMapColors,
+                add_plotlyVars = add_plotlyVars,
+                mapScenarios = mapScenarios,
+                predictionMapBackground = predictionMapBackground,
+                LineShapeGeo = LineShapeGeo,
+                mapvarname = mapvarname,
+                predictionClassRounding = predictionClassRounding,
+                commonvar = commonvar,
+                map_years = map_years,
+                map_seasons = map_seasons,
+                mapsPerPage = mapsPerPage,
+                mapPageGroupBy = mapPageGroupBy,
+                aggFuncs = aggFuncs
+              )
+         
 
           if ((input$batch=="Batch" & Rshiny) | !Rshiny){
             if (!existGeoLines){GeoLines<-NA}
             htmlFile<-gsub("pdf","html",filename)
 
 
-         path_predictMapsChild<-file_path_as_absolute(paste0(path_master,"predictMapsChild.Rmd"))
+         #path_predictMapsChild<-file_path_as_absolute(paste0(path_master,"predictMapsChild.Rmd"))
+          rmdTitle<-file.output.list$run_id
+          path_outputMapsChild<-file_path_as_absolute(paste0(path_master,"outputMapsChild.Rmd"))
 
-            rmarkdown::render(paste0(path_master,"predictMaps.Rmd"),
+            rmarkdown::render(paste0(path_master,"outputMaps.Rmd"),
             params = list(
-              file.output.list = file.output.list,
-              predictMapType = "stream",
-              GeoLines = GeoLines,
-              plotShape = lineShape,
-              dmapfinal = dmapfinal,
-              plots = plots,
-              k = k,
-              existGeoLines = existGeoLines,
-              Rshiny = Rshiny,
-              input = input,
-              predictionTitleSize = predictionTitleSize,
-              scenario_name = scenario_name,
-              scenario_map_list = scenario_map_list,
-              master_map_list = master_map_list,
-              predictionLegendSize = predictionLegendSize,
-              mapunits.list = mapunits.list,
-              predictionLegendBackground = predictionLegendBackground,
-              break1 = break1,
-              Mcolors = Mcolors,
-              enable_plotlyMaps = enable_plotlyMaps,
-              output_map_type = output_map_type,
-              lineWidth = lineWidth,
-              lon_limit = lon_limit,
-              lat_limit = lat_limit,
-              nlty = nlty,
-              nlwd = nlwd,
-              CRStext = CRStext,
-              mapdataname = mapdataname,
-              predictionMapColors = predictionMapColors,
-              add_plotlyVars = add_plotlyVars,
-              mapScenarios = mapScenarios,
-              predictionMapBackground = predictionMapBackground,
-              LineShapeGeo = LineShapeGeo,
-              mapvarname = mapvarname,
-              predictionClassRounding = predictionClassRounding,
-              commonvar = commonvar,
-              map_years = map_years,
-              map_seasons = map_seasons,
-              mapsPerPage = mapsPerPage,
-              mapPageGroupBy = mapPageGroupBy,
-              aggFuncs = aggFuncs,
-              path_predictMapsChild = path_predictMapsChild
+              rmdTitle = rmdTitle,
+              mapType = "stream",
+              mapLoopInput.list = mapLoopInput.list,
+              path_outputMapsChild = path_outputMapsChild
             ),
             output_file = htmlFile, quiet = TRUE
           )
 
 
+
             }else{#Rhiny interactive or enable_plotlyMaps==no
 
-              predictMapType <- "stream"
-              mapdataname <- paste0("vvar",k)
-              map_loop.list<-mapLoopStr(file.output.list,predictMapType,GeoLines,
-                                        lineShape,dmapfinal,plots,k,
-                                        existGeoLines,Rshiny,input,
-                                        predictionTitleSize,scenario_name,scenario_map_list,
-                                        master_map_list,predictionLegendSize,mapunits.list,predictionLegendBackground,
-                                        break1,Mcolors,
-                                        enable_plotlyMaps,output_map_type,
-                                        lineWidth,lon_limit,lat_limit,nlty,nlwd,CRStext,
-                                        mapdataname,predictionMapColors,add_plotlyVars,
-                                        mapScenarios,predictionMapBackground,LineShapeGeo,
-                                        mapvarname,predictionClassRounding,
-                                        commonvar,
-                                        map_years,map_seasons,mapsPerPage,mapPageGroupBy,aggFuncs)
+              mapType <- "stream"
+              #mapdataname <- paste0("vvar",k)
+              map_loop.list<-mapLoopStr(mapType,mapLoopInput.list)
               
               
               unPackList(lists = list(map_loop.list = map_loop.list),
@@ -1018,84 +1018,80 @@ predictMaps<-function(#Rshiny
             
 
           }
-          reportPath<-paste0(path_master,"predictMaps.Rmd")
+          reportPath<-paste0(path_master,"outputMaps.Rmd")
           plots<-setupDynamicMaps(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage, Rshiny, enable_plotlyMaps)
+          if ((input$batch=="Batch" & Rshiny) | !Rshiny){
+          }else{
+            mapdataname <- paste0("vvar",k) 
+          }
+          mapLoopInput.list<- list(
+            file.output.list = file.output.list,
+            GeoLines = GeoLines,
+            plotShape = polyShape,
+            dmapfinal = dmapfinal,
+            plots = plots,
+            k = k,
+            existGeoLines = existGeoLines,
+            Rshiny = Rshiny,
+            input = input,
+            predictionTitleSize = predictionTitleSize,
+            scenario_name = scenario_name,
+            scenario_map_list = scenario_map_list,
+            master_map_list = master_map_list,
+            predictionLegendSize = predictionLegendSize,
+            mapunits.list = mapunits.list,
+            predictionLegendBackground = predictionLegendBackground,
+            break1 = break1,
+            Mcolors = Mcolors,
+            enable_plotlyMaps = enable_plotlyMaps,
+            output_map_type = output_map_type,
+            lineWidth = lineWidth,
+            lon_limit = lon_limit,
+            lat_limit = lat_limit,
+            nlty = nlty,
+            nlwd = nlwd,
+            CRStext = mapping.input.list$CRStext,
+            mapdataname = mapdataname,
+            predictionMapColors = predictionMapColors,
+            add_plotlyVars = add_plotlyVars,
+            mapScenarios = mapScenarios,
+            predictionMapBackground = predictionMapBackground,
+            LineShapeGeo = LineShapeGeo,
+            mapvarname = mapvarname,
+            predictionClassRounding = predictionClassRounding,
+            commonvar = commonvar,
+            map_years = map_years,
+            map_seasons = map_seasons,
+            mapsPerPage = mapsPerPage,
+            mapPageGroupBy = mapPageGroupBy,
+            aggFuncs = aggFuncs
+          )
+   
           # if (((input$batch=="Batch" & Rshiny) |
           #      !Rshiny) & (enable_plotlyMaps!="static" & enable_plotlyMaps!="no")){
           if (((input$batch=="Batch" & Rshiny) | !Rshiny)){
             if (!existGeoLines){GeoLines<-NA}
             htmlFile<-gsub("pdf","html",filename)
             
-            path_predictMapsChild<-file_path_as_absolute(paste0(path_master,"predictMapsChild.Rmd"))
+            rmdTitle<-file.output.list$run_id
+            path_outputMapsChild<-file_path_as_absolute(paste0(path_master,"outputMapsChild.Rmd"))
             
-           
-            rmarkdown::render(
-              reportPath, params = list(
-                file.output.list = file.output.list,
-                predictMapType = "catchment",
-                GeoLines = GeoLines,
-                plotShape = polyShape,
-                dmapfinal = dmapfinal,
-                plots = plots,
-                k = k,
-                existGeoLines = existGeoLines,
-                Rshiny = Rshiny,
-                input = input,
-                predictionTitleSize = predictionTitleSize,
-                scenario_name = scenario_name,
-                scenario_map_list = scenario_map_list,
-                master_map_list = master_map_list,
-                predictionLegendSize = predictionLegendSize,
-                mapunits.list = mapunits.list,
-                predictionLegendBackground = predictionLegendBackground,
-                break1 = break1,
-                Mcolors = Mcolors,
-                enable_plotlyMaps = enable_plotlyMaps,
-                output_map_type = output_map_type,
-                lineWidth = lineWidth,
-                lon_limit = lon_limit,
-                lat_limit = lat_limit,
-                nlty = nlty,
-                nlwd = nlwd,
-                CRStext = CRStext,
-                mapdataname = mapdataname,
-                predictionMapColors = predictionMapColors,
-                add_plotlyVars = add_plotlyVars,
-                mapScenarios = mapScenarios,
-                predictionMapBackground = predictionMapBackground,
-                LineShapeGeo = LineShapeGeo,
-                mapvarname = mapvarname,
-                predictionClassRounding = predictionClassRounding,
-                commonvar = commonvar,              
-                map_years = map_years,
-                map_seasons = map_seasons,
-                mapsPerPage = mapsPerPage,
-                mapPageGroupBy = mapPageGroupBy,
-                aggFuncs = aggFuncs,
-                path_predictMapsChild = path_predictMapsChild
-              ),
-              output_file = htmlFile, quiet = TRUE
+            rmarkdown::render(paste0(path_master,"outputMaps.Rmd"),
+                              params = list(
+                                rmdTitle = rmdTitle,
+                                mapType = "catchment",
+                                mapLoopInput.list = mapLoopInput.list,
+                                path_outputMapsChild = path_outputMapsChild
+                              ),
+                              output_file = htmlFile, quiet = TRUE
             )
-
               
             
           }else{#Rhiny interactive
 
-            predictMapType <- "catchment"
-            mapdataname <- paste0("vvar",k)
-            map_loop.list<-mapLoopStr(file.output.list,predictMapType,GeoLines,
-                                      polyShape,dmapfinal,plots,k,
-                                      existGeoLines,Rshiny,input,
-                                      predictionTitleSize,scenario_name,scenario_map_list,
-                                      master_map_list,predictionLegendSize,mapunits.list,predictionLegendBackground,
-                                      break1,Mcolors,
-                                      enable_plotlyMaps,output_map_type,
-                                      lineWidth,lon_limit,lat_limit,nlty,nlwd,CRStext,
-                                      mapdataname,predictionMapColors,add_plotlyVars,
-                                      mapScenarios,predictionMapBackground,LineShapeGeo,
-                                      mapvarname,predictionClassRounding,
-                                      commonvar,
-                                      map_years,map_seasons,mapsPerPage,mapPageGroupBy,aggFuncs)
+            mapType <- "catchment"
+           # mapdataname <- paste0("vvar",k)
+            map_loop.list<-mapLoopStr(mapType,mapLoopInput.list)
             
             
             unPackList(lists = list(map_loop.list = map_loop.list),

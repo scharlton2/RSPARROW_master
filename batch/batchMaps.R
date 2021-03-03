@@ -56,7 +56,8 @@ if (length(res)!=0){
               "setupDynamicMaps.R",
               "test_addPlotlyvars.R",
               "aggDynamicMapdata.R",
-              "mapLoopStr.R")
+              "mapLoopStr.R",
+              "predictMaps_single.R")
   for (r in routines){
     source(paste0(path_main,.Platform$file.sep,"R",.Platform$file.sep,r))
   }
