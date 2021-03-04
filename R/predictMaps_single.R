@@ -1,5 +1,5 @@
 predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData,titleStr,subTitle,
-                             legendPos,legendJus,g_legend,usedColors){
+                             legendPos,legendJus,usedColors){
   
   unPackList(lists = list(mapLoopInput.list = mapLoopInput.list),
              parentObj = list(NA))
