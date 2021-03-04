@@ -86,7 +86,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                           scenario.input.list = scenario.input.list, 
                           mapping.input.list = mapping.input.list),
              parentObj = list(NA,NA, NA)) 
-  
+
   #compile all user input and convert hottables to dataframes
   compileALL<-compileALL(input, output, session, path_results, choices)
   compiledInput<-compileALL$compiledInput
@@ -197,11 +197,79 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
         }else if (input$mapType=="Site Attributes"){
           showModal(dataModal())
           
-          p<-mapSiteAttributes(#Rshiny
-            compiledInput,NA, path_gis, sitedata, LineShapeGeo,data_names,TRUE,
-            #regular
-            mapColumn,mapdata,GeoLines,mapping.input.list,
-            strTitle,unitAttr,batch_mode)
+          # p<-mapSiteAttributes(#Rshiny
+          #   compiledInput,NA, path_gis, sitedata, LineShapeGeo,data_names,TRUE,
+          #   #regular
+          #   mapColumn,mapdata,GeoLines,mapping.input.list,
+          #   strTitle,unitAttr,batch_mode)
+
+          
+          mapType<-"site"
+          aggFuncs<-c("mean","median","min","max")
+          
+          map_years<-as.character(compiledInput$yearSelect)
+          if (length(map_years)!=0 & !map_years[1] %in% aggFuncs){
+            map_years<-as.numeric(map_years)
+          }else if (length(map_years)==0){
+            map_years<-NA
+          }
+          map_seasons<-as.character(compiledInput$seasonSelect)
+          if (length(map_seasons)==0){
+            map_seasons<-NA
+          }
+          
+
+          mapColumn<-as.character(compiledInput$var)
+          attrData<-eval(parse(text=paste0("sitedata$",as.character(compiledInput$var))))
+          MAPID <- eval(parse(text=paste0("sitedata$","waterid_for_RSPARROW_mapping") )) 
+          commonvar<-"tempID"
+          agg_map.list<-aggDynamicMapdata(map_years,map_seasons,
+                                          enable_plotlyMaps = as.character(compiledInput$enablePlotly),
+                                          add_plotlyVars = as.character(compiledInput$plotlyDrop),
+                                          aggFuncs,vvar = attrData,MAPID,commonvar,subdata = sitedata)
+          unPackList(lists = list(agg_map.list = agg_map.list),
+                     parentObj = list(NA)) 
+
+          #prep aggdata for plots
+          mapdata<-merge(uniqueSubdata,mapdata[!names(mapdata) %in% names(uniqueSubdata)[names(uniqueSubdata)!=commonvar]], 
+                         by=commonvar)
+          names(mapdata)[names(mapdata)=="vvar"]<-mapColumn
+          if (map_years %in% aggFuncs | map_seasons %in% aggFuncs){
+           names(mapdata)[names(mapdata)==commonvar]<-"mapping_waterid"
+           add_plotlyVars<-as.character(ifelse(add_plotlyVars=="waterid","mapping_waterid",add_plotlyVars))
+          }else{
+           names(mapdata)[names(mapdata)==commonvar]<-"waterid_for_RSPARROW_mapping" 
+           add_plotlyVars<-as.character(ifelse(add_plotlyVars=="waterid","waterid_for_RSPARROW_mapping",add_plotlyVars))
+          }
+          
+          
+          plots<-setupDynamicMaps(mapdata,map_years,map_seasons,
+                                  mapPageGroupBy=NA,mapsPerPage = 4, Rshiny=TRUE, 
+                                  enable_plotlyMaps = as.character(compiledInput$enablePlotly))
+
+          mapLoopInput.list<-list(plots = plots,
+                                  input = compiledInput,
+                                  attr=NA, 
+                                  path_gis = file.output.list$path_gis, 
+                                  sitedata = mapdata, 
+                                  LineShapeGeo = mapping.input.list$LineShapeGeo,
+                                  data_names = data_names,
+                                  Rshiny = TRUE,
+                                  #regular
+                                  #mapColumn = mapColumn,
+                                  dmapfinal = mapdata,
+                                  GeoLines = NA,
+                                  mapping.input.list = mapping.input.list,
+                                  #strTitle = strTitle,
+                                  #unitAttr = unitAttr,
+                                  batch_mode = batch_mode)
+
+          map_loop.list<-mapLoopStr(mapType,mapLoopInput.list)
+
+          
+          unPackList(lists = list(map_loop.list = map_loop.list),
+                     parentObj = list(NA))
+          p<-pa
           assign("p",p,envir = .GlobalEnv)
           return(p) 
           

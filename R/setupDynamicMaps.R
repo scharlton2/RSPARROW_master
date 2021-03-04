@@ -1,6 +1,6 @@
 setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage, Rshiny, enable_plotlyMaps){
   aggFuncs<-c("mean","median","min","max")
-  
+
   #if "all" selected get list
   if (!is.na(map_years) & (map_years=="all" | map_years %in% aggFuncs)){
     map_years<-unique(dmapfinal$year)
@@ -8,7 +8,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
   if (!is.na(map_seasons) & (map_seasons=="all" | map_seasons %in% aggFuncs)){
     map_seasons<-unique(dmapfinal$season)
   }
-  
+
   #subset data by year and season
   if (!is.na(map_years[1]) & !is.na(map_seasons[1])
       & !map_years %in% aggFuncs & !map_seasons %in% aggFuncs){ #map specific years or seasons
@@ -23,7 +23,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
   
   plotData<-as.data.frame(dmapfinal)
   
-  
+
   #create plot sequence
   plotSeq<-numeric(0)
 
@@ -45,7 +45,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
   }else{
     plots<-unique(plotData[c("year","season")])
   }
-  
+
   if (is.na(mapPageGroupBy)){
     plotSeq<-rep(seq(1,nrow(plots),mapsPerPage),each=mapsPerPage)
   }
@@ -58,7 +58,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
   }else{
     group<-NA
   }
-  
+
   if (!is.na(mapPageGroupBy)){
   if (mapPageGroupBy=="year"){
     plots<-plots[order(plots$year,plots$season),]
@@ -66,7 +66,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
     plots<-plots[order(plots$season,plots$year),]
   }
   }
-  
+
   #fill in blank lines for missing seasons or years
   if(!is.na(group)){
     groupSeq<-numeric(0)
@@ -122,7 +122,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
     }
   }
   
-  
+
   #generate plot sequence variable
   if (is.na(mapPageGroupBy) & ((!is.na(map_years) & map_years %in% aggFuncs & !is.na(map_seasons) & map_seasons %in% aggFuncs) |
                                (is.na(map_years) & is.na(map_seasons)))){#all
@@ -137,6 +137,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
   if (enable_plotlyMaps=="leaflet"){
     plots<-plots[1,]
   }
+
   print(plots)
   return(plots)
 }
