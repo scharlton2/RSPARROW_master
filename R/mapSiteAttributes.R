@@ -106,8 +106,11 @@ mapSiteAttributes<-function(#Rshiny
     mapdata$mapColumn<-mapColumn
     
     #set breakpoints
-    #cls<-unique(mapBreaks(mapdata$mapColumn,siteAttrColors)$brks)
-    cls<-unique(mapBreaks(eval(parse(text=paste0("plotPageData$",mapColumnName))),siteAttrColors)$brks)
+    if (is.na(plotPageData)){
+    cls<-unique(mapBreaks(mapdata$mapColumn,siteAttrColors)$brks)
+    }else{
+      cls<-unique(mapBreaks(eval(parse(text=paste0("plotPageData$",mapColumnName))),siteAttrColors)$brks)
+    }
     cls<-round(cls[2:length(cls)],siteAttrClassRounding)
     
     #size and color
@@ -151,33 +154,36 @@ mapSiteAttributes<-function(#Rshiny
       plotLocStr<-paste0(plotLocStr,")")
       
       if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
+        if (is.na(p)){
         #plotly plot
-        # p<-plot_ly() %>%
-        #   layout(
-        #     showlegend =TRUE,
-        #     xaxis = list(range = lon_limit,
-        #                  showticklabels= TRUE,
-        #                  title = "Longitude"),
-        #     yaxis = list(range = lat_limit,
-        #                  showticklabels = TRUE,
-        #                  title = "Latitude"),
-        #     title = paste0(mapColumnName,"\n",unitAttr))
-      }
-    }#else plotly or leaflet
-    
-    #plotgeolines
-#       if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-#         p <- ggplot() +
-#           geom_sf(data = GeoLines, size = 0.1, fill = siteAttrMapBackground, colour ="black") +
-#           theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-#                              panel.grid.minor = element_blank(), axis.line = element_blank())
-#       }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
-#         p<-p %>%
-#           add_sf(data = GeoLines,  mode = "lines", type = "scatter",
-#                  stroke = I("black"),color = I(cbckgrd),
-#                  name = LineShapeGeo)
-# }
+        p<-plot_ly() %>%
+          layout(
+            showlegend =TRUE,
+            xaxis = list(range = lon_limit,
+                         showticklabels= TRUE,
+                         title = "Longitude"),
+            yaxis = list(range = lat_limit,
+                         showticklabels = TRUE,
+                         title = "Latitude"),
+            title = paste0(mapColumnName,"\n",unitAttr))
+        }#no p
 
+      }#plotly
+    }#else plotly or leaflet
+    if (is.na(p)){
+    #plotgeolines
+      if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
+        p <- ggplot() +
+          geom_sf(data = GeoLines, size = 0.1, fill = siteAttrMapBackground, colour ="black") +
+          theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                             panel.grid.minor = element_blank(), axis.line = element_blank())
+      }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
+        p<-p %>%
+          add_sf(data = GeoLines,  mode = "lines", type = "scatter",
+                 stroke = I("black"),color = I(cbckgrd),
+                 name = LineShapeGeo)
+}
+}#no p
 
     map1 <- mapdata[(mapdata$mapColumn <= cls[1]), ]
     Lat<- map1$xlat

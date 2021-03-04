@@ -13,10 +13,18 @@ input<-list(var=NA, sizeBatch=NA,size=NA)
 ### `r titleAttr`
 ```{r chunkCont{{s}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
 
-mapSiteAttributes(#Rshiny
-  input,"", path_gis, sitedata, LineShapeGeo,data_names,FALSE,
-  #regular
-  names(siteAttr),mapdata,GeoLines,mapping.input.list,titleAttr,unitAttr,batch_mode)
+# mapSiteAttributes(#Rshiny
+#   input,"", path_gis, sitedata, LineShapeGeo,data_names,FALSE,
+#   #regular
+#   names(siteAttr),mapdata,GeoLines,mapping.input.list,titleAttr,unitAttr,batch_mode)
+        p.list<-mapSiteAttributes(#Rshiny
+          input,"", path_gis, sitedata, LineShapeGeo,data_names,Rshiny=FALSE,
+          #regular
+          mapColumn=names(siteAttr),mapdata=mapdata,GeoLines,mapping.input.list,
+          strTitle=titleAttr,unitAttr,add_plotlyVars = mapping.input.list$add_plotlyVars,
+          legendPos='right',legendJus="top",subTitle=NA,p=NA,plotPageData=NA,usedColors=NA,
+          batch_mode)
+p.list$p
 
 ```
 
