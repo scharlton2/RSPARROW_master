@@ -16,7 +16,9 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
   uniqueCols<-eval(parse(text = paste0("as.character(unique(plotPageData$",mapvarname,"))")))
   uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
   break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
-  
+  strlegColor<-paste0("'", uniqueCols[1:length(break1[k][[1]])],"'='", uniqueCols[1:length(break1[k][[1]])],"'",collapse = ",")
+  strlegColor<-paste0("c(",strlegColor,")")
+  plotPageData$mapColor<-eval(parse(text=paste0("plotPageData$",mapvarname)))
   if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
     
     if (existGeoLines){
@@ -26,9 +28,11 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                          aes(colour = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),
                          show.legend = TRUE) +
           coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-          scale_colour_manual(values = uniqueCols[1:length(break1[k][[1]])],
+          #scale_colour_manual(values = uniqueCols[1:length(break1[k][[1]])],
+          scale_colour_manual(values = eval(parse(text = strlegColor)),
                               labels = break1[k][[1]],
-                              name = titleStr) +
+                              name = titleStr,
+                              drop=FALSE) +
           ggtitle(titleStr) +
           theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
                 legend.position=legendPos,
@@ -37,7 +41,7 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                 legend.title = element_text(size = 26*predictionLegendSize,face ='bold'),
                 legend.background = element_rect(fill=predictionLegendBackground),
                 legend.key.size = unit(predictionLegendSize, 'cm')) +
-          guides(col=guide_legend(nrow=length(unique(plotdata$mapColor)))) +
+          guides(col=guide_legend(nrow=length(unique(plotPageData$mapColor)))) +
           ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
         
       }else{#catchment
@@ -45,9 +49,10 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                          aes(fill = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),colour = NA,
                          show.legend = TRUE) +
           coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-          scale_fill_manual(values = uniqueCols[1:length(break1[k][[1]])],
+          scale_fill_manual(values = eval(parse(text = strlegColor)),
                             labels = break1[k][[1]],
-                            name = titleStr) +
+                            name = titleStr,
+                            drop=FALSE) +
           ggtitle(titleStr) +
           theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
                 legend.position=legendPos,
@@ -56,7 +61,7 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                 legend.title = element_text(size = 26*predictionLegendSize,face ='bold'),
                 legend.background = element_rect(fill=predictionLegendBackground),
                 legend.key.size = unit(predictionLegendSize, 'cm')) +
-          guides(fill = guide_legend(nrow=length(unique(plotdata$mapColor)))) +
+          guides(fill = guide_legend(nrow=length(unique(plotPageData$mapColor)))) +
           ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
       }#if catchemnt
       
@@ -67,9 +72,10 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                   aes(colour = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),
                   show.legend = TRUE) +
           coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-          scale_colour_manual(values = uniqueCols[1:length(break1[k][[1]])],
+          scale_colour_manual(values = eval(parse(text = strlegColor)),
                               labels = break1[k][[1]],
-                              name = titleStr) +
+                              name = titleStr,
+                              drop=FALSE) +
           ggtitle(titleStr) +
           theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
                 legend.position=legendPos,
@@ -78,7 +84,7 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                 legend.title = element_text(size = 26*predictionLegendSize,face ='bold'),
                 legend.background = element_rect(fill=predictionLegendBackground),
                 legend.key.size = unit(predictionLegendSize, 'cm')) +
-          guides(col=guide_legend(nrow=length(unique(plotdata$mapColor)))) +
+          guides(col=guide_legend(nrow=length(unique(plotPageData$mapColor)))) +
           ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
       }else{#catchment
         p<-ggplot() +
@@ -86,9 +92,10 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                   aes(fill = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),colour = NA,
                   show.legend = TRUE) +
           coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-          scale_fill_manual(values = uniqueCols[1:length(break1[k][[1]])],
+          scale_fill_manual(values = eval(parse(text = strlegColor)),
                             labels = break1[k][[1]],
-                            name = titleStr) +
+                            name = titleStr,
+                            drop=FALSE) +
           ggtitle(titleStr) +
           theme(plot.title = element_text(hjust = 0.5,size =predictionTitleSize, face = 'bold'),
                 legend.position=legendPos,
@@ -97,7 +104,7 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                 legend.title = element_text(size = 26*predictionLegendSize,face ='bold'),
                 legend.background = element_rect(fill=predictionLegendBackground),
                 legend.key.size = unit(predictionLegendSize, 'cm')) +
-          guides(fill = guide_legend(nrow=length(unique(plotdata$mapColor)))) +
+          guides(fill = guide_legend(nrow=length(unique(plotPageData$mapColor)))) +
           ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
       }#if catchment  
       
@@ -127,7 +134,9 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
       
       if (mapType=="stream"){
         if (!c %in% usedColors & c %in% plotdata2$mapColor){
+          if (nrow(plotdata2)!=0){
           usedColors<-c(usedColors,c)
+          }
           p <- p %>% add_sf(data = plotdata2, mode = "lines", type = "scatter",
                             # color = I(c),
                             color = ~I(mapColor),
@@ -148,7 +157,9 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
         }
       }else{#catchment
         if (!c %in% usedColors & c %in% plotdata2$mapColor){
+          if (nrow(plotdata2)!=0){
           usedColors<-c(usedColors,c)
+          }
           p <- p %>% add_sf(data = plotdata2[1,],
                             type = "scatter", mode = "lines",
                             # color = toRGB(c),
@@ -196,7 +207,7 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
     }
     
   }else{#leaflet
-    
+    if (mapType=="stream"){
     plotdata$mapColor<-eval(parse(text = paste0("plotdata$",mapvarname)))
     plotdata$mapdataname<-eval(parse(text = paste0("plotdata$",mapdataname)))
     lineText<-"~paste('</br> ',master_map_list[k],' :',
@@ -222,6 +233,37 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
       ) %>% 
       addLegend("bottomleft", labels = break1[k][[1]], colors = col2hex(uniqueCols),
                 title = titleStr, opacity = 1)
+    }else{#catchment
+      plotdata$mapColor<-eval(parse(text = paste0("plotdata$",mapvarname)))
+      plotdata$mapdataname<-eval(parse(text = paste0("plotdata$",mapdataname)))
+      
+      lineText<-"~paste('</br> ',master_map_list[k],' :',
+                   round(mapdataname,predictionClassRounding)"
+      
+      lineText<-addMarkerText(lineText,add_plotlyVars,plotdata, plotdata)$markerText
+      
+      lineText<-gsub("~","",lineText)
+      lineTextHTML<-paste0("~lapply(",lineText,",HTML)")
+      
+      plotdata<-st_transform(plotdata, crs = 4326)
+      plotdata<-st_zm(plotdata, drop = T, what = "ZM")
+      p <- mapview(plotdata, fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 
+        .@map %>% 
+        clearMarkers() %>% 
+        clearShapes() %>% 
+        addPolygons(
+          data = plotdata, 
+          color = 'grey', 
+          weight = 0, 
+          stroke = FALSE,
+          fillColor = ~col2hex(mapColor),
+          fillOpacit = 0.9,
+          label = eval(parse(text = lineTextHTML))
+        ) %>% 
+        addLegend("bottomleft", labels = break1[k][[1]], colors = col2hex(uniqueCols),
+                  title = titleStr, opacity = 1)
+      
+    }
   }
   
   p.list<-named.list(p,usedColors)

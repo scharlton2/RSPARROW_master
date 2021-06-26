@@ -86,11 +86,9 @@ mapSiteAttributes<-function(#Rshiny
       titleAttr<-as.character(titleAttr$explanation)
       #strTitle<-titleAttr
       
-      xlat<-sitedata$lat
-      xlon<-sitedata$lon
-      
-      mapdata<-data.frame(xlat,xlon,siteAttr)
-      
+      # xlat<-sitedata$lat
+      # xlon<-sitedata$lon
+      #mapdata<-data.frame(lat = sitedata$lat,lon = sitedata$lon,siteAttr)
     }else{ #not shiny
       #get data
       mapdata <- mapdata
@@ -109,13 +107,18 @@ mapSiteAttributes<-function(#Rshiny
     if (is.na(plotPageData)){
     cls<-unique(mapBreaks(mapdata$mapColumn,siteAttrColors)$brks)
     }else{
+
       cls<-unique(mapBreaks(eval(parse(text=paste0("plotPageData$",mapColumnName))),siteAttrColors)$brks)
     }
     cls<-round(cls[2:length(cls)],siteAttrClassRounding)
     
     #size and color
     sze<-rep(0.45,length(cls))*siteAttr_mapPointSize
+    
     color<-siteAttrColors[1:length(cls)]
+    strlegColor<-paste0("'",col2hex(color),"'='",col2hex(color),"'",collapse = ",")
+    strlegColor<-paste0("c(",strlegColor,")")
+    
     cbckgrd <- siteAttrMapBackground
     uniqueColsleaf<-colorNumeric(color, 1:length(color))
 
@@ -142,7 +145,7 @@ mapSiteAttributes<-function(#Rshiny
       if (!is.na(add_plotlyVars[1])){
 
         add_plotlyVars<-as.character(ifelse(add_plotlyVars=="waterid","waterid_for_RSPARROW_mapping",add_plotlyVars))
-        add_plotlyVars<-as.character(na.omit(ifelse(add_plotlyVars %in% names(mapdata),add_plotlyVars,NA)))
+        add_plotlyVars<-as.character(na.omit(ifelse(add_plotlyVars %in% c(names(mapdata),"lat","lon"),add_plotlyVars,NA)))
 
         #add attributes to markerText
         for (m in add_plotlyVars){
@@ -186,10 +189,18 @@ mapSiteAttributes<-function(#Rshiny
 }#no p
 
     map1 <- mapdata[(mapdata$mapColumn <= cls[1]), ]
-    Lat<- map1$xlat
-    Lon<- map1$xlon
-    strLegend<-paste0(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1])
+    if (!"lat" %in% names(map1)){
+      Lat<- map1$lat
+      Lon<- map1$lon
+    }else{
+      Lat<- map1$lat
+      Lon<- map1$lon
+    }
     
+
+
+    strLegend<-paste0(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1])
+
     if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){  
       eval(parse(text = plotLocStr))
       #update markerList for marker styling
@@ -197,12 +208,20 @@ mapSiteAttributes<-function(#Rshiny
         markerList1<-paste0(markerList,"color = uniqueColsleaf(1))")
         
       }else{
-        markerList1<-paste0(markerList,"line = list(color = uniqueColsleaf(1)),color = uniqueColsleaf(1))")
+        markerList1<-paste0(markerList,"line = list(color = uniqueColsleaf(1)),
+                            color = uniqueColsleaf(1))")
       }
       
 
       #add first class
       if (!uniqueColsleaf(1) %in% usedColors){
+        if (nrow(plotloc)==0){
+          p <- p %>% add_trace(x=0, y = 90, type = "scatter",
+                               mode = "markers",
+                               marker = eval(parse(text = markerList1)),
+                               name = paste0(round(min(mapdata$mapColumn),siteAttrClassRounding)," to ",cls[1]),
+                               legendgroup=uniqueColsleaf(1), showlegend=TRUE)
+        } 
         usedColors<-c(usedColors,uniqueColsleaf(1))
       p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter",
                            mode = "markers",
@@ -224,8 +243,16 @@ mapSiteAttributes<-function(#Rshiny
       #middle classes
       for (k in 1:(length(cls)-1)) {
         map1 <- mapdata[(mapdata$mapColumn > cls[k] & mapdata$mapColumn <= cls[k+1]), ]
-        Lat<- map1$xlat
-        Lon<- map1$xlon
+       if (!"lat" %in% names(map1)){
+         Lat<- map1$lat
+        Lon<- map1$lon
+       }else{
+        Lat<- map1$lat
+        Lon<- map1$lon
+       }
+         
+        
+        
         
         if (k!=(length(cls)-1)){
           strlegend<-paste0(cls[k]," to ",cls[k+1])
@@ -236,14 +263,24 @@ mapSiteAttributes<-function(#Rshiny
         
         if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
           eval(parse(text = plotLocStr))
+          
           #update markerList for marker styling
           if (regexpr("open",pnch)>0){
             markerList2<-paste0(markerList,"color = uniqueColsleaf(k+1))")
           }else{
-            markerList2<-paste0(markerList,"line = list(color = uniqueColsleaf(k+1)),color = uniqueColsleaf(k+1))")
+            markerList2<-paste0(markerList,"line = list(color = uniqueColsleaf(k+1)),
+                                color = uniqueColsleaf(k+1))")
           }
           if (!uniqueColsleaf(k+1) %in% usedColors){
-          usedColors<-c(usedColors,uniqueColsleaf(k+1))
+            if (nrow(plotloc)==0){
+              p <- p %>% add_trace(x=0, y = 90, type = "scatter",
+                                   mode = "markers",
+                                   marker = eval(parse(text = markerList2)),
+                                   name = strlegend,
+                                   legendgroup=uniqueColsleaf(k+1), showlegend=TRUE)
+            } 
+             usedColors<-c(usedColors,uniqueColsleaf(k+1))
+
             p <- p %>% add_trace(data = plotloc, x=~Lon, y = ~Lat, type = "scatter", 
                                  mode = "markers",#color = I(color[k+1]),
                                  marker = eval(parse(text = markerList2)),
@@ -263,9 +300,11 @@ mapSiteAttributes<-function(#Rshiny
         }#end plotly
         
       } #for each middle class k 
+
+      mapdata$Lat<- mapdata$lat
+      mapdata$Lon<- mapdata$lon  
+
       
-      mapdata$Lat<- mapdata$xlat
-      mapdata$Lon<- mapdata$xlon
       mapdata$mapColor<-ifelse(mapdata$mapColumn<=cls[1],col2hex(color)[1],NA)
       for (k in 1:(length(cls)-1)) {
         mapdata$mapColor<-ifelse(mapdata$mapColumn > cls[k] & mapdata$mapColumn <= cls[k+1],
@@ -274,9 +313,20 @@ mapSiteAttributes<-function(#Rshiny
       }
       mapdata$mapColor<-ifelse(is.na(mapdata$mapColor),col2hex(color)[length(color)],mapdata$mapColor)
       mapdata$mapColor<-factor(mapdata$mapColor, levels = col2hex(color))
+      
+      plotPageData$mapColumn<-eval(parse(text = paste0("plotPageData$",mapColumnName)))
+      plotPageData$mapColor<-ifelse(plotPageData$mapColumn<=cls[1],col2hex(color)[1],NA)
+      for (k in 1:(length(cls)-1)) {
+        plotPageData$mapColor<-ifelse(plotPageData$mapColumn > cls[k] & plotPageData$mapColumn <= cls[k+1],
+                                 col2hex(color)[k+1],
+                                 plotPageData$mapColor)
+      }
+      plotPageData$mapColor<-ifelse(is.na(plotPageData$mapColor),col2hex(color)[length(color)],plotPageData$mapColor)
+      plotPageData$mapColor<-factor(plotPageData$mapColor, levels = col2hex(color))
+
       if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-        mapdata<-st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = CRStext)
-        
+        #mapdata<-st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = CRStext)
+        mapdata<-st_as_sf(mapdata,coords = c("lon", "lat"), crs = CRStext)
          p<-p +
           geom_sf(data = mapdata,
                   aes(colour = factor(mapColor, levels = col2hex(color))), 
@@ -284,10 +334,10 @@ mapSiteAttributes<-function(#Rshiny
                   shape = siteAttr_mapPointStyle,
                      show.legend = TRUE) +
           coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-           scale_colour_manual(values = color,
+           scale_colour_manual(values = eval(parse(text = strlegColor)),
                                labels = strLegend,
-                               name = strTitle) +
-           #ggtitle(paste0(mapColumnName,"\n",unitAttr)) +
+                               name = strTitle,
+                               drop = FALSE) +
            ggtitle(strTitle) +
            theme(plot.title = element_text(hjust = 0.5,size =siteAttrTitleSize, face = 'bold'),
                  legend.position=legendPos,
@@ -297,7 +347,7 @@ mapSiteAttributes<-function(#Rshiny
                  legend.background = element_rect(fill=siteAttrMapBackground),
                  legend.key.size = unit(siteAttrLegendSize, 'cm')) +
            #guides(col = guide_legend(ncol=1))
-         guides(col=guide_legend(nrow=length(unique(mapdata$mapColor)))) +
+         guides(col=guide_legend(nrow=length(unique(plotPageData$mapColor)))) +
            ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
 
       }else if (enable_plotlyMaps=="leaflet"){
@@ -305,7 +355,8 @@ mapSiteAttributes<-function(#Rshiny
         
         markerTextHTML<-paste0("~lapply(",markerText,",HTML)")
         
-        mapdata<-st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = 4326)
+       # mapdata<-st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = 4326)
+        mapdata<-st_as_sf(mapdata,coords = c("lon", "lat"), crs = 4326)
         
         p <- mapview(mapdata,
                      fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 

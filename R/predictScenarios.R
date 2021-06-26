@@ -90,6 +90,7 @@ predictScenarios <- function(#Rshiny
   
   if (Rshiny){
     scenario_name<-as.character(input$scenarioName)
+    forecast_filename<-as.character(input$forecast_filename)
   }
   #delete files in subdirectory
   dirout <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,scenario_name,.Platform$file.sep)
@@ -134,7 +135,7 @@ if (!Rshiny){
   input$forecast_filename<-""
 }
       vcheck<-0
-      if (length(input$forecast_filename)==0 | input$forecast_filename==""){
+      if (length(forecast_filename)==0 | forecast_filename==""){
       for (i in 1:length(JacobResults$Parmnames)) {
         for (j in 1:length(scenario_sources)) {
           if(scenario_sources[j] == JacobResults$Parmnames[i]) {vcheck<-vcheck+1}
@@ -142,7 +143,7 @@ if (!Rshiny){
       }
       }
       if(vcheck == length(scenario_sources) |
-         (length(input$forecast_filename)==0 | input$forecast_filename=="")) {  # source names match
+         (length(forecast_filename)!=0 & forecast_filename!="")) {  # source names match
         
         message("Running predict scenarios...")
         

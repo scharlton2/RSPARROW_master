@@ -1,5 +1,5 @@
 mapLoopStr<-function(mapType,mapLoopInput.list){
-
+  aggFuncs<-c("mean","min","max","median")
   unPackList(lists = list(mapLoopInput.list = mapLoopInput.list),
              parentObj = list(NA))
 
@@ -22,10 +22,13 @@ if (Rshiny & mapType=="site"){
     map_seasons<-NA
   }
   mapPageGroupBy<-NA
-  aggFuncs<-c("mean","min","max","median")
-  existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
 
 }
+  
+  if (mapType %in% c("site","resid")){
+    existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
+  }
+  
   map_loop.list<-list(0)
 
   for (i in unique(plots$plotKey)){
@@ -252,26 +255,27 @@ if (Rshiny & mapType=="site"){
 
     if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
       
-      if (nrow(plots[plots$plotKey==i,])==4){
+      if (nrow(plots[plots$plotKey==i & !is.na(plots$year),])==4){
         layoutMat<-rbind(c(1,2,5),c(3,4,5)) 
-      }else if (nrow(plots[plots$plotKey==i,])==3){
+      }else if (nrow(plots[plots$plotKey==i & !is.na(plots$year),])==3){
         layoutMat<-rbind(c(1,2,4),c(3,NA,4)) 
-      }else if (nrow(plots[plots$plotKey==i,])==2){
+      }else if (nrow(plots[plots$plotKey==i & !is.na(plots$year),])==2){
         layoutMat<-rbind(c(1,2,NA),c(1,2,3)) 
       }
 
       if (nrow(plotSub[!is.na(plotSub$year),])>1){ 
-      eval(parse(text = paste0("p",letters[which(unique(plots$plotKey)==i)],"<-arrangeGrob(",pStr,",mylegend, 
+      eval(parse(text = paste0("p",letters[which(unique(plots$plotKey)==i)],"<-gridExtra::arrangeGrob(",pStr,",mylegend, 
                                layout_matrix=layoutMat)")))
       }else{
-        eval(parse(text = paste0("p",letters[which(unique(plots$plotKey)==i)],"<-arrangeGrob(",pStr,")")))
+        eval(parse(text = paste0("p",letters[which(unique(plots$plotKey)==i)],"<-gridExtra::arrangeGrob(",pStr,")")))
       }
       
     }else{#plotly or leaflet
       
   if (nrow(plotSub[!is.na(plotSub$year),])>1){
     if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
-    eval(parse(text = paste0("p",letters[which(unique(plots$plotKey)==i)],"<-plotly::subplot(",pStr,",nrows = ",nrws,",margin = 0.05) %>% layout(title=list(text='<b>",titleStr,"</b>',xanchor='right',x=0.9))")))
+    eval(parse(text = paste0("p",letters[which(unique(plots$plotKey)==i)],"<-plotly::subplot(",pStr,",nrows = ",nrws,",margin = 0.05) %>% 
+                             layout(title=list(text='<b>",titleStr,"</b>',xanchor='right',x=0.9))")))
     }
     
   }else{

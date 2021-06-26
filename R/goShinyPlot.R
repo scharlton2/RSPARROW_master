@@ -231,8 +231,13 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                      parentObj = list(NA)) 
 
           #prep aggdata for plots
-          mapdata<-merge(uniqueSubdata,mapdata[!names(mapdata) %in% names(uniqueSubdata)[names(uniqueSubdata)!=commonvar]], 
-                         by=commonvar)
+          if (!map_years %in% aggFuncs & !map_seasons %in% aggFuncs){
+           mapdata<-merge(uniqueSubdata,mapdata,by=commonvar) 
+          }else{
+            mapdata<-merge(uniqueSubdata,mapdata, 
+                         by=names(mapdata)[names(mapdata) %in% names(uniqueSubdata)]) 
+          }
+          
           names(mapdata)[names(mapdata)=="vvar"]<-mapColumn
           if (map_years %in% aggFuncs | map_seasons %in% aggFuncs){
            names(mapdata)[names(mapdata)==commonvar]<-"mapping_waterid"
@@ -264,6 +269,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                                   #unitAttr = unitAttr,
                                   batch_mode = batch_mode)
 
+if (length(names(mapdata)[names(mapdata) %in% c("lat","lon")])!=0){
           map_loop.list<-mapLoopStr(mapType,mapLoopInput.list)
 
           
@@ -272,7 +278,9 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           p<-pa
           assign("p",p,envir = .GlobalEnv)
           return(p) 
-          
+}else{
+  message("lat/lon NOT unique to timestep, Mapping cannot be completed")
+}
         }else if (input$mapType=="Source Change Scenarios"){
           showModal(dataModal())
           #     compiledInput<-convertHotTables(compiledInput)

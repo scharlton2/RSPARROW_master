@@ -85,7 +85,7 @@ predictScenariosPrep<-function(##Rshiny
       varIndex<-jsrcvar[srcvar==n]
       matchData[,varIndex]<-fData[,names(fData)==n]
     }
-    scenarioFlag<-ifelse(data[which(data[,1] %in% fData$waterid),],1,0)
+    scenarioFlag<-sapply(data[,1],function(x) ifelse(x %in% fData$waterid,1,0))
     data[which(data[,1] %in% fData$waterid),]<-matchData
   }else{#not forecast scenario
   

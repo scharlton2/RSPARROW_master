@@ -11,11 +11,9 @@ params:
   
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE,eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE)
-```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.width=8, fig.height=8}
+
+```{r outputMaps, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.width=8, fig.height=8}
 #unpack params
 path_outputMapsChild<-params$path_outputMapsChild
 mapType<-params$mapType
@@ -57,7 +55,7 @@ rmd <- paste(rmd, collapse = "\n")
 
 ```
 
-```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+```{r renderOut, echo=FALSE, results='asis', warning=FALSE, message=FALSE}
 
 rendered <- knitr::knit(text = rmd, quiet = TRUE)
 cat("\n \n")
