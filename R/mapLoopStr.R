@@ -95,7 +95,20 @@ if (Rshiny & mapType=="site"){
         unitAttr<-titleAttr$varunits
         titleStr<-paste0(mapColumnName,"\n",unitAttr)
 
-        }#site maps only
+        }else{#resid maps
+          titleStr<-strTitle
+          
+          if (regexpr("Resid",mapColumn,ignore.case = TRUE)>0 ){
+            threshold<-0
+          }else{
+            threshold<-1
+          }
+          if ("threshold-above" %in% map.list){ 
+            above <- eval(parse(text=paste0("plotdata[(plotdata$",mapColumn,"<",threshold,"),]")))  # over predictions (neg residuals)
+            nabove <- eval(parse(text=paste0("length(above$",mapColumn,")")))
+            titleStr<-paste(strTitle," - Over Predictions - n=",nabove) 
+          } 
+          }#resid
       
 
       if(is.na(map_years) & is.na(map_seasons)){
@@ -177,14 +190,28 @@ if (Rshiny & mapType=="site"){
       if (existGeoLines){
         
         if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-          p <- ggplot() +
+          if (mapType!="resid"){
+           p <- ggplot() +
             geom_sf(data = GeoLines, size = 0.1, fill = predictionMapBackground, colour ="black") +
             theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-                               panel.grid.minor = element_blank(), axis.line = element_blank()) 
+                               panel.grid.minor = element_blank(), axis.line = element_blank())  
+          }else{
+            p <- ggplot() +
+              geom_sf(data = GeoLines, size = 0.1, fill = residualMapBackground, colour ="black") +
+              theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                                 panel.grid.minor = element_blank(), axis.line = element_blank()) 
+          }
+          
         }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
+          if (mapType!="resid"){
         p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                           stroke = I("black"),color = I(predictionMapBackground),
                           name = LineShapeGeo, hoverinfo = "none", showlegend=FALSE)
+          }else{
+            p <- p %>% add_sf(data = GeoLines,  mode = "lines", type = "scatter",
+                              stroke = I("black"),color = I(residualMapBackground),
+                              name = LineShapeGeo, hoverinfo = "none", showlegend=FALSE)
+          }
         
         }
         
@@ -220,6 +247,11 @@ if (Rshiny & mapType=="site"){
           legendPos,legendJus,subTitle,p,plotPageData,usedColors,
           batch_mode)
 
+      }else if (mapType=="resid"){
+        p.list<-diagnosticMaps(mapColumn,mapdata=plotdata,GeoLines,
+                       map.list,strTitle,mapping.input.list,
+                       sitedata = sitedata[sitedata$year==y & sitedata$season==s,],p,
+                       usedColors)
       }
       
       p<-p.list$p
