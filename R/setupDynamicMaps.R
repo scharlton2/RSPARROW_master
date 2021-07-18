@@ -61,11 +61,20 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
 
   if (!is.na(mapPageGroupBy)){
   if (mapPageGroupBy=="year"){
-    plots<-plots[order(plots$year,plots$season),]
+    #plots<-plots[order(plots$year,plots$season),]
+    plots <- plots %>% 
+      arrange(factor(season, levels = c("winter","spring","summer","fall")))
+    plots[order(plots$year),]
   }else if (mapPageGroupBy=="season"){
     plots<-plots[order(plots$season,plots$year),]
   }
+  }else if (!is.na(map_seasons) & (is.na(map_years) | length(map_years)==1)){
+    if (length(map_seasons)>1){
+      plots <- plots %>% 
+        arrange(factor(season, levels = c("winter","spring","summer","fall")))
+    }
   }
+  
 
   #fill in blank lines for missing seasons or years
   if(!is.na(group)){

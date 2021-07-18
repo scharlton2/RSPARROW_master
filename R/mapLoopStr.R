@@ -219,7 +219,7 @@ if (Rshiny & mapType=="site"){
       }
 
       if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-        if (nrow(plotSub[!is.na(plotSub$year),])>1){ 
+        if (nrow(plotSub[!is.na(plotSub$year),])>1 & mapType!="resid"){ 
           legendPos<-c(0.1,0.9)
           legendJus<-"left"
         }else{
@@ -249,9 +249,9 @@ if (Rshiny & mapType=="site"){
 
       }else if (mapType=="resid"){
         p.list<-diagnosticMaps(mapColumn,mapdata=plotdata,GeoLines,
-                       map.list,strTitle,mapping.input.list,
+                       map.list,strTitle=titleStr,mapping.input.list,
                        sitedata = sitedata[sitedata$year==y & sitedata$season==s,],p,
-                       usedColors)
+                       usedColors,legendPos,legendJus,subTitle)
       }
       
       p<-p.list$p

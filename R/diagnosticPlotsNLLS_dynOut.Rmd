@@ -107,6 +107,7 @@ p.list<-list()
 
 if (diagnosticPlots_timestep=="season"){
   diagnosticPlots_timestep<-unique(sitedata$season)
+     diagnosticPlots_timestep<-diagnosticPlots_timestep[match(c("winter","spring","summer","fall"),diagnosticPlots_timestep)]
 }else if (diagnosticPlots_timestep=="year"){
   diagnosticPlots_timestep<-unique(sitedata$year)
 }

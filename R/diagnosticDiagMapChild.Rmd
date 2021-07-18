@@ -7,7 +7,7 @@ notPlotly<-ifelse(enable_plotlyMaps=="no",TRUE,FALSE)
 n<-{{n}}
 map.list<-residmapTypes[n]  
 p.list<-diagnosticMaps(mapColumn,mapdata,GeoLines,
-                         map.list,strTitle,mapping.input.list,sitedata,p=NA,usedColors=NA)
+                         map.list,strTitle,mapping.input.list,sitedata,p=NA,usedColors=NA,legendPos='bottom',legendJus='left',subTitle=NA)
 
 p.list$p  
 ```
@@ -16,7 +16,7 @@ p.list$p
 n<-{{n}}
 map.list<-residmapTypes[n]  
 p.list<-diagnosticMaps(mapColumn,mapdata,GeoLines,
-                         map.list,strTitle,mapping.input.list,sitedata,p=NA,usedColors=NA)
+                         map.list,strTitle,mapping.input.list,sitedata,p=NA,usedColors=NA,legendPos='bottom',legendJus='left', subTitle)
 
 p.list$p  
 ```

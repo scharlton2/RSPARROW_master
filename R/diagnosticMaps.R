@@ -25,7 +25,8 @@
 
 
 diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
-                         map.list,strTitle,mapping.input.list,sitedata,p, usedColors){
+                         map.list,strTitle,mapping.input.list,sitedata,p, usedColors,
+                         legendPos,legendJus, subTitle){
   
   # Setup variable lists 
   # create global variable from list names (mapping.input.list)
@@ -101,6 +102,14 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
                          panel.grid.minor = element_blank(), axis.line = element_blank())
     }
+    
+    strlegColor<-paste0("'",seq(1,8,1),"'='",col2hex(color),"'",collapse = ",")
+    strlegColor<-paste0("c(",strlegColor,")")
+    strlegpnch<-paste0("'",seq(1,8,1),"'=",pnch,collapse = ",")
+    strlegpnch<-paste0("c(",strlegpnch,")")
+    strlegSze<-paste0("'",seq(1,8,1),"'=",sze,collapse = ",")
+    strlegSze<-paste0("c(",strlegSze,")")
+    
   }else{#plotly
     pnch<-sapply(residualPointStyle, function(x) as.character(pchPlotlyCross[pchPlotlyCross$pch==x,]$plotly))
 
@@ -275,28 +284,35 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
 
       p<-p +
         geom_sf(data = map1,
-                aes(colour = as.factor(cls), size = as.factor(cls), shape = as.factor(cls)), 
+                aes(colour = factor(cls, levels=seq(1,4,1)), 
+                    size = factor(cls, levels=seq(1,4,1)), 
+                    shape = factor(cls, levels=seq(1,4,1))), 
                 show.legend = TRUE) +
         coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-        scale_colour_manual(values = residualColors[1:4],
+        scale_colour_manual(values = eval(parse(text = strlegColor))[1:4],
                             labels = strLegend[1:4],
-                            name = "Over Predictions") +
-        scale_shape_manual(values = pnch[1:4],
+                            name = "Over Predictions",
+                            drop=FALSE) +
+        scale_shape_manual(values = eval(parse(text = strlegpnch))[1:4],
                            labels = strLegend,
-                           name = "Over Predictions") +
-        scale_size_manual(values = sze[1:4]*residualPointSize_factor,
+                           name = "Over Predictions",
+                           drop=FALSE) +
+        scale_size_manual(values = eval(parse(text = strlegSze))[1:4],
                           labels = strLegend[1:4],
-                          name = "Over Predictions") +
+                          name = "Over Predictions",
+                          drop=FALSE) +
         ggtitle(paste0(mapColumnName,"\n",strTitle2)) +
-        theme(plot.title = element_text(hjust = 0.5,size =residualTitleSize, face = 'bold'),
-              legend.position='bottom',
-              legend.justification = 'left',
-              legend.text = element_text(size = 24*residualLegendSize),
-              legend.title = element_text(size = 26*residualLegendSize,face ='bold'),
+        theme(axis.text.x = element_text(angle=90),
+              plot.title = element_text(hjust = 0.5,size =10*residualTitleSize, face = 'bold'),
+              legend.position=legendPos,
+              legend.justification = legendJus,
+              legend.text = element_text(size = 10*residualLegendSize),
+              legend.title = element_text(size = 10*residualLegendSize,face ='bold'),
               legend.background = element_rect(fill=residualMapBackground),
-              legend.key.size = unit(residualLegendSize, 'cm'),
+              legend.key.size = unit(residualLegendSize*0.8, 'cm'),
               legend.key = element_rect(fill = residualMapBackground)) +
-        guides(col = guide_legend(ncol=1), size = "legend", shape = "legend")
+        guides(col = guide_legend(ncol=1), size = "legend", shape = "legend") +
+        ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
 
       
     }
@@ -447,28 +463,35 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
 
       p<-p +
         geom_sf(data = map1,
-                aes(colour = as.factor(cls), size = as.factor(cls), shape = as.factor(cls)), 
+                aes(colour = factor(cls, levels=seq(5,8,1)), 
+                    size = factor(cls, levels=seq(5,8,1)), 
+                    shape = factor(cls, levels=seq(5,8,1))), 
                 show.legend = TRUE) +
         coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-        scale_colour_manual(values = residualColors[5:8],
+        scale_colour_manual(values = eval(parse(text = strlegColor))[5:8],
                             labels = strLegend[1:4],
-                            name = "Under Predictions") +
-        scale_shape_manual(values = pnch[5:8],
+                            name = "Under Predictions",
+                            drop=FALSE) +
+        scale_shape_manual(values = eval(parse(text = strlegpnch))[5:8],
                            labels = strLegend[1:4],
-                           name = "Under Predictions") +
-        scale_size_manual(values = sze[5:8]*residualPointSize_factor,
+                           name = "Under Predictions",
+                           drop=FALSE) +
+        scale_size_manual(values = eval(parse(text = strlegSze))[5:8],
                           labels = strLegend[1:4],
-                          name = "Under Predictions") +
+                          name = "Under Predictions",
+                          drop=FALSE) +
         ggtitle(paste0(mapColumnName,"\n",strTitle2)) +
-        theme(plot.title = element_text(hjust = 0.5,size =residualTitleSize, face = 'bold'),
-              legend.position='bottom',
-              legend.justification = 'left',
-              legend.text = element_text(size = 24*residualLegendSize),
-              legend.title = element_text(size = 26*residualLegendSize,face ='bold'),
+        theme(axis.text.x = element_text(angle=90),
+              plot.title = element_text(hjust = 0.5,size =10*residualTitleSize, face = 'bold'),
+              legend.position=legendPos,
+              legend.justification = legendJus,
+              legend.text = element_text(size = 10*residualLegendSize),
+              legend.title = element_text(size = 10*residualLegendSize,face ='bold'),
               legend.background = element_rect(fill=residualMapBackground),
-              legend.key.size = unit(residualLegendSize, 'cm'),
+              legend.key.size = unit(residualLegendSize*0.8, 'cm'),
               legend.key = element_rect(fill = residualMapBackground)) +
-        guides(col = guide_legend(ncol=1), size = "legend", shape = "legend")
+        guides(col = guide_legend(ncol=1), size = "legend", shape = "legend") +
+        ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
       
       
     }
@@ -610,7 +633,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       
       #create vector of classes for legend
       map1$cls<-makeAESvector(map1,values = seq(1,8,1), breaks = cls, include = "all")
-
+      #map1$cls<-factor(map1$cls,levels=seq(1,8,1))
       map1<-st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
       # save(list = c("mapdata","CRStext","residualColors","strLegend",
       #               "strTitle2","mapColumnName","residualTitleSize","residualLegendSize",
@@ -618,30 +641,36 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       #               "residualPointSize_factor","GeoLines","mapColumn","cls"),file = "D:/mapdata")
       p<-p +
         geom_sf(data = map1,
-                aes(colour = as.factor(cls), size = as.factor(cls), shape = as.factor(cls)), 
+                aes(colour = factor(cls, levels=seq(1,8,1)), 
+                    size = factor(cls, levels=seq(1,8,1)), 
+                    shape = factor(cls, levels=seq(1,8,1))), 
                 show.legend = TRUE) +
         coord_sf(xlim = lon_limit, ylim = lat_limit, crs = CRStext) +
-        scale_colour_manual(values = residualColors[1:8],
+        scale_colour_manual(values = eval(parse(text = strlegColor)),
                             labels = strLegend[1:8],
-                            name = "Over Predictions") +
-        scale_shape_manual(values = pnch[1:8],
+                            name = "Over/Under Predictions",
+                            drop=FALSE) +
+        scale_shape_manual(values = eval(parse(text = strlegpnch)),
                            labels = strLegend,
-                           name = "Over Predictions") +
-        scale_size_manual(values = sze[1:8]*residualPointSize_factor,
+                           name = "Over/Under Predictions",
+                           drop=FALSE) +
+        scale_size_manual(values = eval(parse(text = strlegSze)),
                           labels = strLegend[1:8],
-                          name = "Over Predictions") +
+                          name = "Over/Under Predictions",
+                          drop=FALSE) +
         ggtitle(paste0(mapColumnName,"\n",strTitle2)) +
-        theme(plot.title = element_text(hjust = 0.5,size =residualTitleSize, face = 'bold'),
-              legend.position='bottom',
-              legend.justification = 'left',
-              legend.text = element_text(size = 24*residualLegendSize),
-              legend.title = element_blank(),
+        theme(axis.text.x = element_text(angle=90),
+          plot.title = element_text(hjust = 0.5,size =10*residualTitleSize, face = 'bold'),
+               legend.position=legendPos,
+               legend.justification = legendJus,
+               legend.text = element_text(size = 10*residualLegendSize),
+               legend.title = element_text(size = 10*residualLegendSize,face ='bold'),
               legend.background = element_rect(fill=residualMapBackground),
-              legend.key.size = unit(residualLegendSize, 'cm'),
+               legend.key.size = unit(residualLegendSize*0.8, 'cm'),
               legend.key = element_rect(fill = residualMapBackground)) +
-        guides(col = guide_legend(ncol=1), size = "legend", shape = "legend")
+        guides(col = guide_legend(ncol=1), size = "legend", shape = "legend") +
+        ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
       
-
     }
       p.list<-list(p=p,usedColors=usedColors)
     return(p.list)
