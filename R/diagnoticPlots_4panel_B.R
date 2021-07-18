@@ -95,7 +95,7 @@ diagnoticPlots_4panel_B<-function(sitedata,plotResids,plot.ratio.obs.pred,plot.s
   
   markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
   data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
-  save(data,file="D:/data230")
+
   p4 <- plotlyLayout(plotpredict,Resids2, log = "xy", nTicks = 5, digits = 0,
                      xTitle = paste0("PREDICTED LOAD (",loadUnits,")"), xZeroLine = FALSE,
                      yTitle = "SQUARED LOG RESIDUALS", yZeroLine = FALSE,

@@ -23,8 +23,6 @@ unPackList(lists = list(diagnostic_params = diagnostic_params),
            parentObj = list(NA))
 plotList<-create_diagnosticPlotList()
 
-save(validation,file="D:/validation")
-save(estimate.list,file="D:/estimate.list")
 
 #run setup diagnostic
 if (!validation){
@@ -121,10 +119,10 @@ if (!plotIndex %in% c("p4","p6","p7","p8","p11","p13","p14","p15")){
       subStaid<-sitedata[sitedata$season==t,]$staid  
     }
     
-    save(subStaid,file="D:/subStaid")
+
     # MdiagSub<-MdiagSub[MdiagSub$xstaid %in% subStaid,]
     MdiagSub<-lapply(Mdiagnostics.list,function(x) x[which(MdiagSub$xstaid %in% subStaid)])
-    save(MdiagSub,file=paste0("D:/Mdiagsub_",t))
+
     unPackList(lists = list(MdiagSub = MdiagSub),
                parentObj = list(NA))
     

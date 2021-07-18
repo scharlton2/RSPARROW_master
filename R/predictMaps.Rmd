@@ -102,7 +102,7 @@ path_predictMapsChild<-params$path_predictMapsChild
 ##########################
 ##########################
 
-save(params,file="D:/params")
+
 print(plots)
 
 

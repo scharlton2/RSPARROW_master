@@ -635,10 +635,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       map1$cls<-makeAESvector(map1,values = seq(1,8,1), breaks = cls, include = "all")
       #map1$cls<-factor(map1$cls,levels=seq(1,8,1))
       map1<-st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
-      # save(list = c("mapdata","CRStext","residualColors","strLegend",
-      #               "strTitle2","mapColumnName","residualTitleSize","residualLegendSize",
-      #               "residualMapBackground","pnch","sze",
-      #               "residualPointSize_factor","GeoLines","mapColumn","cls"),file = "D:/mapdata")
+
       p<-p +
         geom_sf(data = map1,
                 aes(colour = factor(cls, levels=seq(1,8,1)), 
