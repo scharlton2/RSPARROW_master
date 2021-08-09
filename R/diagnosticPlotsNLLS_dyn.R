@@ -22,4 +22,21 @@ diagnosticPlotsNLLS_dyn<-function(diagnostic_params){
     
     
   }
+  
+
+  htmlFile<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnosticPlotsNLLS_dynamic",.Platform$file.sep,
+                   "Obs_v_Pred_TimeSeriesPlots.html")
+  rmdTitle<-"Observed vs. Predicted Time Series Plots"
+  path_diagnosticPlotsNLLS_timeSeriesChild<-file_path_as_absolute(paste0(path_master,"diagnosticPlotsNLLS_timeSeriesChild.Rmd"))
+  
+  rmarkdown::render(paste0(path_master,"diagnosticPlotsNLLS_timeSeries.Rmd"),
+                    params = list(
+                      rmdTitle = rmdTitle,
+                      diagnostic_params = diagnostic_params,
+                      path_diagnosticPlotsNLLS_timeSeriesChild = path_diagnosticPlotsNLLS_timeSeriesChild
+                    ),
+                    output_file = htmlFile, quiet = TRUE
+  )
+  
+  
 }
