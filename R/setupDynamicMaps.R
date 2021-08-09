@@ -64,7 +64,7 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
     #plots<-plots[order(plots$year,plots$season),]
     plots <- plots %>% 
       arrange(factor(season, levels = c("winter","spring","summer","fall")))
-    plots[order(plots$year),]
+    plots<-plots[order(plots$year),]
   }else if (mapPageGroupBy=="season"){
     plots<-plots[order(plots$season,plots$year),]
   }
