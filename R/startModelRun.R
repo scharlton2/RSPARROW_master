@@ -195,6 +195,15 @@ startModelRun<-function(file.output.list,
   }
   assign("subdata",subdata,envir = .GlobalEnv)
   
+  dynamic<-checkDynamic(subdata)
+  if(dynamic){
+    if ("year" %in% names(subdata)){
+     add_vars<-as.character(unique(c(add_vars,"year"))) 
+    }
+    if ("season" %in% names(subdata)){
+      add_vars<-as.character(unique(c(add_vars,"season"))) 
+    }
+  }
   
   message("Testing for missing variables in subdata...")
   checkClassificationVars(subdata,class.input.list,batch_mode)
