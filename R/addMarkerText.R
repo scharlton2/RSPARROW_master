@@ -22,6 +22,7 @@
 #'                      generate plotly hover text and `mapData` the data to be plotted
 
 
+
 addMarkerText<-function(markerText,add_plotlyVars,mapData, sourceData){
   
   if (!is.na(add_plotlyVars[1])){
