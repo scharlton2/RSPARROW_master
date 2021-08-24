@@ -145,8 +145,10 @@ if (Rshiny & mapType=="site"){
         subTitle<-paste(y,s)
       }
       
+      if (mapType %in% c("catchment","stream")){
       if (mapScenarios){
         subTitle<-paste0("base ",subTitle," waterids")
+      }
       }
 
       a <- list(
