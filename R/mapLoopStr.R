@@ -144,6 +144,10 @@ if (Rshiny & mapType=="site"){
       }else{
         subTitle<-paste(y,s)
       }
+      
+      if (mapScenarios){
+        subTitle<-paste0("base ",subTitle," waterids")
+      }
 
       a <- list(
         text = paste0("<b>",subTitle,"</b>"),

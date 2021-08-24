@@ -14,6 +14,7 @@
 
 
 testRedTbl<-function(input, output, session, DF){
+
   #convert input to list
   compiledInput<-list()
   for (n in names(input)){
@@ -44,7 +45,12 @@ testRedTbl<-function(input, output, session, DF){
     SourceRedALL<-NULL
     #SourceRedALL<-compiledInput$
   }
+
   SourceRedALLcomplete<-SourceRedALL
+
+  names(SourceRedALL)[which(names(SourceRedALL)=="ModelVariables")]<-"Source"
+  names(DF)[which(names(DF)=="ModelVariables")]<-"Source"
+
   if (!is.null(SourceRedALL)!=0 & length(which(names(DF)=="Source"))!=0){
     for (r in 1:nrow(SourceRedALLcomplete)){
       SourceRedALL<-SourceRedALLcomplete[r,]

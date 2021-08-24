@@ -135,7 +135,7 @@ shinyMap2<-function(
   
   #map type choices
   if (exists("predict.list") & exists("JacobResults")){
-    mapTypeChoices<-c("","Stream","Catchment","Site Attributes","Source Change Scenarios")
+    mapTypeChoices<-c("","Stream","Catchment","Site Attributes","Scenarios for Changes in Sources and/or Delivery Variables (e.g., Climate, Land use)")
     selectSources<-as.character(JacobResults$Parmnames[which(JacobResults$btype %in% c("SOURCE","DELIVF"))])
     
     
@@ -180,8 +180,12 @@ shinyMap2<-function(
                      br(),
                      selectInput("mapType","Map Type",mapTypeChoices),
                      
-
-                     h5(HTML("<font color = 'black'><strong>Dynamic Mapping Settings</strong></font>")),  
+                     
+                     conditionalPanel("input.mapType!='Scenarios for Changes in Sources and/or Delivery Variables (e.g., Climate, Land use)'",
+                     h5(HTML("<font color = 'black'><strong>Dynamic Mapping Settings</strong></font>"))),
+                     conditionalPanel("input.mapType=='Scenarios for Changes in Sources and/or Delivery Variables (e.g., Climate, Land use)'",
+                                      h5(HTML("<font color = 'black'><strong>Dynamic Mapping Display Settings</strong></font>")),
+                                      h6("For Change Scenarios, 'year' and 'season' selection refer to MAPPING DISPLAY ONLY.  To select a timestep as a base or reference condition for the scenario use the 'select reaches' option, or if using a forecasting file to run a scenario include waterids from base timestep to build the forecasting file.")),
                       fluidRow(dropdownButton(circle = FALSE,
                                       label = "year(s)",
                                       inputId = "yearDrop",
@@ -252,7 +256,7 @@ shinyMap2<-function(
           updateSelectInput(session,"enablePlotly","Output Map Format",c("static","leaflet"),selected = "static")
           output$plotlyExplanation<-renderText({"Plotly not available for catchment maps in Interactive mode due to long processing time\n to get interactive catchment maps select Batch mode and enable plotly"
           })
-        }else if (input$mapType=="Source Change Scenarios"){
+        }else if (grepl("Scenarios",input$mapType)){
           if (length(input$`nsScenarios-outType`)==0){
             updateSelectInput(session,"enablePlotly","Output Map Format",c("static","plotly","leaflet"),selected = currentSelect)
             output$plotlyExplanation<-renderText({"Plotly Maps will take longer to render in Interactive mode"})
@@ -294,8 +298,8 @@ shinyMap2<-function(
                                      variable = c("ratio_total","ratio_inc","percent_total","percent_inc"),
                                      definition = c("Ratio of the changed total load to the baseline (unchanged) total load",
                                                     "Ratio of the changed incremental load to the baseline (unchanged) incremental load"))
-            choices$category<-ifelse(choices$category=="Load Predictions","Load Predictions for Changed Sources",
-                                     ifelse(choices$category=="Yield Predictions","Yield Predictions for Changed Sources",choices$category))
+            choices$category<-ifelse(choices$category=="Load Predictions","Load Predictions for Changed Model Variables",
+                                     ifelse(choices$category=="Yield Predictions","Yield Predictions for Changed Model Variables",choices$category))
             choicesScen<-rbind(choicesScen,ratioChoices)
             
             lapply(1:length(as.character(unique(choicesScen$category))), function(c) {
@@ -324,8 +328,8 @@ shinyMap2<-function(
                                    variable = c("ratio_total","ratio_inc","percent_total","percent_inc"),
                                    definition = c("Ratio of the changed total load to the baseline (unchanged) total load",
                                                   "Ratio of the changed incremental load to the baseline (unchanged) incremental load"))
-          choices$category<-ifelse(choices$category=="Load Predictions","Load Predictions for Changed Sources",
-                                   ifelse(choices$category=="Yield Predictions","Yield Predictions for Changed Sources",choices$category))
+          choices$category<-ifelse(choices$category=="Load Predictions","Load Predictions for Changed Model Variables",
+                                   ifelse(choices$category=="Yield Predictions","Yield Predictions for Changed Model Variables",choices$category))
           choicesScen<-rbind(choicesScen,ratioChoices)
           callModule(updateVariable,"nsScenarios", choices= choicesScen, mapType = input$mapType)
         }
@@ -336,7 +340,7 @@ shinyMap2<-function(
       
       
       observe({
-        if (input$mapType %in% c("Source Change Scenarios")){
+        if (grepl("Scenarios",input$mapType)){
           callModule(shinyScenariosMod,"nsScenarios",scenarioRtables,path_results,scenario.input.list, mapping.input.list)
           
         }else if (input$mapType %in% c("Stream","Catchment")){

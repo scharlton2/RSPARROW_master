@@ -42,7 +42,7 @@ shinyErrorTrap<-function(input, path_results, badSettings, errMsg){
       if (input$mapCategory==""){
         errMsg<-"Please select a Mapping Variable Type"
       }
-    }else if (input$mapType=="Source Change Scenarios"){#scenarios
+    }else if (grepl("Scenarios",input$mapType)){#scenarios
       scenDir <- paste0(path_results,.Platform$file.sep,"scenarios",.Platform$file.sep,input$scenarioName,.Platform$file.sep)
       
       if (input$scenarioName==""){

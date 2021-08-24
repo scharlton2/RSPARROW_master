@@ -281,7 +281,7 @@ if (length(names(mapdata)[names(mapdata) %in% c("lat","lon")])!=0){
 }else{
   message("lat/lon NOT unique to timestep, Mapping cannot be completed")
 }
-        }else if (input$mapType=="Source Change Scenarios"){
+        }else if (grepl("Scenarios",input$mapType)){
           showModal(dataModal())
           #     compiledInput<-convertHotTables(compiledInput)
           #get source reduction functions
@@ -381,7 +381,7 @@ if (length(names(mapdata)[names(mapdata) %in% c("lat","lon")])!=0){
               #regular
               mapColumn,mapdata,GeoLines,mapping.input.list,
               strTitle,unitAttr,batch_mode)
-          }else if (input$mapType=="Source Change Scenarios"){
+          }else if (grepl("Scenarios",input$mapType)){
             showModal(dataModal())
             #     compiledInput<-convertHotTables(compiledInput)
             #get source reduction functions
@@ -461,7 +461,7 @@ if (length(names(mapdata)[names(mapdata) %in% c("lat","lon")])!=0){
         )
       ))
       
-      if (input$mapType=="Source Change Scenarios"){
+      if (grepl("Scenarios",input$mapType)){
         compiledInput<-sourceRedFunc(compiledInput)
       }
       

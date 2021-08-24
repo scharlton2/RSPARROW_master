@@ -64,7 +64,7 @@ if (RSPARROW_errorOption=="yes"){
 allMetrics<-as.character(unlist(inputShiny[which(regexpr("Check",names(inputShiny))>0 & names(inputShiny)!="outCheck")]))
 
 
-if (inputShiny$mapType=="Source Change Scenarios"){
+if (grepl("Scenarios",input$mapType)){
   output_map_type<-tolower(as.character(inputShiny$outCheck))
 }else{
   output_map_type<-inputShiny$mapType
@@ -169,7 +169,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
     cat(rgdal::showWKT(sp::proj4string(siteAttrshape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape.prj")) 
   }
   
-}else if (inputShiny$mapType=="Source Change Scenarios"){
+}else if (grepl("Scenarios",input$mapType)){
   
   
   

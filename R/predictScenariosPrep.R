@@ -60,9 +60,9 @@ predictScenariosPrep<-function(##Rshiny
                                    PercentChange = rep(0,length(JacobResults$oEstimate)))
  
   if (Rshiny){
-    if (length(input$forecast_filename)==0 | input$forecast_filename==""){
+    if (length(input$forecast_filename)==0 | input$forecast_filename=="" | input$forecastScenario=="no"){
       forecast_filename<-NA
-    }else{
+    }else if (input$forecastScenario=="yes"){
       forecast_filename<-input$forecast_filename
     }
     if (length(input$use_sparrowNames)!=0){
