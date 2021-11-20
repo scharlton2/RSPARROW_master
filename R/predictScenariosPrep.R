@@ -204,7 +204,21 @@ predictScenariosPrep<-function(##Rshiny
   ###target reach selection
   if (!is.na(select_targetReachWatersheds[1])){
     
-    subdata_target<-hydseqTerm(subdata, select_targetReachWatersheds)
+    # if (checkDynamic(subdata)){
+    #   #loop through timesteps
+    #   if (length(names(subdata)[names(subdata)=="year"])!=0){
+    #     if(unique(subdata$year)!=NA){
+    #       
+    #     }
+    #     
+    #   }
+    #   #find all waterids associated with select_targetReachWatershed mapping_waterids
+    #   
+    # }else{
+     subdata_target<-hydseqTerm(subdata, select_targetReachWatersheds) 
+    # }
+    
+    
     subdata_target<-subdata_target[order(match(subdata_target$waterid,subdata$waterid)),]
     reachFlag<-ifelse(!is.na(subdata_target$hydseq),1,0)
     
