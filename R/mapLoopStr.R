@@ -73,12 +73,25 @@ if (Rshiny & mapType=="site"){
       
    
       if (!mapScenarios){
-        titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k])
+        if (!is.na(mapunits.list[k])){
+         titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k]) 
+        }else{
+          titleStr<-paste0(master_map_list[k]) 
+        }
+        
       }else{
         if (!Rshiny){
+          if (!is.na(mapunits.list[k])){
           titleStr<-paste(scenario_name,scenario_map_list[k],"\n",mapunits.list[k],sep=" ")
+          }else{
+            titleStr<-paste(scenario_name,scenario_map_list[k])
+          }
         }else{
+          if (!is.na(mapunits.list[k])){
           titleStr<-paste(input$scenarioName,master_map_list[k],"\n",mapunits.list[k],sep=" ")
+          }else{
+            titleStr<-paste(input$scenarioName,master_map_list[k]) 
+          }
         }
       }
       }else if (mapType=="site"){
@@ -242,7 +255,7 @@ if (Rshiny & mapType=="site"){
 
       if (mapType %in% c("catchment","stream")){
       p.list<-predictMaps_single(mapType,mapLoopInput.list, p, plotdata,plotPageData,titleStr,subTitle,
-                                 legendPos,legendJus,usedColors)
+                                 legendPos,legendJus,usedColors,mapvarname,i)
       }else if (mapType=="site"){
         
         p.list<-mapSiteAttributes(#Rshiny

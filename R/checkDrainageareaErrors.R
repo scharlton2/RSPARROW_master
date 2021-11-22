@@ -36,7 +36,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
                           mapping.input.list = mapping.input.list),
              parentObj = list(NA, NA)) 
   
-  filename <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_darea_mismatches.pdf")
+  filename1 <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_diagnostic_darea_mismatches.html")
   if (length(na.omit(DAreaFailCheckObj$demtarea))!=0){
     
     if (if_verify_demtarea_maps=="yes"){
@@ -62,7 +62,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
           
           reportPath<-paste0(path_master,"checkDrainageareaErrors.Rmd")
             
-          filename<-gsub("pdf","html",filename)
+          filename1<-gsub("pdf","html",filename1)
 
 
             
@@ -78,19 +78,188 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
                 GeoLines = GeoLines,
                 lineShape = lineShape,
                 title_name = title_name,
-                filename = filename,
+                filename = filename1,
                 path_checkDrainageareaErrorsChild = path_checkDrainageareaErrorsChild
               ),
-              output_file = filename, quiet = TRUE
+              output_file = filename1, quiet = TRUE
+            )
+            shell.exec(filename1)
+           ##################################### 
+            mapunits.list<-data_names[data_names$sparrowNames %in% map.vars.list,]
+            mapunits.list<-mapunits.list[match(mapunits.list$sparrowNames,map.vars.list),]$varunits
+            break2<-list()
+            for (k in 1:length(map.vars.list)){
+              commonvar<-"tempID"
+              
+              
+              
+              aggFuncs<-c("mean","median","min","max")
+              if (map_years=="all" | map_years %in% aggFuncs){
+                map_years<-unique(data1$year)
+              }
+              if (map_seasons=="all" | map_seasons %in% aggFuncs){
+                map_seasons<-unique(data1$season)
+              }
+            
+            prepReturns.list<-checkDrainageareaMapPrep(file.output.list,mapping.input.list,
+                                                       DAreaFailCheckObj,data1, 
+                                                       existGeoLines, commonvar, map.vars.list, k)
+            
+            makePlot<-!is.na(prepReturns.list)
+            if (makePlot){
+              unPackList(lists = list(prepReturns.list = prepReturns.list),
+                         parentObj = list(NA)) 
+           
+            if (!k %in% c(2,3)){
+              break2<-list()
+            break2[k][[1]]<-break1
+            break1<-break2
+            }
+            # if (!is.na(add_plotlyVars[1])){
+              assign("dmap",dmap,envir = .GlobalEnv)
+              assign("data1",data1,envir = .GlobalEnv)
+              
+              assign("break1",break1,envir = .GlobalEnv)
+              assign("Mcol",Mcol,envir = .GlobalEnv)
+             
+              #data1Merge<-merge(dmap,data1,by.x = commonvar, by.y = "waterid")
+              #names(data1Merge)[names(data1Merge)==commonvar]<-"waterid"
+              #data1Merge<-data1Merge[,names(data1Merge) %in% names(data1)]
+              
+              if ((enable_plotlyMaps!="no" & enable_plotlyMaps!="static") | !is.na(add_plotlyVars[1])){
+                
+                if ((!is.na(map_seasons) & !map_seasons %in% aggFuncs) & (!is.na(map_years) & !map_years %in% aggFuncs)){
+                  data1Merge<-merge(dmap,data1,by.x = commonvar, by.y = "waterid")
+                  names(data1Merge)[names(data1Merge)==commonvar]<-"waterid_for_RSPARROW_mapping"
+                  data1Merge<-data1Merge[,names(data1Merge) %in% names(data1)]
+                  
+                  if (is.na(map_years) & is.na(map_seasons)){
+                    dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon")), dmap, data1Merge)$mapData
+                  }else if (is.na(map_seasons)){
+                    dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","year","mapping_waterid")), dmap, data1Merge)$mapData
+                  }else if (is.na(map_years)){
+                    dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","season","mapping_waterid")), dmap, data1Merge)$mapData
+                  }else{
+                    dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","year","season","mapping_waterid")), dmap, data1Merge)$mapData
+                  }
+                  
+                
+                  
+                }else{
+                  if (is.na(map_years) & is.na(map_seasons)){
+                    NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon"))
+                  }else if (is.na(map_seasons)){
+                    NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","year","mapping_waterid"))
+                  }else if (is.na(map_years)){
+                    NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","season","mapping_waterid"))
+                  }else{
+                    NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","year","season","mapping_waterid"))
+                  }
+                  dmapfinal<-merge(dmap,data1,by.x = names(dmap)[names(dmap) %in% names(data1)],
+                                   by.y = names(dmap)[names(dmap) %in% names(data1)])
+                  dmapfinal<-dmapfinal[,names(dmapfinal) %in% NAMES]
+                  
+                }
+                
+              }
+              
+              # dmap<-addMarkerText("",c(add_plotlyVars, "lat","lon"), dmap, data1Merge)$mapData
+              # dmapfinal<-dmap
+            #}
+            
+              commonvar <- lineWaterid
+              names(dmapfinal)[1]<-commonvar
+            
+            reportPath<-paste0(path_master,"outputMaps.Rmd")
+            
+            #create plot sequence
+            plots<-setupDynamicMaps(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage, Rshiny=FALSE, enable_plotlyMaps)
+
+            # if ((input$batch=="Batch" & Rshiny) | !Rshiny){
+            # }else{
+            #   mapdataname <- paste0("vvar",k) 
+            # }
+            input<-list(variable="",scLoadCheck="",batch="",scYieldCheck="",domain="",selectReaches="",sourcesCheck="",factors="")
+            
+            assign("dmapfinal",dmapfinal,envir=.GlobalEnv)
+            
+            mapLoopInput.list<- list(
+              file.output.list = file.output.list,
+              GeoLines = GeoLines,
+              plotShape = lineShape,
+              dmapfinal = dmapfinal,
+              plots = plots,
+              k = k,
+              existGeoLines = existGeoLines,
+              Rshiny = FALSE,
+              input = input,
+              predictionTitleSize = predictionTitleSize,
+              scenario_name = NA,
+              scenario_map_list = NA,
+              master_map_list = map.vars.list,
+              predictionLegendSize = predictionLegendSize,
+              mapunits.list = mapunits.list,
+              predictionLegendBackground = predictionLegendBackground,
+              break1 = break1,
+              Mcolors = Mcol,
+              enable_plotlyMaps = enable_plotlyMaps,
+              output_map_type = output_map_type,
+              lineWidth = lineWidth,
+              lon_limit = lon_limit,
+              lat_limit = lat_limit,
+              nlty = nlty,
+              nlwd = nlwd,
+              CRStext = mapping.input.list$CRStext,
+              mapdataname = "VVAR",
+              predictionMapColors = Mcol,
+              add_plotlyVars = add_plotlyVars,
+              mapScenarios = FALSE,
+              predictionMapBackground = predictionMapBackground,
+              LineShapeGeo = LineShapeGeo,
+              mapvarname = "MAPCOLORS",
+              predictionClassRounding = predictionClassRounding,
+              commonvar = lineWaterid,
+              map_years = map_years,
+              map_seasons = map_seasons,
+              mapsPerPage = mapsPerPage,
+              mapPageGroupBy = mapPageGroupBy,
+              aggFuncs = aggFuncs
             )
             
+            
+            # if ((input$batch=="Batch" & Rshiny) | !Rshiny){
+              
+            if (!existGeoLines){GeoLines<-NA}
+            if (!dir.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_darea_mismatches_maps"))){
+              dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_darea_mismatches_maps"))
+            }
+              filename <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_darea_mismatches_maps",
+                                 .Platform$file.sep,map.vars.list[k],".pdf")
+              htmlFile<-gsub("pdf","html",filename)
+             
+              #path_predictMapsChild<-file_path_as_absolute(paste0(path_master,"predictMapsChild.Rmd"))
+              rmdTitle<-file.output.list$run_id
+              path_outputMapsChild<-file_path_as_absolute(paste0(path_master,"outputMapsChild.Rmd"))
+              
+              rmarkdown::render(paste0(path_master,"outputMaps.Rmd"),
+                                params = list(
+                                  rmdTitle = rmdTitle,
+                                  mapType = "stream",
+                                  mapLoopInput.list = mapLoopInput.list,
+                                  path_outputMapsChild = path_outputMapsChild
+                                ),
+                                output_file = htmlFile, quiet = TRUE
+              )
+            }#if makeplot
+            }#for k
+           ############################################ 
         #}#else plotly
       } # execute if shape files exist
     }
     
     
     #popup pdf of plot
-    shell.exec(filename)
+   
   }#end if all missing original demtarea
   
   # Output mis-matched reach data

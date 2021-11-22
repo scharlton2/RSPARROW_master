@@ -1,17 +1,25 @@
 predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData,titleStr,subTitle,
-                             legendPos,legendJus,usedColors){
+                             legendPos,legendJus,usedColors,mapvarname,i){
   
   unPackList(lists = list(mapLoopInput.list = mapLoopInput.list),
              parentObj = list(NA))
   
-  mapvarname <- paste0("MAPCOLORS",k)  
+  if (mapvarname!="MAPCOLORS"){
+   mapvarname <- paste0("MAPCOLORS",k)  
+  }
+   
   
   if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
     plotdata$mapColor<-eval(parse(text = paste0("plotdata$",mapvarname)))
   }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
     suppressWarnings(remove(list = c(add_plotlyVars)))
   }
-  
+ 
+  if (master_map_list[k]=="hydseq" | master_map_list[k]=="hydseq_new"){
+    Mcolors<-Mcolors[[i]]
+    break1[k][[1]]<-break1[k][[1]][[i]]
+    
+  }
   
   uniqueCols<-eval(parse(text = paste0("as.character(unique(plotPageData$",mapvarname,"))")))
   uniqueCols<-Mcolors[Mcolors %in% uniqueCols]

@@ -93,21 +93,4 @@ add_trace(data = data, x = ~preCalc, y = ~preCalc,
 cat("<P style='page-break-before: always'>") 
 ```
 
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}
 
-rmd <- sapply(
-  1:(length(map.vars.list)),
-  function(k) {
-   knit_expand(path_checkDrainageareaErrorsChild, k = k)
-  }
-)
-rmd <- paste(rmd, collapse = "\n")
-        
-              
-```
-
-```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-rendered <- knit(text = rmd, quiet = TRUE)
-cat("\n \n")
-cat(rendered, sep = "\n")
-```

@@ -147,6 +147,6 @@ setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPe
     plots<-plots[1,]
   }
 
-  print(plots)
+ # print(plots)
   return(plots)
 }
