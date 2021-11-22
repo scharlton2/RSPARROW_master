@@ -60,6 +60,17 @@ predictScenariosPrep<-function(##Rshiny
                                    PercentChange = rep(0,length(JacobResults$oEstimate)))
  
   if (Rshiny){
+    map_years<-as.character(input$yearSelect)
+    if (length(map_years)!=0 & !map_years[1] %in% c("mean","median","min","max")){
+      map_years<-as.numeric(map_years)
+    }else if (length(map_years)==0){
+      map_years<-NA
+    }
+    map_seasons<-as.character(input$seasonSelect)
+    if (length(map_seasons)==0){
+      map_seasons<-NA
+    }
+    
     if (length(input$forecast_filename)==0 | input$forecast_filename=="" | input$forecastScenario=="no"){
       forecast_filename<-NA
     }else if (input$forecastScenario=="yes"){
@@ -75,6 +86,13 @@ predictScenariosPrep<-function(##Rshiny
       use_sparrowNames<-FALSE
       }
   }#Rshiny
+  
+  if (map_years=="all"){
+    map_years<-unique(subdata$year)
+  }
+  if (map_seasons=="all"){
+    map_seasons<-unique(subdata$season)
+  }
   
   if (!is.na(forecast_filename)){
     fData<-readForecast(file.output.list,forecast_filename,data_names,srcvar,use_sparrowNames, batch_mode)
@@ -203,20 +221,48 @@ predictScenariosPrep<-function(##Rshiny
   
   ###target reach selection
   if (!is.na(select_targetReachWatersheds[1])){
-    
-    # if (checkDynamic(subdata)){
+    dynamic<-checkDynamic(subdata) 
+    if (dynamic){
     #   #loop through timesteps
-    #   if (length(names(subdata)[names(subdata)=="year"])!=0){
-    #     if(unique(subdata$year)!=NA){
-    #       
-    #     }
-    #     
-    #   }
+      if (!is.na(map_years) & !is.na(map_seasons)){
+        subdata_target<-subdata
+        subdata_target$hydseq<-rep(NA,nrow(subdata_target))
+        for (y in map_years){
+          for (s in map_seasons){
+            hydSub<-subdata[subdata$year==y & subdata$season==s,]
+            subdata_target<-subdata_target[subdata_target$year!=y & subdata_target$season!=s,]
+            select_targetWaterIDs<-hydSub[hydSub$mapping_waterid %in% select_targetReachWatersheds,]$waterid_for_RSPARROW_mapping
+            hydSub_target<-hydseqTerm(hydSub, select_targetWaterIDs)
+            subdata_target<-rbind(subdata_target,hydSub_target)
+          }
+        }
+      }else if (!is.na(map_years)){
+        subdata_target<-subdata
+        subdata_target$hydseq<-rep(NA,nrow(subdata_target))
+        for (y in map_years){
+          hydSub<-subdata[subdata$year==y,]
+          subdata_target<-subdata_target[subdata_target$year!=y,]
+          select_targetWaterIDs<-hydSub[hydSub$mapping_waterid %in% select_targetReachWatersheds,]$waterid_for_RSPARROW_mapping
+          hydSub_target<-hydseqTerm(hydSub, select_targetWaterIDs)
+          subdata_target<-rbind(subdata_target,hydSub_target)
+        }
+      }else if (!is.na(map_seasons)){
+        subdata_target<-subdata
+        subdata_target$hydseq<-rep(NA,nrow(subdata_target))
+        for (s in map_seasons){
+          hydSub<-subdata[subdata$season==s,]
+          subdata_target<-subdata_target[subdata_target$season!=s,]
+          select_targetWaterIDs<-hydSub[hydSub$mapping_waterid %in% select_targetReachWatersheds,]$waterid_for_RSPARROW_mapping
+          hydSub_target<-hydseqTerm(hydSub, select_targetWaterIDs)
+          subdata_target<-rbind(subdata_target,hydSub_target)
+        }
+      }
+
     #   #find all waterids associated with select_targetReachWatershed mapping_waterids
-    #   
-    # }else{
+    #
+     }else{
      subdata_target<-hydseqTerm(subdata, select_targetReachWatersheds) 
-    # }
+     }
     
     
     subdata_target<-subdata_target[order(match(subdata_target$waterid,subdata$waterid)),]

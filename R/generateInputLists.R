@@ -109,7 +109,9 @@ generateInputLists<-function(settings){
                                   scenario_factors,
                                   landuseConversion,
                                   forecast_filename,
-                                  use_sparrowNames)
+                                  use_sparrowNames,
+                                  map_years,
+                                  map_seasons)
   
   assign("estimate.input.list",estimate.input.list,envir = .GlobalEnv)
   assign("mapping.input.list",mapping.input.list,envir = .GlobalEnv)
