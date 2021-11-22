@@ -58,7 +58,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
         title_name <- c("Pre-calculated DEMTAREA","HYDSEQ","new HYDSEQ for unmatched areas","AreaRatio_New:Old")
         
         
-          path_checkDrainageareaErrorsChild<-file_path_as_absolute(paste0(path_master,"checkDrainageareaErrorsChild.Rmd"))
+          #path_checkDrainageareaErrorsChild<-file_path_as_absolute(paste0(path_master,"checkDrainageareaErrorsChild.Rmd"))
           
           reportPath<-paste0(path_master,"checkDrainageareaErrors.Rmd")
             
@@ -78,8 +78,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
                 GeoLines = GeoLines,
                 lineShape = lineShape,
                 title_name = title_name,
-                filename = filename1,
-                path_checkDrainageareaErrorsChild = path_checkDrainageareaErrorsChild
+                filename = filename1
               ),
               output_file = filename1, quiet = TRUE
             )

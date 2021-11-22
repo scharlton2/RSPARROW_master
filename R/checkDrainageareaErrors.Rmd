@@ -15,7 +15,6 @@ params:
   lineShape: lineShape
   title_name: title_name
   filename: filename
-  path_checkDrainageareaErrorsChild: path_checkDrainageareaErrorsChild
 ---
 
 ```{r setup, include=FALSE}
@@ -35,7 +34,6 @@ GeoLines<-params$GeoLines
 lineShape<-params$lineShape
 title_name<-params$title_name
 filename<-params$filename
-path_checkDrainageareaErrorsChild<-params$path_checkDrainageareaErrorsChild
 
 unPackList(lists = list(file.output.list = file.output.list,
                         mapping.input.list = mapping.input.list),
