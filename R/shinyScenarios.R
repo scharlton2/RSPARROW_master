@@ -57,7 +57,8 @@ shinyScenarios<-function(id, input, choices,sitedata,add_plotlyVars, scenario.in
     
     #forcast scenario 
     h4(HTML("<b>Run Scenario using forecasting file input</b>")),
-    h6("Forecasting File is a *.csv file with forecasted Source, Landuse, and/or Delivery Factor data linked to a base or reference set of waterids that currently exist in the model on which to run a forecast scenario."),
+    h6("'Yes' inputs a user-created *.csv file with forecasted Source, Landuse, and/or Delivery Factor data for a future year and/or season. The forecasted data are linked to a base or reference set of 'waterids' (reach and time steps) that currently exist in the model and are required to execute a forecast scenario."), 
+    h6("'No' allows a user to select a base or reference set of 'waterids' (reach and time steps) for inclusion in the change scenarios. Using menu options below, the selection must specify both target reaches as well as the percentage change factors that are applied to the model data and/or coefficients. Change factors can be applied separately to the Source and Delivery model variables, including the option to sub-select reaches and/or time steps using 'dataDictionary' variables."),
     selectInput(ns("forecastScenario"),choices = c("yes","no"),selected = "no",label=""),
     conditionalPanel(condition = paste0("input['",ns("forecastScenario"),"']=='yes'"),
     

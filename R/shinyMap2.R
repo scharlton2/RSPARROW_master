@@ -185,7 +185,7 @@ shinyMap2<-function(
                      h5(HTML("<font color = 'black'><strong>Dynamic Mapping Settings</strong></font>"))),
                      conditionalPanel("input.mapType=='Scenarios for Changes in Sources and/or Delivery Variables (e.g., Climate, Land use)'",
                                       h5(HTML("<font color = 'black'><strong>Dynamic Mapping Display Settings</strong></font>")),
-                                      h6("For Change Scenarios, 'year' and 'season' selection refer to MAPPING DISPLAY ONLY.  To select a timestep as a base or reference condition for the scenario use the 'select reaches' option, or if using a forecasting file to run a scenario include waterids from base timestep to build the forecasting file.")),
+                                      h6("For 'Change Scenarios', the 'year' and/or 'season' selection(s) refer to MAPPING DISPLAY ONLY. To display the mapped results of a change scenario, select a timestep (year and/or season) that is consistent with the user-specified changes in base or reference conditions; the changes can be input from an external forecasting .csv file or expressed as a percentage change in conditions using menu options below). Additional year(s) and/or season(s) may be selected for display to compare historical results with those for the change scenario simulations of model predictions.")),
                       fluidRow(dropdownButton(circle = FALSE,
                                       label = "year(s)",
                                       inputId = "yearDrop",
