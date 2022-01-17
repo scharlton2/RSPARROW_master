@@ -43,7 +43,8 @@ getNumSett<-function(){
                      "diagnosticPlotPointStyle",
                      
                      "confInterval",
-                     "select_targetReachWatersheds"
+                     "select_targetReachWatersheds",
+                     "MLEcovariance_s_offset"
   )
   return(numericSettings)
 }

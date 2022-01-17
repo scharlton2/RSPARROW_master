@@ -14,6 +14,7 @@ getOptionSett<-function(){
                     "select_scenarioReachAreas = c('all reaches','none','selected reaches')",
                     "convertShapeToBinary.list = c('lineShapeName','polyShapeName','LineShapeGeo')",
                     "output_map_type = c('stream','catchment','both')",
-                    "outputESRImaps = c('yes','no')")
+                    "outputESRImaps = c('yes','no')",
+                    "if_MLEcovarianceModel = c(NA,1,2)")
   return(optionSettings)
 }

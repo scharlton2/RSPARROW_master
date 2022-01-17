@@ -110,7 +110,16 @@ estimate <- function(if_estimate,if_predict,file.output.list,
     HesResults <- estimate.metrics.list$HesResults
     ANOVA.list <- estimate.metrics.list$ANOVA.list
     Mdiagnostics.list <- estimate.metrics.list$Mdiagnostics.list
-    estimate.list <- named.list(sparrowEsts,JacobResults,HesResults,ANOVA.list,Mdiagnostics.list)
+    
+    # check for dynamic model for generation of summary metrics
+    dynamic<-checkDynamic(subdata)    # check for dynamic model (TRUE, FALSE)
+    if(dynamic) {
+       ANOVAdynamic.list <- estimate.metrics.list$ANOVAdynamic.list
+       estimate.list <- named.list(sparrowEsts,JacobResults,HesResults,ANOVA.list,Mdiagnostics.list,ANOVAdynamic.list)
+    } else {
+       estimate.list <- named.list(sparrowEsts,JacobResults,HesResults,ANOVA.list,Mdiagnostics.list)
+    }
+
     
     
     if(if_validate == "yes") {
@@ -121,13 +130,17 @@ estimate <- function(if_estimate,if_predict,file.output.list,
       vMdiagnostics.list <- validate.metrics.list$vMdiagnostics.list
       estimate.list <- named.list(sparrowEsts,JacobResults,HesResults,ANOVA.list,Mdiagnostics.list,
                                   vANOVA.list,vMdiagnostics.list)
+      if(dynamic) {
+        estimate.list <- named.list(sparrowEsts,JacobResults,HesResults,ANOVA.list,Mdiagnostics.list,ANOVAdynamic.list,
+                                    vANOVA.list,vMdiagnostics.list)
+      }
     }
     
     
     # Output summary metrics 
     estimateNLLStable(file.output.list,if_estimate,if_estimate_simulation,ifHess,if_sparrowEsts,
                       classvar,sitedata,numsites,
-                      ANOVA.list,JacobResults,HesResults,sparrowEsts,Mdiagnostics.list,
+                      estimate.list,
                       Cor.ExplanVars.list,
                       if_validate,vANOVA.list,vMdiagnostics.list,betavalues,Csites.weights.list)
     

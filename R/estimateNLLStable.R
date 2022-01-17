@@ -49,15 +49,17 @@
 
 estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulation,ifHess,if_sparrowEsts,
                               classvar,sitedata,numsites,
-                              ANOVA.list,JacobResults,HesResults,sparrowEsts,Mdiagnostics.list,
+                              estimate.list,
                               Cor.ExplanVars.list,
                               if_validate,vANOVA.list,vMdiagnostics.list,
                               betavalues,Csites.weights.list) {
   
   
   
-  unPackList(lists = list(file.output.list = file.output.list),
-             parentObj = list(NA)) 
+  unPackList(lists = list(file.output.list = file.output.list,
+                          estimate.list = estimate.list),
+             parentObj = list(NA,
+                              NA)) 
   
   filename <- paste0(path_results,"estimate",.Platform$file.sep,run_id,"_summary.txt")
   dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV"))
@@ -73,6 +75,11 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
                               NA,
                               NA,
                               NA))
+  
+  if(exists("ANOVAdynamic.list")) {   # dynamic model list
+    unPackList(lists = list(ANOVAdynamic.list = ANOVAdynamic.list),
+               parentObj = list(NA))
+  }
   
   if(!is.na(Cor.ExplanVars.list)) {
     unPackList(lists = list(Cor.ExplanVars.list = Cor.ExplanVars.list),
@@ -105,12 +112,18 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   options(width = 500, max.print=50000) 
   
   print(outcharfun("SPARROW NLLS MODEL SUMMARY"))
-  
   print(outcharfun(paste0("MODEL NAME: ",run_id)))
-  
   print(outcharfun(paste0("FILE PATH: ",filename)))
-  
   print(space)
+  
+  if(exists("ANOVAdynamic.list")) {
+    # output dynamic model summary 
+    print(outcharfun("DYNAMIC MODEL SUMMARY"))
+    print(outcharfun(paste0("Maximum number of calibration stations = ",dynsites)))
+    print(outcharfun(paste0("Calibration time period: ",round(dynyearmin)," to ",round(dynyearmax))))
+    print(space)
+  }
+  
   dd <- data.frame(mobs,npar,DF,SSE,MSE,RMSE,RSQ,RSQ_ADJ,RSQ_YLD,PBias)
   colnames(dd) <- c("MOBS","NPARM","DF","SSE","MSE","RMSE","RSQ","RSQ-ADJUST","RSQ-YIELD","PERCENT BIAS")
   ch <- character(1)
@@ -138,6 +151,45 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   if (if_estimate == 'yes') {
     writeLines("\n   Simulated predictions are computed using mean coefficients from the NLLS model \n     that was estimated with monitoring-adjusted (conditioned) predictions\n")
   }
+  
+  ##########################################################
+  # Dynamic model summary
+  
+  if(exists("ANOVAdynamic.list")) {
+  
+   # output seasonal performance metrics
+    if(exists("smobs")) {
+      print(outcharfun("MODEL PERFORMANCE SUMMARY BY SEASON"))
+      
+      # execute seasonal loop
+      cseas <- c("WINTER","SPRING","SUMMER","FALL")
+      for (i in 1:length(smobs)) {
+        print(outcharfun(cseas[i]))
+        dd <- data.frame(smobs[i],sSSE[i],sRSQ[i],sRSQ_YLD[i],sPBias[i])
+        colnames(dd) <- c("MOBS","SSE","RSQ","RSQ-YIELD","PERCENT BIAS")
+        ch <- character(1)
+        row.names(dd) <- ch
+  
+       # only output estimation performance is model estimated (i.e., simulation)
+       if (if_estimate == 'yes') {
+        print(outcharfun("MODEL ESTIMATION PERFORMANCE (Monitoring-Adjusted Predictions)"))
+        print(dd)
+       }
+        
+       dd <- data.frame(smobs[i],psSSE[i],psRSQ[i],psRSQ_YLD[i],psPBias[i])
+       colnames(dd) <- c("MOBS","SSE","RSQ","RSQ-YIELD","PERCENT BIAS")
+       ch <- character(1)
+       row.names(dd) <- ch
+       print(outcharfun("MODEL SIMULATION PERFORMANCE (Simulated Predictions)"))
+       print(dd)
+       
+      }  # end seasonal loop
+     
+    }  # if seasonal model
+    print(space)
+   }   # if dynamic model
+  
+  ##########################################################
   
   if(if_validate == "yes" & if_estimate_simulation == "no"){
     
@@ -377,23 +429,51 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   
   sitedata[,"weight"]  <- NULL   # eliminate 'weight' and use more current value from Csites.weights.list object
   
-  # output largest outliers
+  
+  # output largest outliers  
   Resids <- sparrowEsts$resid
   residCheck <- abs(standardResids)
-  dd <- data.frame(sitedata,standardResids,Resids,leverage,leverageCrit,CooksD,CooksDpvalue,residCheck,weight,tiarea)
-  dd1 <- subset(dd,dd$residCheck > 3 | dd$leverage > dd$leverageCrit | dd$CooksDpvalue < 0.10)
-  keeps <- c("waterid","demtarea","rchname","station_id","station_name","staid",
-             classvar[1],"standardResids","Resids","leverage","leverageCrit","CooksD","CooksDpvalue","weight","tiarea","residCheck")
-  ddnew <- dd1[keeps]
   
-  print(space)
-  print("LARGEST OUTLIERS",quote=FALSE)
-  print("(absolute standardized residual>3, leverage>Critical value, or Cook's D p-value<0.10)",quote=FALSE)
-  print(ddnew)
-  fileout<-paste0(fileCSV,"LargestSqResid.csv")
-  fwrite(ddnew,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
-         dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
+  if(exists("ANOVAdynamic.list")) {  # Dynamic model
+    
+    # output seasonal performance metrics
+    if(exists("smobs") & exists("cyear")) {   # Dynamic seasonal model
+      dd <- data.frame(sitedata,cseason,cyear,standardResids,Resids,leverage,leverageCrit,CooksD,CooksDpvalue,residCheck,weight,tiarea)
+      dd1 <- subset(dd,dd$residCheck > 3 | dd$leverage > dd$leverageCrit | dd$CooksDpvalue < 0.10)
+      keeps <- c("waterid","demtarea","rchname","station_id","station_name","staid",
+                 classvar[1],"season","year","standardResids","Resids","leverage","leverageCrit","CooksD","CooksDpvalue","weight","tiarea","residCheck")
+    } else {   # Mean seasonal or annual dynamic model
+      if(exists("cyear")) {
+         dd <- data.frame(sitedata,cyear,standardResids,Resids,leverage,leverageCrit,CooksD,CooksDpvalue,residCheck,weight,tiarea)
+         dd1 <- subset(dd,dd$residCheck > 3 | dd$leverage > dd$leverageCrit | dd$CooksDpvalue < 0.10)
+         keeps <- c("waterid","demtarea","rchname","station_id","station_name","staid",
+                 classvar[1],"year","standardResids","Resids","leverage","leverageCrit","CooksD","CooksDpvalue","weight","tiarea","residCheck")
+      } else {
+        dd <- data.frame(sitedata,cseason,standardResids,Resids,leverage,leverageCrit,CooksD,CooksDpvalue,residCheck,weight,tiarea)
+        dd1 <- subset(dd,dd$residCheck > 3 | dd$leverage > dd$leverageCrit | dd$CooksDpvalue < 0.10)
+        keeps <- c("waterid","demtarea","rchname","station_id","station_name","staid",
+                   classvar[1],"season","standardResids","Resids","leverage","leverageCrit","CooksD","CooksDpvalue","weight","tiarea","residCheck")
+      }
+    }
   
+    } else {    # Static model
+      dd <- data.frame(sitedata,standardResids,Resids,leverage,leverageCrit,CooksD,CooksDpvalue,residCheck,weight,tiarea)
+      dd1 <- subset(dd,dd$residCheck > 3 | dd$leverage > dd$leverageCrit | dd$CooksDpvalue < 0.10)
+      keeps <- c("waterid","demtarea","rchname","station_id","station_name","staid",
+              classvar[1],"standardResids","Resids","leverage","leverageCrit","CooksD","CooksDpvalue","weight","tiarea","residCheck")
+    }
+  
+    # output largest outlier text
+    ddnew <- dd1[keeps]
+    print(space)
+    print("LARGEST OUTLIERS",quote=FALSE)
+    print("(absolute standardized residual>3, leverage>Critical value, or Cook's D p-value<0.10)",quote=FALSE)
+    print(ddnew)
+    fileout<-paste0(fileCSV,"LargestSqResid.csv")
+    fwrite(ddnew,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
+           dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
+  
+    
   # output CLASS region performance 
   print(space)
   v <- rep(1:length(RMSEnn),1)
