@@ -35,21 +35,25 @@ if (!validation){
       mapType<-"resid"
       aggFuncs<-c("mean","median","min","max")
       
+      if(!is.na(map_years)){
       if (map_years=="all" | map_years %in% aggFuncs){
         map_years<-unique(sitedata$year)
-      }
+      }}
+      if(!is.na(map_seasons)){
       if (map_seasons=="all" | map_seasons %in% aggFuncs){
         map_seasons<-unique(sitedata$season)
-      }
+      }}
       
+      if(!is.na(map_years)){
       if (length(map_years)!=0){
         map_years<-as.numeric(map_years)
       }else if (length(map_years)==0){
         map_years<-NA
-      }
+      }}
+      if(!is.na(map_seasons)){
       if (length(map_seasons)==0){
         map_seasons<-NA
-      }
+      }}
       
       for (n in residmapTypes){
         

@@ -54,6 +54,10 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
       nTicks<-nTicks-1
     }
     
+    if (length(aData)==0){
+      aData<-NA
+    }
+    
     if (!is.na(aData)){
       #test if scientific notation is needed
       if (min(aData, na.rm = TRUE)>1000 | max(aData,na.rm = TRUE)>100000){

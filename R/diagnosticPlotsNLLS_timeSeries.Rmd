@@ -66,12 +66,12 @@ timeSeriesdat<-timeSeriesdat[order(timeSeriesdat$year),]
       
     }else if ("year" %in% names(timeSeriesdat)){
       timeSeriesdat<-timeSeriesdat[order(timeSeriesdat$year),]
-      timeSeriesdat$timeStep<-"year"
+      timeSeriesdat$timeStep<-timeSeriesdat$year
     }else{
             timeSeriesdat <- timeSeriesdat %>% 
         arrange(factor(season, levels = c("winter","spring","summer","fall")))
             
-      timeSeriesdat$timeStep<-"season"
+      timeSeriesdat$timeStep<-timeSeriesdat$season
     }
   }
   

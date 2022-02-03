@@ -133,7 +133,8 @@ checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
           nlwd <- rep(0.8,iprob)
           Mcol<-Mcolors
         }
-      
+      assign("p",p,envir = .GlobalEnv)
+      assign("plots",plots,envir = .GlobalEnv)
         if (p==plots$plotKey[1]){
           dmaptot<-dmap
           # break2[[1]]<-break1

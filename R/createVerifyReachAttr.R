@@ -75,7 +75,7 @@ createVerifyReachAttr <- function(if_verify_demtarea,calculate_reach_attribute_l
               hydseq_data<-rbind(hydseq_data,hydseq_datasub)
               }
             }
-            }else if (length(names(sub1)[names(sub1)=="season"])==0){
+            }else if (length(names(sub1)[names(sub1)=="season"])==0 | all(is.na(sub1$season))){
           #loop through year
               hydseq_data<-sub1[0,]
               for (y in unique(sub1$year)){

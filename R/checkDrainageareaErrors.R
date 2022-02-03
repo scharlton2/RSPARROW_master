@@ -93,11 +93,15 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
               
               
               aggFuncs<-c("mean","median","min","max")
+              if (!is.na(map_years)){
               if (map_years=="all" | map_years %in% aggFuncs){
                 map_years<-unique(data1$year)
               }
+              }
+              if (!is.na(map_seasons)){
               if (map_seasons=="all" | map_seasons %in% aggFuncs){
                 map_seasons<-unique(data1$season)
+              }
               }
             
             prepReturns.list<-checkDrainageareaMapPrep(file.output.list,mapping.input.list,
@@ -146,17 +150,20 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
                   
                 }else{
                   if (is.na(map_years) & is.na(map_seasons)){
-                    NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon"))
+                    NAMES<-unique(c(names(dmap),add_plotlyVars,"lat","lon"))
                   }else if (is.na(map_seasons)){
-                    NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","year","mapping_waterid"))
+                    NAMES<-unique(c(names(dmap),add_plotlyVars,"lat","lon","year","mapping_waterid"))
                   }else if (is.na(map_years)){
-                    NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","season","mapping_waterid"))
+                    NAMES<-unique(c(names(dmap),add_plotlyVars,"lat","lon","season","mapping_waterid"))
                   }else{
-                    NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","year","season","mapping_waterid"))
+                    NAMES<-unique(c(names(dmap),add_plotlyVars,"lat","lon","year","season","mapping_waterid"))
                   }
-                  dmapfinal<-merge(dmap,data1,by.x = names(dmap)[names(dmap) %in% names(data1)],
-                                   by.y = names(dmap)[names(dmap) %in% names(data1)])
+
+                  dmapfinal<-merge(dmap,data1,by.x = commonvar, by.y = "waterid")
                   dmapfinal<-dmapfinal[,names(dmapfinal) %in% NAMES]
+                  # dmapfinal<-merge(dmap,data1,by.x = names(dmap)[names(dmap) %in% names(data1)],
+                  #                  by.y = names(dmap)[names(dmap) %in% names(data1)])
+                  # dmapfinal<-dmapfinal[,names(dmapfinal) %in% NAMES]
                   
                 }
                 

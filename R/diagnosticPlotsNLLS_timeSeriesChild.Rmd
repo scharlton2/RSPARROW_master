@@ -34,7 +34,7 @@ if ("year" %in% names(df) & "season" %in% names(df)){
 }
 
 
-df$timeStep<-factor(df$timeStep,levels=df$timeStep)
+df$timeStep<-factor(df$timeStep,levels=unique(df$timeStep))
 
 p1 <- plot_ly() %>%
   layout(
