@@ -145,13 +145,13 @@ shinyMap2<-function(
   }
   
   if ("year" %in% data_names$sparrowNames){
-    yearChoices<-c("mean","median","min","max",unique(subdata$year))
+    yearChoices<-c("mean","median","min","max",na.omit(unique(subdata$year)))
   }else{
     yearChoices<-c("")
   }
   
   if ("season" %in% data_names$sparrowNames){
-    seasonChoices<-c("mean","median","min","max",unique(subdata$season))
+    seasonChoices<-c("mean","median","min","max",na.omit(unique(subdata$season)))
   }else{
     seasonChoices<-c("")
   }
