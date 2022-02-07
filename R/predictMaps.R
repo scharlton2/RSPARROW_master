@@ -549,13 +549,13 @@ predictMaps<-function(#Rshiny
               
               chk[iprob+1] <- chk[iprob+1]+1
               qvar1 <- vvar
-              qvar1[ qvar1 == 1 ] <- 9999   # code ratios=1 separately
+              qvar1[ qvar1 == 1 ] <- 999999   # code ratios=1 separately
               if (iprob!=0){
                 for (i in 1:iprob) {
-                  qvar1[ qvar1 >= chk[i] & qvar1 < chk[i+1] ] <- 9999+i
+                  qvar1[ qvar1 >= chk[i] & qvar1 < chk[i+1] ] <- 999999+i
                 }
-                max <- 9999+i+2
-                qvar1[ qvar1 == 9999] <- 1       # code values of 1.0
+                max <- 999999+i+2
+                qvar1[ qvar1 == 999999] <- 1       # code values of 1.0
                 for (i in 2:(iprob+1)) {         # reverse code to associate largest reductions with hottest colors
                   qvar1[ qvar1 == (max-i)] <- i
                 }
