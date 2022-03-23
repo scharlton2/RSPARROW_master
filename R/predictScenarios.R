@@ -161,9 +161,10 @@ if (!Rshiny){
           #SelParmValues$srcvar,DataMatrix.list$data.index.list$jsrcvar,
           c(SelParmValues$srcvar,SelParmValues$dlvvar),c(DataMatrix.list$data.index.list$jsrcvar,DataMatrix.list$data.index.list$jdlvvar),
           DataMatrix.list$dataNames,JacobResults,
-          subdata,
+          subdata,SelParmValues,
           #paths
-          file.output.list)
+          file.output.list,
+          batch_mode)
       
 
         # create global variable from list names (JacobResults)

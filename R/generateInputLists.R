@@ -111,7 +111,8 @@ generateInputLists<-function(settings){
                                   forecast_filename,
                                   use_sparrowNames,
                                   map_years,
-                                  map_seasons)
+                                  map_seasons,
+                                  if_mean_adjust_delivery_vars)
   
   assign("estimate.input.list",estimate.input.list,envir = .GlobalEnv)
   assign("mapping.input.list",mapping.input.list,envir = .GlobalEnv)

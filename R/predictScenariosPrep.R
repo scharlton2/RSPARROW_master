@@ -41,9 +41,10 @@ predictScenariosPrep<-function(##Rshiny
   #data
   data,
   srcvar,jsrcvar,dataNames,JacobResults,
-  subdata,
+  subdata,SelParmValues,
   #paths
-  file.output.list){
+  file.output.list,
+  batch_mode){
   
   
   scenarioError<-FALSE
@@ -95,7 +96,9 @@ predictScenariosPrep<-function(##Rshiny
   }
   
   if (!is.na(forecast_filename)){
-    fData<-readForecast(file.output.list,forecast_filename,data_names,srcvar,use_sparrowNames, batch_mode)
+    fData<-readForecast(file.output.list,if_mean_adjust_delivery_vars,use_sparrowNames,
+     subdata,SelParmValues,forecast_filename,data_names, batch_mode)
+
     scenario_sources<-names(fData)[names(fData)!="waterid"]
     matchData<-data[which(data[,1] %in% fData$waterid),]
     fData<-fData[match(matchData[,1],fData$waterid),]
