@@ -61,6 +61,9 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
   path_diagnosticClassLandChild <- file_path_as_absolute(paste0(path_master,"diagnosticClassLandChild.Rmd"))
   path_diagnosticContiguousChild<- file_path_as_absolute(paste0(path_master,"diagnosticContiguousChild.Rmd"))
   path_diagnosticDiagMapChild<-file_path_as_absolute(paste0(path_master,"diagnosticDiagMapChild.Rmd"))
+  path_outputMapsChild<-file_path_as_absolute(paste0(path_master,"outputMapsChild.Rmd"))
+  path_outputMaps<-file_path_as_absolute(paste0(path_master,"outputMaps.Rmd"))
+  
   
   #edit title of report
   reportTitle<-paste0(run_id,"_validation_plots")
@@ -83,6 +86,8 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
       path_diagnosticClassLandChild = path_diagnosticClassLandChild,
       path_diagnosticContiguousChild = path_diagnosticContiguousChild,
       path_diagnosticDiagMapChild = path_diagnosticDiagMapChild,
+      path_outputMapsChild = path_outputMapsChild,
+      path_outputMaps = path_outputMaps,
       class.input.list = class.input.list,
       sitedata.demtarea.class = vsitedata.demtarea.class,
       sitedata = vsitedata,
@@ -98,6 +103,35 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
     output_file = filename, quiet = TRUE
   )
   
+  diagnostic_params<-list(
+    validation = TRUE,
+    file.output.list = file.output.list,
+    path_diagnosticMapAttrChild = path_diagnosticMapAttrChild,
+    path_diagnosticCorrChild = path_diagnosticCorrChild,
+    path_diagnosticClassvarChild = path_diagnosticClassvarChild,
+    path_diagnosticClassLandChild = path_diagnosticClassLandChild,
+    path_diagnosticContiguousChild = path_diagnosticContiguousChild,
+    path_diagnosticDiagMapChild = path_diagnosticDiagMapChild,
+    path_outputMapsChild = path_outputMapsChild,
+    path_outputMaps = path_outputMaps,
+    class.input.list = class.input.list,
+    sitedata.demtarea.class = vsitedata.demtarea.class,
+    sitedata = vsitedata,
+    sitedata.landuse = vsitedata.landuse,
+    estimate.list = estimate.list,
+    mapping.input.list = mapping.input.list,
+    Csites.weights.list = NA,
+    Cor.ExplanVars.list = NA,
+    data_names = data_names,
+    add_vars = add_vars,
+    batch_mode = batch_mode
+  )
+  
+  #if dynamic data
+  if (!is.na(diagnosticPlots_timestep)){
+    diagnosticPlotsNLLS_dyn(diagnostic_params)
+  }
+
  
     #output residuals shapefile
     if (outputESRImaps[3]=="yes"){

@@ -1,6 +1,11 @@
 ```{r chunkclass{{k}},eval = TRUE, echo = FALSE, out.width="750px", out.height="750px", warning = FALSE, message = FALSE}
 k <- {{k}}
-  create_diagnosticPlotList()$p6$plotFunc(eval(parse(text = paste0("named.list(",create_diagnosticPlotList()$p6$plotParams,")"))))
+pIndex<-{{pIndex}}
+if (pIndex==6){
+  create_diagnosticPlotList()$p6$plotFunc(eval(parse(text =create_diagnosticPlotList()$p6$plotParams)))
+}else{
+ create_diagnosticPlotList()$p13$plotFunc(eval(parse(text =create_diagnosticPlotList()$p13$plotParams))) 
+}
 
 # vvar <- as.numeric(eval(parse(text=paste0("sitedata$",classvar[k]) )))
 # 

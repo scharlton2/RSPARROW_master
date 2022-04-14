@@ -39,13 +39,15 @@ if (!validation){
   
 }else{
   unPackList(lists = list(mapping.input.list = mapping.input.list,
-                          vMdiagnostics.list = estimate.list$vMdiagnostics.list,
+                          Mdiagnostics.list = estimate.list$vMdiagnostics.list,
                           file.output.list = file.output.list,
                           class.input.list = class.input.list),
              parentObj = list(NA,
                               NA,
                               NA,
                               NA))
+  Mdiagnostics.list <- estimate.list$vMdiagnostics.list
+  sitedata$staid<-sitedata$vstaid
 }
 
 hline <- function(y = 0, color = "red") {
@@ -94,6 +96,19 @@ grp <- as.numeric(levels(xx$Var1)[xx$Var1])  # convert factor levels to numeric 
 
 plotList<-create_diagnosticPlotList()
 
+  if (validation){
+    vPlot.list<-list()
+    for (n in 1:length(names(plotList))){
+      vTest2<-list()
+      vTest<-plotList[[n]]
+      if (vTest$vPlot==TRUE){
+        eval(parse(text=paste0("vTest2$",names(plotList)[n],"<-vTest")))
+        vPlot.list<-c(vPlot.list,vTest2)
+      }
+    }
+    plotList<-vPlot.list
+  }
+
 ```
 
 ```{r  echo=FALSE, results='asis', eval=TRUE}
@@ -112,11 +127,16 @@ if (diagnosticPlots_timestep=="season"){
 
 if (!plotIndex %in% c("p4","p6","p7","p8","p11","p13","p14","p15")){
   for (t in diagnosticPlots_timestep){
-    MdiagSub<-estimate.list$Mdiagnostics.list
+    if (!validation){
+     MdiagSub<-estimate.list$Mdiagnostics.list 
+    }else{
+     MdiagSub<-estimate.list$vMdiagnostics.list 
+    }
+    
     if (diagnosticPlots_timestep %in% unique(sitedata$year)){
       subStaid<-sitedata[sitedata$year==t ,]$staid
     }else{
-      subStaid<-sitedata[sitedata$season==t,]$staid  
+      subStaid<-sitedata[sitedata$season==t,]$staid 
     }
     
 
@@ -133,7 +153,7 @@ if (!plotIndex %in% c("p4","p6","p7","p8","p11","p13","p14","p15")){
     sitedata.demtarea.class<-sitedata.demtarea.class[which(sitedata$staid %in% subStaid)]
     
     plotParam.list<-eval(parse(text = paste0("plotList$",plotIndex,"$plotParams")))
-    plotParam.list<-eval(parse(text = paste0("named.list(",plotParam.list,")")))
+    plotParam.list<-eval(parse(text = plotParam.list))
     
     if (plotIndex=="p12"){
       plotParam.list$ratio.obs.pred<-pratio.obs.pred
@@ -172,7 +192,12 @@ if (!plotIndex %in% c("p4","p6","p7","p8","p11","p13","p14","p15")){
     for (i in 1:(length(condLoop))){
       
       for (t in diagnosticPlots_timestep){
-        MdiagSub<-estimate.list$Mdiagnostics.list
+        if (!validation){
+         MdiagSub<-estimate.list$Mdiagnostics.list 
+        }else{
+          MdiagSub<-estimate.list$vMdiagnostics.list
+        }
+        
         if (diagnosticPlots_timestep %in% unique(sitedata$year)){
           subStaid<-sitedata[sitedata$year==t ,]$staid
         }else{
@@ -200,15 +225,21 @@ if (!plotIndex %in% c("p4","p6","p7","p8","p11","p13","p14","p15")){
         sitedata<-sitedata[sitedata$staid %in% subStaid,]
         
         sitedata.landuse_orig<-sitedata.landuse
-        sitedata.landuse<-sitedata.landuse[which(estimate.list$Mdiagnostics.list$xstaid %in% subStaid),]
+        if (!validation){
+         sitedata.landuse<-sitedata.landuse[which(estimate.list$Mdiagnostics.list$xstaid %in% subStaid),] 
+        }else{
+                  sitedata.landuse<-sitedata.landuse[which(estimate.list$vMdiagnostics.list$xstaid %in% subStaid),] 
+ 
+        }
         
-        if(!is.na(Cor.ExplanVars.list)){ 
+        
+        if(!is.na(Cor.ExplanVars.list) & plotIndex %in% c("p4","p11")){ 
           Cor.ExplanVars.list_orig<-Cor.ExplanVars.list
           Cor.ExplanVars.list$cmatrixM_all<-Cor.ExplanVars.list$cmatrixM_all[which(estimate.list$Mdiagnostics.list$xstaid %in% subStaid),]
         }
         
         plotParam.list<-eval(parse(text = paste0("plotList$",plotIndex,"$plotParams")))
-        plotParam.list<-eval(parse(text = paste0("named.list(",plotParam.list,")")))
+        plotParam.list<-eval(parse(text = plotParam.list))
         
         if (plotIndex=="p15"){
           plotParam.list$predict<-ppredict

@@ -6,9 +6,10 @@ create_diagnosticPlotList<-function(){
 Diagnostics are based on the use of conditioned (monitoring-adjusted) predictions. These predictions provide the most accurate reach predictions for use in calibrating the model. The associated residuals and observed to predicted ratios shown in the following section provide the most relevant measures of the accuracy of the model fit to observed loads.
 
 ## Observed vs. predicted for loads and yields and log residuals vs. predicted loads and yields\n"
-  plotList$p1$plotParams<-"diagnosticPlotPointStyle,diagnosticPlotPointSize,
+  plotList$p1$vPlot<-FALSE
+  plotList$p1$plotParams<-"named.list(diagnosticPlotPointStyle,diagnosticPlotPointSize,
                                      predict,Obs,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
-                                     markerList,pnch,markerCols,yldpredict,yldobs,yieldUnits,Resids,hline,validation"
+                                     markerList,pnch,markerCols,yldpredict,yldobs,yieldUnits,Resids,hline,validation)"
 plotList$p1$plotFunc<-function(plotParams.list){
   unPackList(lists = list(plotParams.list = plotParams.list),
              parentObj = list(NA))
@@ -40,9 +41,11 @@ plotList$p1$plotFunc<-function(plotParams.list){
 Diagnostics are based on the use of conditioned (monitoring-adjusted) predictions. These predictions provide the most accurate reach predictions for use in calibrating the model. The associated residuals and observed to predicted ratios shown in the following section provide the most relevant measures of the accuracy of the model fit to observed loads.
 
 ## Boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads\n"  
-  plotList$p2$plotParams<-"Resids,ratio.obs.pred,standardResids,
+  plotList$p2$vPlot<-FALSE
+  plotList$p2$plotParams<-"named.list(Resids,ratio.obs.pred,standardResids,
                                      predict,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
-                                     markerList,pnch,markerCols,validation"
+                                     markerList,pnch,markerCols,validation)"
+
   plotList$p2$plotFunc<-function(plotParams.list){
     
       unPackList(lists = list(plotParams.list = plotParams.list),
@@ -75,10 +78,11 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 Diagnostics are based on the use of conditioned (monitoring-adjusted) predictions. These predictions provide the most accurate reach predictions for use in calibrating the model. The associated residuals and observed to predicted ratios shown in the following section provide the most relevant measures of the accuracy of the model fit to observed loads.
 
 ## Conditioned prediction loads vs. unconditioned (simulated) prediction loads\n"
-  
-  plotList$p3$plotParams<-"ppredict,
+  plotList$p3$vPlot<-FALSE
+  plotList$p3$plotParams<-"named.list(ppredict,
                                      predict,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
-                                     markerList,pnch,markerCols,validation"
+                                     markerList,pnch,markerCols,validation)"
+
   plotList$p3$plotFunc<-function(plotParams.list){
     
       unPackList(lists = list(plotParams.list = plotParams.list),
@@ -119,10 +123,11 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
   plotList$p4$header<-  "# Observed to predicted ratio vs. the area-weighted mean values of the user-selected explanatory variables for the incremental areas between calibration sites \n
 Output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file.
 "
-  
-  plotList$p4$plotParams<-"i,Cor.ExplanVars.list,corrData,
+  plotList$p4$vPlot<-FALSE
+  plotList$p4$plotParams<-"c(named.list(i,Cor.ExplanVars.list,
                             markerList,add_plotlyVars,sitedata,showPlotGrid,
-                                     pnch,markerCols,validation"
+                                     pnch,markerCols,validation),list(corrData=ratio.obs.pred))"
+
   plotList$p4$plotFunc<-function(plotParams.list){
     unPackList(lists = list(plotParams.list = plotParams.list),
                parentObj = list(NA))
@@ -163,14 +168,16 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
   plotList$p5<-list()
   plotList$p5$title<-"ModEstimation_DrainageArea_DecileClass_Box"
   plotList$p5$header<-"## Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites\n"  
-  plotList$p5$plotParams<-"sitedata.demtarea.class,ratio.obs.pred,showPlotGrid,hline,validation"
+  plotList$p5$vPlot<-FALSE
+  plotList$p5$plotParams<-"named.list(sitedata.demtarea.class,ratio.obs.pred,showPlotGrid,hline,validation)"
+
   plotList$p5$plotFunc<-function(plotParams.list){
     
     unPackList(lists = list(plotParams.list = plotParams.list),
                parentObj = list(NA))
     assign("validation",validation,env = parent.frame())
     
-    if (!validation){ 
+    #if (!validation){ 
  
       # sitedata.demtarea.class regions
       
@@ -186,22 +193,23 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
                            fillcolor = "white")
       p <- p %>% layout(shapes = list(hline(1)))
       return(p)
-    }
+   # }
     }#p5 func
   
   ############################################
   plotList$p6<-list()
   plotList$p6$title<-"ModEstimation_Classvar_Decile_Box"
   plotList$p6$header<-  "## Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4) \n"
-  
-  plotList$p6$plotParams<-"k,sitedata,classvar,boxvar,showPlotGrid,hline,validation"
+  plotList$p6$vPlot<-FALSE
+  plotList$p6$plotParams<-"c(named.list(k,sitedata,classvar,showPlotGrid,hline,validation),
+                            list(boxvar=ratio.obs.pred))"
   
   plotList$p6$plotFunc<-function(plotParams.list){
     unPackList(lists = list(plotParams.list = plotParams.list),
                parentObj = list(NA))
     assign("validation",validation,env = parent.frame())
     
-    if (!validation){
+    
   
   vvar <- as.numeric(eval(parse(text=paste0("sitedata$",classvar[k]) )))
   
@@ -215,7 +223,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
               fillcolor = "white") %>%
     layout(shapes = list(hline(1)))
   return(p)
-    }
+    
   }#p6 func
   
   
@@ -225,15 +233,16 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
   plotList$p7$header<-  "## Boxplots of the observed to predicted loads vs. the deciles of the land-use class variable specified by users in the 'class_landuse' control setting\n
 The land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
 "
-  
-  plotList$p7$plotParams<-"k,sitedata.landuse,classvar2,boxvar,showPlotGrid,hline,validation"
+  plotList$p7$vPlot<-FALSE
+  plotList$p7$plotParams<-"c(named.list(k,sitedata.landuse,classvar2,showPlotGrid,hline,validation),
+                            list(boxvar=ratio.obs.pred))"
   
   plotList$p7$plotFunc<-function(plotParams.list){
     unPackList(lists = list(plotParams.list = plotParams.list),
                parentObj = list(NA))
     assign("validation",validation,env = parent.frame())
     
-    if (!validation){
+    
       vvar <- as.numeric(eval(parse(text=paste0("sitedata.landuse$",classvar2[k]) )))
       iprob<-10
       chk <- unique(quantile(vvar, probs=0:iprob/iprob))
@@ -276,7 +285,7 @@ The land-use classes expressed as a percentage of the incremental drainage area 
    
       }
       return(p)
-    }
+    
     
   }#p7 func
  
@@ -286,28 +295,29 @@ The land-use classes expressed as a percentage of the incremental drainage area 
   plotList$p8$header<-  "## Four-plot panels reported separately for each of the contiguous spatial classes specified for the first variable entry for the 'classvar[1]' control setting\n
 The panels include:  observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted loads, and log residuals vs. predicted yields 
 "
-  
-  plotList$p8$plotParams<-"i,grp,class,xx,Obs,predict,yldobs,yldpredict,Resids,add_plotlyVars,showPlotGrid,
-                                     markerList,pnch,markerCols,sitedata,hline,validation"
+  plotList$p8$vPlot<-FALSE
+  plotList$p8$plotParams<-"named.list(i,grp,class,xx,Obs,predict,yldobs,yldpredict,Resids,add_plotlyVars,showPlotGrid,
+                                     markerList,pnch,markerCols,sitedata,hline,validation)"
+
   
   plotList$p8$plotFunc<-function(plotParams.list){
     unPackList(lists = list(plotParams.list = plotParams.list),
                parentObj = list(NA))
     assign("validation",validation,env = parent.frame())
       
-       if (!validation){
-
-      plotclass<-class[,1]
-      plotObs<-Obs
-      plotpredict<-predict
-      plotyldobs<-yldobs
-      plotyldpredict<-yldpredict
-      plotResids<-Resids
-      
+       #if (!validation){
       
       xmrb<-grp[i]
       
       xmrb <- as.double(xmrb)
+      
+
+        plotclass<-class[,1]
+        plotObs<-Obs
+        plotpredict<-predict
+        plotyldobs<-yldobs
+        plotyldpredict<-yldpredict
+        plotResids<-Resids
       
      p<-diagnoticPlots_4panel_A(plotpredict,plotObs,plotyldpredict,plotyldobs,sitedata,plotResids,plotclass,
                                           plotTitles = c("paste0('Observed vs Predicted Load \nCLASS Region = ',filterClass,'(n=',nsites,')')",
@@ -319,7 +329,7 @@ The panels include:  observed vs. predicted loads, observed vs. predicted yields
      return(p)
       
       
-    }
+
   }#p8 func
  #############################################
   plotList$p9<-list()
@@ -327,16 +337,17 @@ The panels include:  observed vs. predicted loads, observed vs. predicted yields
   plotList$p9$header<-"# Model Simulation Performance Diagnostics
 Diagnostics are based on the use of unconditioned predictions (i.e., predictions that are not adjusted for monitoring loads). These predictions (and the associated residuals and observed to predicted ratios shown in the following section) provide the best measure of the predictive skill of the estimated model in simulation mode. The simulated predictions are computed using mean coefficients from the NLLS model estimated with monitoring-adjusted (conditioned) predictions. \n
 Four-plot panel for observed vs. predicted for loads and yields, and log residuals vs. predicted loads and yields"
-  
-  plotList$p9$plotParams<-"diagnosticPlotPointStyle,diagnosticPlotPointSize,
+  plotList$p9$vPlot<-TRUE
+  plotList$p9$plotParams<-"named.list(diagnosticPlotPointStyle,diagnosticPlotPointSize,
                                      ppredict,Obs,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
-                                     markerList,pnch,markerCols,pyldpredict,pyldobs,yieldUnits,pResids,hline,validation"
+                                     markerList,pnch,markerCols,pyldpredict,pyldobs,yieldUnits,pResids,hline,validation)"
+
   plotList$p9$plotFunc<-function(plotParams.list){
     unPackList(lists = list(plotParams.list = plotParams.list),
                parentObj = list(NA))
     assign("validation",validation,env = parent.frame())
     
-    if (!validation){ 
+    #if (!validation){ 
       
       plotObs<-Obs
       plotpredict<-ppredict
@@ -353,7 +364,7 @@ Four-plot panel for observed vs. predicted for loads and yields, and log residua
                                  pnch,markerCols,hline,filterClass = NA)
       
       return(p)
-    }
+    #}
   }#end p9 func
   #######################################################
   plotList$p10<-list()
@@ -361,17 +372,18 @@ Four-plot panel for observed vs. predicted for loads and yields, and log residua
   plotList$p10$header<-"# Model Simulation Performance Diagnostics
 Diagnostics are based on the use of unconditioned predictions (i.e., predictions that are not adjusted for monitoring loads). These predictions (and the associated residuals and observed to predicted ratios shown in the following section) provide the best measure of the predictive skill of the estimated model in simulation mode. The simulated predictions are computed using mean coefficients from the NLLS model estimated with monitoring-adjusted (conditioned) predictions. \n
 Four-plot panel for boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads"  
- 
-  plotList$p10$plotParams<-"pResids,pratio.obs.pred,
+  plotList$p10$vPlot<-TRUE
+  plotList$p10$plotParams<-"named.list(pResids,pratio.obs.pred,
                                      ppredict,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
-                                     markerList,pnch,markerCols,validation"
+                                     markerList,pnch,markerCols,validation)"
+
   plotList$p10$plotFunc<-function(plotParams.list){
     
     unPackList(lists = list(plotParams.list = plotParams.list),
                parentObj = list(NA))
     assign("validation",validation,env = parent.frame())
     
-    if (!validation){  
+    #if (!validation){  
       plotResids<-pResids
       plot.ratio.obs.pred<-pratio.obs.pred
       plot.standardResids<-NA
@@ -387,23 +399,42 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
       assign("Resids2",Resids2,env = parent.frame())
       
       return(p)
-    }
+    #}
   }#end p2 func
   
   plotList$p11<-plotList$p4
   plotList$p11$title<-gsub("Estimation","Simulation",plotList$p11$title)
+  plotList$p11$plotParams<-"c(named.list(i,Cor.ExplanVars.list,
+                            markerList,add_plotlyVars,sitedata,showPlotGrid,
+                                     pnch,markerCols,validation),list(corrData=pratio.obs.pred))"
+  plotList$p11$vPlot<-FALSE
   
   plotList$p12<-plotList$p5
   plotList$p12$title<-gsub("Estimation","Simulation",plotList$p12$title)
+  plotList$p12$plotParams<-"c(named.list(sitedata.demtarea.class,showPlotGrid,hline,validation),
+                            list(ratio.obs.pred=pratio.obs.pred))"
+  plotList$p12$vPlot<-TRUE
   
   plotList$p13<-plotList$p6
   plotList$p13$title<-gsub("Estimation","Simulation",plotList$p13$title)
+  plotList$p13$vPlot<-TRUE
+  plotList$p13$plotParams<-"c(named.list(k,sitedata,classvar,showPlotGrid,hline,validation),
+                            list(boxvar=pratio.obs.pred))"
+  
   
   plotList$p14<-plotList$p7
   plotList$p14$title<-gsub("Estimation","Simulation",plotList$p14$title)
+  plotList$p14$vPlot<-TRUE
+  plotList$p14$plotParams<-"c(named.list(k,sitedata.landuse,classvar2,showPlotGrid,hline,validation),
+                            list(boxvar=pratio.obs.pred))"
+  
   
   plotList$p15<-plotList$p8
   plotList$p15$title<-gsub("Estimation","Simulation",plotList$p15$title)
+  plotList$p15$plotParams<-"c(named.list(i,grp,class,xx,Obs,add_plotlyVars,showPlotGrid,
+                                     markerList,pnch,markerCols,sitedata,hline,validation),
+  list(predict=ppredict,yldobs=pyldobs,yldpredict=pyldpredict,Resids=pResids))"
+  plotList$p15$vPlot<-TRUE
   
   ############################################
  return(plotList)

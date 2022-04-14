@@ -1,9 +1,13 @@
 
 ```{r chunkCorr{{i}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
 i<-{{i}}
+pIndex<-{{pIndex}}
 #corrData<-ratio.obs.pred
-  create_diagnosticPlotList()$p4$plotFunc(eval(parse(text = paste0("named.list(",create_diagnosticPlotList()$p4$plotParams,")"))))
-
+if (pIndex==4){
+  create_diagnosticPlotList()$p4$plotFunc(eval(parse(text =create_diagnosticPlotList()$p4$plotParams)))
+}else{
+   create_diagnosticPlotList()$p4$plotFunc(eval(parse(text =create_diagnosticPlotList()$p11$plotParams)))
+}
 # if(min(Cor.ExplanVars.list$cmatrixM_all[,i])<0 | max(Cor.ExplanVars.list$cmatrixM_all[,i])<0) {
 #   logStr<-""
 # }else{

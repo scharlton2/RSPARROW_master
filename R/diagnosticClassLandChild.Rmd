@@ -1,7 +1,11 @@
 ```{r chunkLand{{l}},eval = TRUE, echo = FALSE,fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
 k <- {{l}}
-  create_diagnosticPlotList()$p7$plotFunc(eval(parse(text = paste0("named.list(",create_diagnosticPlotList()$p7$plotParams,")"))))
-
+pIndex<-{{pIndex}}
+if (pIndex==7){
+  create_diagnosticPlotList()$p7$plotFunc(eval(parse(text =create_diagnosticPlotList()$p7$plotParams)))
+}else{
+    create_diagnosticPlotList()$p14$plotFunc(eval(parse(text =create_diagnosticPlotList()$p14$plotParams)))
+}
 # vvar <- as.numeric(eval(parse(text=paste0("sitedata.landuse$",classvar2[k]) )))
 # iprob<-10
 # chk <- unique(quantile(vvar, probs=0:iprob/iprob))

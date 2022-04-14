@@ -1,16 +1,29 @@
 ```{r chunkCont{{i}},eval = TRUE, echo = FALSE, out.width="750px", out.height="750px", warning = FALSE, message = FALSE}
 # Diagnostics by CLASS (contiguous geographic units)
 i <- {{i}}
+pIndex<-{{pIndex}}
 if (simulation){
-    plotParams<-eval(parse(text = paste0("named.list(",create_diagnosticPlotList()$p8$plotParams,")")))
+  if(pIndex==8){
+       plotParams<-eval(parse(text = create_diagnosticPlotList()$p8$plotParams))
+  }else{
+          plotParams<-eval(parse(text = create_diagnosticPlotList()$p15$plotParams))
+  }
     plotParams$predict<-ppredict
     plotParams$yldobs<-pyldobs
     plotParams$yldpredict<-pyldpredict
     plotParams$Resids<-pResids
 }else{
-  plotParams<-eval(parse(text = paste0("named.list(",create_diagnosticPlotList()$p8$plotParams,")")))
+  if(pIndex==8){
+  plotParams<-eval(parse(text = create_diagnosticPlotList()$p8$plotParams))
+  }else{
+      plotParams<-eval(parse(text = create_diagnosticPlotList()$p15$plotParams))
+  }
 }
+if(pIndex==8){
  create_diagnosticPlotList()$p8$plotFunc(plotParams)
+}else{
+   create_diagnosticPlotList()$p15$plotFunc(plotParams)
+}
 #create_diagnosticPlotList()$p8$plotFunc(eval(parse(text = paste0("named.list(",create_diagnosticPlotList()$p8$plotParams,")"))))
 
 
