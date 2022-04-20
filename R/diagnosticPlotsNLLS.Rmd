@@ -1397,14 +1397,14 @@ if (!validation){
 # Residual MAPS
 #################
 
-if (!validation){
+
 # Setup GEOLINES basemap, if available
 
 #8.8.17 if(!is.na(LineShapeGeo)) {
 
   # Single map of prediction residuals (8 classes) - no monitoring adjustment
   
-  mapTypes<-c("threshold-above","threshold-below","all")
+  residmapTypes<-c("threshold-above","threshold-below","all")
   mapColumn<-"pResids"
   strTitle<-"Model Simulation Log Residuals"
   
@@ -1424,7 +1424,7 @@ diagnosticResidMapExec(validation,existGeoLines,residmapTypes,mapColumn,strTitle
                                  enable_plotlyMaps,add_plotlyVars,path_gis,LineShapeGeo,GeoLines,
                                  data_names,mapping.input.list,batch_mode)
 }
-}
+
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}
@@ -1444,7 +1444,7 @@ if(existGeoLines) {
     #Map Standardized Residuals
     #smapdata <- data.frame(xlat,xlon,standardResids)
     
-    mapTypes<-c("threshold-above","threshold-below","all")
+    residmapTypes<-c("threshold-above","threshold-below","all")
     mapColumn<-"standardResids"
     #mapdata<-smapdata
     strTitle<-"Model Estimation Standardized Residuals"
@@ -1499,7 +1499,7 @@ if (!validation){
     ##########################
     # Map Ratios observed to predicted 
     
-    mapTypes<-c("threshold-above","threshold-below","all")
+    residmapTypes<-c("threshold-above","threshold-below","all")
     mapColumn<-"ratio.obs.pred"
     #mapdata<-data.frame(xlat,xlon,Resids,ratio.obs.pred)
     strTitle<-"Model Estimation Obs.Pred Ratio"
@@ -1546,11 +1546,11 @@ if (!validation){
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE}    
 # if(!dynamic){
 # if(existGeoLines) {   
-if (!validation){
+
   ##########################
   # Map Ratios observed to predicted for no monitoring adjustment
   
-  mapTypes<-c("threshold-above","threshold-below","all")
+  residmapTypes<-c("threshold-above","threshold-below","all")
   mapColumn<-"pratio.obs.pred"
  # mapdata<-pmapdata
   strTitle<-"Model Simulation Obs.Pred Ratio"
@@ -1578,7 +1578,7 @@ diagnosticResidMapExec(validation,existGeoLines,residmapTypes,mapColumn,strTitle
 #   )
 #   rmd <- paste(rmd, collapse = "\n")
 # }
- }
+
 ```
 
 ```{r  echo=FALSE, results='asis', warning=FALSE, message=FALSE}

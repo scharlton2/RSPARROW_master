@@ -6,7 +6,7 @@ diagnosticResidMapExec<-function(validation,existGeoLines,residmapTypes,mapColum
                                  data_names,mapping.input.list,batch_mode){
 
 # Setup GEOLINES basemap, if available
-if (!validation){ 
+
   #8.8.17 if(!is.na(LineShapeGeo)) {
   if(existGeoLines) { 
     
@@ -101,7 +101,7 @@ if (!validation){
                                 mapping.input.list = mapping.input.list,
                                 strTitle = strTitle,
                                 batch_mode = batch_mode)
-        
+        if (!validation){
         if (!dir.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnosticPlotsNLLS_dynamic",.Platform$file.sep))){
           dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnosticPlotsNLLS_dynamic",.Platform$file.sep))
         }
@@ -109,6 +109,16 @@ if (!validation){
           dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnosticPlotsNLLS_dynamic",.Platform$file.sep,"residualMaps",.Platform$file.sep))
         }
         filename<- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnosticPlotsNLLS_dynamic",.Platform$file.sep,"residualMaps",.Platform$file.sep,paste0(gsub(" ","",strTitle),"_",n),".html")
+        }else{
+          if (!dir.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"validation_plots_dynamic",.Platform$file.sep))){
+            dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"validation_plots_dynamic",.Platform$file.sep))
+          }
+          if (!dir.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"validation_plots_dynamic",.Platform$file.sep,"residualMaps",.Platform$file.sep))){
+            dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"validation_plots_dynamic",.Platform$file.sep,"residualMaps",.Platform$file.sep))
+          }
+          filename<- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"validation_plots_dynamic",.Platform$file.sep,"residualMaps",.Platform$file.sep,paste0(gsub(" ","",strTitle),"_",n),".html")
+          
+        }
         rmdTitle<-paste0(gsub(" ","",strTitle),"_",n)
         
         rmarkdown::render(path_outputMaps,
@@ -126,5 +136,5 @@ if (!validation){
       
     }#dynamic
   }#existGeolines
-}#!validation
+
 }#end func
