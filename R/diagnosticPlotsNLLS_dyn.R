@@ -17,11 +17,32 @@ diagnosticPlotsNLLS_dyn<-function(diagnostic_params){
     plotList<-vPlot.list
   }
   
+  
+    sPlot.list<-list()
+    for (n in 1:length(names(plotList))){
+      sTest2<-list()
+      sTest<-plotList[[n]]
+      if (sTest$sPlot==TRUE){
+        eval(parse(text=paste0("sTest2$",names(plotList)[n],"<-sTest")))
+        sPlot.list<-c(sPlot.list,sTest2)
+      }
+    }  
+  
+    if (sensitivity){
+    plotList<-sPlot.list
+  }else{
+    #remove sensitivity plots
+    plotList<-plotList[which(!names(plotList) %in% names(sPlot.list))]
+  }
+  
   for (n in names(plotList)){
     if (validation){
       htmlFile<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"validation_plots_dynamic",.Platform$file.sep,
                        eval(parse(text = paste0("plotList$",n,"$title"))),".html")
-    }else{
+    }else if (sensitivity){
+      htmlFile<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_sensitivity_dynamic",.Platform$file.sep,
+                       eval(parse(text = paste0("plotList$",n,"$title"))),".html")
+      }else{
      htmlFile<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnosticPlotsNLLS_dynamic",.Platform$file.sep,
                             eval(parse(text = paste0("plotList$",n,"$title"))),".html") 
     }
@@ -43,7 +64,7 @@ diagnosticPlotsNLLS_dyn<-function(diagnostic_params){
     
   }
   
-if (!validation){
+if (!validation & !sensitivity){
   htmlFile<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnosticPlotsNLLS_dynamic",.Platform$file.sep,
                    "Obs_v_Pred_TimeSeriesPlots.html")
   rmdTitle<-"Observed vs. Predicted Time Series Plots"

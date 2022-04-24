@@ -71,6 +71,7 @@ path_outputMaps<-file_path_as_absolute(paste0(path_master,"outputMaps.Rmd"))
 
 diagnostic_params<-list(
   validation = FALSE,
+  sensitivity = FALSE,
   file.output.list = file.output.list,
   path_diagnosticMapAttrChild = path_diagnosticMapAttrChild,
   path_diagnosticCorrChild = path_diagnosticCorrChild,

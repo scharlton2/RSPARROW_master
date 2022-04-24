@@ -49,6 +49,9 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
   reportPath<-paste0(path_master,"diagnosticSensitivity.Rmd")
   
   path_diagnosticSensParamChild <- file_path_as_absolute(paste0(path_master,"diagnosticSensParamChild.Rmd"))
+  path_outputMapsChild<-file_path_as_absolute(paste0(path_master,"outputMapsChild.Rmd"))
+  path_outputMaps<-file_path_as_absolute(paste0(path_master,"outputMaps.Rmd"))
+  
   
   rmarkdown::render(paste0(path_master,"diagnosticSensitivity.Rmd"),
     params = list(
@@ -72,7 +75,29 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
   load(objfile)
   assign("sensitivities.list",sensitivities.list,envir = .GlobalEnv)
   
+  diagnostic_params<-list(
+    validation = FALSE,
+    sensitivity = TRUE,
+    file.output.list = file.output.list,
+    path_diagnosticSensParamChild = path_diagnosticSensParamChild,
+    path_outputMapsChild = path_outputMapsChild,
+    path_outputMaps = path_outputMaps,
+    classvar = classvar,
+    estimate.list = estimate.list,
+    DataMatrix.list = DataMatrix.list,
+    SelParmValues = SelParmValues,
+    reach_decay_specification = reach_decay_specification,
+    reservoir_decay_specification = reservoir_decay_specification,
+    subdata = subdata,
+    sitedata.demtarea.class = sitedata.demtarea.class,
+    mapping.input.list = mapping.input.list)
+
+
   
+  #if dynamic data
+  if (!is.na(diagnosticPlots_timestep)){
+    diagnosticPlotsNLLS_dyn(diagnostic_params)
+  }  
  
 
   

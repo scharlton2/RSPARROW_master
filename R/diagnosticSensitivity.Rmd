@@ -46,6 +46,11 @@ unPackList(lists = list(SelParmValues = SelParmValues,
                             NA,
                             NA))
 
+if (!dir.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_sensitivity_dynamic",.Platform$file.sep))){
+                dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_sensitivity_dynamic",.Platform$file.sep))
+  
+}
+
 # contiguous class variables by sites
 class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar))) 
 for (k in 1:length(classvar)) { 
@@ -111,6 +116,88 @@ cat(rendered, sep = "\n")
 
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8} 
+create_diagnosticPlotList()$p17$plotFunc(eval(parse(text =create_diagnosticPlotList()$p17$plotParams)))
+
+# 
+# for (i in 1:length(Estimate)) {
+#   x1 <- apredict_sum[,i]
+#   xx <- data.frame(x1,depvar,xclass)
+#   parmsens <- xx[(xx$depvar > 0), ] 
+#   xvalue2[i] <- i
+#   xiqr[,i] <- quantile(parmsens$x1, c(0.05,0.25,0.75,0.95)) 
+#   xmed[i] <- median(parmsens$x1)
+#   xparm[i] <- Parmnames[i]
+#   xsens[,i] <- parmsens$x1   # sensitivities for all calibration sites
+# }   
+# # save results to directory and global environment
+# sensitivities.list <- named.list(xparm,xmed,xiqr,xsens)
+# objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sensitivities.list") 
+# save(sensitivities.list,file=objfile)
+  
+
+
+# # Plot median and IQR for each parameter
+# xx <- xiqr[1,(xiqr[1,]>0)]
+# xminimum <- min(xx)
+# xminimum <- ifelse(is.infinite(xminimum),0,xminimum)
+# xmed <- ifelse( xmed == 0,xminimum,xmed)
+# xiqr <- ifelse( xiqr == 0,xminimum,xiqr)
+# 
+# xupper <- xiqr[3,] - xmed
+# xlower <- xmed - xiqr[2,]
+# supper <- xiqr[4,] - xmed
+# slower <- xmed - xiqr[1,]
+# 
+# xupper <- ifelse(xupper == 0,xminimum,xupper)
+# supper <- ifelse(supper == 0,xminimum,supper)
+# xlower <- ifelse(xlower == 0,xminimum,xlower)
+# slower <- ifelse(slower == 0,xminimum,slower)
+# 
+# xx <- data.frame(xmed,xlower,xupper,supper,slower,xparm)
+# xx <- xx[with(xx,order(xx$xmed)), ]
+# 
+# ymin <- min(xiqr)
+# ymax <- max(xiqr)
+# 
+# # Arithmetic y axis
+# data<-data.frame(x = xvalue2)
+# data<-cbind(data,xx)
+# 
+# 
+# plotlyLayout(NA,data$xmed, log = "", nTicks = 5, digits = 0,
+#                   xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
+#                   yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
+#                   plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
+#                   legend = TRUE,showPlotGrid = showPlotGrid) %>%
+# add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
+#                      name = '90% Interval',
+#                      error_y = ~list(symetric = FALSE,
+#                                      array = supper,
+#                                      arrayminus = slower,
+#                                      color = "#0000FF")) %>%
+# add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
+#                      name = '50% Interval',
+#                      error_y = ~list(symetric = FALSE,
+#                                      array = xupper,
+#                                      arrayminus = xlower,
+#                                      color = "#FF0000")) %>%
+# 
+# add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),
+#           name = 'median')
+# 
+
+
+```
+
+```{r pagebreak6, results='asis', echo=FALSE}
+cat("<P style='page-break-before: always'>") 
+```
+
+```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8} 
+# # Log y axis
+create_diagnosticPlotList()$p18$plotFunc(eval(parse(text =create_diagnosticPlotList()$p18$plotParams)))
+
+
 for (i in 1:length(Estimate)) {
   x1 <- apredict_sum[,i]
   xx <- data.frame(x1,depvar,xclass)
@@ -125,86 +212,25 @@ for (i in 1:length(Estimate)) {
 sensitivities.list <- named.list(xparm,xmed,xiqr,xsens)
 objfile <- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,run_id,"_sensitivities.list") 
 save(sensitivities.list,file=objfile)
-
-# Plot median and IQR for each parameter
-xx <- xiqr[1,(xiqr[1,]>0)]  
-xminimum <- min(xx)
-xminimum <- ifelse(is.infinite(xminimum),0,xminimum)
-xmed <- ifelse( xmed == 0,xminimum,xmed)
-xiqr <- ifelse( xiqr == 0,xminimum,xiqr)
-
-xupper <- xiqr[3,] - xmed
-xlower <- xmed - xiqr[2,]
-supper <- xiqr[4,] - xmed
-slower <- xmed - xiqr[1,]
-
-xupper <- ifelse(xupper == 0,xminimum,xupper)
-supper <- ifelse(supper == 0,xminimum,supper)
-xlower <- ifelse(xlower == 0,xminimum,xlower)
-slower <- ifelse(slower == 0,xminimum,slower)
-
-xx <- data.frame(xmed,xlower,xupper,supper,slower,xparm)
-xx <- xx[with(xx,order(xx$xmed)), ]  
-
-ymin <- min(xiqr)
-ymax <- max(xiqr)
-
-# Arithmetic y axis
-data<-data.frame(x = xvalue2)
-data<-cbind(data,xx)
-
-
-plotlyLayout(NA,data$xmed, log = "", nTicks = 5, digits = 0,
-                  xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
-                  yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
-                  plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
-                  legend = TRUE,showPlotGrid = showPlotGrid) %>%
-add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
-                     name = '90% Interval',
-                     error_y = ~list(symetric = FALSE,
-                                     array = supper,
-                                     arrayminus = slower,
-                                     color = "#0000FF")) %>%
-add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
-                     name = '50% Interval',
-                     error_y = ~list(symetric = FALSE,
-                                     array = xupper,
-                                     arrayminus = xlower,
-                                     color = "#FF0000")) %>%
-
-add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),
-          name = 'median')
-
-
-
-```
-
-```{r pagebreak6, results='asis', echo=FALSE}
-cat("<P style='page-break-before: always'>") 
-```
-
-```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, fig.height=8, fig.width=8} 
-
-# Log y axis
-plotlyLayout(NA,data$xmed, log = "y", nTicks = 5, digits = 0,
-                  xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
-                  yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
-                  plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
-                  legend = TRUE,showPlotGrid = showPlotGrid) %>%
-add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
-                     name = '90% Interval',
-                     error_y = ~list(symetric = FALSE,
-                                     array = supper,
-                                     arrayminus = slower,
-                                     color = "#0000FF")) %>%
-add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
-                     name = '50% Interval',
-                     error_y = ~list(symetric = FALSE,
-                                     array = xupper,
-                                     arrayminus = xlower,
-                                     color = "#FF0000")) %>%
-
-add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'median')#,
+# plotlyLayout(NA,data$xmed, log = "y", nTicks = 5, digits = 0,
+#                   xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
+#                   yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
+#                   plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
+#                   legend = TRUE,showPlotGrid = showPlotGrid) %>%
+# add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
+#                      name = '90% Interval',
+#                      error_y = ~list(symetric = FALSE,
+#                                      array = supper,
+#                                      arrayminus = slower,
+#                                      color = "#0000FF")) %>%
+# add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
+#                      name = '50% Interval',
+#                      error_y = ~list(symetric = FALSE,
+#                                      array = xupper,
+#                                      arrayminus = xlower,
+#                                      color = "#FF0000")) %>%
+# 
+# add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'median')#,
 
 
 ```

@@ -7,6 +7,7 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 
 ## Observed vs. predicted for loads and yields and log residuals vs. predicted loads and yields\n"
   plotList$p1$vPlot<-FALSE
+  plotList$p1$sPlot<-FALSE
   plotList$p1$plotParams<-"named.list(diagnosticPlotPointStyle,diagnosticPlotPointSize,
                                      predict,Obs,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,yldpredict,yldobs,yieldUnits,Resids,hline,validation)"
@@ -42,6 +43,7 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 
 ## Boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads\n"  
   plotList$p2$vPlot<-FALSE
+  plotList$p2$sPlot<-FALSE
   plotList$p2$plotParams<-"named.list(Resids,ratio.obs.pred,standardResids,
                                      predict,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,validation)"
@@ -79,6 +81,7 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 
 ## Conditioned prediction loads vs. unconditioned (simulated) prediction loads\n"
   plotList$p3$vPlot<-FALSE
+  plotList$p3$sPlot<-FALSE
   plotList$p3$plotParams<-"named.list(ppredict,
                                      predict,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,validation)"
@@ -124,6 +127,7 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 Output only if control setting if_corrExplanVars<-'yes' selected and a value of 1 entered for 'parmCorrGroup' column in the 'parameters.csv' file.
 "
   plotList$p4$vPlot<-FALSE
+  plotList$p4$sPlot<-FALSE
   plotList$p4$plotParams<-"c(named.list(i,Cor.ExplanVars.list,
                             markerList,add_plotlyVars,sitedata,showPlotGrid,
                                      pnch,markerCols,validation),list(corrData=ratio.obs.pred))"
@@ -169,6 +173,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
   plotList$p5$title<-"ModEstimation_DrainageArea_DecileClass_Box"
   plotList$p5$header<-"## Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites\n"  
   plotList$p5$vPlot<-FALSE
+  plotList$p5$sPlot<-FALSE
   plotList$p5$plotParams<-"named.list(sitedata.demtarea.class,ratio.obs.pred,showPlotGrid,hline,validation)"
 
   plotList$p5$plotFunc<-function(plotParams.list){
@@ -201,6 +206,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
   plotList$p6$title<-"ModEstimation_Classvar_Decile_Box"
   plotList$p6$header<-  "## Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4) \n"
   plotList$p6$vPlot<-FALSE
+  plotList$p6$sPlot<-FALSE
   plotList$p6$plotParams<-"c(named.list(k,sitedata,classvar,showPlotGrid,hline,validation),
                             list(boxvar=ratio.obs.pred))"
   
@@ -234,6 +240,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
 The land-use classes expressed as a percentage of the incremental drainage area extending from the calibration site to the nearest upstream site locations
 "
   plotList$p7$vPlot<-FALSE
+  plotList$p7$sPlot<-FALSE
   plotList$p7$plotParams<-"c(named.list(k,sitedata.landuse,classvar2,showPlotGrid,hline,validation),
                             list(boxvar=ratio.obs.pred))"
   
@@ -296,6 +303,7 @@ The land-use classes expressed as a percentage of the incremental drainage area 
 The panels include:  observed vs. predicted loads, observed vs. predicted yields, log residuals vs. predicted loads, and log residuals vs. predicted yields 
 "
   plotList$p8$vPlot<-FALSE
+  plotList$p8$sPlot<-FALSE
   plotList$p8$plotParams<-"named.list(i,grp,class,xx,Obs,predict,yldobs,yldpredict,Resids,add_plotlyVars,showPlotGrid,
                                      markerList,pnch,markerCols,sitedata,hline,validation)"
 
@@ -338,6 +346,7 @@ The panels include:  observed vs. predicted loads, observed vs. predicted yields
 Diagnostics are based on the use of unconditioned predictions (i.e., predictions that are not adjusted for monitoring loads). These predictions (and the associated residuals and observed to predicted ratios shown in the following section) provide the best measure of the predictive skill of the estimated model in simulation mode. The simulated predictions are computed using mean coefficients from the NLLS model estimated with monitoring-adjusted (conditioned) predictions. \n
 Four-plot panel for observed vs. predicted for loads and yields, and log residuals vs. predicted loads and yields"
   plotList$p9$vPlot<-TRUE
+  plotList$p9$sPlot<-FALSE
   plotList$p9$plotParams<-"named.list(diagnosticPlotPointStyle,diagnosticPlotPointSize,
                                      ppredict,Obs,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,pyldpredict,pyldobs,yieldUnits,pResids,hline,validation)"
@@ -373,6 +382,7 @@ Four-plot panel for observed vs. predicted for loads and yields, and log residua
 Diagnostics are based on the use of unconditioned predictions (i.e., predictions that are not adjusted for monitoring loads). These predictions (and the associated residuals and observed to predicted ratios shown in the following section) provide the best measure of the predictive skill of the estimated model in simulation mode. The simulated predictions are computed using mean coefficients from the NLLS model estimated with monitoring-adjusted (conditioned) predictions. \n
 Four-plot panel for boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads"  
   plotList$p10$vPlot<-TRUE
+  plotList$p10$sPlot<-FALSE
   plotList$p10$plotParams<-"named.list(pResids,pratio.obs.pred,
                                      ppredict,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,validation)"
@@ -408,16 +418,19 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
                             markerList,add_plotlyVars,sitedata,showPlotGrid,
                                      pnch,markerCols,validation),list(corrData=pratio.obs.pred))"
   plotList$p11$vPlot<-FALSE
+  plotList$p11$sPlot<-FALSE
   
   plotList$p12<-plotList$p5
   plotList$p12$title<-gsub("Estimation","Simulation",plotList$p12$title)
   plotList$p12$plotParams<-"c(named.list(sitedata.demtarea.class,showPlotGrid,hline,validation),
                             list(ratio.obs.pred=pratio.obs.pred))"
   plotList$p12$vPlot<-TRUE
+  plotList$p12$sPlot<-FALSE
   
   plotList$p13<-plotList$p6
   plotList$p13$title<-gsub("Estimation","Simulation",plotList$p13$title)
   plotList$p13$vPlot<-TRUE
+  plotList$p13$sPlot<-FALSE
   plotList$p13$plotParams<-"c(named.list(k,sitedata,classvar,showPlotGrid,hline,validation),
                             list(boxvar=pratio.obs.pred))"
   
@@ -425,6 +438,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
   plotList$p14<-plotList$p7
   plotList$p14$title<-gsub("Estimation","Simulation",plotList$p14$title)
   plotList$p14$vPlot<-TRUE
+  plotList$p14$sPlot<-FALSE
   plotList$p14$plotParams<-"c(named.list(k,sitedata.landuse,classvar2,showPlotGrid,hline,validation),
                             list(boxvar=pratio.obs.pred))"
   
@@ -435,6 +449,192 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
                                      markerList,pnch,markerCols,sitedata,hline,validation),
   list(predict=ppredict,yldobs=pyldobs,yldpredict=pyldpredict,Resids=pResids))"
   plotList$p15$vPlot<-TRUE
+  plotList$p15$sPlot<-FALSE
+  
+  #####################################
+  ############sensitivity plots#######
+  plotList$p16<-list()
+  plotList$p16$title<-"DiagSensitivity_by_Param"
+  plotList$p16$header<-  ""
+  plotList$p16$vPlot<-FALSE
+  plotList$p16$sPlot<-TRUE
+  plotList$p16$plotParams<-"named.list(i,apredict_sum,depvar,xclass,Parmnames,showPlotGrid)"
+  
+  
+  plotList$p16$plotFunc<-function(plotParams.list){
+    unPackList(lists = list(plotParams.list = plotParams.list),
+               parentObj = list(NA))
+    
+    
+    x1 <- apredict_sum[,i]
+    xx <- data.frame(x1,depvar,xclass)
+    parmsens <- xx[(xx$depvar > 0), ] 
+    
+    p<-plotlyLayout(NA,parmsens$x1, log = "", nTicks = 5, digits = 0,
+                    xTitle = "",  xZeroLine = FALSE, xLabs = parmsens$xclass,
+                    yTitle = "Prediction Change (%) Relative to 1% Change",  yZeroLine = FALSE,
+                    plotTitle = paste0("Parameter Sensitivity:  ",Parmnames[i]),
+                    legend = FALSE,showPlotGrid = showPlotGrid) %>%
+      add_trace(y = parmsens$x1,x = parmsens$xclass, type = 'box', name = Parmnames[i], color = I("black"), 
+                fillcolor = "white")
+    return(p)
+    
+    
+    
+  }#p16 func
+  
+  plotList$p17<-list()
+  plotList$p17$title<-"DiagSensitivity1%_by_Param"
+  plotList$p17$header<-  ""
+  plotList$p17$vPlot<-FALSE
+  plotList$p17$sPlot<-TRUE
+  plotList$p17$plotParams<-"named.list(Estimate,apredict_sum,depvar,xclass,xvalue2,xiqr,xmed,xparm,xsens,Parmnames,showPlotGrid)"
+  
+  
+  plotList$p17$plotFunc<-function(plotParams.list){
+    unPackList(lists = list(plotParams.list = plotParams.list),
+               parentObj = list(NA))
+    
+    
+    for (i in 1:length(Estimate)) {
+      x1 <- apredict_sum[,i]
+      xx <- data.frame(x1,depvar,xclass)
+      parmsens <- xx[(xx$depvar > 0), ] 
+      xvalue2[i] <- i
+      xiqr[,i] <- quantile(parmsens$x1, c(0.05,0.25,0.75,0.95)) 
+      xmed[i] <- median(parmsens$x1)
+      xparm[i] <- Parmnames[i]
+      xsens[,i] <- parmsens$x1   # sensitivities for all calibration sites
+    }  
+    
+    # Plot median and IQR for each parameter
+    xx <- xiqr[1,(xiqr[1,]>0)]  
+    xminimum <- min(xx)
+    xminimum <- ifelse(is.infinite(xminimum),0,xminimum)
+    xmed <- ifelse( xmed == 0,xminimum,xmed)
+    xiqr <- ifelse( xiqr == 0,xminimum,xiqr)
+    
+    xupper <- xiqr[3,] - xmed
+    xlower <- xmed - xiqr[2,]
+    supper <- xiqr[4,] - xmed
+    slower <- xmed - xiqr[1,]
+    
+    xupper <- ifelse(xupper == 0,xminimum,xupper)
+    supper <- ifelse(supper == 0,xminimum,supper)
+    xlower <- ifelse(xlower == 0,xminimum,xlower)
+    slower <- ifelse(slower == 0,xminimum,slower)
+    
+    xx <- data.frame(xmed,xlower,xupper,supper,slower,xparm)
+    xx <- xx[with(xx,order(xx$xmed)), ]  
+    
+    ymin <- min(xiqr)
+    ymax <- max(xiqr)
+    
+    # Arithmetic y axis
+    data<-data.frame(x = xvalue2)
+    data<-cbind(data,xx)
+    
+    p<-plotlyLayout(NA,data$xmed, log = "", nTicks = 5, digits = 0,
+                 xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
+                 yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
+                 plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
+                 legend = TRUE,showPlotGrid = showPlotGrid) %>%
+      add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
+                name = '90% Interval',
+                error_y = ~list(symetric = FALSE,
+                                array = supper,
+                                arrayminus = slower,
+                                color = "#0000FF")) %>%
+      add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
+                name = '50% Interval',
+                error_y = ~list(symetric = FALSE,
+                                array = xupper,
+                                arrayminus = xlower,
+                                color = "#FF0000")) %>%
+      add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),
+                name = 'median')
+    return(p)
+    
+    
+    
+  }#p17 func
+  
+  plotList$p18<-list()
+  plotList$p18$title<-"DiagSensitivity1%_by_Param_logScale"
+  plotList$p18$header<-  ""
+  plotList$p18$vPlot<-FALSE
+  plotList$p18$sPlot<-TRUE
+  plotList$p18$plotParams<-"named.list(Estimate,apredict_sum,depvar,xclass,xvalue2,xiqr,xmed,xparm,xsens,Parmnames,showPlotGrid)"
+  
+  
+  plotList$p18$plotFunc<-function(plotParams.list){
+    unPackList(lists = list(plotParams.list = plotParams.list),
+               parentObj = list(NA))
+    
+    
+    for (i in 1:length(Estimate)) {
+      x1 <- apredict_sum[,i]
+      xx <- data.frame(x1,depvar,xclass)
+      parmsens <- xx[(xx$depvar > 0), ] 
+      xvalue2[i] <- i
+      xiqr[,i] <- quantile(parmsens$x1, c(0.05,0.25,0.75,0.95)) 
+      xmed[i] <- median(parmsens$x1)
+      xparm[i] <- Parmnames[i]
+      xsens[,i] <- parmsens$x1   # sensitivities for all calibration sites
+    }  
+    
+    # Plot median and IQR for each parameter
+    xx <- xiqr[1,(xiqr[1,]>0)]  
+    xminimum <- min(xx)
+    xminimum <- ifelse(is.infinite(xminimum),0,xminimum)
+    xmed <- ifelse( xmed == 0,xminimum,xmed)
+    xiqr <- ifelse( xiqr == 0,xminimum,xiqr)
+    
+    xupper <- xiqr[3,] - xmed
+    xlower <- xmed - xiqr[2,]
+    supper <- xiqr[4,] - xmed
+    slower <- xmed - xiqr[1,]
+    
+    xupper <- ifelse(xupper == 0,xminimum,xupper)
+    supper <- ifelse(supper == 0,xminimum,supper)
+    xlower <- ifelse(xlower == 0,xminimum,xlower)
+    slower <- ifelse(slower == 0,xminimum,slower)
+    
+    xx <- data.frame(xmed,xlower,xupper,supper,slower,xparm)
+    xx <- xx[with(xx,order(xx$xmed)), ]  
+    
+    ymin <- min(xiqr)
+    ymax <- max(xiqr)
+    
+    # Arithmetic y axis
+    data<-data.frame(x = xvalue2)
+    data<-cbind(data,xx)
+    
+    # Log y axis
+    p<-plotlyLayout(NA,data$xmed, log = "y", nTicks = 5, digits = 0,
+                 xTitle = "",  xZeroLine = FALSE, xLabs = as.character(data$xparm),
+                 yTitle = "CHANGE IN PREDICTED VALUES (%)",  yZeroLine = FALSE,ymin = ymin, ymax = ymax,
+                 plotTitle = "PARAMETER SENSITIVITY TO 1% CHANGE",
+                 legend = TRUE,showPlotGrid = showPlotGrid) %>%
+      add_trace(data = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#0000FF"),
+                name = '90% Interval',
+                error_y = ~list(symetric = FALSE,
+                                array = supper,
+                                arrayminus = slower,
+                                color = "#0000FF")) %>%
+      add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("#FF0000"),
+                name = '50% Interval',
+                error_y = ~list(symetric = FALSE,
+                                array = xupper,
+                                arrayminus = xlower,
+                                color = "#FF0000")) %>%
+      
+      add_trace(data  = data, x = ~xparm, y = ~xmed, type = 'scatter', mode = 'markers',color = I("black"),name = 'median')#,
+    return(p)
+    
+    
+    
+  }#p18 func
   
   ############################################
  return(plotList)
