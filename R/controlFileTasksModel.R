@@ -171,7 +171,7 @@ controlFileTasksModel <- function(# pathnames
       # only execute if stream 'length' available for all reaches
       if(sum(!is.na(subdata$length))>0) {
         diagnosticSpatialAutoCorr(file.output.list,classvar,sitedata,numsites,estimate.list,
-                                  estimate.input.list,mapping.input.list,subdata)
+                                  estimate.input.list,mapping.input.list,subdata,min.sites.list)
       }
       
     } else {

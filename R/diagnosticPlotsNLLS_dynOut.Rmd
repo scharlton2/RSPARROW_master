@@ -21,9 +21,79 @@ plotIndex<-params$plotIndex
 
 unPackList(lists = list(diagnostic_params = diagnostic_params),
            parentObj = list(NA))
+unPackList(lists = list(mapping.input.list = mapping.input.list,
+                        class.input.list = class.input.list),
+           parentObj = list(NA,
+                            NA))
 plotList<-create_diagnosticPlotList()
 
-if(!sensitivity){
+if (!spatialAutoCorr){
+hline <- function(y = 0, color = "red") {
+  list(
+    type = "line", 
+    x0 = 0, 
+    x1 = 1, 
+    xref = "paper",
+    y0 = y, 
+    y1 = y, 
+    line = list(color = color)
+  )
+}
+}else{
+  hline <- function(y = 0, color = "red", dash = '') {
+  list(
+    type = "line", 
+    x0 = 0, 
+    x1 = 1, 
+    xref = "paper",
+    y0 = y, 
+    y1 = y, 
+    line = list(color = color, dash = dash)
+  )
+}
+}
+pnch<-as.character(pchPlotlyCross[pchPlotlyCross$pch==diagnosticPlotPointStyle,]$plotly)
+markerSize<-diagnosticPlotPointSize*10
+markerCols<-colorNumeric(c("black","white"), 1:2)
+markerList = paste0("list(symbol = pnch,
+                       size = ",markerSize,",")
+if (regexpr("open",pnch)>0){
+  markerList<-paste0(markerList,"color = markerCols(1))")
+}else{
+  markerList<-paste0(markerList,"line = list(color = markerCols(1), width = 0.8),color = markerCols(1))")
+}
+
+# contiguous class variables by sites
+class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar))) 
+for (k in 1:length(classvar)) { 
+  for (i in 1:nrow(sitedata)) {
+    class[i,k] <- as.numeric(eval(parse(text=paste0("sitedata$",classvar[k],"[",i,"]"))))
+  } 
+} 
+
+#sensitivity plot list
+    sPlot.list<-list()
+    for (n in 1:length(names(plotList))){
+      sTest2<-list()
+      sTest<-plotList[[n]]
+      if (sTest$sPlot==TRUE){
+        eval(parse(text=paste0("sTest2$",names(plotList)[n],"<-sTest")))
+        sPlot.list<-c(sPlot.list,sTest2)
+      }
+    }
+   
+    #spatialautocorr plot list
+        sacPlot.list<-list()
+    for (n in 1:length(names(plotList))){
+      sTest2<-list()
+      sTest<-plotList[[n]]
+      if (sTest$sacPlot==TRUE){
+        eval(parse(text=paste0("sTest2$",names(plotList)[n],"<-sTest")))
+        sacPlot.list<-c(sacPlot.list,sTest2)
+      }
+    }  
+    
+if(!sensitivity & !spatialAutoCorr){
 #run setup diagnostic
 if (!validation){
   # create global variable from list names (Mdiagnostics.list)
@@ -50,35 +120,7 @@ if (!validation){
   sitedata$staid<-sitedata$vstaid
 }
 
-hline <- function(y = 0, color = "red") {
-  list(
-    type = "line", 
-    x0 = 0, 
-    x1 = 1, 
-    xref = "paper",
-    y0 = y, 
-    y1 = y, 
-    line = list(color = color)
-  )
-}
-pnch<-as.character(pchPlotlyCross[pchPlotlyCross$pch==diagnosticPlotPointStyle,]$plotly)
-markerSize<-diagnosticPlotPointSize*10
-markerCols<-colorNumeric(c("black","white"), 1:2)
-markerList = paste0("list(symbol = pnch,
-                       size = ",markerSize,",")
-if (regexpr("open",pnch)>0){
-  markerList<-paste0(markerList,"color = markerCols(1))")
-}else{
-  markerList<-paste0(markerList,"line = list(color = markerCols(1), width = 0.8),color = markerCols(1))")
-}
 
-# contiguous class variables by sites
-class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar))) 
-for (k in 1:length(classvar)) { 
-  for (i in 1:nrow(sitedata)) {
-    class[i,k] <- as.numeric(eval(parse(text=paste0("sitedata$",classvar[k],"[",i,"]"))))
-  } 
-} 
 
 # Create 'classvar2' for plotting landuse non-contiguous class
 #   following code executes:  classvar2 <- c("forest_pct","agric_pct","urban_pct","shrubgrass_pct")
@@ -109,29 +151,13 @@ plotList<-create_diagnosticPlotList()
     plotList<-vPlot.list
   }
 
-#remove sensitivity plots
-    sPlot.list<-list()
-    for (n in 1:length(names(plotList))){
-      sTest2<-list()
-      sTest<-plotList[[n]]
-      if (sTest$sPlot==TRUE){
-        eval(parse(text=paste0("sTest2$",names(plotList)[n],"<-sTest")))
-        sPlot.list<-c(sPlot.list,sTest2)
-      }
-    }
-plotList<-plotList[which(!names(plotList) %in% names(sPlot.list))]
-    
-}else{#sensitivity
+#remove sensitivity plots and spatial auto corr plots
 
-    sPlot.list<-list()
-    for (n in 1:length(names(plotList))){
-      sTest2<-list()
-      sTest<-plotList[[n]]
-      if (sTest$sPlot==TRUE){
-        eval(parse(text=paste0("sTest2$",names(plotList)[n],"<-sTest")))
-        sPlot.list<-c(sPlot.list,sTest2)
-      }
-    }
+plotList<-plotList[which(!names(plotList) %in% c(names(sPlot.list),names(sacPlot.list)))]
+    
+}else if (sensitivity){#sensitivity
+
+#take only sensitivity plots
     plotList<-sPlot.list
 
 
@@ -145,13 +171,7 @@ plotList<-plotList[which(!names(plotList) %in% names(sPlot.list))]
                             NA,
                             NA))
   
-  # contiguous class variables by sites
-class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar))) 
-for (k in 1:length(classvar)) { 
-  for (i in 1:nrow(sitedata)) {
-    class[i,k] <- as.numeric(eval(parse(text=paste0("sitedata$",classvar[k],"[",i,"]"))))
-  } 
-}
+
 #depvar <- subdata$depvar
 #xclass <- eval(parse(text=paste0("subdata$",classvar[1])))
 
@@ -182,6 +202,20 @@ xvalue2 <- numeric(sum(ct))
 #     apredict_sum[,i] <- abs((apredict-predict)/predict*100) / 1.0  # change relative to 1% change
 #   }
 # }
+}else if (spatialAutoCorr){
+  plotList<-sacPlot.list
+  data.index.list = DataMatrix.list$data.index.list
+  unPackList(lists = list(Mdiagnostics.list = estimate.list$Mdiagnostics.list,
+                        estimate.input.list = estimate.input.list,
+                        data.index.list = DataMatrix.list$data.index.list,
+                        file.output.list = file.output.list,
+                        mapping.input.list = mapping.input.list),
+           parentObj = list(NA,
+                            NA,
+                            NA,
+                            NA,
+                            NA))
+  set.ZeroPolicyOption(TRUE) 
 }
 ```
 
@@ -201,7 +235,7 @@ if (diagnosticPlots_timestep=="season"){
 
 if (!plotIndex %in% c("p4","p6","p7","p8","p11","p13","p14","p15","p16")){
   for (t in diagnosticPlots_timestep){
-if (!sensitivity){
+if (!sensitivity & !spatialAutoCorr){
     if (!validation){
      MdiagSub<-estimate.list$Mdiagnostics.list 
     }else{
@@ -226,7 +260,7 @@ if (!sensitivity){
     
     sitedata.demtarea.class_orig<-sitedata.demtarea.class
     sitedata.demtarea.class<-sitedata.demtarea.class[which(sitedata$staid %in% subStaid)]
-}else{#sensitivity
+}else if (sensitivity){#sensitivity
          if (diagnosticPlots_timestep %in% unique(sitedata$year)){
       subWaterId<-subdata[subdata$year==t ,]$waterid
     }else{
@@ -262,7 +296,66 @@ for (j in 1:length(Estimate)) {
 }
      
   
-}#end senstivity
+}else if (spatialAutoCorr){
+  
+           if (diagnosticPlots_timestep %in% unique(sitedata$year)){
+      subWaterId<-subdata[subdata$year==t ,]$waterid
+    }else{
+      subWaterId<-subdata[subdata$season==t,]$waterid 
+    }
+  subdata_orig<-subdata
+  subdata<-subdata[subdata$waterid %in% subWaterId,]
+  
+  # minnum <- minimum_reaches_separating_sites
+  # sid <- ifelse(subdata$depvar > 0,subdata$staid,0)
+  # subdata$staidseq <- assignIncremSiteIDs(minnum,sid,subdata$waterid,subdata$tnode,subdata$fnode) 
+  
+    Csites.list <- selectCalibrationSites(subdata,data_names,min.sites.list)
+  
+  waterid <- Csites.list$waterid
+  depvar <- Csites.list$depvar
+  staid <- Csites.list$staid
+  staidseq <- Csites.list$staidseq
+  xx <- data.frame(waterid,staid,staidseq,depvar)
+  drops <- c("depvar","staid","staidseq")
+  subdata <- subdata[ , !(names(subdata) %in% drops)]
+  subdata <- merge(subdata,xx,by="waterid",all.y=FALSE,all.x=FALSE)
+  subdata <- subdata[with(subdata,order(subdata$hydseq)), ]     # resort by the original HYDSEQ order
+  
+        DMLdatasub<-DataMatrix.list$data
+      DMLdatasub<-DMLdatasub[which(DMLdatasub[,c(1)] %in% subWaterId),]
+      subDataMatrix.list<-DataMatrix.list
+      subDataMatrix.list$data<-DMLdatasub
+      
+      DataMatrix.list_orig<-DataMatrix.list
+      DataMatrix.list<-subDataMatrix.list
+      
+  data <- DataMatrix.list$data
+
+  sitedata_orig<-sitedata
+  sitedata<-sitedata[sitedata$waterid %in% subWaterId,]
+  sitedata<-sitedata[,names(sitedata)!="staid"]
+  sitedata<-merge(sitedata,subdata[c("waterid","staid")],by="waterid")
+
+ 
+  MdiagSub<-estimate.list$Mdiagnostics.list 
+  MdiagSub<-lapply(Mdiagnostics.list,function(x) x[which(MdiagSub$xstaid %in% sitedata$staid)])
+Mdiagnostics.list_orig<-Mdiagnostics.list
+Mdiagnostics.list<-MdiagSub
+dynamic<-TRUE
+ 
+# contiguous class variables by sites
+class <- array(0,dim=c(nrow=nrow(sitedata),ncol=length(classvar)))
+for (k in 1:length(classvar)) {
+  for (i in 1:nrow(sitedata)) {
+    class[i,k] <- as.numeric(eval(parse(text=paste0("sitedata$",classvar[k],"[",i,"]"))))
+  }
+}
+
+numsites <- length(sitedata$waterid)
+
+
+}#end spatialAutoCorr
     plotParam.list<-eval(parse(text = paste0("plotList$",plotIndex,"$plotParams")))
     plotParam.list<-eval(parse(text = plotParam.list))
     
@@ -274,10 +367,18 @@ for (j in 1:length(Estimate)) {
     
     eval(parse(text=paste0("p.list$p",which(t==diagnosticPlots_timestep),"<-p")))
     
-    if (!sensitivity){
+    if (!sensitivity & !spatialAutoCorr){
     sitedata<-sitedata_orig
     sitedata.demtarea.class<-sitedata.demtarea.class_orig
     }
+    
+    if (spatialAutoCorr){
+    subdata<-subdata_orig
+    DataMatrix.list<-DataMatrix.list_orig
+    sitedata<-sitedata_orig
+    Mdiagnostics.list<-Mdiagnostics.list_orig
+      }
+    
   } 
 }else{#plotIndex==p4
   if (plotIndex %in% c("p4","p11")){

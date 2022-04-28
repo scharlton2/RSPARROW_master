@@ -78,6 +78,7 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
   diagnostic_params<-list(
     validation = FALSE,
     sensitivity = TRUE,
+    spatialAutoCorr = FALSE,
     file.output.list = file.output.list,
     path_diagnosticSensParamChild = path_diagnosticSensParamChild,
     path_outputMapsChild = path_outputMapsChild,

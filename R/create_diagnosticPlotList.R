@@ -8,6 +8,7 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 ## Observed vs. predicted for loads and yields and log residuals vs. predicted loads and yields\n"
   plotList$p1$vPlot<-FALSE
   plotList$p1$sPlot<-FALSE
+  plotList$p1$sacPlot<-FALSE
   plotList$p1$plotParams<-"named.list(diagnosticPlotPointStyle,diagnosticPlotPointSize,
                                      predict,Obs,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,yldpredict,yldobs,yieldUnits,Resids,hline,validation)"
@@ -44,6 +45,7 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 ## Boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads\n"  
   plotList$p2$vPlot<-FALSE
   plotList$p2$sPlot<-FALSE
+  plotList$p2$sacPlot<-FALSE
   plotList$p2$plotParams<-"named.list(Resids,ratio.obs.pred,standardResids,
                                      predict,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,validation)"
@@ -82,6 +84,7 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
 ## Conditioned prediction loads vs. unconditioned (simulated) prediction loads\n"
   plotList$p3$vPlot<-FALSE
   plotList$p3$sPlot<-FALSE
+  plotList$p3$sacPlot<-FALSE
   plotList$p3$plotParams<-"named.list(ppredict,
                                      predict,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,validation)"
@@ -128,6 +131,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
 "
   plotList$p4$vPlot<-FALSE
   plotList$p4$sPlot<-FALSE
+  plotList$p4$sacPlot<-FALSE
   plotList$p4$plotParams<-"c(named.list(i,Cor.ExplanVars.list,
                             markerList,add_plotlyVars,sitedata,showPlotGrid,
                                      pnch,markerCols,validation),list(corrData=ratio.obs.pred))"
@@ -174,6 +178,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
   plotList$p5$header<-"## Boxplots of the observed to predicted loads vs. the decile classes of the total drainage area for the calibration sites\n"  
   plotList$p5$vPlot<-FALSE
   plotList$p5$sPlot<-FALSE
+  plotList$p5$sacPlot<-FALSE
   plotList$p5$plotParams<-"named.list(sitedata.demtarea.class,ratio.obs.pred,showPlotGrid,hline,validation)"
 
   plotList$p5$plotFunc<-function(plotParams.list){
@@ -207,6 +212,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
   plotList$p6$header<-  "## Boxplots of the observed to predicted loads vs. the contiguous spatial classes specified by users in the 'classvar' control setting (e.g., HUC-4) \n"
   plotList$p6$vPlot<-FALSE
   plotList$p6$sPlot<-FALSE
+  plotList$p6$sacPlot<-FALSE
   plotList$p6$plotParams<-"c(named.list(k,sitedata,classvar,showPlotGrid,hline,validation),
                             list(boxvar=ratio.obs.pred))"
   
@@ -241,6 +247,7 @@ The land-use classes expressed as a percentage of the incremental drainage area 
 "
   plotList$p7$vPlot<-FALSE
   plotList$p7$sPlot<-FALSE
+  plotList$p7$sacPlot<-FALSE
   plotList$p7$plotParams<-"c(named.list(k,sitedata.landuse,classvar2,showPlotGrid,hline,validation),
                             list(boxvar=ratio.obs.pred))"
   
@@ -304,6 +311,7 @@ The panels include:  observed vs. predicted loads, observed vs. predicted yields
 "
   plotList$p8$vPlot<-FALSE
   plotList$p8$sPlot<-FALSE
+  plotList$p8$sacPlot<-FALSE
   plotList$p8$plotParams<-"named.list(i,grp,class,xx,Obs,predict,yldobs,yldpredict,Resids,add_plotlyVars,showPlotGrid,
                                      markerList,pnch,markerCols,sitedata,hline,validation)"
 
@@ -347,6 +355,7 @@ Diagnostics are based on the use of unconditioned predictions (i.e., predictions
 Four-plot panel for observed vs. predicted for loads and yields, and log residuals vs. predicted loads and yields"
   plotList$p9$vPlot<-TRUE
   plotList$p9$sPlot<-FALSE
+  plotList$p9$sacPlot<-FALSE
   plotList$p9$plotParams<-"named.list(diagnosticPlotPointStyle,diagnosticPlotPointSize,
                                      ppredict,Obs,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,pyldpredict,pyldobs,yieldUnits,pResids,hline,validation)"
@@ -383,6 +392,7 @@ Diagnostics are based on the use of unconditioned predictions (i.e., predictions
 Four-plot panel for boxplots of residuals and observed/predicted ratios, normal quantile plot of standardized residuals, and plot of squared residuals vs. predicted loads"  
   plotList$p10$vPlot<-TRUE
   plotList$p10$sPlot<-FALSE
+  plotList$p10$sacPlot<-FALSE
   plotList$p10$plotParams<-"named.list(pResids,pratio.obs.pred,
                                      ppredict,add_plotlyVars,sitedata,loadUnits,showPlotGrid,
                                      markerList,pnch,markerCols,validation)"
@@ -419,6 +429,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
                                      pnch,markerCols,validation),list(corrData=pratio.obs.pred))"
   plotList$p11$vPlot<-FALSE
   plotList$p11$sPlot<-FALSE
+  plotList$p11$sacPlot<-FALSE
   
   plotList$p12<-plotList$p5
   plotList$p12$title<-gsub("Estimation","Simulation",plotList$p12$title)
@@ -426,11 +437,13 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
                             list(ratio.obs.pred=pratio.obs.pred))"
   plotList$p12$vPlot<-TRUE
   plotList$p12$sPlot<-FALSE
+  plotList$p12$sacPlot<-FALSE
   
   plotList$p13<-plotList$p6
   plotList$p13$title<-gsub("Estimation","Simulation",plotList$p13$title)
   plotList$p13$vPlot<-TRUE
   plotList$p13$sPlot<-FALSE
+  plotList$p13$sacPlot<-FALSE
   plotList$p13$plotParams<-"c(named.list(k,sitedata,classvar,showPlotGrid,hline,validation),
                             list(boxvar=pratio.obs.pred))"
   
@@ -439,6 +452,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
   plotList$p14$title<-gsub("Estimation","Simulation",plotList$p14$title)
   plotList$p14$vPlot<-TRUE
   plotList$p14$sPlot<-FALSE
+  plotList$p14$sacPlot<-FALSE
   plotList$p14$plotParams<-"c(named.list(k,sitedata.landuse,classvar2,showPlotGrid,hline,validation),
                             list(boxvar=pratio.obs.pred))"
   
@@ -450,6 +464,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
   list(predict=ppredict,yldobs=pyldobs,yldpredict=pyldpredict,Resids=pResids))"
   plotList$p15$vPlot<-TRUE
   plotList$p15$sPlot<-FALSE
+  plotList$p15$sacPlot<-FALSE
   
   #####################################
   ############sensitivity plots#######
@@ -458,6 +473,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
   plotList$p16$header<-  ""
   plotList$p16$vPlot<-FALSE
   plotList$p16$sPlot<-TRUE
+  plotList$p16$sacPlot<-FALSE
   plotList$p16$plotParams<-"named.list(i,apredict_sum,depvar,xclass,Parmnames,showPlotGrid)"
   
   
@@ -488,6 +504,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
   plotList$p17$header<-  ""
   plotList$p17$vPlot<-FALSE
   plotList$p17$sPlot<-TRUE
+  plotList$p17$sacPlot<-FALSE
   plotList$p17$plotParams<-"named.list(Estimate,apredict_sum,depvar,xclass,xvalue2,xiqr,xmed,xparm,xsens,Parmnames,showPlotGrid)"
   
   
@@ -564,6 +581,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
   plotList$p18$header<-  ""
   plotList$p18$vPlot<-FALSE
   plotList$p18$sPlot<-TRUE
+  plotList$p18$sacPlot<-FALSE
   plotList$p18$plotParams<-"named.list(Estimate,apredict_sum,depvar,xclass,xvalue2,xiqr,xmed,xparm,xsens,Parmnames,showPlotGrid)"
   
   
@@ -636,6 +654,1290 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
     
   }#p18 func
   
+  plotList$p19<-list()
+  plotList$p19$title<-"CDF_of_Station_Hydrological_Distances"
+  plotList$p19$header<-  "CDF of Station Hydrological Distances (units of 'length' variable)\n"
+  plotList$p19$vPlot<-FALSE
+  plotList$p19$sPlot<-FALSE
+  plotList$p19$sacPlot<-TRUE
+  plotList$p19$plotParams<-"named.list(data, subdata,data.index.list, hline,showPlotGrid)"
+  
+  
+  plotList$p19$plotFunc<-function(plotParams.list){
+    unPackList(lists = list(plotParams.list = plotParams.list),
+               parentObj = list(NA))
+    unPackList(lists = list(data.index.list = data.index.list),
+               parentObj = list(NA))
+    set.ZeroPolicyOption(TRUE)
+    nreach <- length(data[,1])
+    nstas <- sum(ifelse(data[,jdepvar] > 0,1,0))  # jdepvar site load index
+    
+    nnode <- max(data[,jtnode],data[,jfnode])
+    
+    # sort file in upstream order
+    updata1 <- subdata      # requires 'staidseq' and 'staid'
+    updata <- updata1[with(updata1,order(-updata1$hydseq)), ]
+    
+    # Make site, distance, area upstream transfers
+    #  (note:  distance and area are only for hydrologic flow paths; do not include tributary drainage
+    #           which would increase incremental area between sites)
+    snode <- array(0,dim=nnode)  # 2-digit ID
+    stnode <- array(0,dim=nnode) # 8-digit ID
+    dnode <- array(0,dim=nnode)  # distance (km)
+    anode <- array(0,dim=nnode)  # incremental area
+    tanode <- array(0,dim=nnode)  # total area
+    dnsite <- numeric(nstas)
+    upsite <- numeric(nstas)
+    siteid <- numeric(nstas)
+    dist <- numeric(nstas)
+    area <- numeric(nstas)
+    totarea <- numeric(nstas)
+    shydseq <- numeric(nstas)
+    site_tarea <- array(0,dim=nstas)
+    is <- 0
+    
+    for (k in 1:nreach) {
+      tnode <- updata$tnode[k]
+      fnode <- updata$fnode[k]
+      sitereach <- updata$staidseq[k]    # Station ID value obtained from siteincr.R execution
+      
+      if (updata$staid[k] > 0) {              # check station sequence number (1-6-2015)
+        is <- is+1
+        #  store site transition
+        dnsite[is] <- snode[tnode]
+        siteid[is] <- stnode[tnode]
+        upsite[is] <- sitereach
+        dist[is] <- dnode[tnode]
+        area[is] <- anode[tnode]
+        shydseq[is] <- updata$hydseq[k]
+        totarea[is] <- tanode[tnode]
+        site_tarea[sitereach] <- updata$demtarea[k]  # total area indexed by site ID
+        
+        #  reset transfer values to current reach containing site
+        iarea <- updata$demiarea[k]
+        tarea2 <- updata$demtarea[k]
+        idist <- updata$length[k] 
+        sitereach <- updata$staidseq[k]     # Station ID value obtained from siteincr.R execution
+        siteid2 <- updata$staid[k]          # station ID sequence number assigned in hydrologic order
+      } else {
+        
+        #  transfer values to upstream reach
+        iarea <- updata$demiarea[k] + anode[tnode]
+        tarea2 <- tanode[tnode]
+        idist <- (updata$length[k] + dnode[tnode]) * updata$frac[k]
+        sitereach <- snode[tnode]
+        siteid2 <- stnode[tnode]
+      }  # end site check
+      
+      anode[fnode] <- iarea
+      tanode[fnode] <- tarea2
+      dnode[fnode] <- idist
+      snode[fnode] <- sitereach   # from siteincr.R execution
+      stnode[fnode] <- siteid2
+    }
+    
+    #############################################################
+    # RESORT BY HYDSEQ to track downstream connections....
+    #   run sequentially - no multiple divergences will exist.
+    
+    sdata <- data.frame(siteid,dnsite,upsite,dist,area,totarea,shydseq)
+    sdata <- sdata[with(sdata,order(sdata$shydseq)), ]
+
+    #############################################################
+    # Create site matrix of hydrologic distances from SITE MATRIX (sdistance is nstas x nstas matrix)
+    # track each site fully upstream recording each site and distance found
+    
+    sdistance <- matrix(0,nrow=nstas,ncol=nstas)
+    for (i in 1:nstas) {
+      if (sdata$dnsite[i] > 0) {
+        dns <- sdata$dnsite[i]
+        dnd <- dist[i]
+        sdistance[sdata$upsite[i],dns] <- dnd   # record site for tracking downstream
+        if (i < nstas) {
+          for (j in (i+1):nstas) {
+            if (dns == sdata$upsite[j]) {
+              dns <- sdata$dnsite[j]
+              dnd <- dnd + sdata$dist[j]
+              sdistance[sdata$upsite[i],dns] <- dnd   # record next downstream site
+            }
+          }
+        }
+      }
+    }
+    
+    # Station linkages in 'sdistance' matrix
+    
+    scount <- numeric(nstas)
+    for (i in 1:nstas) {
+      for (j in 1:nstas) {
+        if(sdistance[j,i] > 0) { 
+          scount[i] <- scount[i] + 1   # upstream sites linked with site i
+        }
+      }
+    }
+    
+    sdist <- numeric(sum(scount))
+    is <- 0
+    for (i in 1:nstas) {
+      for (j in 1:nstas) {
+        if(sdistance[j,i] > 0) { 
+          is <- is+1
+          sdist[is] <- sdistance[j,i]
+        }
+      }
+    }
+    
+    Fn<-ecdf(sdist)
+    y<-Fn(sdist)
+    plotData<-data.frame(sdist=sdist, y = y)
+    plotData<-plotData[order(plotData$sdist),]
+    p<-plotlyLayout(plotData$sdist,plotData$y, log = "", nTicks = 7, digits = 0,
+                 xTitle = "Distance Between Sites", xZeroLine = FALSE,xminTick = 0,
+                 yTitle = "Fn(x)",  yZeroLine = FALSE,ymax = 1,ymin = 0,ymaxTick = 1,
+                 plotTitle = "Station Hydrologic Distances",
+                 legend = FALSE,showPlotGrid = showPlotGrid) %>%
+      
+      add_trace(x  = plotData$sdist, y = plotData$y,type="scatter",mode="lines",color=I('black'),
+                line = list(color=I('black'))) %>%
+      layout(shapes = list(hline(1, color = "black", dash = 'dash'),
+                           hline(0, color = "black",dash = 'dash')))
+    
+    return(p)
+    
+    
+    
+  }#p19 func
+  
+  plotList$p20<-list()
+  plotList$p20$title<-"CDF_of_Station_Euclidean_Distances"
+  plotList$p20$header<-  "CDF of Station Euclidean Distances (kilometers)\n"
+  plotList$p20$vPlot<-FALSE
+  plotList$p20$sPlot<-FALSE
+  plotList$p20$sacPlot<-TRUE
+  plotList$p20$plotParams<-"named.list(data, subdata,sitedata,data.index.list, hline,showPlotGrid)"
+  
+  
+  plotList$p20$plotFunc<-function(plotParams.list){
+    unPackList(lists = list(plotParams.list = plotParams.list),
+               parentObj = list(NA))
+    unPackList(lists = list(data.index.list = data.index.list),
+               parentObj = list(NA))
+    set.ZeroPolicyOption(TRUE)
+    nreach <- length(data[,1])
+    nstas <- sum(ifelse(data[,jdepvar] > 0,1,0))  # jdepvar site load index
+    
+    nnode <- max(data[,jtnode],data[,jfnode])
+    
+    # sort file in upstream order
+    updata1 <- subdata      # requires 'staidseq' and 'staid'
+    updata <- updata1[with(updata1,order(-updata1$hydseq)), ]
+    
+    # Make site, distance, area upstream transfers
+    #  (note:  distance and area are only for hydrologic flow paths; do not include tributary drainage
+    #           which would increase incremental area between sites)
+    snode <- array(0,dim=nnode)  # 2-digit ID
+    stnode <- array(0,dim=nnode) # 8-digit ID
+    dnode <- array(0,dim=nnode)  # distance (km)
+    anode <- array(0,dim=nnode)  # incremental area
+    tanode <- array(0,dim=nnode)  # total area
+    dnsite <- numeric(nstas)
+    upsite <- numeric(nstas)
+    siteid <- numeric(nstas)
+    dist <- numeric(nstas)
+    area <- numeric(nstas)
+    totarea <- numeric(nstas)
+    shydseq <- numeric(nstas)
+    site_tarea <- array(0,dim=nstas)
+    is <- 0
+    
+    for (k in 1:nreach) {
+      tnode <- updata$tnode[k]
+      fnode <- updata$fnode[k]
+      sitereach <- updata$staidseq[k]    # Station ID value obtained from siteincr.R execution
+      
+      if (updata$staid[k] > 0) {              # check station sequence number (1-6-2015)
+        is <- is+1
+        #  store site transition
+        dnsite[is] <- snode[tnode]
+        siteid[is] <- stnode[tnode]
+        upsite[is] <- sitereach
+        dist[is] <- dnode[tnode]
+        area[is] <- anode[tnode]
+        shydseq[is] <- updata$hydseq[k]
+        totarea[is] <- tanode[tnode]
+        site_tarea[sitereach] <- updata$demtarea[k]  # total area indexed by site ID
+        
+        #  reset transfer values to current reach containing site
+        iarea <- updata$demiarea[k]
+        tarea2 <- updata$demtarea[k]
+        idist <- updata$length[k] 
+        sitereach <- updata$staidseq[k]     # Station ID value obtained from siteincr.R execution
+        siteid2 <- updata$staid[k]          # station ID sequence number assigned in hydrologic order
+      } else {
+        
+        #  transfer values to upstream reach
+        iarea <- updata$demiarea[k] + anode[tnode]
+        tarea2 <- tanode[tnode]
+        idist <- (updata$length[k] + dnode[tnode]) * updata$frac[k]
+        sitereach <- snode[tnode]
+        siteid2 <- stnode[tnode]
+      }  # end site check
+      
+      anode[fnode] <- iarea
+      tanode[fnode] <- tarea2
+      dnode[fnode] <- idist
+      snode[fnode] <- sitereach   # from siteincr.R execution
+      stnode[fnode] <- siteid2
+    }
+    
+    #############################################################
+    # RESORT BY HYDSEQ to track downstream connections....
+    #   run sequentially - no multiple divergences will exist.
+    
+    sdata <- data.frame(siteid,dnsite,upsite,dist,area,totarea,shydseq)
+    sdata <- sdata[with(sdata,order(sdata$shydseq)), ]
+    
+    #############################################################
+    # Create site matrix of hydrologic distances from SITE MATRIX (sdistance is nstas x nstas matrix)
+    # track each site fully upstream recording each site and distance found
+    
+    sdistance <- matrix(0,nrow=nstas,ncol=nstas)
+    for (i in 1:nstas) {
+      if (sdata$dnsite[i] > 0) {
+        dns <- sdata$dnsite[i]
+        dnd <- dist[i]
+        sdistance[sdata$upsite[i],dns] <- dnd   # record site for tracking downstream
+        if (i < nstas) {
+          for (j in (i+1):nstas) {
+            if (dns == sdata$upsite[j]) {
+              dns <- sdata$dnsite[j]
+              dnd <- dnd + sdata$dist[j]
+              sdistance[sdata$upsite[i],dns] <- dnd   # record next downstream site
+            }
+          }
+        }
+      }
+    }
+    
+    # Station linkages in 'sdistance' matrix
+    
+    scount <- numeric(nstas)
+    for (i in 1:nstas) {
+      for (j in 1:nstas) {
+        if(sdistance[j,i] > 0) {
+          scount[i] <- scount[i] + 1   # upstream sites linked with site i
+        }
+      }
+    }
+    
+    #####################################
+    # obtain station header information  (change subdata to updata1)
+    
+    staname <- character(nstas)
+    ttarea <- numeric(nstas)
+    stano <- numeric(nstas)
+    shydseq <- numeric(nstas)
+    ssta <- numeric(nstas)
+    xlon <- numeric(nstas)
+    xlat <- numeric(nstas)
+    
+    is <- 0
+    for (i in 1:nreach) {
+      if (updata1$staid[i]>0) {
+        is <- is+1
+        staname[is] <- updata1$station_name[i]
+        ttarea[is] <- updata1$demtarea[i]
+        stano[is] <- updata1$staid[i]
+        shydseq[is] <- updata1$hydseq[i]
+        xlon[is] <- updata1$lon[i]
+        xlat[is] <- updata1$lat[i]
+      }
+    }
+    index <- rep(1:nstas)
+    siteheader <- data.frame(index,ssta,shydseq,stano,staname,ttarea,xlon,xlat)
+    
+    dname <- "  Inverse distance weight function: "
+    dd <- data.frame(dname,MoranDistanceWeightFunc)
+    colnames(dd)<-c(" "," ")
+    row.names(dd) <- c(" ")
+    
+    # Sorted list of stations with upstream station counts (smallest to largest)
+    xx <- data.frame(sitedata$station_name,sitedata$station_id,sitedata$staid,scount)
+    xx <- xx[with(xx,order(xx$scount,xx$sitedata.staid)), ]
+    x1 <- xx[(xx$scount >=  1), ]  # replace subset
+    nest_sites <- length(x1$scount)/ length(xx$scount)    # fraction of total sites that are nested 
+    
+    ###############################################################
+    # obtain Euclidean distance for all station pairs
+    Lat <- siteheader$xlat
+    Lon <- siteheader$xlon
+    
+    ##############################
+    
+    
+    Lat <- fixDupLatLons(Lat)  # add small random increment to duplicates
+    Lon <- fixDupLatLons(Lon)
+    
+    #########################################################
+    
+    edistance <- matrix(0,nrow=nstas,ncol=nstas)
+    
+    for (i in 1:(nstas-1)) {
+      for (j in (i+1):nstas) {
+        lat1 <- Lat[i] * pi / 180
+        lat2 <- Lat[j] * pi / 180
+        lon1 <- Lon[i] * pi / 180
+        lon2 <- Lon[j] * pi / 180
+        R <- 6371    # radius of the earth in km
+        x <- (lon2 - lon1) * cos( 0.5*(lat2+lat1) )
+        y <- lat2 - lat1
+        edistance[i,j] <- R * sqrt( x*x + y*y )    # Euclidean kilometer distance
+      }
+    }
+    
+    edist <- numeric((nstas*nstas-1)/2)    # 2957 sites gives 4,371,924 pairs
+    is <- 0
+    for (i in 1:nstas) {
+      for (j in 1:nstas) {
+        if(edistance[j,i] > 0) { 
+          is <- is+1
+          edist[is] <- edistance[j,i]
+        }
+      }
+    }
+    Fn<-ecdf(edist)
+    y<-Fn(edist)
+    plotData<-data.frame(edist=edist, y = y)
+    plotData<-plotData[order(plotData$edist),]
+    p<-plotlyLayout(plotData$edist,plotData$y, log = "", nTicks = 7, digits = 0,
+                 xTitle = "Distance Between Sites", xZeroLine = FALSE,xminTick = 0,
+                 yTitle = "Fn(x)",  yZeroLine = FALSE,ymax = 1,ymin = 0,ymaxTick = 1,
+                 plotTitle = "Station Euclidean Distances (kilometers)",
+                 legend = FALSE,showPlotGrid = showPlotGrid) %>%
+      
+      add_trace(x  = plotData$edist, y = plotData$y,type="scatter",mode="lines",color=I('black'),
+                line = list(color = I('black'))) %>%
+      layout(shapes = list(hline(1, color = "black", dash = 'dash'),
+                           hline(0, color = "black",dash = 'dash')))
+    
+    
+    return(p)
+    
+    
+    
+  }#p20 func
+  
+  
+  plotList$p21<-list()
+  plotList$p21$title<-"Morans_I_by_river_basins"
+  plotList$p21$header<-  "Four panel plot with Moran's I results by river basin:\n
+      + P-value (Euclidean weights)\n
+      + Standard deviate (Euclidean weights)\n
+      + P-value (Hydrological weights)\n
+      + Standard deviate (Hydrological weights)\n"
+  plotList$p21$vPlot<-FALSE
+  plotList$p21$sPlot<-FALSE
+  plotList$p21$sacPlot<-TRUE
+  plotList$p21$plotParams<-"named.list(data, subdata,sitedata,Mdiagnostics.list,data.index.list, hline,showPlotGrid)"
+  
+  
+  plotList$p21$plotFunc<-function(plotParams.list){
+    unPackList(lists = list(plotParams.list = plotParams.list),
+               parentObj = list(NA))
+    unPackList(lists = list(data.index.list = data.index.list,
+                            Mdiagnostics.list = Mdiagnostics.list),
+               parentObj = list(NA,
+                                NA))
+    set.ZeroPolicyOption(TRUE)
+    nreach <- length(data[,1])
+    nstas <- sum(ifelse(data[,jdepvar] > 0,1,0))  # jdepvar site load index
+    
+    nnode <- max(data[,jtnode],data[,jfnode])
+    
+    # sort file in upstream order
+    updata1 <- subdata      # requires 'staidseq' and 'staid'
+    updata <- updata1[with(updata1,order(-updata1$hydseq)), ]
+    
+    # Make site, distance, area upstream transfers
+    #  (note:  distance and area are only for hydrologic flow paths; do not include tributary drainage
+    #           which would increase incremental area between sites)
+    snode <- array(0,dim=nnode)  # 2-digit ID
+    stnode <- array(0,dim=nnode) # 8-digit ID
+    dnode <- array(0,dim=nnode)  # distance (km)
+    anode <- array(0,dim=nnode)  # incremental area
+    tanode <- array(0,dim=nnode)  # total area
+    dnsite <- numeric(nstas)
+    upsite <- numeric(nstas)
+    siteid <- numeric(nstas)
+    dist <- numeric(nstas)
+    area <- numeric(nstas)
+    totarea <- numeric(nstas)
+    shydseq <- numeric(nstas)
+    site_tarea <- array(0,dim=nstas)
+    is <- 0
+    
+    for (k in 1:nreach) {
+      tnode <- updata$tnode[k]
+      fnode <- updata$fnode[k]
+      sitereach <- updata$staidseq[k]    # Station ID value obtained from siteincr.R execution
+      
+      if (updata$staid[k] > 0) {              # check station sequence number (1-6-2015)
+        is <- is+1
+        #  store site transition
+        dnsite[is] <- snode[tnode]
+        siteid[is] <- stnode[tnode]
+        upsite[is] <- sitereach
+        dist[is] <- dnode[tnode]
+        area[is] <- anode[tnode]
+        shydseq[is] <- updata$hydseq[k]
+        totarea[is] <- tanode[tnode]
+        site_tarea[sitereach] <- updata$demtarea[k]  # total area indexed by site ID
+        
+        #  reset transfer values to current reach containing site
+        iarea <- updata$demiarea[k]
+        tarea2 <- updata$demtarea[k]
+        idist <- updata$length[k] 
+        sitereach <- updata$staidseq[k]     # Station ID value obtained from siteincr.R execution
+        siteid2 <- updata$staid[k]          # station ID sequence number assigned in hydrologic order
+      } else {
+        
+        #  transfer values to upstream reach
+        iarea <- updata$demiarea[k] + anode[tnode]
+        tarea2 <- tanode[tnode]
+        idist <- (updata$length[k] + dnode[tnode]) * updata$frac[k]
+        sitereach <- snode[tnode]
+        siteid2 <- stnode[tnode]
+      }  # end site check
+      
+      anode[fnode] <- iarea
+      tanode[fnode] <- tarea2
+      dnode[fnode] <- idist
+      snode[fnode] <- sitereach   # from siteincr.R execution
+      stnode[fnode] <- siteid2
+    }
+    
+    #############################################################
+    # RESORT BY HYDSEQ to track downstream connections....
+    #   run sequentially - no multiple divergences will exist.
+    
+    sdata <- data.frame(siteid,dnsite,upsite,dist,area,totarea,shydseq)
+    sdata <- sdata[with(sdata,order(sdata$shydseq)), ]
+    
+    #############################################################
+    # Create site matrix of hydrologic distances from SITE MATRIX (sdistance is nstas x nstas matrix)
+    # track each site fully upstream recording each site and distance found
+    
+    sdistance <- matrix(0,nrow=nstas,ncol=nstas)
+    for (i in 1:nstas) {
+      if (sdata$dnsite[i] > 0) {
+        dns <- sdata$dnsite[i]
+        dnd <- dist[i]
+        sdistance[sdata$upsite[i],dns] <- dnd   # record site for tracking downstream
+        if (i < nstas) {
+          for (j in (i+1):nstas) {
+            if (dns == sdata$upsite[j]) {
+              dns <- sdata$dnsite[j]
+              dnd <- dnd + sdata$dist[j]
+              sdistance[sdata$upsite[i],dns] <- dnd   # record next downstream site
+            }
+          }
+        }
+      }
+    }
+    
+    # Station linkages in 'sdistance' matrix
+    
+    scount <- numeric(nstas)
+    for (i in 1:nstas) {
+      for (j in 1:nstas) {
+        if(sdistance[j,i] > 0) {
+          scount[i] <- scount[i] + 1   # upstream sites linked with site i
+        }
+      }
+    }
+    
+    #####################################
+    # obtain station header information  (change subdata to updata1)
+    
+    staname <- character(nstas)
+    ttarea <- numeric(nstas)
+    stano <- numeric(nstas)
+    shydseq <- numeric(nstas)
+    ssta <- numeric(nstas)
+    xlon <- numeric(nstas)
+    xlat <- numeric(nstas)
+    
+    is <- 0
+    for (i in 1:nreach) {
+      if (updata1$staid[i]>0) {
+        is <- is+1
+        staname[is] <- updata1$station_name[i]
+        ttarea[is] <- updata1$demtarea[i]
+        stano[is] <- updata1$staid[i]
+        shydseq[is] <- updata1$hydseq[i]
+        xlon[is] <- updata1$lon[i]
+        xlat[is] <- updata1$lat[i]
+      }
+    }
+    index <- rep(1:nstas)
+    siteheader <- data.frame(index,ssta,shydseq,stano,staname,ttarea,xlon,xlat)
+    
+    dname <- "  Inverse distance weight function: "
+    dd <- data.frame(dname,MoranDistanceWeightFunc)
+    colnames(dd)<-c(" "," ")
+    row.names(dd) <- c(" ")
+    
+    # Sorted list of stations with upstream station counts (smallest to largest)
+    xx <- data.frame(sitedata$station_name,sitedata$station_id,sitedata$staid,scount)
+    xx <- xx[with(xx,order(xx$scount,xx$sitedata.staid)), ]
+    x1 <- xx[(xx$scount >=  1), ]  # replace subset
+    nest_sites <- length(x1$scount)/ length(xx$scount)    # fraction of total sites that are nested 
+    
+    ###############################################################
+    # obtain Euclidean distance for all station pairs
+    Lat <- siteheader$xlat
+    Lon <- siteheader$xlon
+    
+    ##############################
+    
+    
+    Lat <- fixDupLatLons(Lat)  # add small random increment to duplicates
+    Lon <- fixDupLatLons(Lon)
+    
+
+    
+    #############################################################
+    # Calculate all site correlations between Residuals for hydrologically connected sites
+    
+    # Extract Residuals into matrix:  mres(nstas), indexed by site number
+    mres <- numeric(nstas)
+    mbias <- numeric(nstas)
+    mobsd <- numeric(nstas)
+    myld <- numeric(nstas)
+    siteindex <- numeric(nstas)
+    for (k in 1:nstas) {
+      mres[k] <- Resids[k]
+      mbias[k] <- Obs[k] / predict[k]
+      mobsd[k] <- Obs[k] 
+      myld[k] <- yldobs[k]
+    }
+    
+    
+    ############################################################
+    
+    #    Moran's I computed separately for each river basin
+    
+    checkdist <- sdistance
+    checkdist <- ifelse(sdistance > 0,1,0)
+    checkcount <- scount
+    for (j in nstas:1) {      # reverse hydrologic order to identify most downstream site in river basin
+      if (scount[j] > 4 & sum(checkdist[,j]) == scount[j] ) {  # minimum of 5 sites gives 10 pairwise comparisons
+        checkcount[j] <- scount[j]   # downstream site identifier 
+        for (i in 1:nstas) {
+          if(checkdist[i,j] > 0) {
+            checkdist[i,] <- 0       # zero all matches with this site in the river basin
+          }
+        }
+      } else {
+        checkcount[j] <- 0
+      }
+    }
+    xx <- checkcount[checkcount>0]   # replace subset
+    
+    pmoran <- numeric(length(xx))   
+    pmoran_dev <- numeric(length(xx))
+    bpmoran <- numeric(length(xx))   
+    bpmoran_dev <- numeric(length(xx))
+    ind <- rep(1:(length(pmoran)))
+    cind <- character(length(ind))
+    dsiteid <- numeric(length(xx))
+    
+    # transfer river basin sites info for Moran test
+    #  test executed and reported for only the most downstream site
+    ibasin <- 0
+    for (j in 1:nstas) {                
+      if (checkcount[j] > 0) { # downstream site identified
+        ibasin <- ibasin+1
+        dsiteid[ibasin] <- j
+        is <- 0
+        xresids <- numeric(checkcount[j]+1)
+        xLat <- numeric(checkcount[j]+1)
+        xLon <- numeric(checkcount[j]+1)
+        ires <- numeric(checkcount[j]+1)
+        
+        bdistance <- matrix(0,nrow=checkcount[j]+1,ncol=checkcount[j]+1)
+        bres <- numeric(checkcount[j]+1)
+        bsites <- numeric(checkcount[j]+1)
+        
+        #  add the initial downstream site to the vectors
+        is <- is+1
+        ires[is] <- is
+        xresids[is] <- mres[j]
+        xLat[is] <- Lat[j]
+        xLon[is] <- Lon[j]
+        
+        bres[is] <- mres[j]
+        bsites[is] <- j
+        
+        for (i in 1:nstas) {
+          if (sdistance[i,j] > 0) {    # obtain sites upstream of outlet site j
+            is <- is+1
+            ires[is] <- is
+            xresids[is] <- mres[i]
+            xLat[is] <- Lat[i]
+            xLon[is] <- Lon[i]
+            
+            bres[is] <- mres[i]
+            bsites[is] <- i
+          }
+        }
+        
+        
+        # River basin Euclidean distance weights for Moran's
+        xmoran <- data.frame(ires,xresids,xLat,xLon)
+        xmoran.dists <- as.matrix(dist(cbind(xmoran$xLon, xmoran$xLat)),method = "euclidean")   # planar coordinates
+        
+        distance <- xmoran.dists
+        xmoran.dists.inv <- eval(parse(text=MoranDistanceWeightFunc))
+        diag(xmoran.dists.inv) <- 0
+        
+        cind[ibasin] <- as.character(j)
+        
+        # convert w to a row standardised general weights object
+        lw <- mat2listw(xmoran.dists.inv)
+        lwW <- nb2listw(lw$neighbours, glist=lw$weights, style="W")
+        morantest.obj <- moran.test(xmoran$xresids, lwW, alternative="two.sided")    # SPDEP
+        
+        pmoran[ibasin] <- morantest.obj$p.value
+        pmoran_dev[ibasin] <- morantest.obj$statistic
+        
+        # River basin hydrological distance weights for Moran's 
+        bdistance[1:is,1:is] <- sdistance[bsites,bsites]
+        # fill-in cross-tabs
+        for (i in 1:is) {
+          for (k in 1:is) {
+            if(bdistance[i,k]==0) {
+              bdistance[i,k] <- bdistance[k,i]           
+            }
+          }
+        }
+        
+        # Hydrologic distance weighting
+        distance <- bdistance
+        xmoran.dists.inv <- ifelse(!distance==0,eval(parse(text=MoranDistanceWeightFunc)),0)
+        diag(xmoran.dists.inv) <- 0
+        
+        # convert w to a row standardised general weights object (same standardization as used in ape::Moran.I)
+        lw <- mat2listw(xmoran.dists.inv)
+        lwW <- nb2listw(lw$neighbours, glist=lw$weights, style="W",zero.policy=TRUE)
+        
+        # mres[1:nstas] residuals
+        morantest.obj <- moran.test(bres, lwW, alternative="two.sided",adjust.n=TRUE,na.action=na.exclude,zero.policy=TRUE)    # SPDEP
+        
+        bpmoran[ibasin] <- morantest.obj$p.value
+        bpmoran_dev[ibasin] <- morantest.obj$statistic    
+        
+      } # end loop for selecting the most downstream site for execution of Moran's
+    } # end site loop
+    
+    # Create plots
+    
+    # Euclidean weighted results
+    pmoran <- ifelse(pmoran == 0.0,min(pmoran[pmoran > 0]),pmoran)  # apply minimum non-zero to zero values
+    
+    p <- plotlyLayout(NA,pmoran, log = "", nTicks = 7, digits = 1,
+                      xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
+                      xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                      yTitle ="P Value (Euclidean distance weighting within basin)",  yZeroLine = FALSE,
+                      plotTitle = "Moran's I P Value by River Basin",
+                      legend = FALSE,showPlotGrid = showPlotGrid)
+    p <- p %>% add_trace(y = pmoran,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                         mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+                                                                                                  width = 3)))
+    p1 <- p %>% layout(shapes = list(hline(0.1)))
+    
+    
+    
+    
+    p <- plotlyLayout(NA,pmoran_dev, log = "", nTicks = 7, digits = 1,
+                      xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
+                      xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                      yTitle ="Standard Deviate (Euclidean distance weighting\n within basin)",  yZeroLine = FALSE,
+                      plotTitle = "Moran's I Standard Deviate by River Basin",
+                      legend = FALSE,showPlotGrid = showPlotGrid)
+    p <- p %>% add_trace(y = pmoran_dev,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                         mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+                                                                                                  width = 3)))
+    p2 <- p %>% layout(shapes = list(hline(0.1)))
+    # p<-subplot(p1,p2,nrows = 1, widths = c(0.5,0.5),
+    #            titleX = TRUE, titleY=TRUE, margin = 0.08)
+    
+    # Hydrological weighted results
+    bpmoran <- ifelse(bpmoran == 0.0,min(bpmoran[bpmoran > 0]),bpmoran)  # apply minimum non-zero to zero values
+    
+    p <- plotlyLayout(NA,bpmoran, log = "", nTicks = 7, digits = 1,
+                      xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
+                      xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                      yTitle ="P Value (Hydrologic distance weighting)",  yZeroLine = FALSE,
+                      plotTitle = "Moran's I P Value by River Basin",
+                      legend = FALSE,showPlotGrid = showPlotGrid)
+    p <- p %>% add_trace(y = bpmoran,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                         mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+                                                                                                  width = 3)))
+    p3 <- p %>% layout(shapes = list(hline(0.1)))
+    
+    p <- plotlyLayout(NA,bpmoran_dev, log = "", nTicks = 7, digits = 1,
+                      xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
+                      xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                      yTitle ="Standard Deviate (Hydrologic distance weighting)",  yZeroLine = FALSE,
+                      plotTitle = "Moran's I Standard Deviate by River Basin",
+                      legend = FALSE,showPlotGrid = showPlotGrid)
+    p <- p %>% add_trace(y = bpmoran_dev,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                         mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+                                                                                                  width = 3)))
+    p4 <- p %>% layout(shapes = list(hline(0.1)))
+    p<-subplot(p1,p2,p3,p4,nrows = 2, widths = c(0.5,0.5),
+               titleX = TRUE, titleY=TRUE, margin = 0.08)
+    
+    return(p)
+    
+    
+    
+  }#p21 func
+  
+  
+  plotList$p22<-list()
+  plotList$p22$title<-"Morans_I_by_Class_variable"
+  plotList$p22$header<-  "Two panel plot with Moran's I results by Class variable and full domain:\n
+      + P-value (Euclidean weights)\n
+      + Standard deviate (Euclidean weights)"
+  plotList$p22$vPlot<-FALSE
+  plotList$p22$sPlot<-FALSE
+  plotList$p22$sacPlot<-TRUE
+  plotList$p22$plotParams<-"named.list(data, subdata,sitedata,Mdiagnostics.list,data.index.list,class,classvar,numsites,hline,showPlotGrid,path_masterFormat, dynamic)"
+  
+  
+  plotList$p22$plotFunc<-function(plotParams.list){
+    unPackList(lists = list(plotParams.list = plotParams.list),
+               parentObj = list(NA))
+    unPackList(lists = list(data.index.list = data.index.list,
+                            Mdiagnostics.list = Mdiagnostics.list),
+               parentObj = list(NA,
+                                NA))
+    set.ZeroPolicyOption(TRUE)
+    nreach <- length(data[,1])
+    nstas <- sum(ifelse(data[,jdepvar] > 0,1,0))  # jdepvar site load index
+    
+    nnode <- max(data[,jtnode],data[,jfnode])
+    
+    # sort file in upstream order
+    updata1 <- subdata      # requires 'staidseq' and 'staid'
+    updata <- updata1[with(updata1,order(-updata1$hydseq)), ]
+    
+    # Make site, distance, area upstream transfers
+    #  (note:  distance and area are only for hydrologic flow paths; do not include tributary drainage
+    #           which would increase incremental area between sites)
+    snode <- array(0,dim=nnode)  # 2-digit ID
+    stnode <- array(0,dim=nnode) # 8-digit ID
+    dnode <- array(0,dim=nnode)  # distance (km)
+    anode <- array(0,dim=nnode)  # incremental area
+    tanode <- array(0,dim=nnode)  # total area
+    dnsite <- numeric(nstas)
+    upsite <- numeric(nstas)
+    siteid <- numeric(nstas)
+    dist <- numeric(nstas)
+    area <- numeric(nstas)
+    totarea <- numeric(nstas)
+    shydseq <- numeric(nstas)
+    site_tarea <- array(0,dim=nstas)
+    is <- 0
+    
+    for (k in 1:nreach) {
+      tnode <- updata$tnode[k]
+      fnode <- updata$fnode[k]
+      sitereach <- updata$staidseq[k]    # Station ID value obtained from siteincr.R execution
+      
+      if (updata$staid[k] > 0) {              # check station sequence number (1-6-2015)
+        is <- is+1
+        #  store site transition
+        dnsite[is] <- snode[tnode]
+        siteid[is] <- stnode[tnode]
+        upsite[is] <- sitereach
+        dist[is] <- dnode[tnode]
+        area[is] <- anode[tnode]
+        shydseq[is] <- updata$hydseq[k]
+        totarea[is] <- tanode[tnode]
+        site_tarea[sitereach] <- updata$demtarea[k]  # total area indexed by site ID
+        
+        #  reset transfer values to current reach containing site
+        iarea <- updata$demiarea[k]
+        tarea2 <- updata$demtarea[k]
+        idist <- updata$length[k] 
+        sitereach <- updata$staidseq[k]     # Station ID value obtained from siteincr.R execution
+        siteid2 <- updata$staid[k]          # station ID sequence number assigned in hydrologic order
+      } else {
+        
+        #  transfer values to upstream reach
+        iarea <- updata$demiarea[k] + anode[tnode]
+        tarea2 <- tanode[tnode]
+        idist <- (updata$length[k] + dnode[tnode]) * updata$frac[k]
+        sitereach <- snode[tnode]
+        siteid2 <- stnode[tnode]
+      }  # end site check
+      
+      anode[fnode] <- iarea
+      tanode[fnode] <- tarea2
+      dnode[fnode] <- idist
+      snode[fnode] <- sitereach   # from siteincr.R execution
+      stnode[fnode] <- siteid2
+    }
+    
+    #############################################################
+    # RESORT BY HYDSEQ to track downstream connections....
+    #   run sequentially - no multiple divergences will exist.
+    
+    sdata <- data.frame(siteid,dnsite,upsite,dist,area,totarea,shydseq)
+    sdata <- sdata[with(sdata,order(sdata$shydseq)), ]
+    
+    #############################################################
+    # Create site matrix of hydrologic distances from SITE MATRIX (sdistance is nstas x nstas matrix)
+    # track each site fully upstream recording each site and distance found
+    
+    sdistance <- matrix(0,nrow=nstas,ncol=nstas)
+    for (i in 1:nstas) {
+      if (sdata$dnsite[i] > 0) {
+        dns <- sdata$dnsite[i]
+        dnd <- dist[i]
+        sdistance[sdata$upsite[i],dns] <- dnd   # record site for tracking downstream
+        if (i < nstas) {
+          for (j in (i+1):nstas) {
+            if (dns == sdata$upsite[j]) {
+              dns <- sdata$dnsite[j]
+              dnd <- dnd + sdata$dist[j]
+              sdistance[sdata$upsite[i],dns] <- dnd   # record next downstream site
+            }
+          }
+        }
+      }
+    }
+    
+    # Station linkages in 'sdistance' matrix
+    
+    scount <- numeric(nstas)
+    for (i in 1:nstas) {
+      for (j in 1:nstas) {
+        if(sdistance[j,i] > 0) {
+          scount[i] <- scount[i] + 1   # upstream sites linked with site i
+        }
+      }
+    }
+    
+    #####################################
+    # obtain station header information  (change subdata to updata1)
+    
+    staname <- character(nstas)
+    ttarea <- numeric(nstas)
+    stano <- numeric(nstas)
+    shydseq <- numeric(nstas)
+    ssta <- numeric(nstas)
+    xlon <- numeric(nstas)
+    xlat <- numeric(nstas)
+    
+    is <- 0
+    for (i in 1:nreach) {
+      if (updata1$staid[i]>0) {
+        is <- is+1
+        staname[is] <- updata1$station_name[i]
+        ttarea[is] <- updata1$demtarea[i]
+        stano[is] <- updata1$staid[i]
+        shydseq[is] <- updata1$hydseq[i]
+        xlon[is] <- updata1$lon[i]
+        xlat[is] <- updata1$lat[i]
+      }
+    }
+    index <- rep(1:nstas)
+    siteheader <- data.frame(index,ssta,shydseq,stano,staname,ttarea,xlon,xlat)
+    
+    dname <- "  Inverse distance weight function: "
+    dd <- data.frame(dname,MoranDistanceWeightFunc)
+    colnames(dd)<-c(" "," ")
+    row.names(dd) <- c(" ")
+    
+    # Sorted list of stations with upstream station counts (smallest to largest)
+    xx <- data.frame(sitedata$station_name,sitedata$station_id,sitedata$staid,scount)
+    xx <- xx[with(xx,order(xx$scount,xx$sitedata.staid)), ]
+    x1 <- xx[(xx$scount >=  1), ]  # replace subset
+    nest_sites <- length(x1$scount)/ length(xx$scount)    # fraction of total sites that are nested 
+    
+    ###############################################################
+    # obtain Euclidean distance for all station pairs
+    Lat <- siteheader$xlat
+    Lon <- siteheader$xlon
+    
+    ##############################
+    
+    
+    Lat <- fixDupLatLons(Lat)  # add small random increment to duplicates
+    Lon <- fixDupLatLons(Lon)
+    
+    
+    
+    #############################################################
+    # Calculate all site correlations between Residuals for hydrologically connected sites
+    
+    # Extract Residuals into matrix:  mres(nstas), indexed by site number
+    mres <- numeric(nstas)
+    mbias <- numeric(nstas)
+    mobsd <- numeric(nstas)
+    myld <- numeric(nstas)
+    siteindex <- numeric(nstas)
+    for (k in 1:nstas) {
+      mres[k] <- Resids[k]
+      mbias[k] <- Obs[k] / predict[k]
+      mobsd[k] <- Obs[k] 
+      myld[k] <- yldobs[k]
+    }
+    
+    
+    ############################################################
+    
+    #    Moran's I computed separately for each river basin
+    
+    checkdist <- sdistance
+    checkdist <- ifelse(sdistance > 0,1,0)
+    checkcount <- scount
+    for (j in nstas:1) {      # reverse hydrologic order to identify most downstream site in river basin
+      if (scount[j] > 4 & sum(checkdist[,j]) == scount[j] ) {  # minimum of 5 sites gives 10 pairwise comparisons
+        checkcount[j] <- scount[j]   # downstream site identifier 
+        for (i in 1:nstas) {
+          if(checkdist[i,j] > 0) {
+            checkdist[i,] <- 0       # zero all matches with this site in the river basin
+          }
+        }
+      } else {
+        checkcount[j] <- 0
+      }
+    }
+    xx <- checkcount[checkcount>0]   # replace subset
+    
+    pmoran <- numeric(length(xx))   
+    pmoran_dev <- numeric(length(xx))
+    bpmoran <- numeric(length(xx))   
+    bpmoran_dev <- numeric(length(xx))
+    ind <- rep(1:(length(pmoran)))
+    cind <- character(length(ind))
+    dsiteid <- numeric(length(xx))
+    
+    # transfer river basin sites info for Moran test
+    #  test executed and reported for only the most downstream site
+    ibasin <- 0
+    for (j in 1:nstas) {                
+      if (checkcount[j] > 0) { # downstream site identified
+        ibasin <- ibasin+1
+        dsiteid[ibasin] <- j
+        is <- 0
+        xresids <- numeric(checkcount[j]+1)
+        xLat <- numeric(checkcount[j]+1)
+        xLon <- numeric(checkcount[j]+1)
+        ires <- numeric(checkcount[j]+1)
+        
+        bdistance <- matrix(0,nrow=checkcount[j]+1,ncol=checkcount[j]+1)
+        bres <- numeric(checkcount[j]+1)
+        bsites <- numeric(checkcount[j]+1)
+        
+        #  add the initial downstream site to the vectors
+        is <- is+1
+        ires[is] <- is
+        xresids[is] <- mres[j]
+        xLat[is] <- Lat[j]
+        xLon[is] <- Lon[j]
+        
+        bres[is] <- mres[j]
+        bsites[is] <- j
+        
+        for (i in 1:nstas) {
+          if (sdistance[i,j] > 0) {    # obtain sites upstream of outlet site j
+            is <- is+1
+            ires[is] <- is
+            xresids[is] <- mres[i]
+            xLat[is] <- Lat[i]
+            xLon[is] <- Lon[i]
+            
+            bres[is] <- mres[i]
+            bsites[is] <- i
+          }
+        }
+        
+        
+        # River basin Euclidean distance weights for Moran's
+        xmoran <- data.frame(ires,xresids,xLat,xLon)
+        xmoran.dists <- as.matrix(dist(cbind(xmoran$xLon, xmoran$xLat)),method = "euclidean")   # planar coordinates
+        
+        distance <- xmoran.dists
+        xmoran.dists.inv <- eval(parse(text=MoranDistanceWeightFunc))
+        diag(xmoran.dists.inv) <- 0
+        
+        cind[ibasin] <- as.character(j)
+        
+        # convert w to a row standardised general weights object
+        lw <- mat2listw(xmoran.dists.inv)
+        lwW <- nb2listw(lw$neighbours, glist=lw$weights, style="W")
+        morantest.obj <- moran.test(xmoran$xresids, lwW, alternative="two.sided")    # SPDEP
+        
+        pmoran[ibasin] <- morantest.obj$p.value
+        pmoran_dev[ibasin] <- morantest.obj$statistic
+        
+        # River basin hydrological distance weights for Moran's 
+        bdistance[1:is,1:is] <- sdistance[bsites,bsites]
+        # fill-in cross-tabs
+        for (i in 1:is) {
+          for (k in 1:is) {
+            if(bdistance[i,k]==0) {
+              bdistance[i,k] <- bdistance[k,i]           
+            }
+          }
+        }
+        
+        # Hydrologic distance weighting
+        distance <- bdistance
+        xmoran.dists.inv <- ifelse(!distance==0,eval(parse(text=MoranDistanceWeightFunc)),0)
+        diag(xmoran.dists.inv) <- 0
+        
+        # convert w to a row standardised general weights object (same standardization as used in ape::Moran.I)
+        lw <- mat2listw(xmoran.dists.inv)
+        lwW <- nb2listw(lw$neighbours, glist=lw$weights, style="W",zero.policy=TRUE)
+        
+        # mres[1:nstas] residuals
+        morantest.obj <- moran.test(bres, lwW, alternative="two.sided",adjust.n=TRUE,na.action=na.exclude,zero.policy=TRUE)    # SPDEP
+        
+        bpmoran[ibasin] <- morantest.obj$p.value
+        bpmoran_dev[ibasin] <- morantest.obj$statistic    
+        
+      } # end loop for selecting the most downstream site for execution of Moran's
+    } # end site loop
+    
+    
+    # Euclidean weighted results
+    pmoran <- ifelse(pmoran == 0.0,min(pmoran[pmoran > 0]),pmoran)  # apply minimum non-zero to zero values
+    
+    # Hydrological weighted results
+    bpmoran <- ifelse(bpmoran == 0.0,min(bpmoran[bpmoran > 0]),bpmoran)  # apply minimum non-zero to zero values
+   
+    
+    # River basin text output
+    # Obtain list of river basin outlets with significant Moran's I
+    x1 <- data.frame(sitedata$station_name,sitedata$station_id,sitedata$staid,scount)
+    x2 <- x1[(x1$scount > 0), ]  # replace subset
+
+    xx <- data.frame(dsiteid,pmoran,pmoran_dev,bpmoran,bpmoran_dev)
+    x2$dsiteid <- x2$sitedata.staid
+    sites_sigmoran <- merge(x2,xx,by="dsiteid",all.y=TRUE,all.x=TRUE)
+
+    sites_sigmoran <- sites_sigmoran[(!is.na(sites_sigmoran$pmoran)),]
+    sites_sigmoran <- sites_sigmoran[,-1]
+    colnames(sites_sigmoran) <- c("Site Name"," Site ID"," Downstrm Site ID"," Upstrm Site Count"," P-Value(E)"," Standard Deviate(E)"," P-Value(H)"," Standard Deviate(H)")
+
+    ################################################################################
+    # Full Domain:  Hydrologic channel distance weighting for Moran's I test
+
+    for (i in 1:nstas) {
+      for (k in 1:nstas) {
+        if(sdistance[i,k]==0) {
+          sdistance[i,k] <- sdistance[k,i]
+        }
+      }
+    }
+
+    distance <- sdistance
+    xmoran.dists.inv <- ifelse(!distance==0,eval(parse(text=MoranDistanceWeightFunc)),0)
+    diag(xmoran.dists.inv) <- 0
+
+    # convert w to a row standardised general weights object
+    lw <- mat2listw(xmoran.dists.inv)
+    lwW <- nb2listw(lw$neighbours, glist=lw$weights, style="W",zero.policy=TRUE)
+
+    # mres[1:nstas] residuals
+    morantest.obj <- moran.test(mres, lwW, alternative="two.sided",adjust.n=TRUE,na.action=na.exclude,zero.policy=TRUE)    # SPDEP
+
+    pmoran <- morantest.obj$p.value
+    pmoran_dev <- morantest.obj$statistic
+
+    moranOut <- data.frame(pmoran,pmoran_dev)
+    rownames(moranOut) <- c(" ")
+    colnames(moranOut) <- c(" Moran's P-Value"," Moran's Standard Deviate")
+
+    xtext <- paste0("  Fraction of sites that are nested:  ",round(nest_sites,digits=3))
+
+
+    ################################################################################
+    # Moran's I for Euclidean distance within CLASS variable (e.g., HUC-2) and for full domain
+    ibasin <- 0
+
+    if(!is.na(classvar[1]) & (classvar[1] != "sitedata.demtarea.class")) {   # process only where class variable designated by user
+
+      # cycle through regions:  CLASS
+      # Obtain CLASS region numbers
+      mrbgrp <- table(class[,1])   # get labels
+      xx <- as.data.frame(mrbgrp)  # convert table to dataframe...
+      mrbgrp <- as.numeric(xx$Freq)
+      xclass <- as.numeric(xx$Var1)
+      xclass <- as.numeric(levels(xx$Var1)[xx$Var1])  # convert factor levels to numeric values
+
+      pmoran <- numeric(length(xclass)+1)
+      pmoran_dev <- numeric(length(xclass)+1)
+      ind <- rep(1:(length(pmoran)))
+      cind <- character(length(pmoran))
+      cindLabel <- classvar[1]
+
+      for (j in 1:length(xclass)) {
+
+        ibasin <- ibasin + 1
+
+        # transfer river basin sites info for Moran test
+
+        is <- 0
+        xresids <- numeric(mrbgrp[j])
+        xLat <- numeric(mrbgrp[j])
+        xLon <- numeric(mrbgrp[j])
+        ires <- numeric(mrbgrp[j])
+
+        for (i in 1:numsites) {
+          if (class[i] == xclass[j]) {
+            is <- is+1
+            ires[is] <- is
+            xresids[is] <- mres[i]
+            xLat[is] <- Lat[i]
+            xLon[is] <- Lon[i]
+          }
+        }
+
+        if(is >= 4) {  # only calculate for more than 4 sites
+          xmoran <- data.frame(ires,xresids,xLat,xLon)
+          xmoran.dists <- as.matrix(dist(cbind(xmoran$xLon, xmoran$xLat)),method = "euclidean")
+          distance <- xmoran.dists
+          xmoran.dists.inv <- eval(parse(text=MoranDistanceWeightFunc))
+          diag(xmoran.dists.inv) <- 0
+
+          cind[ibasin] <- as.character(xclass[j])
+
+          # convert w to a row standardised general weights object
+          lw <- mat2listw(xmoran.dists.inv)
+          lwW <- nb2listw(lw$neighbours, glist=lw$weights, style="W")
+          morantest.obj <- moran.test(xmoran$xresids, lwW, alternative="two.sided")    # SPDEP
+          pmoran[ibasin] <- morantest.obj$p.value
+          pmoran_dev[ibasin] <- morantest.obj$statistic
+        }
+
+      }  # end class loop
+
+      ##########################################################################
+    }  else {   # case of no designation of class variable
+      pmoran <- numeric(1)
+      pmoran_dev <- numeric(1)
+      cind <- character(1)
+      cindLabel <- "Total Area"
+    } # end check for designation of class variables by user
+
+    # Full spatial domain
+
+    ibasin <- ibasin + 1
+
+    # transfer river basin sites info for Moran test
+
+    is <- 0
+    xresids <- numeric(numsites)
+    xLat <- numeric(numsites)
+    xLon <- numeric(numsites)
+    ires <- numeric(numsites)
+
+    for (i in 1:numsites) {
+      is <- is+1
+      ires[is] <- is
+      xresids[is] <- mres[i]
+      xLat[is] <- Lat[i]
+      xLon[is] <- Lon[i]
+    }
+
+    xmoran <- data.frame(ires,xresids,xLat,xLon)
+    xmoran.dists <- as.matrix(dist(cbind(xmoran$xLon, xmoran$xLat)),method = "euclidean")
+    distance <- xmoran.dists
+    xmoran.dists.inv <- eval(parse(text=MoranDistanceWeightFunc))
+    diag(xmoran.dists.inv) <- 0
+
+    cind[ibasin] <- "Total Area"
+
+    # convert w to a row standardised general weights object
+    lw <- mat2listw(xmoran.dists.inv)
+    lwW <- nb2listw(lw$neighbours, glist=lw$weights, style="W")
+    morantest.obj <- moran.test(xmoran$xresids, lwW, alternative="two.sided")    # SPDEP
+    pmoran[ibasin] <- morantest.obj$p.value
+    pmoran_dev[ibasin] <- morantest.obj$statistic
+    
+    # 
+    # Plot Moran's I by Class variable (e.g., HUC-2)
+   pmoran <- ifelse(pmoran == 0.0,min(pmoran[pmoran > 0]),pmoran)  # apply minimum non-zero to zero values
+
+   p <- plotlyLayout(NA,pmoran, log = "", nTicks = 7, digits = 1,
+                     xTitle = cindLabel,ymin = 0, ymax = 1,
+                     xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                     yTitle ="Moran's P Value (Euclidean distance weighting)",  yZeroLine = FALSE,
+                     plotTitle = "Moran's I P Value by CLASS Variable",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+   p <- p %>% add_trace(y = pmoran,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                        mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+                                                                                                 width = 3)))
+   p1 <- p %>% layout(shapes = list(hline(0.1)))
+
+   p <- plotlyLayout(NA,pmoran_dev, log = "", nTicks = 7, digits = 1,
+                     xTitle = cindLabel,ymin = 0, ymax = 1,
+                     xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
+                     yTitle ="Moran's Standard Deviate\n (Euclidean distance weighting)",  yZeroLine = FALSE,
+                     plotTitle = "Moran's I Standard Deviate by CLASS Variable",
+                     legend = FALSE,showPlotGrid = showPlotGrid)
+   p <- p %>% add_trace(y = pmoran_dev,x = as.numeric(cind), type = 'scatter', color = I("black"),
+                        mode="markers", marker = list(symbol='line-ew-open', size=15,line = list(color = 'black',
+                                                                                                 width = 3)))
+   p2 <- p %>% layout(shapes = list(hline(0.1)))
+   if (!dynamic){
+     h<-c(1)
+   }else{
+     h<-c(0.5)
+   }
+   p<-subplot(p1,p2,nrows = 1, widths = c(0.5,0.5),heights = h,
+              titleX = TRUE, titleY=TRUE, margin = 0.08)
+    
+    
+    
+    if (!dynamic){
+    # output moran's I p values to text file 
+    
+    if(!is.na(classvar[1]) & (classvar[1] != "sitedata.demtarea.class")) {   # process only where class variable designated by user
+      nmrbout <- numeric(length(xclass)+1)
+      nmrbout[1:length(mrbgrp)] <- mrbgrp[1:length(mrbgrp)]
+      nmrbout[length(mrbgrp)+1] <- sum(mrbgrp)
+    } else {
+      nmrbout <- numeric(1)
+      nmrbout[1] <- numsites
+    }
+    
+    class_sigmoran <- data.frame(cind,nmrbout,pmoran,pmoran_dev)
+    colnames(class_sigmoran) <- c(cindLabel," Number Stations"," Moran's P-Value"," Moran's Standard Deviate")
+    
+    fileCSV<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"summaryCSV",.Platform$file.sep)
+    fileout<-paste0(fileCSV,"EuclideanMoransI.csv")
+    fwrite(class_sigmoran,file=fileout,row.names=F,append=F,quote=F,showProgress = FALSE,
+           dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
+    
+    
+    saveList<-named.list(dd,sites_sigmoran,moranOut,xtext,class_sigmoran)
+    save(saveList,file = paste0(path_masterFormat,"tempDiagSpat.RData"))
+    }
+    
+    return(p)
+    
+    
+    
+  }#p22 func
   ############################################
  return(plotList)
 }

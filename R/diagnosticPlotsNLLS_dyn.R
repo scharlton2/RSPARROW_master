@@ -27,12 +27,24 @@ diagnosticPlotsNLLS_dyn<-function(diagnostic_params){
         sPlot.list<-c(sPlot.list,sTest2)
       }
     }  
+    
+    sacPlot.list<-list()
+    for (n in 1:length(names(plotList))){
+      sTest2<-list()
+      sTest<-plotList[[n]]
+      if (sTest$sacPlot==TRUE){
+        eval(parse(text=paste0("sTest2$",names(plotList)[n],"<-sTest")))
+        sacPlot.list<-c(sacPlot.list,sTest2)
+      }
+    }  
   
     if (sensitivity){
     plotList<-sPlot.list
-  }else{
-    #remove sensitivity plots
-    plotList<-plotList[which(!names(plotList) %in% names(sPlot.list))]
+  }else if (spatialAutoCorr){
+    plotList<-sacPlot.list
+    }else{
+    #remove sensitivity plots and spatialAutoCorr plots
+    plotList<-plotList[which(!names(plotList) %in% c(names(sPlot.list),names(sacPlot.list)))]
   }
   
   for (n in names(plotList)){
@@ -42,6 +54,10 @@ diagnosticPlotsNLLS_dyn<-function(diagnostic_params){
     }else if (sensitivity){
       htmlFile<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_sensitivity_dynamic",.Platform$file.sep,
                        eval(parse(text = paste0("plotList$",n,"$title"))),".html")
+    }else if (spatialAutoCorr){
+      htmlFile<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_spatialautocor_dynamic",.Platform$file.sep,
+                       eval(parse(text = paste0("plotList$",n,"$title"))),".html")
+      
       }else{
      htmlFile<-paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnosticPlotsNLLS_dynamic",.Platform$file.sep,
                             eval(parse(text = paste0("plotList$",n,"$title"))),".html") 

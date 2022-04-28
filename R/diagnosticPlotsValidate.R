@@ -106,6 +106,7 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
   diagnostic_params<-list(
     validation = TRUE,
     sensitivity = FALSE,
+    spatialAutoCorr = FALSE,
     file.output.list = file.output.list,
     path_diagnosticMapAttrChild = path_diagnosticMapAttrChild,
     path_diagnosticCorrChild = path_diagnosticCorrChild,

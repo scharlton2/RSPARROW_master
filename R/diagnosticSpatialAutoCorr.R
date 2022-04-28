@@ -31,7 +31,7 @@
 
 
 diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsites,estimate.list,
-                                      estimate.input.list,mapping.input.list,subdata) { 
+                                      estimate.input.list,mapping.input.list,subdata,min.sites.list) { 
   
   
   
@@ -50,6 +50,9 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
   
   path_masterFormat <- file_path_as_absolute(paste0(path_master,"diagnosticSpatialAutoCorr.R"))
   path_masterFormat<-gsub("diagnosticSpatialAutoCorr.R","",path_masterFormat)
+  path_outputMapsChild<-file_path_as_absolute(paste0(path_master,"outputMapsChild.Rmd"))
+  path_outputMaps<-file_path_as_absolute(paste0(path_master,"outputMaps.Rmd"))
+  
   
   reportPath<-paste0(path_master,"diagnosticSpatialAutoCorr.Rmd")
 
@@ -68,6 +71,33 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
                     ),
                     output_file = filename, quiet = TRUE
   )
+  
+  
+  diagnostic_params<-list(
+    validation = FALSE,
+    sensitivity = FALSE,
+    spatialAutoCorr = TRUE,
+    file.output.list = file.output.list,
+    path_masterFormat = path_masterFormat,
+    path_outputMapsChild = path_outputMapsChild,
+    path_outputMaps = path_outputMaps,
+    classvar = classvar,
+    sitedata = sitedata,
+    numsites = numsites, 
+    DataMatrix.list = DataMatrix.list,
+    estimate.list = estimate.list,
+    estimate.input.list = estimate.input.list,
+    subdata = subdata,
+    mapping.input.list = mapping.input.list,
+    min.sites.list = min.sites.list)
+  
+  
+  
+  #if dynamic data
+  if (!is.na(diagnosticPlots_timestep)){
+    diagnosticPlotsNLLS_dyn(diagnostic_params)
+  } 
+  
   
   #sink text file
   options(width = 200, max.print = 999999)
