@@ -273,8 +273,9 @@ readForecast <- function(file.output.list,if_mean_adjust_delivery_vars,use_sparr
   fFinal <- fFinal[with(fFinal,order(fFinal$waterid)), ]
  
  #clear out extra variables
- fFinal<-fFinal[,names(fFinal)!="waterid"]
- names(fFinal)[names(fFinal)=="waterid_for_RSPARROW_mapping"]<-"waterid"
+ # fFinal<-fFinal[,names(fFinal)!="waterid"]
+ fFinal<-fFinal[,names(fFinal)!="waterid_for_RSPARROW_mapping"]
+ # names(fFinal)[names(fFinal)=="waterid_for_RSPARROW_mapping"]<-"waterid"
 
  if ("season" %in% names(fFinal)){
    fFinal<-fFinal[,names(fFinal)!="season"]
@@ -283,7 +284,7 @@ readForecast <- function(file.output.list,if_mean_adjust_delivery_vars,use_sparr
  if ("year" %in% names(fFinal)){
    fFinal<-fFinal[,names(fFinal)!="year"]
  }
-
+ 
   return(fFinal)
 }
 
