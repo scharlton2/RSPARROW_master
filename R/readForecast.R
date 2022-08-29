@@ -26,10 +26,14 @@ readForecast <- function(file.output.list,if_mean_adjust_delivery_vars,use_sparr
 # 1. Read external forecast file
  filefData <- paste0(path_data,forecast_filename)   
 
+ save(filefData,file="C:/DATA/rsparrow_2.0.0_07-29-2022/Tampa_UserTutorial/results/TP_season_test2/debug0a")
+ 
+ 
  fData <- read.csv(filefData,header=TRUE,stringsAsFactors=FALSE,
                    dec = csv_decimalSeparator,sep=csv_columnSeparator,
                    fileEncoding="UTF-8-BOM")
  
+ save(fData,file="C:/DATA/rsparrow_2.0.0_07-29-2022/Tampa_UserTutorial/results/TP_season_test2/debug0b")
 
  #test for names in data_names
  if (!use_sparrowNames){
@@ -74,7 +78,9 @@ readForecast <- function(file.output.list,if_mean_adjust_delivery_vars,use_sparr
    }
    fData <- setNames(fData, replace(names(fData), names(fData) == vc, 'waterid_for_RSPARROW_mapping'))
  } 
-
+ 
+ save(fData,file="C:/DATA/rsparrow_2.0.0_07-29-2022/Tampa_UserTutorial/results/TP_season_test2/debug1")
+ 
  #test for original waterid variable
  if (!any(names(fData)=="waterid_for_RSPARROW_mapping")){
    message("ERROR: VALID REACH IDENTIFICATION NUMBER NOT FOUND IN FORECAST SCENARIO DATAFILE. SCENARIO NOT RUN.")
@@ -201,9 +207,11 @@ readForecast <- function(file.output.list,if_mean_adjust_delivery_vars,use_sparr
 
  #  3c. Merge forecast file (fData) with the object 'fsubdata', which contains all reaches (and time periods from the forecast file)
  fData2 <- merge(fData, fsubdata, by="waterid_for_RSPARROW_mapping", all=TRUE)   # keep all records
-
- #  fcheck <- fData2[is.na(fData2$logPPT.x),names(fData2)]   # 55 records for TB TP model
-
+ 
+ save(fData2,file="C:/DATA/rsparrow_2.0.0_07-29-2022/Tampa_UserTutorial/results/TP_season_test2/debug2")
+ 
+ #  fcheck <- fData2[is.na(fData2$logPPT.x),names(fData2)]   # 55 records with NAs for TB TP model
+ 
  #  3d. Process the final forecast variables in 'fData2' object
  #       Procedure replaces missing forecast values (.x) with the original base time period data values in 'fsubdata' (.y)
  #       Save only the forecast variables present in the calibrated model
@@ -256,26 +264,29 @@ readForecast <- function(file.output.list,if_mean_adjust_delivery_vars,use_sparr
     c1 <- paste0("fFinal$",dname," <- ",dname) 
     eval(parse(text=c1))
   }
-
+ 
+ fFinal1 <- fFinal
+ save(fFinal1,file="C:/DATA/rsparrow_2.0.0_07-29-2022/Tampa_UserTutorial/results/TP_season_test2/debug3")
+ 
   ######################################################
 # 5. mean-adjust all forecast delivery variables included in model, using mean of original data from 'subdata' object
 
   for (j in 1:length(fNames)) {
-    if(fbetatype[j] == "DELIVF") {
+    if(fbetatype[j] == "DELIVF" & if_mean_adjust_delivery_vars == "yes") {
       c1 <- paste0("fFinal$",fNames[j]," <- fFinal$",fNames[j]," - mean(subdata$",fNames[j],")") 
       eval(parse(text=c1))
     }
   }
-
+ 
 ######################################################
 # 6. sort final data frame by 'waterid' (internal); ready to match to the internal data matrix used by DSS
   
   fFinal <- fFinal[with(fFinal,order(fFinal$waterid)), ]
  
+ save(fFinal,file="C:/DATA/rsparrow_2.0.0_07-29-2022/Tampa_UserTutorial/results/TP_season_test2/debug4")
+ 
  #clear out extra variables
- # fFinal<-fFinal[,names(fFinal)!="waterid"]
  fFinal<-fFinal[,names(fFinal)!="waterid_for_RSPARROW_mapping"]
- # names(fFinal)[names(fFinal)=="waterid_for_RSPARROW_mapping"]<-"waterid"
 
  if ("season" %in% names(fFinal)){
    fFinal<-fFinal[,names(fFinal)!="season"]
