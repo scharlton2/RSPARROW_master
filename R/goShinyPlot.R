@@ -1,15 +1,15 @@
 #'@title goShinyPlot
-#'@description function to execute plots in shiny \\cr \\cr
-#'Executed By: shinyMap2.R \\cr
-#'Executes Routines: \\itemize\{\\item interactiveBatchRun.R
-#'             \\item compileALL.R
-#'             \\item convertHotTables.R
-#'             \\item mapSiteAttributes.R
-#'             \\item predictMaps.R
-#'             \\item predictScenarios.R
-#'             \\item shinyErrorTrap.R
-#'             \\item sourceRedFunc.R
-#'             \\item unPackList.R\} \\cr
+#'@description function to execute plots in shiny \cr \cr
+#'Executed By: shinyMap2.R \cr
+#'Executes Routines: \itemize{\item interactiveBatchRun.R
+#'             \item compileALL.R
+#'             \item convertHotTables.R
+#'             \item mapSiteAttributes.R
+#'             \item predictMaps.R
+#'             \item predictScenarios.R
+#'             \item shinyErrorTrap.R
+#'             \item sourceRedFunc.R
+#'             \item unPackList.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param output shiny list object for session output
 #'@param session active shiny session

@@ -1,8 +1,8 @@
 #'@title handsOnMod
-#'@description shiny module to create rshandsontables \\cr \\cr
-#'Executed By: \\itemize\{\\item shinyMap2.R
-#'             \\item shinyScenariosMod.R\} \\cr
-#'Executes Routines: allowRemoveRow.R \\cr
+#'@description shiny module to create rshandsontables \cr \cr
+#'Executed By: \itemize{\item shinyMap2.R
+#'             \item shinyScenariosMod.R} \cr
+#'Executes Routines: allowRemoveRow.R \cr
 #'@param input top level interactive user input in Shiny app
 #'@param output shiny list object for session output
 #'@param session active shiny session

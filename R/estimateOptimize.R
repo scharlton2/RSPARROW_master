@@ -1,10 +1,10 @@
 #'@title estimateOptimize
 #'@description Executes the SPARROW NLLS model estimation via calls to the 'nlfb' NLMRT 
-#'            library optimization function and the 'jacobian' function.  \\cr \\cr
-#'Executed By: estimate.R \\cr
-#'Executes Routines: \\itemize\{\\item estimateFeval.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'            library optimization function and the 'jacobian' function.  \cr \cr
+#'Executed By: estimate.R \cr
+#'Executes Routines: \itemize{\item estimateFeval.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param SelParmValues selected parameters from parameters.csv using condition 

@@ -1,9 +1,9 @@
 #'@title copyPriorModelFiles
 #'@description Copies the previously executed model control files into the top level user's 
 #'            results directory. RSPARROW is terminated after files are copied and the copied control script, 
-#'            sparrow_control.R, is opened in Rstudio. \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
-#'Executes Routines: errorOccurred.R \\cr
+#'            sparrow_control.R, is opened in Rstudio. \cr \cr
+#'Executed By: executeRSPARROW.R \cr
+#'Executes Routines: errorOccurred.R \cr
 #'@param activeFile character string path to sparrow_control.R file at currently top level of 
 #'       user's results directory
 #'@param old_run_id character string indicating the archived model subdirectory containing 

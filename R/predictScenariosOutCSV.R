@@ -1,9 +1,9 @@
 #'@title predictScenariosOutCSV
-#'@description Outputs the scenario load predictions to CSV files.  \\cr \\cr
-#'Executed By: predictScenarios.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'@description Outputs the scenario load predictions to CSV files.  \cr \cr
+#'Executed By: predictScenarios.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param Rshiny TRUE/FALSE indicating whether routine is being run from the Shiny app
 #'@param file.output.list list of control settings and relative paths used for input and 

@@ -2,10 +2,10 @@
 #'@description Performs a consistency check on values for the total drainage area system 
 #'            variable, 'demtarea', based on the 'if_verify_demtarea' control setting (section 2 of the control 
 #'            script). The check compares values of the newly-created 'demtarea' (using the 'hydseq.R' 
-#'            function) with user-supplied values of 'demtarea', and outputs the results to CSV and PDF files. \\cr \\cr
-#'Executed By: createVerifyReachAttr.R \\cr
-#'Executes Routines: \\itemize\{\\item checkDrainageareaErrors.R
-#'             \\item unPackList.R\} \\cr
+#'            function) with user-supplied values of 'demtarea', and outputs the results to CSV and PDF files. \cr \cr
+#'Executed By: createVerifyReachAttr.R \cr
+#'Executes Routines: \itemize{\item checkDrainageareaErrors.R
+#'             \item unPackList.R} \cr
 #'@param if_verify_demtarea specify whether or not to verify demtarea
 #'@param data1 input data (data1)
 #'@param compareData data.frame of reach verification attributes to compare with the users 

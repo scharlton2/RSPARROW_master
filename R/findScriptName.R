@@ -1,6 +1,6 @@
 #'@title findScriptName
-#'@description function to locate the current user directory \\cr \\cr
-#'Executed By: sparrow_control.R\\cr
+#'@description function to locate the current user directory \cr \cr
+#'Executed By: sparrow_control.R\cr
 #'@return `path` character string path to current user directory
 
 findScriptName <- function() {

@@ -1,10 +1,10 @@
 #'@title predictMaps_single
 #'@description Create a single trace on stream or catchment map for a given 
-#'             timestep \\cr \\cr
-#'Executed By: mapLoopStr.R \\cr
-#'Executes Routines: \\itemize\{\\item unPackList.R
-#'             \\item addMarkerText.R
-#'             \\item named.list.R} \\cr
+#'             timestep \cr \cr
+#'Executed By: mapLoopStr.R \cr
+#'Executes Routines: \itemize{\item unPackList.R
+#'             \item addMarkerText.R
+#'             \item named.list.R} \cr
 #'@param mapType character string indicating type of map being executed ("stream" 
 #'               or"catchment")
 #'@param mapLoopInput.list list of all objects required for a given mapType

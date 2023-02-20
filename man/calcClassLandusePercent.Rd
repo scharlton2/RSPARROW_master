@@ -8,6 +8,8 @@ calcClassLandusePercent(subdata, class.input.list)
 }
 \arguments{
 \item{subdata}{data.frame input data (subdata)}
+
+\item{class.input.list}{list of control settings related to classification variables}
 }
 \value{
 \code{percentClassLanduse}  data.frame with calculated percentages by land use
@@ -15,7 +17,7 @@ calcClassLandusePercent(subdata, class.input.list)
 \description{
 Calculates the land use percentages for the total drainage area for each reach,
 based on the user selected land uses given by the class_landuse control setting, followed by a
-subsetting of the reaches by the class_landuse_percent control setting. \cr \cr
+subsetting of the reaches by the class_landuse_percent control setting. \\cr \\cr
 Executed By: predictSummaryOutCSV.R \cr
 Executes Routines: \itemize{\item accumulateIncrArea.R
 \item unPackList.R} \cr

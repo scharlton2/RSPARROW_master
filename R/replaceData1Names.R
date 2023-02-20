@@ -1,8 +1,8 @@
 #'@title replaceData1Names
 #'@description replaces data1UserNames with sparrowNames in the data1 object from the 
-#'            dataDictionary.csv control file \\cr \\cr
-#'Executed By: dataInputPrep.R \\cr
-#'Executes Routines: getVarList.R \\cr
+#'            dataDictionary.csv control file \cr \cr
+#'Executed By: dataInputPrep.R \cr
+#'Executes Routines: getVarList.R \cr
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param data1 input data (data1)
 #'@return `data1` input data (data1) with data1UserNames replaced with sparrowNames

@@ -1,10 +1,10 @@
 #'@title checkBinaryMaps
-#'@description Checks if binary mapping objects exist and loads binary files \\cr \\cr
-#'Executed By: \\itemize\{\\item checkDrainageareaErrors.R
-#'             \\item diagnosticPlotsNLLS.R
-#'             \\item diagnosticPlotsValidate.R
-#'             \\item mapSiteAttributes.R
-#'             \\item predictMaps.R\} \\cr
+#'@description Checks if binary mapping objects exist and loads binary files \cr \cr
+#'Executed By: \itemize{\item checkDrainageareaErrors.R
+#'             \item diagnosticPlotsNLLS.R
+#'             \item diagnosticPlotsValidate.R
+#'             \item mapSiteAttributes.R
+#'             \item predictMaps.R} \cr
 #'@param mapSetting setting in control file that user sets to use to load the binary map 
 #'       (`lineShapeName`, `polyShapeName`, or `LineShapeGeo`)
 #'@param path_gis path to users gis data

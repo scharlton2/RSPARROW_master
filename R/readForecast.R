@@ -1,11 +1,11 @@
 #'@title readForecast
 #'@description  Prepare generic external forecast file for 
 #'              merging with the explanatory data matrix in 
-#'              the DSS.\\cr \\cr
-#'Executed By: predictScenariosPrep.R \\cr
-#'Executes Routines: \\itemize\{\\item unPackList.R
-#'             \\item errorOccurred.R
-#'             \\item checkDynamic.R} \\cr
+#'              the DSS.\cr \cr
+#'Executed By: predictScenariosPrep.R \cr
+#'Executes Routines: \itemize{\item unPackList.R
+#'             \item errorOccurred.R
+#'             \item checkDynamic.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param if_mean_adjust_delivery_vars yes/no character string indicating if the delivery 

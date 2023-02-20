@@ -1,10 +1,10 @@
 #'@title syncVarNames
 #'@description Updates the 'dataDictionary.csv' varType column with the user designated 
-#'            parmTypes from the 'parameters.csv' file. \\cr \\cr
-#'Executed By: createDirs.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item importCSVcontrol.R
-#'             \\item unPackList.R\} \\cr
+#'            parmTypes from the 'parameters.csv' file. \cr \cr
+#'Executed By: createDirs.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item importCSVcontrol.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 

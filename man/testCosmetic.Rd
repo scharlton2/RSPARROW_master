@@ -4,7 +4,15 @@
 \alias{testCosmetic}
 \title{testCosmetic}
 \usage{
-testCosmetic(input, output, session, DF, mapType)
+testCosmetic(
+  input,
+  output,
+  session,
+  DF,
+  mapType,
+  scenario.input.list,
+  mapping.input.list
+)
 }
 \arguments{
 \item{input}{top level interactive user input in Shiny app}

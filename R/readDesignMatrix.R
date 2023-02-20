@@ -1,10 +1,10 @@
 #'@title readDesignMatrix
 #'@description Reads the land-to-water and source interaction matrix in the 
-#'            'design_matrix.csv' file.  \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item importCSVcontrol.R
-#'             \\item unPackList.R\} \\cr
+#'            'design_matrix.csv' file.  \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item importCSVcontrol.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param betavalues data.frame of model parameters from parameters.csv

@@ -1,10 +1,10 @@
 #'@title selectValidationSites
 #'@description Identifies the validation sites according to user-specified control settings 
-#'            (section 6 of the control script).  \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item assignIncremSiteIDs.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'            (section 6 of the control script).  \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item assignIncremSiteIDs.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param iseed User specified initial seed for the bootstraps from sparrow_control
 #'@param pvalidate numeric control setting indicating a percentage of calibration sites to 
 #'       select for validation or if equal to 0 indicates that the user defined valsites variable should be 

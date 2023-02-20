@@ -1,8 +1,8 @@
 #'@title generateInputLists
-#'@description creates lists of control settings for group input into functions \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
-#'Executes Routines: \\itemize\{\\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'@description creates lists of control settings for group input into functions \cr \cr
+#'Executed By: executeRSPARROW.R \cr
+#'Executes Routines: \itemize{\item named.list.R
+#'             \item unPackList.R} \cr
 #'@param settings named list of all control settings
 
 

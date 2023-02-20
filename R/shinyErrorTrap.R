@@ -1,7 +1,7 @@
 #'@title shinyErrorTrap
 #'@description tests for invalid user inputs in the shiny app and pops up a custom error 
-#'            message, shiny map execution is halted \\cr \\cr
-#'Executed By: goShinyPlot.R \\cr
+#'            message, shiny map execution is halted \cr \cr
+#'Executed By: goShinyPlot.R \cr
 #'@param input top level interactive user input in Shiny app
 #'@param path_results path to results model subdirectory
 #'@param badSettings data.frame of row and column number is rhandsontables with invalid 

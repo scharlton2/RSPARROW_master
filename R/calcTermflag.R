@@ -1,8 +1,8 @@
 #'@title calcTermflag
-#'@description Calculates the system variable termflag, based on reach navigation variables \\cr \\cr
-#'Executed By: createVerifyReachAttr.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item unPackList.R\} \\cr
+#'@description Calculates the system variable termflag, based on reach navigation variables \cr \cr
+#'Executed By: createVerifyReachAttr.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item unPackList.R} \cr
 #'@param data1 input data (data1)
 #'@return `outdata`  data.frame with waterid and termflag
 

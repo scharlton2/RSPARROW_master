@@ -1,9 +1,9 @@
 #'@title compileALL
 #'@description Compiles all user input from the shiny session in the namespace of the map 
-#'            being generated into a single list object. \\cr \\cr
-#'Executed By: \\itemize\{\\item goShinyPlot.R
-#'             \\item shinyMap2.R\} \\cr
-#'Executes Routines: compileInput.R \\cr
+#'            being generated into a single list object. \cr \cr
+#'Executed By: \itemize{\item goShinyPlot.R
+#'             \item shinyMap2.R} \cr
+#'Executes Routines: compileInput.R \cr
 #'@param input top level interactive user input in Shiny app
 #'@param output shiny list object for session output
 #'@param session active shiny session

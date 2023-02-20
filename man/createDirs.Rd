@@ -7,6 +7,9 @@
 createDirs(file.output.list, if_userModifyData, batch_mode)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{if_userModifyData}{yes/no indicating whether or not the userModifyData.R control file
 is to be applied}
 

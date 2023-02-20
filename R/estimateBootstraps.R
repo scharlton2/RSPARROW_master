@@ -1,11 +1,11 @@
 #'@title estimateBootstraps
 #'@description Executes all model tasks related to obtaining model estimation uncertainties 
-#'            using parametric bootstrap methods, for the control setting if_boot_estimate<-"yes". \\cr \\cr
-#'Executed By: controlFileTasksModel.R \\cr
-#'Executes Routines: \\itemize\{\\item estimateFeval.R
-#'             \\item getVarList.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'            using parametric bootstrap methods, for the control setting if_boot_estimate<-"yes". \cr \cr
+#'Executed By: controlFileTasksModel.R \cr
+#'Executes Routines: \itemize{\item estimateFeval.R
+#'             \item getVarList.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param iseed User specified initial seed for the bootstraps from sparrow_control
 #'@param biters User specified number of parametric bootstrap iterations from sparrow_control
 #'@param estimate.list list output from `estimate.R`

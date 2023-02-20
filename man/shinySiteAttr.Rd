@@ -4,7 +4,7 @@
 \alias{shinySiteAttr}
 \title{shinySiteAttr}
 \usage{
-shinySiteAttr(id, input, choices)
+shinySiteAttr(id, input, choices, sitedata, add_plotlyVars)
 }
 \arguments{
 \item{id}{Shiny namespace designation}
@@ -12,6 +12,14 @@ shinySiteAttr(id, input, choices)
 \item{input}{top level interactive user input in Shiny app}
 
 \item{choices}{data.frame output of function createInteractiveChoices.R}
+
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
+
+\item{add_plotlyVars}{character vector indicating user selected variables to add to plot
+hover text}
 }
 \description{
 Shiny ui function generates user selections for Site Attribute Mapping Uses

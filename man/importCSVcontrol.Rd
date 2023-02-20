@@ -4,8 +4,15 @@
 \alias{importCSVcontrol}
 \title{importCSVcontrol}
 \usage{
-importCSVcontrol(filein, Ctype, NAMES, strEndMessage, file.output.list,
-  exitRun, batch_mode)
+importCSVcontrol(
+  filein,
+  Ctype,
+  NAMES,
+  strEndMessage,
+  file.output.list,
+  exitRun,
+  batch_mode
+)
 }
 \arguments{
 \item{filein}{path to input file in csv format}
@@ -15,6 +22,9 @@ importCSVcontrol(filein, Ctype, NAMES, strEndMessage, file.output.list,
 \item{NAMES}{column names for required columns}
 
 \item{strEndMessage}{message string to be evaluated}
+
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
 
 \item{exitRun}{TRUE/FALSE states whether code should terminate}
 

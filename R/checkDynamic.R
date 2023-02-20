@@ -1,7 +1,7 @@
 #'@title checkDynamic
 #'@description Determine whether the model is dynamic or static using the
-#'             presence of "year" and/or "season" data in subdata \\cr \\cr
-#'Executed By: \itemize\{\item createVerifyReachAttr.R
+#'             presence of "year" and/or "season" data in subdata \cr \cr
+#'Executed By: \itemize{\item createVerifyReachAttr.R
 #'                       \item diagnosticPlotsNLLS.Rmd
 #'                       \item diagnosticPlotsNLLS_timeSeries.Rmd
 #'                       \item estimate.R

@@ -1,12 +1,12 @@
 #'@title predictMaps
-#'@description executes prediction and source reduction scenario stream and catchment mapping \\cr \\cr
-#'Executed By: \\itemize\{\\item batchMaps.R
-#'             \\item interactiveBatchRun.R
-#'             \\item goShinyPlot.R
-#'             \\item predictScenarios.R\} \\cr
-#'Executes Routines: \\itemize\{\\item checkBinaryMaps.R
-#'             \\item mapBreaks.R
-#'             \\item unPackList.R\} \\cr
+#'@description executes prediction and source reduction scenario stream and catchment mapping \cr \cr
+#'Executed By: \itemize{\item batchMaps.R
+#'             \item interactiveBatchRun.R
+#'             \item goShinyPlot.R
+#'             \item predictScenarios.R} \cr
+#'Executes Routines: \itemize{\item checkBinaryMaps.R
+#'             \item mapBreaks.R
+#'             \item unPackList.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param allMetrics character string of all load, yield, uncertainty, and data dictionary 
 #'       variables to map in shiny batch mode

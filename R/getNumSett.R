@@ -1,10 +1,10 @@
 #'@title getNumSett
-#'@description list of all numeric type control settings \\cr \\cr
-#'Executed By: \\itemize\{\\item executeRSPARROW.R
-#'             \\item outputSettings.R
-#'             \\item runRsparrow.R
-#'             \\item testCosmetic.R
-#'             \\item testSettings.R\} \\cr
+#'@description list of all numeric type control settings \cr \cr
+#'Executed By: \itemize{\item executeRSPARROW.R
+#'             \item outputSettings.R
+#'             \item runRsparrow.R
+#'             \item testCosmetic.R
+#'             \item testSettings.R} \cr
 #'@return `numericSettings` list of all numeric type control settings
 
 

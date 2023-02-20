@@ -1,10 +1,10 @@
 #'@title hydseq
 #'@description Creates values for the REQUIRED system variables specified in the 
-#'            'calculate_reach_attribute_list' control setting, including  'hydseq', 'headflag',  and/or 'demtarea'.  \\cr \\cr
-#'Executed By: createVerifyReachAttr.R \\cr
-#'Executes Routines: \\itemize\{\\item accumulateIncrArea.R
-#'             \\item getVarList.R
-#'             \\item unPackList.R\} \\cr
+#'            'calculate_reach_attribute_list' control setting, including  'hydseq', 'headflag',  and/or 'demtarea'.  \cr \cr
+#'Executed By: createVerifyReachAttr.R \cr
+#'Executes Routines: \itemize{\item accumulateIncrArea.R
+#'             \item getVarList.R
+#'             \item unPackList.R} \cr
 #'@param indata data.frame containing reach navigation variables and variables to be selected 
 #'       for incremental area accumulation
 #'@param calculate_reach_attribute_list list of attributes to calculate

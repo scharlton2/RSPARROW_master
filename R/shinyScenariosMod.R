@@ -1,9 +1,9 @@
 #'@title shinyScenariosMod
-#'@description shiny module for source change scenario mapping \\cr \\cr
-#'Executed By: shinyMap2.R \\cr
-#'Executes Routines: \\itemize\{\\item handsOnMod.R
-#'             \\item testCosmetic.R
-#'             \\item validCosmetic.R\} \\cr
+#'@description shiny module for source change scenario mapping \cr \cr
+#'Executed By: shinyMap2.R \cr
+#'Executes Routines: \itemize{\item handsOnMod.R
+#'             \item testCosmetic.R
+#'             \item validCosmetic.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param output shiny list object for session output
 #'@param session active shiny session

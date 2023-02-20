@@ -12,7 +12,7 @@ validateFevalNoadj(beta0, vdepvar, SelParmValues)
 \item{vdepvar}{variable \code{subdata$vdepvar}}
 
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 }
 \value{
 \code{e} vector of weighted residuals

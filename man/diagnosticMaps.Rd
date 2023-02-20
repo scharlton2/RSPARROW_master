@@ -4,8 +4,20 @@
 \alias{diagnosticMaps}
 \title{diagnosticMaps}
 \usage{
-diagnosticMaps(mapColumn, mapdata, GeoLines, map.list, strTitle,
-  mapping.input.list)
+diagnosticMaps(
+  mapColumn,
+  mapdata,
+  GeoLines,
+  map.list,
+  strTitle,
+  mapping.input.list,
+  sitedata,
+  p,
+  usedColors,
+  legendPos,
+  legendJus,
+  subTitle
+)
 }
 \arguments{
 \item{mapColumn}{character string indicating column of data to be mapped}
@@ -14,7 +26,23 @@ diagnosticMaps(mapColumn, mapdata, GeoLines, map.list, strTitle,
 
 \item{GeoLines}{Optional geospatial shape file for overlay of lines on output maps}
 
+\item{map.list}{character string indicating whether over/under predictions
+("threshold") are to be mapped or all predictions ("all"). Value
+c("threshold","all")}
+
 \item{strTitle}{character string for plot title}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo,
+CRStext, convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
+
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
 }
 \description{
 Creates diagnostic maps of residuals and site attributes and saves them to

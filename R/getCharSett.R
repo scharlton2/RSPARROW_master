@@ -1,9 +1,9 @@
 #'@title getCharSett
-#'@description list of all character type control settings \\cr \\cr
-#'Executed By: \\itemize\{\\item executeRSPARROW.R
-#'             \\item outputSettings.R
-#'             \\item runRsparrow.R
-#'             \\item testSettings.R\} \\cr
+#'@description list of all character type control settings \cr \cr
+#'Executed By: \itemize{\item executeRSPARROW.R
+#'             \item outputSettings.R
+#'             \item runRsparrow.R
+#'             \item testSettings.R} \cr
 #'@return `charSettings` list of all character type control settings
 
 

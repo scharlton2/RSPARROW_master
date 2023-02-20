@@ -1,20 +1,20 @@
 #'@title predictScenarios
 #'@description Executes tasks for the management source-change scenarios, including generating 
 #'            load predictions for the scenario, saving the predictions to the 'predictScenarios.list', and 
-#'            executing the mapping function 'predictMaps'. \\cr \\cr
-#'Executed By: \\itemize\{\\item interactiveBatchRun.R
-#'             \\item controlFileTasksModel.R
-#'             \\item goShinyPlot.R\} \\cr
-#'Executes Routines: \\itemize\{\\item batchMaps.R
-#'             \\item named.list.R
-#'             \\item outputSettings.R
-#'             \\item predictMaps.R
-#'             \\item predictScenariosOutCSV.R
-#'             \\item predictScenariosPrep.R
-#'             \\item unPackList.R
-#'             \\item deliv_fraction.for
-#'             \\item mptnoder.for
-#'             \\item ptnoder.for\} \\cr
+#'            executing the mapping function 'predictMaps'. \cr \cr
+#'Executed By: \itemize{\item interactiveBatchRun.R
+#'             \item controlFileTasksModel.R
+#'             \item goShinyPlot.R} \cr
+#'Executes Routines: \itemize{\item batchMaps.R
+#'             \item named.list.R
+#'             \item outputSettings.R
+#'             \item predictMaps.R
+#'             \item predictScenariosOutCSV.R
+#'             \item predictScenariosPrep.R
+#'             \item unPackList.R
+#'             \item deliv_fraction.for
+#'             \item mptnoder.for
+#'             \item ptnoder.for} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param allMetrics character string of all load, yield, uncertainty, and data dictionary 
 #'       variables to map in shiny batch mode

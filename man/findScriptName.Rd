@@ -6,7 +6,10 @@
 \usage{
 findScriptName()
 }
+\value{
+\code{path} character string path to current user directory
+}
 \description{
-\cr \cr
-Executed By:  \cr
+function to locate the current user directory \cr \cr
+Executed By: sparrow_control.R\cr
 }

@@ -4,9 +4,29 @@
 \alias{mapSiteAttributes}
 \title{mapSiteAttributes}
 \usage{
-mapSiteAttributes(input, attr, path_gis, sitedata, LineShapeGeo,
-  data_names, Rshiny, mapColumn, mapdata, GeoLines, mapping.input.list,
-  strTitle, unitAttr, batch_mode)
+mapSiteAttributes(
+  input,
+  attr,
+  path_gis,
+  sitedata,
+  LineShapeGeo,
+  data_names,
+  Rshiny,
+  mapColumn,
+  mapdata,
+  GeoLines,
+  mapping.input.list,
+  strTitle,
+  unitAttr,
+  add_plotlyVars,
+  legendPos,
+  legendJus,
+  subTitle,
+  p,
+  plotPageData,
+  usedColors,
+  batch_mode
+)
 }
 \arguments{
 \item{input}{top level interactive user input in Shiny app}
@@ -15,7 +35,10 @@ mapSiteAttributes(input, attr, path_gis, sitedata, LineShapeGeo,
 
 \item{path_gis}{path to users gis data}
 
-\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0), ]}}
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
 
 \item{LineShapeGeo}{character string control settting indicating which binary map file to
 load for the Geolines background layer}
@@ -29,6 +52,13 @@ load for the Geolines background layer}
 \item{mapdata}{input data.frame with lat, long, and column to be mapped}
 
 \item{GeoLines}{Optional geospatial shape file for overlay of lines on output maps}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
 
 \item{strTitle}{character string for plot title}
 

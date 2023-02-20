@@ -4,7 +4,15 @@
 \alias{shinyScenariosMod}
 \title{shinyScenariosMod}
 \usage{
-shinyScenariosMod(input, output, session, scenarioRtables, path_results)
+shinyScenariosMod(
+  input,
+  output,
+  session,
+  scenarioRtables,
+  path_results,
+  scenario.input.list,
+  mapping.input.list
+)
 }
 \arguments{
 \item{input}{top level interactive user input in Shiny app}

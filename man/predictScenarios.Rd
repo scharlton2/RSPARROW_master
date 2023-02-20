@@ -4,11 +4,27 @@
 \alias{predictScenarios}
 \title{predictScenarios}
 \usage{
-predictScenarios(input, allMetrics, output_map_type, Rshiny,
-  estimate.input.list, predict.list, scenario.input.list, data_names,
-  JacobResults, if_predict, DataMatrix.list, SelParmValues, subdata,
-  file.output.list, add_vars, mapping.input.list, batch_mode,
-  RSPARROW_errorOption)
+predictScenarios(
+  input,
+  allMetrics,
+  output_map_type,
+  Rshiny,
+  estimate.input.list,
+  estimate.list,
+  predict.list,
+  scenario.input.list,
+  data_names,
+  JacobResults,
+  if_predict,
+  DataMatrix.list,
+  SelParmValues,
+  subdata,
+  file.output.list,
+  add_vars,
+  mapping.input.list,
+  batch_mode,
+  RSPARROW_errorOption
+)
 }
 \arguments{
 \item{input}{top level interactive user input in Shiny app}
@@ -21,6 +37,17 @@ to PDF file from "stream","catchment", or "both"}
 
 \item{Rshiny}{TRUE/FALSE indicating whether routine is being run from the Shiny app}
 
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
+
+\item{predict.list}{archive with all load and yield prediction variables to provide for
+the efficient access and use of predictions in subsequent execution
+of the parametric bootstrap predictions and uncertainties, mapping,
+and scenario evaluations.  For more details see documentation Section
+5.3.1.5}
+
+\item{scenario.input.list}{list of control settings related to source change scenarios}
+
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
 
 \item{JacobResults}{list output of Jacobian first-order partial derivatives of the model
@@ -29,18 +56,32 @@ documentation Section 5.2.4.5.}
 
 \item{if_predict}{yes/no indicating whether or not prediction is run}
 
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
+
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
 \item{subdata}{data.frame input data (subdata)}
+
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
 
 \item{add_vars}{additional variables specified by the setting \code{add_vars} to be included in
 prediction, yield, and residuals csv and shape files}
 
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
+
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}
 
-\item{RSPARROW_errorOption}{}
+\item{RSPARROW_errorOption}{yes/no control setting indicating where the RPSARROW_errorOption
+should be applied}
 }
 \description{
 Executes tasks for the management source-change scenarios, including generating

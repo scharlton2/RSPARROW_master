@@ -4,15 +4,29 @@
 \alias{predict}
 \title{predict}
 \usage{
-predict(estimate.list, estimate.input.list, bootcorrection,
-  DataMatrix.list, SelParmValues, subdata)
+predict(
+  estimate.list,
+  estimate.input.list,
+  bootcorrection,
+  DataMatrix.list,
+  SelParmValues,
+  subdata
+)
 }
 \arguments{
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
+
 \item{bootcorrection}{numeric vector equal to
 \code{estimate.list$JacobResults$mean_exp_weighted_error} unless NULL, then reset to 1.0}
 
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
+
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
 \item{subdata}{data.frame input data (subdata)}
 }

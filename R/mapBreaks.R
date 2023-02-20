@@ -1,8 +1,8 @@
 #'@title mapBreaks
-#'@description Creates mapping color breakpoints.  \\cr \\cr
-#'Executed By: \\itemize\{\\item mapSiteAttributes.R
-#'             \\item predictMaps.R\} \\cr
-#'Executes Routines: named.list.R \\cr
+#'@description Creates mapping color breakpoints.  \cr \cr
+#'Executed By: \itemize{\item mapSiteAttributes.R
+#'             \item predictMaps.R} \cr
+#'Executes Routines: named.list.R \cr
 #'@param vvar mapping variable as vector
 #'@param colors character vector of colors used in mapping with the number of colors 
 #'       indicating the number of breaks in the legend

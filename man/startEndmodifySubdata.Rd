@@ -4,12 +4,14 @@
 \alias{startEndmodifySubdata}
 \title{startEndmodifySubdata}
 \usage{
-startEndmodifySubdata(data_names, class_landuse)
+startEndmodifySubdata(data_names, class_landuse, data1)
 }
 \arguments{
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
 
 \item{class_landuse}{character vector of class_landuses from sparrow_control.R}
+
+\item{data1}{input data (data1)}
 }
 \value{
 \code{subdata} data.frame input data (subdata)

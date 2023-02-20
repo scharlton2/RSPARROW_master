@@ -4,10 +4,16 @@
 \alias{createInitialDataDictionary}
 \title{createInitialDataDictionary}
 \usage{
-createInitialDataDictionary(file.output.list, input_data_fileName,
-  create_initial_parameterControlFiles)
+createInitialDataDictionary(
+  file.output.list,
+  input_data_fileName,
+  create_initial_parameterControlFiles
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{input_data_fileName}{name of users data1 file}
 
 \item{create_initial_parameterControlFiles}{yes/no indicating if new parameter files should

@@ -1,13 +1,13 @@
 #'@title testCosmetic
-#'@description test for invalid user inputs in map settings rhandsontables in shiny app \\cr \\cr
-#'Executed By: \\itemize\{\\item shinyMap2.R
-#'             \\item shinyScenariosMod.R\} \\cr
-#'Executes Routines: \\itemize\{\\item compileInput.R
-#'             \\item convertHotTables.R
-#'             \\item getNumSett.R
-#'             \\item getSpecialSett.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'@description test for invalid user inputs in map settings rhandsontables in shiny app \cr \cr
+#'Executed By: \itemize{\item shinyMap2.R
+#'             \item shinyScenariosMod.R} \cr
+#'Executes Routines: \itemize{\item compileInput.R
+#'             \item convertHotTables.R
+#'             \item getNumSett.R
+#'             \item getSpecialSett.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param output shiny list object for session output
 #'@param session active shiny session

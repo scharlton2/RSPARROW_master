@@ -4,8 +4,12 @@
 \alias{calcIncremLandUse}
 \title{calcIncremLandUse}
 \usage{
-calcIncremLandUse(subdata, class_landuse, idseq,
-  minimum_reaches_separating_sites)
+calcIncremLandUse(
+  subdata,
+  class_landuse,
+  idseq,
+  minimum_reaches_separating_sites
+)
 }
 \arguments{
 \item{subdata}{data.frame input data (subdata)}
@@ -23,7 +27,7 @@ separating sites}
 }
 \description{
 Calculates the land-use percentages for the incremental drainage areas of the
-monitoring sites for use in decile diagnostics \cr \cr
-Executed By: startModelRun.R \cr
-Executes Routines: sumIncremAttributes.R \cr
+monitoring sites for use in decile diagnostics \\cr \\cr
+Executed By: startModelRun.R \\cr
+Executes Routines: sumIncremAttributes.R \\cr
 }

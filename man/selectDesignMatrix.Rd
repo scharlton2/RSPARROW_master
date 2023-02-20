@@ -8,7 +8,7 @@ selectDesignMatrix(SelParmValues, betavalues, dmatrixin)
 }
 \arguments{
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
 \item{betavalues}{data.frame of model parameters from parameters.csv}
 

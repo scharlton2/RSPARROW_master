@@ -1,9 +1,9 @@
 #'@title streamCatch
 #'@description Shiny ui function generates user selections for Stream and Catchment Mapping 
-#'            Uses subroutines: dropFunc. \\cr \\cr
-#'Executed By: shinyMap2.R \\cr
-#'Executes Routines: \\itemize\{\\item dropFunc.R
-#'             \\item handsOnUI.R\} \\cr
+#'            Uses subroutines: dropFunc. \cr \cr
+#'Executed By: shinyMap2.R \cr
+#'Executes Routines: \itemize{\item dropFunc.R
+#'             \item handsOnUI.R} \cr
 #'@param id Shiny namespace designation
 #'@param input top level interactive user input in Shiny app
 #'@param choices data.frame output of function createInteractiveChoices.R

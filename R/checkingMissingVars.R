@@ -1,9 +1,9 @@
 #'@title checkingMissingVars
-#'@description check for missing variables in the variable lists specified by `types` \\cr \\cr
-#'Executed By: \\itemize\{\\item checkAnyMissingSubdataVars.R
-#'             \\item checkMissingData1Vars.R
-#'             \\item checkMissingSubdataVars.R\} \\cr
-#'Executes Routines: getVarList.R \\cr
+#'@description check for missing variables in the variable lists specified by `types` \cr \cr
+#'Executed By: \itemize{\item checkAnyMissingSubdataVars.R
+#'             \item checkMissingData1Vars.R
+#'             \item checkMissingSubdataVars.R} \cr
+#'Executes Routines: getVarList.R \cr
 #'@param checkData data.frame in which to check for missing values
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param betavalues data.frame of model parameters from parameters.csv

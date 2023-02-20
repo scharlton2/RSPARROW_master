@@ -1,8 +1,8 @@
 #'@title makePaths
-#'@description creates all internal path variables for file input/output \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
-#'Executes Routines: \\itemize\{\\item errorOccurred.R
-#'             \\item named.list.R\} \\cr
+#'@description creates all internal path variables for file input/output \cr \cr
+#'Executed By: executeRSPARROW.R \cr
+#'Executes Routines: \itemize{\item errorOccurred.R
+#'             \item named.list.R} \cr
 #'@param path_user character string path to RSPARROW user directory containing results, data, 
 #'       and gis subdirectories
 #'@param path_master character string path to RSPARROW_master directory.  Internally reset to 

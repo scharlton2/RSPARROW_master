@@ -4,36 +4,97 @@
 \alias{estimate}
 \title{estimate}
 \usage{
-estimate(if_estimate, if_predict, file.output.list, class.input.list,
-  dlvdsgn, estimate.input.list, minimum_reaches_separating_sites,
-  DataMatrix.list, SelParmValues, Csites.weights.list, Csites.list,
-  sitedata, numsites, if_validate, Vsites.list, vsitedata, subdata,
-  Cor.ExplanVars.list, sitedata.landuse, vsitedata.landuse,
-  sitedata.demtarea.class, vsitedata.demtarea.class, mapping.input.list,
-  betavalues, if_estimate_simulation, batch_mode)
+estimate(
+  if_estimate,
+  if_predict,
+  file.output.list,
+  class.input.list,
+  dlvdsgn,
+  estimate.input.list,
+  minimum_reaches_separating_sites,
+  DataMatrix.list,
+  SelParmValues,
+  Csites.weights.list,
+  Csites.list,
+  sitedata,
+  numsites,
+  if_validate,
+  Vsites.list,
+  vsitedata,
+  subdata,
+  Cor.ExplanVars.list,
+  sitedata.landuse,
+  vsitedata.landuse,
+  sitedata.demtarea.class,
+  vsitedata.demtarea.class,
+  mapping.input.list,
+  betavalues,
+  if_estimate_simulation,
+  batch_mode
+)
 }
 \arguments{
 \item{if_estimate}{yes/no indicating whether or not estimation is run}
 
 \item{if_predict}{yes/no indicating whether or not prediction is run}
 
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
+\item{class.input.list}{list of control settings related to classification variables}
+
 \item{dlvdsgn}{design matrix imported from design_matrix.csv}
+
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
 
 \item{minimum_reaches_separating_sites}{number indicating the minimum number of reaches
 separating sites}
 
-\item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
 
-\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0), ]}}
+\item{SelParmValues}{selected parameters from parameters.csv using condition
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) &  ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")}}
+
+\item{Csites.weights.list}{regression weights as proportional to incremental area size}
+
+\item{Csites.list}{list output from \code{selectCalibrationSites.R} modified in \code{startModelRun.R}}
+
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
 
 \item{numsites}{number of sites selected for calibration}
 
 \item{if_validate}{yes/no indicating whether or not validation is run}
 
-\item{vsitedata}{sitedata for validation. Calculated by \code{subdata[(subdata$vdepvar > 0), ]}}
+\item{Vsites.list}{named list of sites for validation}
+
+\item{vsitedata}{sitedata for validation. Calculated by \code{subdata[(subdata$vdepvar > 0 & subdata$calsites==1), ]}}
 
 \item{subdata}{data.frame input data (subdata)}
+
+\item{Cor.ExplanVars.list}{list output from \code{correlationMatrix.R}}
+
+\item{sitedata.landuse}{Land use for incremental basins for diagnostics.}
+
+\item{vsitedata.landuse}{Land use for incremental basins for diagnostics for validation
+sites.}
+
+\item{sitedata.demtarea.class}{Total drainage area classification variable for calibration
+sites.}
+
+\item{vsitedata.demtarea.class}{Total drainage area classification variable for validation
+sites.}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
 
 \item{betavalues}{data.frame of model parameters from parameters.csv}
 
@@ -54,7 +115,6 @@ Executed By: controlFileTasksModel.R \cr
 Executes Routines: \itemize{\item diagnosticPlotsNLLS.R
 \item diagnosticPlotsValidate.R
 \item diagnosticSensitivity.R
-\item errorOccurred.R
 \item estimateFeval.R
 \item estimateFevalNoadj.R
 \item estimateNLLSmetrics.R

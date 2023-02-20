@@ -1,13 +1,13 @@
 #'@title predictBoot
 #'@description Calculates all conditioned and unconditioned model predictions for reaches for 
-#'            each bootstrap iteration, for the control setting if_boot_predict<-"yes".  \\cr \\cr
-#'Executed By: predictBootstraps.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item named.list.R
-#'             \\item unPackList.R
-#'             \\item deliv_fraction.for
-#'             \\item mptnoder.for
-#'             \\item ptnoder.for\} \\cr
+#'            each bootstrap iteration, for the control setting if_boot_predict<-"yes".  \cr \cr
+#'Executed By: predictBootstraps.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item named.list.R
+#'             \item unPackList.R
+#'             \item deliv_fraction.for
+#'             \item mptnoder.for
+#'             \item ptnoder.for} \cr
 #'@param bEstimate model coefficients generated in `estimateBootstraps.R`
 #'@param estimate.list list output from `estimate.R`
 #'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 

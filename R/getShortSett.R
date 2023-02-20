@@ -1,9 +1,9 @@
 #'@title getShortSett
-#'@description list of all control settings that should have a length of 1 \\cr \\cr
-#'Executed By: \\itemize\{\\item executeRSPARROW.R
-#'             \\item outputSettings.R
-#'             \\item runRsparrow.R
-#'             \\item testSettings.R\} \\cr
+#'@description list of all control settings that should have a length of 1 \cr \cr
+#'Executed By: \itemize{\item executeRSPARROW.R
+#'             \item outputSettings.R
+#'             \item runRsparrow.R
+#'             \item testSettings.R} \cr
 #'@return `shortSettings` list of all control settings that should have a length of 1
 
 

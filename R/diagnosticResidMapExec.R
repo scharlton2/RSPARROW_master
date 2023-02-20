@@ -1,10 +1,10 @@
 #'@title diagnosticResidMapExec
-#'@description Creates diagnostic Residual maps \\cr \\cr
-#'Executed By: diagnosticPlotsNLLS.Rmd \\cr
-#'Executes Routines: \\itemize\{\\item diagnosticDiagMapChild.Rmd
-#'                              \\item aggDynamicMapdata.R
-#'                              \\item unPackList.R
-#'                               \item setupDynamicMaps.R} \\cr
+#'@description Creates diagnostic Residual maps \cr \cr
+#'Executed By: diagnosticPlotsNLLS.Rmd \cr
+#'Executes Routines: \itemize{\item diagnosticDiagMapChild.Rmd
+#'                              \item aggDynamicMapdata.R
+#'                              \item unPackList.R
+#'                               \item setupDynamicMaps.R} \cr
 #'@param validation TRUE/FALSE indicating whether or not validation is to be run
 #'@param existGeolines TRUE/FALSE indicating whether Geolines object exists
 #'@param residmapTypes character string indicating what type of residual maps to 

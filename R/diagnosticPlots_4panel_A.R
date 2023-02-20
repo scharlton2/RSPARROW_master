@@ -1,10 +1,10 @@
 #'@title diagnosticPlots_4panel_A
 #'@description Generates 4 panel diagnostic plots including "Observed vs 
 #'             Predicted Load","Observed vs Predicted Yield","Residuals 
-#'             vs Predicted Load","Residuals vs Predicted Yield" \\cr \\cr
-#'Executed By: create_diagnosticPlotList.R \\cr
-#'Executes Routines: \\itemize\{\\item addMarkerText.R
-#'             \\item plotlyLayout.R \} \\cr
+#'             vs Predicted Load","Residuals vs Predicted Yield" \cr \cr
+#'Executed By: create_diagnosticPlotList.R \cr
+#'Executes Routines: \itemize{\item addMarkerText.R
+#'             \item plotlyLayout.R } \cr
 #'@param plotpredict numeric vector of load prediction values
 #'@param plotObs numeric vector of load observation values
 #'@param plotyldpredict numeric vector of yield prediction values

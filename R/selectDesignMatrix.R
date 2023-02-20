@@ -1,7 +1,7 @@
 #'@title selectDesignMatrix
 #'@description Creates the 'dlvdsgn' matrix for use in model estimation and prediction, based 
-#'            on the user-selected model parameters.  \\cr \\cr
-#'Executed By: startModelRun.R \\cr
+#'            on the user-selected model parameters.  \cr \cr
+#'Executed By: startModelRun.R \cr
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`

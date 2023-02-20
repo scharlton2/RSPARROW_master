@@ -1,7 +1,7 @@
 #'@title runBatchShiny
 #'@description runs shiny app on previously executed RSPARROW model in batch mode from user
-#'             specified browser \\cr \\cr
-#'Executes Routines: shinyBatch.R \\cr
+#'             specified browser \cr \cr
+#'Executes Routines: shinyBatch.R \cr
 #'@param path_PastResults character string path to previously generated results including run_id subdirectory
 #'@param path_shinyBrowser character string path to browser executible, if NA defualt browser will be used
 #'@examples

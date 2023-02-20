@@ -2,11 +2,11 @@
 #'@description Creates a new dataDictionary.csv file based on the column names of `data1.csv`, 
 #'            adds missing, REQUIRED, and FIXED variables with `data1UserName=="NA"`, and opens the new 
 #'            dataDictionary.csv file for the user to edit. RSPARROW execution will be terminated once the 
-#'            dataDictionary.csv file is created. \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item readData.R
-#'             \\item unPackList.R\} \\cr
+#'            dataDictionary.csv file is created. \cr \cr
+#'Executed By: executeRSPARROW.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item readData.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param input_data_fileName name of users data1 file

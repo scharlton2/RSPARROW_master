@@ -4,8 +4,12 @@
 \alias{findControlFiles}
 \title{findControlFiles}
 \usage{
-findControlFiles(path_user, if_userModifyData,
-  create_initial_dataDictionary, create_initial_parameterControlFiles)
+findControlFiles(
+  path_user,
+  if_userModifyData,
+  create_initial_dataDictionary,
+  create_initial_parameterControlFiles
+)
 }
 \arguments{
 \item{path_user}{character string path to RSPARROW user directory containing results, data,

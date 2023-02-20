@@ -1,9 +1,9 @@
 #'@title checkDrainageareaMapPrep
 #'@description Compiles and prepares necessary map data and parameters for checkDrainageErrors 
-#'             maps \\cr \\cr
-#'Executed By: checkDrainageareaErrorsChild.Rmd \\cr
-#'Executes Routines: \\itemize\{\\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'             maps \cr \cr
+#'Executed By: checkDrainageareaErrorsChild.Rmd \cr
+#'Executes Routines: \itemize{\item named.list.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and output 
 #'                        of external files.  Created by `generateInputList.R`
 #'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 

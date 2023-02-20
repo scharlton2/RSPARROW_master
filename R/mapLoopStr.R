@@ -1,15 +1,15 @@
 #'@title mapLoopStr
 #'@description Creates list of map objects with number of panels equal to
-#'             RSPARROW user setting mapsPerPage \\cr \\cr
-#'Executed By: \\itemize\{\\item goShinyPlot.R
-#'             \\item outputMaps.Rmd
+#'             RSPARROW user setting mapsPerPage \cr \cr
+#'Executed By: \itemize{\item goShinyPlot.R
+#'             \item outputMaps.Rmd
 #'             \item predictMaps.R
-#'             \item predictMaps.Rmd \} \\cr
+#'             \item predictMaps.Rmd } \cr
 #'Executes Routines: \itemize{\item unPackList.R
 #'                            \item checkBinaryMaps.R
 #'                            \item predictMaps_single.R
 #'                            \item mapSiteAttributes.R
-#'                            \item diagnosticMaps.R} \\cr
+#'                            \item diagnosticMaps.R} \cr
 #'@param mapType character string indicating type of map being executed ("site",
 #'               "stream", "catchment", or "resid")
 #'@param mapLoopInput.list list of all objects required for a given mapType

@@ -4,7 +4,7 @@
 \alias{hydseq}
 \title{hydseq}
 \usage{
-hydseq(indata, calculate_reach_attribute_list)
+hydseq(indata, calculate_reach_attribute_list, startSeq = 1)
 }
 \arguments{
 \item{indata}{data.frame containing reach navigation variables and variables to be selected

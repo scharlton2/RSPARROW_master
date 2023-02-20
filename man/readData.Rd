@@ -7,6 +7,9 @@
 readData(file.output.list, input_data_fileName)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{input_data_fileName}{name of users data1 file}
 }
 \value{

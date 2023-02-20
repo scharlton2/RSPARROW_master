@@ -1,13 +1,13 @@
 #'@title setupDynamicMaps
 #'@description Create a data.frame of all plots per page according to
 #'             RSPARROW user settings map_years, map_seasons,
-#'             mapPageGroupBy, and mapsPerPage \\cr \\cr
+#'             mapPageGroupBy, and mapsPerPage \cr \cr
 #'Executed By: \itemize{\item checkDrainageareaErrors.R
 #'                      \item checkDrainageareaMapPrep.R
 #'                      \item diagnosticPlotsNLLS.Rmd
 #'                      \item diagnosticResidMapExec.R
 #'                      \item goShinyPlot.R 
-#'                      \item predictMaps.R} \\cr
+#'                      \item predictMaps.R} \cr
 #'@param dmapfinal data.frame containing variables to map
 #'@param map_years RSPARROW dynamic user setting indicating how dynamic mapping 
 #'                 should proceed with regards to the year timestep.  A numeric 

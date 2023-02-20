@@ -1,11 +1,11 @@
 #'@title diagnosticSensitivity
 #'@description Calculates the parameter sensitivities (change in load predictions for a a 1% 
 #'            unit change in the explanatory variables). Outputs plots to 
-#'            ~/estimate/(run_id)_diagnostic_sensitivity.pdf. Outputs `sensitivities.list` as binary file to ~/estimate/(run_id)_sensitivities.list. \\cr \\cr
-#'Executed By: estimate.R \\cr
-#'Executes Routines: \\itemize\{\\item named.list.R
-#'             \\item predictSensitivity.R
-#'             \\item unPackList.R\} \\cr
+#'            ~/estimate/(run_id)_diagnostic_sensitivity.pdf. Outputs `sensitivities.list` as binary file to ~/estimate/(run_id)_sensitivities.list. \cr \cr
+#'Executed By: estimate.R \cr
+#'Executes Routines: \itemize{\item named.list.R
+#'             \item predictSensitivity.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param classvar character vector of user specified spatially contiguous discrete 

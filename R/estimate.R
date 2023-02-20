@@ -1,20 +1,20 @@
 #'@title estimate
 #'@description Executes all model tasks related to model estimation, diagnostics plotting and 
-#'            mapping, parameter sensitivities, validation diagnostics, and the output of tabular summary metrics. \\cr \\cr
-#'Executed By: controlFileTasksModel.R \\cr
-#'Executes Routines: \\itemize\{\\item diagnosticPlotsNLLS.R
-#'             \\item diagnosticPlotsValidate.R
-#'             \\item diagnosticSensitivity.R
-#'             \\item estimateFeval.R
-#'             \\item estimateFevalNoadj.R
-#'             \\item estimateNLLSmetrics.R
-#'             \\item estimateNLLStable.R
-#'             \\item estimateOptimize.R
-#'             \\item named.list.R
-#'             \\item predict.R
-#'             \\item predictSummaryOutCSV.R
-#'             \\item unPackList.R
-#'             \\item validateMetrics.R\} \\cr
+#'            mapping, parameter sensitivities, validation diagnostics, and the output of tabular summary metrics. \cr \cr
+#'Executed By: controlFileTasksModel.R \cr
+#'Executes Routines: \itemize{\item diagnosticPlotsNLLS.R
+#'             \item diagnosticPlotsValidate.R
+#'             \item diagnosticSensitivity.R
+#'             \item estimateFeval.R
+#'             \item estimateFevalNoadj.R
+#'             \item estimateNLLSmetrics.R
+#'             \item estimateNLLStable.R
+#'             \item estimateOptimize.R
+#'             \item named.list.R
+#'             \item predict.R
+#'             \item predictSummaryOutCSV.R
+#'             \item unPackList.R
+#'             \item validateMetrics.R} \cr
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_predict yes/no indicating whether or not prediction is run
 #'@param file.output.list list of control settings and relative paths used for input and 

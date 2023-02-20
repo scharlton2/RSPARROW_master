@@ -1,8 +1,8 @@
 #'@title getSpecialSett
-#'@description list of settings that require additional testing and the test that should be run \\cr \\cr
-#'Executed By: \\itemize\{\\item testCosmetic.R
-#'             \\item testSettings.R\} \\cr
-#'Executes Routines: areColors.R \\cr
+#'@description list of settings that require additional testing and the test that should be run \cr \cr
+#'Executed By: \itemize{\item testCosmetic.R
+#'             \item testSettings.R} \cr
+#'Executes Routines: areColors.R \cr
 #'@return `specialSettings` list of settings that require additional testing and the test that 
 #'            should be run
 

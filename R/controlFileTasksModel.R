@@ -1,19 +1,19 @@
 #'@title controlFileTasksModel
 #'@description Executes all model tasks after checks have been performed, including execution 
-#'            of model estimation, diagnostics, prediction, scenarios, and mapping \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item batchMaps.R
-#'             \\item diagnosticSpatialAutoCorr.R
-#'             \\item estimate.R
-#'             \\item estimateBootstraps.R
-#'             \\item named.list.R
-#'             \\item outputSettings.R
-#'             \\item predict.R
-#'             \\item predictBootsOutCSV.R
-#'             \\item predictBootstraps.R
-#'             \\item predictOutCSV.R
-#'             \\item predictScenarios.R
-#'             \\item unPackList.R\} \\cr
+#'            of model estimation, diagnostics, prediction, scenarios, and mapping \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item batchMaps.R
+#'             \item diagnosticSpatialAutoCorr.R
+#'             \item estimate.R
+#'             \item estimateBootstraps.R
+#'             \item named.list.R
+#'             \item outputSettings.R
+#'             \item predict.R
+#'             \item predictBootsOutCSV.R
+#'             \item predictBootstraps.R
+#'             \item predictOutCSV.R
+#'             \item predictScenarios.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param SelParmValues selected parameters from parameters.csv using condition 

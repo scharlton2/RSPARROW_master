@@ -1,8 +1,8 @@
 #'@title compileInput
 #'@description Shiny server function that updates compiles input from namespace indicated in 
-#'            callModule function call \\cr \\cr
-#'Executed By: \\itemize\{\\item compileALL.R
-#'             \\item testCosmetic.R\} \\cr
+#'            callModule function call \cr \cr
+#'Executed By: \itemize{\item compileALL.R
+#'             \item testCosmetic.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param output shiny list object for session output
 #'@param session active shiny session

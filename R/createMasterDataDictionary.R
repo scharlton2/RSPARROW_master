@@ -1,11 +1,11 @@
 #'@title createMasterDataDictionary
 #'@description Compiles all archived dataDictionary.csv files in the user's results directory 
 #'            by `run_id` from the earliest date forward. The master_dataDictionary.csv file is saved to the 
-#'            upper level of the user's results directory. \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item importCSVcontrol.R
-#'             \\item unPackList.R\} \\cr
+#'            upper level of the user's results directory. \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item importCSVcontrol.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 

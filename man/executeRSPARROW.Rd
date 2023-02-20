@@ -4,8 +4,7 @@
 \alias{executeRSPARROW}
 \title{executeRSPARROW}
 \usage{
-executeRSPARROW(settingValues, settingNames, activeFile,
-  envir = .GlobalEnv)
+executeRSPARROW(settingValues, settingNames, activeFile, envir = .GlobalEnv)
 }
 \arguments{
 \item{settingValues}{user input values for all control settings}

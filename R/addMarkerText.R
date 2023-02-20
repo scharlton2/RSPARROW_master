@@ -1,16 +1,16 @@
 #'@title addMarkerText
 #'@description Adds user selected `add_plotlyVars` to data to be mapped and creates the string
-#'             to execute in plotly to add to the hover text. \\cr \\cr
-#'Executed By: \\itemize\{\\item checkDrainageareaErrors.Rmd
-#'                        \\item checkDrainageareaErrorsChild.Rmd
-#'                        \\item diagnosticContiguousChild.Rmd
-#'                        \\item diagnosticCorrChild.Rmd
-#'                        \\item diagnosticMaps.R
-#'                        \\item diagnosticPlotsNLLS.Rmd
-#'                        \\item mapSiteAttributes.R
-#'                        \\item predictMaps.R
-#'                        \\item predictMaps.Rmd} \\cr
-#'Executes Routines: named.list.R \\cr
+#'             to execute in plotly to add to the hover text. \cr \cr
+#'Executed By: \itemize{\item checkDrainageareaErrors.Rmd
+#'                        \item checkDrainageareaErrorsChild.Rmd
+#'                        \item diagnosticContiguousChild.Rmd
+#'                        \item diagnosticCorrChild.Rmd
+#'                        \item diagnosticMaps.R
+#'                        \item diagnosticPlotsNLLS.Rmd
+#'                        \item mapSiteAttributes.R
+#'                        \item predictMaps.R
+#'                        \item predictMaps.Rmd} \cr
+#'Executes Routines: named.list.R \cr
 #'@param markerText character string starting plotly markerText (example: 
 #'                  `markerText<-"~paste('</br> ',master_map_list[k],' :',
 #'                  round(mapdataname,predictionClassRounding)"`)

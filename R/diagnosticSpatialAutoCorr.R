@@ -3,10 +3,10 @@
 #'            residuals. SiteIDs are determined from hydseq sorted file to ensure consistency in hydrologic 
 #'            distance and other ID ordering across programs. Outputs plots to 
 #'            ~/estimate/(run_id)_diagnostic_spatialautocor.pdf. Outputs Morans I stats to ~/estimate/(run_id)_diagnostic_spatialautocor.txt. 
-#'            Outputs Morans I stats to ~/estimate/summaryCSV/(run_id)_EuclideanMoransI.csv \\cr \\cr
-#'Executed By: controlFileTasksModel.R \\cr
-#'Executes Routines: \\itemize\{\\item fixDupLatLons.R
-#'             \\item unPackList.R\} \\cr
+#'            Outputs Morans I stats to ~/estimate/summaryCSV/(run_id)_EuclideanMoransI.csv \cr \cr
+#'Executed By: controlFileTasksModel.R \cr
+#'Executes Routines: \itemize{\item fixDupLatLons.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param classvar character vector of user specified spatially contiguous discrete 

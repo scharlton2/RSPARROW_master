@@ -2,12 +2,12 @@
 #'@description Assigns the user-defined weights to the system variable 'weight', used to 
 #'            execute a weighted NLLS model estimation. Also calculates the variable 'tiarea' (sum of the 
 #'            incremental drainage area of reaches located between monitoring sites), used to calculate weighting 
-#'            expressions based on the size of the intervening areas between sites. \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item assignIncremSiteIDs.R
-#'             \\item errorOccurred.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'            expressions based on the size of the intervening areas between sites. \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item assignIncremSiteIDs.R
+#'             \item errorOccurred.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param NLLS_weights character string control setting to select regression weights
 #'@param run_id character string control setting indicating the current model name
 #'@param subdata data.frame input data (subdata)

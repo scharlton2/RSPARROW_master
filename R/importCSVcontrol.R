@@ -1,15 +1,15 @@
 #'@title importCSVcontrol
 #'@description Imports csv control file and checks/corrects the number of columns used by the 
-#'            'syncVarNames' function.  \\cr \\cr
-#'Executed By: \\itemize\{\\item addVars.R
-#'             \\item createInitialParameterControls.R
-#'             \\item createMasterDataDictionary.R
-#'             \\item read_dataDictionary.R
-#'             \\item readDesignMatrix.R
-#'             \\item readParameters.R
-#'             \\item syncVarNames.R\} \\cr
-#'Executes Routines: \\itemize\{\\item errorOccurred.R
-#'             \\item unPackList.R\} \\cr
+#'            'syncVarNames' function.  \cr \cr
+#'Executed By: \itemize{\item addVars.R
+#'             \item createInitialParameterControls.R
+#'             \item createMasterDataDictionary.R
+#'             \item read_dataDictionary.R
+#'             \item readDesignMatrix.R
+#'             \item readParameters.R
+#'             \item syncVarNames.R} \cr
+#'Executes Routines: \itemize{\item errorOccurred.R
+#'             \item unPackList.R} \cr
 #'@param filein path to input file in csv format
 #'@param Ctype column class designation for required columns
 #'@param NAMES column names for required columns

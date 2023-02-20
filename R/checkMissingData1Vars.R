@@ -1,11 +1,11 @@
 #'@title checkMissingData1Vars
 #'@description Identifies REQUIRED system variables with all missing/zero values in the 
 #'            `data1.csv` file and adds missing variables to the file with all NA values. Outputs a printed warning 
-#'            for users and a list of missing variables as a message in console. \\cr \\cr
-#'Executed By: dataInputPrep.R \\cr
-#'Executes Routines: \\itemize\{\\item checkingMissingVars.R
-#'             \\item getVarList.R
-#'             \\item unPackList.R\} \\cr
+#'            for users and a list of missing variables as a message in console. \cr \cr
+#'Executed By: dataInputPrep.R \cr
+#'Executes Routines: \itemize{\item checkingMissingVars.R
+#'             \item getVarList.R
+#'             \item unPackList.R} \cr
 #'@param data1 input data (data1)
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode

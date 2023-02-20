@@ -4,13 +4,33 @@
 \alias{shinyMap2}
 \title{shinyMap2}
 \usage{
-shinyMap2(file.output.list, map_uncertainties, BootUncertainties,
-  data_names, mapping.input.list, subdata, SelParmValues, sitedata,
-  estimate.list, ConcFactor, DataMatrix.list, dlvdsgn,
-  reach_decay_specification, reservoir_decay_specification,
-  scenario.input.list, add_vars, batch_mode, RSPARROW_errorOption)
+shinyMap2(
+  file.output.list,
+  map_uncertainties,
+  BootUncertainties,
+  data_names,
+  mapping.input.list,
+  subdata,
+  SelParmValues,
+  sitedata,
+  estimate.list,
+  estimate.input.list,
+  ConcFactor,
+  DataMatrix.list,
+  dlvdsgn,
+  reach_decay_specification,
+  reservoir_decay_specification,
+  scenario.input.list,
+  if_predict,
+  add_vars,
+  batch_mode,
+  RSPARROW_errorOption
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{map_uncertainties}{Vector of user selected uncertainty parameters to map, if
 uncertainty analysis was not run NA}
 
@@ -19,15 +39,30 @@ run NA}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
 
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
+
 \item{subdata}{data.frame input data (subdata)}
 
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
-\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0), ]}}
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
+
+\item{estimate.list}{list output from \code{estimate.R}}
 
 \item{ConcFactor}{the concentration conversion factor, computed as Concentration = load /
 discharge * ConcFactor}
+
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
 
 \item{dlvdsgn}{design matrix imported from design_matrix.csv}
 
@@ -36,13 +71,16 @@ discharge * ConcFactor}
 \item{reservoir_decay_specification}{the SAS IML reservoir decay function code from
 sparrow_control}
 
+\item{scenario.input.list}{list of control settings related to source change scenarios}
+
 \item{add_vars}{additional variables specified by the setting \code{add_vars} to be included in
 prediction, yield, and residuals csv and shape files}
 
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}
 
-\item{RSPARROW_errorOption}{}
+\item{RSPARROW_errorOption}{yes/no control setting indicating where the RPSARROW_errorOption
+should be applied}
 }
 \value{
 \code{outshinyInput}  the Shiny Input list with hottables as dataframes and cosmetic

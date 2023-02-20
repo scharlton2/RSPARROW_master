@@ -4,14 +4,34 @@
 \alias{predictScenariosOutCSV}
 \title{predictScenariosOutCSV}
 \usage{
-predictScenariosOutCSV(input, Rshiny, file.output.list, estimate.list,
-  predictScenarios.list, subdata, add_vars, scenario_name, scenarioFlag,
-  data_names, scenarioCoefficients)
+predictScenariosOutCSV(
+  input,
+  Rshiny,
+  file.output.list,
+  estimate.list,
+  predictScenarios.list,
+  subdata,
+  add_vars,
+  scenario_name,
+  scenarioFlag,
+  data_names,
+  scenarioCoefficients
+)
 }
 \arguments{
 \item{input}{top level interactive user input in Shiny app}
 
 \item{Rshiny}{TRUE/FALSE indicating whether routine is being run from the Shiny app}
+
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{predictScenarios.list}{an archive with key scenario control settings and the load and
+yield prediction variables that are output from the execution of
+a source-change scenario evaluation. For more details see
+documentation Section 5.5.9}
 
 \item{subdata}{data.frame input data (subdata)}
 
@@ -26,7 +46,7 @@ reduction scenario}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
 
-\item{scenarioCoefficients}{}
+\item{scenarioCoefficients}{user specified model coefficients for the scenario}
 }
 \description{
 Outputs the scenario load predictions to CSV files.  \cr \cr

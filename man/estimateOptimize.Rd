@@ -4,12 +4,26 @@
 \alias{estimateOptimize}
 \title{estimateOptimize}
 \usage{
-estimateOptimize(file.output.list, SelParmValues, estimate.input.list,
-  DataMatrix.list, dlvdsgn)
+estimateOptimize(
+  file.output.list,
+  SelParmValues,
+  estimate.input.list,
+  DataMatrix.list,
+  dlvdsgn
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
+
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
 
 \item{dlvdsgn}{design matrix imported from design_matrix.csv}
 }

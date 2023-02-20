@@ -1,9 +1,9 @@
 #'@title dropFunc
 #'@description Shiny ui function creates drop down button with SelectAll and ClearAll Buttons 
-#'            and a multi-select list of variables in the designated category. Only applied in Batch mode. \\cr \\cr
-#'Executed By: \\itemize\{\\item shinyScenarios.R
-#'             \\item shinySiteAttr.R
-#'             \\item streamCatch.R\} \\cr
+#'            and a multi-select list of variables in the designated category. Only applied in Batch mode. \cr \cr
+#'Executed By: \itemize{\item shinyScenarios.R
+#'             \item shinySiteAttr.R
+#'             \item streamCatch.R} \cr
 #'@param id Shiny namespace designation
 #'@param category variable type from `unique(choices$category)` in the Rshiny app
 #'@param choices data.frame output of function createInteractiveChoices.R

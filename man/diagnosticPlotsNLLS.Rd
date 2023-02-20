@@ -4,13 +4,49 @@
 \alias{diagnosticPlotsNLLS}
 \title{diagnosticPlotsNLLS}
 \usage{
-diagnosticPlotsNLLS(file.output.list, class.input.list,
-  sitedata.demtarea.class, sitedata, sitedata.landuse, estimate.list,
-  mapping.input.list, Csites.weights.list, Cor.ExplanVars.list, data_names,
-  add_vars, batch_mode)
+diagnosticPlotsNLLS(
+  file.output.list,
+  class.input.list,
+  sitedata.demtarea.class,
+  sitedata,
+  sitedata.landuse,
+  estimate.list,
+  mapping.input.list,
+  Csites.weights.list,
+  Cor.ExplanVars.list,
+  data_names,
+  add_vars,
+  batch_mode
+)
 }
 \arguments{
-\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0), ]}}
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
+\item{class.input.list}{list of control settings related to classification variables}
+
+\item{sitedata.demtarea.class}{Total drainage area classification variable for calibration
+sites.}
+
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
+
+\item{sitedata.landuse}{Land use for incremental basins for diagnostics.}
+
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
+
+\item{Csites.weights.list}{regression weights as proportional to incremental area size}
+
+\item{Cor.ExplanVars.list}{list output from \code{correlationMatrix.R}}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
 

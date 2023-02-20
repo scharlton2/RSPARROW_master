@@ -1,7 +1,7 @@
 #'@title createRTables
-#'@description Creates user input tables to be converted into hottables in Rshiny. \\cr \\cr
-#'Executed By: shinyMap2.R \\cr
-#'Executes Routines: named.list.R \\cr
+#'@description Creates user input tables to be converted into hottables in Rshiny. \cr \cr
+#'Executed By: shinyMap2.R \cr
+#'Executes Routines: named.list.R \cr
 #'@param selectSources character vector of SOURCE parameters defined as 
 #'       as.character(JacobResults$Parmnames[which(JacobResults$btype=="SOURCE")]) if `JacobResults` object is available
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file

@@ -1,7 +1,7 @@
 #'@title fixDupLatLons
 #'@description Adds a small random increment of decimal degrees to the latitude and longitude 
-#'            for monitoring sites with duplicate values. \\cr \\cr
-#'Executed By: diagnosticSpatialAutoCorr.R \\cr
+#'            for monitoring sites with duplicate values. \cr \cr
+#'Executed By: diagnosticSpatialAutoCorr.R \cr
 #'@param latLon numeric vector of latitude or longitude values
 #'@return `x` latitude or longitude vector with small random increment added to duplicate 
 #'            latitudes and longitudes

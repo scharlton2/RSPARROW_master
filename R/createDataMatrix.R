@@ -1,10 +1,10 @@
 #'@title createDataMatrix
 #'@description Creates the R `DataMatrix.list` object, containing five data elements that are 
-#'            used to estimate the model and produce model predictions. \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'            used to estimate the model and produce model predictions. \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param if_mean_adjust_delivery_vars yes/no character string indicating if the delivery 
 #'       variables are to be mean adjusted from sparrow_control
 #'@param subdata data.frame input data (subdata)

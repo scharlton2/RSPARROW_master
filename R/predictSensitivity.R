@@ -1,10 +1,10 @@
 #'@title predictSensitivity
 #'@description Supports the calculation of parameter sensitivities, executed by the 
-#'            'diagnosticSensitivity' function, by calculating the unconditioned predictions for an individual parameter. \\cr \\cr
-#'Executed By: diagnosticSensitivity.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item unPackList.R
-#'             \\item ptnoder.for\} \\cr
+#'            'diagnosticSensitivity' function, by calculating the unconditioned predictions for an individual parameter. \cr \cr
+#'Executed By: diagnosticSensitivity.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item unPackList.R
+#'             \item ptnoder.for} \cr
 #'@param AEstimate parameter estimates (original or adjusted by 1 percent)
 #'@param estimate.list list output from `estimate.R`
 #'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 

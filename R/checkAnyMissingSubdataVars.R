@@ -1,11 +1,11 @@
 #'@title checkAnyMissingSubdataVars
 #'@description Identifies REQUIRED system variables and parameter variables with any missing 
-#'            or zero values and prints a warning in the console \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item checkingMissingVars.R
-#'             \\item errorOccurred.R
-#'             \\item getVarList.R
-#'             \\item unPackList.R\} \\cr
+#'            or zero values and prints a warning in the console \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item checkingMissingVars.R
+#'             \item errorOccurred.R
+#'             \item getVarList.R
+#'             \item unPackList.R} \cr
 #'@param subdata data.frame input data (subdata)
 #'@param betavalues data.frame of model parameters from parameters.csv
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 

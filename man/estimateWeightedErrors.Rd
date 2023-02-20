@@ -4,10 +4,18 @@
 \alias{estimateWeightedErrors}
 \title{estimateWeightedErrors}
 \usage{
-estimateWeightedErrors(file.output.list, xrun_id, pre_run_id, nreaches,
-  calsites)
+estimateWeightedErrors(
+  file.output.list,
+  xrun_id,
+  pre_run_id,
+  nreaches,
+  calsites
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input
+and output of external files.  Created by \code{generateInputList.R}}
+
 \item{xrun_id}{current model run_id used by \code{estimateWeightedErrors.R} executed in
 \code{userModifyData.R}}
 
@@ -18,9 +26,12 @@ executed in \code{userModifyData.R}}
 
 \item{calsites}{calibration site indicator (NA or 0 = not selected; 1=selected)}
 }
+\value{
+\code{weight} numeric vector of weights computed as the reciprocal of the
+squared residutals (variance) predicted by the power function
+}
 \description{
 \cr \cr
-Executed By:  \cr
 Executes Routines: \itemize{\item named.list.R
 \item unPackList.R} \cr
 }

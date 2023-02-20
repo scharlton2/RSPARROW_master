@@ -1,8 +1,8 @@
 #'@title deleteFiles
 #'@description Deletes all files from estimate, predict, maps, and scenarios subdirectories.  
 #'            Subroutine is only called when model estimation is requested via the control settings 
-#'            if_estimate<-"yes" or if_estimate_simulation<-"yes". \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
+#'            if_estimate<-"yes" or if_estimate_simulation<-"yes". \cr \cr
+#'Executed By: executeRSPARROW.R \cr
 #'@param path_results path to results model subdirectory
 
 

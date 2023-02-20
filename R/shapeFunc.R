@@ -1,7 +1,7 @@
 #'@title shapeFunc
 #'@description Shiny ui function applies Shiny conditional panel to show option to output to 
-#'            ERSI shapefile if Batch mode is selected \\cr \\cr
-#'Executed By: shinyMap2.R \\cr
+#'            ERSI shapefile if Batch mode is selected \cr \cr
+#'Executed By: shinyMap2.R \cr
 #'@param id Shiny namespace designation
 #'@param input top level interactive user input in Shiny app
 

@@ -4,9 +4,24 @@
 \alias{predictScenariosPrep}
 \title{predictScenariosPrep}
 \usage{
-predictScenariosPrep(input, allMetrics, output_map_type, Rshiny,
-  scenario.input.list, data_names, if_predict, data, srcvar, jsrcvar,
-  dataNames, JacobResults, subdata, file.output.list)
+predictScenariosPrep(
+  input,
+  allMetrics,
+  output_map_type,
+  Rshiny,
+  scenario.input.list,
+  data_names,
+  if_predict,
+  data,
+  srcvar,
+  jsrcvar,
+  dataNames,
+  JacobResults,
+  subdata,
+  SelParmValues,
+  file.output.list,
+  batch_mode
+)
 }
 \arguments{
 \item{input}{top level interactive user input in Shiny app}
@@ -18,6 +33,8 @@ variables to map in shiny batch mode}
 to PDF file from "stream","catchment", or "both"}
 
 \item{Rshiny}{TRUE/FALSE indicating whether routine is being run from the Shiny app}
+
+\item{scenario.input.list}{list of control settings related to source change scenarios}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
 
@@ -40,6 +57,9 @@ residuals \code{estimateNLLSmetrics.R} contained in the estimate.list object.  F
 documentation Section 5.2.4.5.}
 
 \item{subdata}{data.frame input data (subdata)}
+
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
 }
 \value{
 \code{scenarioPrep.list} list of source change scenario setup control settings, data with

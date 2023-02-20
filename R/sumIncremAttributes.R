@@ -1,9 +1,9 @@
 #'@title sumIncremAttributes
 #'@description Sums the specified attribute over the incremental area of the calibration 
 #'            sites, based on the unique station sequence number for each reach (staidseq).   [NOTE THAT THE 
-#'            FUNCTION ARGUMENTS COULD USE EDITING TO USE THE UNIQUE NAMES RATHER THAN GENERIC NAMES) \\cr \\cr
-#'Executed By: \\itemize\{\\item calcIncremLandUse.R
-#'             \\item correlationMatrix.R\} \\cr
+#'            FUNCTION ARGUMENTS COULD USE EDITING TO USE THE UNIQUE NAMES RATHER THAN GENERIC NAMES) \cr \cr
+#'Executed By: \itemize{\item calcIncremLandUse.R
+#'             \item correlationMatrix.R} \cr
 #'@param idseq staidseq or vstaidseq, integer vector site IDs assigned contiguously to 
 #'       upstream incremental reaches
 #'@param attrib specified attributes with length equal to number of reaches

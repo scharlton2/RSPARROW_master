@@ -207,4 +207,4 @@ Collate:
     'validateFevalNoadj.R'
     'validCosmetic.R'
     'verifyDemtarea.R'
-RoxygenNote: 6.1.0
+RoxygenNote: 7.2.3

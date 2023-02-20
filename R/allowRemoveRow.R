@@ -1,7 +1,7 @@
 #'@title allowRemoveRow
 #'@description Function to edit context menu for rhandsontable hottables in shiny ap, so that 
-#'            the first row cannot be deleted. \\cr \\cr
-#'Executed By: handsOnMod.R \\cr
+#'            the first row cannot be deleted. \cr \cr
+#'Executed By: handsOnMod.R \cr
 #'@param hot shiny rhandsontable hot table used for user input 
 #'@param allowRemove TRUE/FALSE indicates whether the user should have the option to remove 
 #'       rows from a rhandsontable hottable in shiny.  If only 1 row in the table, then FALSE

@@ -1,9 +1,9 @@
 #'@title estimateNLLStable
 #'@description Outputs all model performance and other summary metrics and diagnostics for the 
 #'            estimated model for calibration and validates sites to the ~/estimate/(run_id)_summary.txt 
-#'            file.  \\cr \\cr
-#'Executed By: estimate.R \\cr
-#'Executes Routines: unPackList.R \\cr
+#'            file.  \cr \cr
+#'Executed By: estimate.R \cr
+#'Executes Routines: unPackList.R \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param if_estimate yes/no indicating whether or not estimation is run

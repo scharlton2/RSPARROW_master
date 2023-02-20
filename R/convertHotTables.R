@@ -1,9 +1,9 @@
 #'@title convertHotTables
 #'@description Converts rhandsontable hottables from Shiny into regular dataframes and 
-#'            cosmetic mapping settings to regular list objects in the shiny input list \\cr \\cr
-#'Executed By: \\itemize\{\\item goShinyPlot.R
-#'             \\item testCosmetic.R
-#'             \\item testRedTbl.R\} \\cr
+#'            cosmetic mapping settings to regular list objects in the shiny input list \cr \cr
+#'Executed By: \itemize{\item goShinyPlot.R
+#'             \item testCosmetic.R
+#'             \item testRedTbl.R} \cr
 #'@param shinyInput compiled Shiny input selections
 #'@return `outshinyInput`  the compiled Shiny Input list with hottables as dataframes and 
 

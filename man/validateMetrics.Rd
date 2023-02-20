@@ -4,24 +4,40 @@
 \alias{validateMetrics}
 \title{validateMetrics}
 \usage{
-validateMetrics(classvar, estimate.list, dlvdsgn, Vsites.list, yieldFactor,
-  SelParmValues, subdata, vsitedata, DataMatrix.list)
+validateMetrics(
+  classvar,
+  estimate.list,
+  dlvdsgn,
+  Vsites.list,
+  yieldFactor,
+  SelParmValues,
+  subdata,
+  vsitedata,
+  DataMatrix.list
+)
 }
 \arguments{
 \item{classvar}{character vector of user specified spatially contiguous discrete
 classification variables from sparrow_control.  First element is reach classification variable.}
 
+\item{estimate.list}{list output from \code{estimate.R}}
+
 \item{dlvdsgn}{design matrix imported from design_matrix.csv}
+
+\item{Vsites.list}{named list of sites for validation}
 
 \item{yieldFactor}{numeric control setting to specify the yield conversion factor, computed
 as \code{Yield = load / demtarea * yieldFactor}}
 
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
 \item{subdata}{data.frame input data (subdata)}
 
 \item{vsitedata}{sitedata for validation. Calculated by \code{subdata[(subdata$vdepvar > 0), ]}}
+
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
 }
 \value{
 \code{validate.metrics.list} named list including the vANOVA.list and vMdiagnostics.list

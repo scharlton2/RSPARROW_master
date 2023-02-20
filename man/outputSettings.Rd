@@ -7,6 +7,9 @@
 outputSettings(file.output.list, save)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{save}{TRUE/FALSE indicating whether control setting values are to be saved to a csv
 file}
 }

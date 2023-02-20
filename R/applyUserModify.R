@@ -1,11 +1,11 @@
 #'@title applyUserModify
 #'@description reads `userModifyData.R` control file as text, unpacks all variables in the 
 #'            data1 file and applies user modifications, creates the `subdata` object for use in all model 
-#'            execution statements \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item named.list.R
-#'             \\item replaceNAs.R
-#'             \\item unPackList.R\} \\cr
+#'            execution statements \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item named.list.R
+#'             \item replaceNAs.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param betavalues data.frame of model parameters from parameters.csv

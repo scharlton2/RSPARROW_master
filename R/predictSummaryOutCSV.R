@@ -2,10 +2,10 @@
 #'@description Calculates and outputs to the ~/estimate/(run_id)_summary_predictions.csv file 
 #'            the percentile summaries of reach predictions of load, yield, concentration, and delivery 
 #'            fraction for the control settings if_estimate<-"yes" and if_predict<-"yes", and outputs percentile 
-#'            summaries for the yields  by predominant land-use type specified in the 'class_landuse' control setting. \\cr \\cr
-#'Executed By: estimate.R \\cr
-#'Executes Routines: \\itemize\{\\item calcClassLandusePercent.R
-#'             \\item unPackList.R\} \\cr
+#'            summaries for the yields  by predominant land-use type specified in the 'class_landuse' control setting. \cr \cr
+#'Executed By: estimate.R \cr
+#'Executes Routines: \itemize{\item calcClassLandusePercent.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 

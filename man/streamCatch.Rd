@@ -4,7 +4,7 @@
 \alias{streamCatch}
 \title{streamCatch}
 \usage{
-streamCatch(id, input, choices, map_uncertainties)
+streamCatch(id, input, choices, map_uncertainties, sitedata, add_plotlyVars)
 }
 \arguments{
 \item{id}{Shiny namespace designation}
@@ -15,6 +15,14 @@ streamCatch(id, input, choices, map_uncertainties)
 
 \item{map_uncertainties}{Vector of user selected uncertainty parameters to map, if
 uncertainty analysis was not run NA}
+
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
+
+\item{add_plotlyVars}{character vector indicating user selected variables to add to plot
+hover text}
 }
 \description{
 Shiny ui function generates user selections for Stream and Catchment Mapping

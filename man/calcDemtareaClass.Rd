@@ -14,6 +14,6 @@ calcDemtareaClass(demtarea)
 }
 \description{
 Obtains monitoring station classification (deciles) based on total drainage
-area for each site \cr \cr
-Executed By: startModelRun.R \cr
+area for each site \\cr \\cr
+Executed By: startModelRun.R \\cr
 }

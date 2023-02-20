@@ -1,11 +1,11 @@
 #'@title correlationMatrix
 #'@description Calculates summary metrics and bivariate correlations between user-selected 
 #'            variables in `subdata` for incremental areas of monitoring sites and for all reaches. Outputs 
-#'            (run_id)_explvars_correlations.txt and (run_id)_explvars_correlations.pdf files. \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item named.list.R
-#'             \\item sumIncremAttributes.R
-#'             \\item unPackList.R\} \\cr
+#'            (run_id)_explvars_correlations.txt and (run_id)_explvars_correlations.pdf files. \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item named.list.R
+#'             \item sumIncremAttributes.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param SelParmValues selected parameters from parameters.csv using condition 

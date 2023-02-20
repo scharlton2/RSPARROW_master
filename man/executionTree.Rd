@@ -4,15 +4,23 @@
 \alias{executionTree}
 \title{executionTree}
 \usage{
-executionTree(path_main, startRoutine = "runRsparrow.R",
-  includeTypes = c("manageDirVars", "sparrowSetup", "sparrowExec",
-  "shiny", "batch", "errorTrap", "lists", "fortran"), includeList = NA,
+executionTree(
+  path_main,
+  startRoutine = "runRsparrow.R",
+  includeTypes = c("manageDirVars", "sparrowSetup", "sparrowExec", "shiny", "batch",
+    "errorTrap", "lists", "fortran", "rmd"),
+  includeList = NA,
   excludeList = c("errorOccurred.R", "named.list.R"),
-  allOccurances = FALSE, outputType = "data.tree", pruneTree = NA,
-  treeLimit = NA)
+  allOccurances = FALSE,
+  outputType = "data.tree",
+  pruneTree = NA,
+  treeLimit = NA
+)
 }
 \arguments{
 \item{path_main}{character string path to RSPARROW_master directory}
+
+\item{startRoutine}{character string name of functional RPSPARROW routine}
 
 \item{includeTypes}{character string vector indicating which types of functions/routines to
 include in executionTree from the function types in RPSARROW_master/inst/tables/funcTypes.csv}
@@ -26,6 +34,9 @@ even if function/routine in includeTypes}
 \item{allOccurances}{TRUE/FALSE indicating whether all executions of selected functions
 should be output in the data.table of the executionTree.  If `outputType = 'data.tree',
 allOccurances will be reset to FALSE}
+
+\item{outputType}{character string indicating whether to output a data.table of the exectutionTree or
+print a data.tree.  Select 'data.table' or 'data.tree'.  Default value is 'data.tree'}
 
 \item{pruneTree}{number of execution levels to include in the execution tree}
 

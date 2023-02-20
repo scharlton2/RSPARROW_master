@@ -2,10 +2,10 @@
 #'@description Accumulates loads in the reach network according to the user's model 
 #'            specification, making comparisons of the unconditioned predictions of  load to the actual loads for 
 #'            monitored (validation site) reaches to return a vector of weighted residuals (difference between the 
-#'            actual and predicted loads). No monitoring load substitution is performed (ifadjust=0).  \\cr \\cr
-#'Executed By: validateMetrics.R \\cr
-#'Executes Routines: \\itemize\{\\item estimateFeval.R
-#'             \\item tnoder.for\} \\cr
+#'            actual and predicted loads). No monitoring load substitution is performed (ifadjust=0).  \cr \cr
+#'Executed By: validateMetrics.R \cr
+#'Executes Routines: \itemize{\item estimateFeval.R
+#'             \item tnoder.for} \cr
 #'@param beta0 estimated parameters (no constants)
 #'@param vdepvar variable `subdata$vdepvar`
 #'@param SelParmValues selected parameters from parameters.csv using condition 

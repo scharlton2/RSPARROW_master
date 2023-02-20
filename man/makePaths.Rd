@@ -4,8 +4,15 @@
 \alias{makePaths}
 \title{makePaths}
 \usage{
-makePaths(path_user, path_master, run_id, results_directoryName,
-  data_directoryName, gis_directoryName, envir = .GlobalEnv)
+makePaths(
+  path_user,
+  path_master,
+  run_id,
+  results_directoryName,
+  data_directoryName,
+  gis_directoryName,
+  envir = .GlobalEnv
+)
 }
 \arguments{
 \item{path_user}{character string path to RSPARROW user directory containing results, data,

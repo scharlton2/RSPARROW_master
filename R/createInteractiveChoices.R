@@ -1,7 +1,7 @@
 #'@title createInteractiveChoices
 #'@description Generates list of prediction metrics for user to select to plot in RShiny based 
-#'            on modeled parameters \\cr \\cr
-#'Executed By: shinyMap2.R \\cr
+#'            on modeled parameters \cr \cr
+#'Executed By: shinyMap2.R \cr
 #'@param SelParmValues selected parameters from parameters.csv using condition 
 #'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" & 
 #'       parmMin>=0) | parmType!="SOURCE")`

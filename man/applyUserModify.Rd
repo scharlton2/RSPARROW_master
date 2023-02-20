@@ -4,10 +4,19 @@
 \alias{applyUserModify}
 \title{applyUserModify}
 \usage{
-applyUserModify(file.output.list, betavalues, data_names, subdata,
-  class_landuse, lon_limit)
+applyUserModify(
+  file.output.list,
+  betavalues,
+  data_names,
+  subdata,
+  class_landuse,
+  lon_limit
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{betavalues}{data.frame of model parameters from parameters.csv}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}

@@ -4,10 +4,17 @@
 \alias{modelCompare}
 \title{modelCompare}
 \usage{
-modelCompare(file.output.list, compare_models, modelComparison_name,
-  if_spatialAutoCorr)
+modelCompare(
+  file.output.list,
+  compare_models,
+  modelComparison_name,
+  if_spatialAutoCorr
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{compare_models}{character string control setting indicated the run_ids of preivously
 run model to which the current model is to be compared}
 

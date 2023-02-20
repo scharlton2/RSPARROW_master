@@ -1,9 +1,9 @@
 #'@title findMinMaxLatLon
 #'@description Identifies the minimum and maximum values of the calibration station latitudes 
 #'            and longitudes, which is output to the Console, and used where the control settings 'lat_limit' 
-#'            and 'lon_limit' are equal to 'NA' \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: named.list.R \\cr
+#'            and 'lon_limit' are equal to 'NA' \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: named.list.R \cr
 #'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
 #'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
 #'                ‘sparrowNames’ variables, with records sorted in hydrological 

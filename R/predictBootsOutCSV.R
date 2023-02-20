@@ -1,8 +1,8 @@
 #'@title predictBootsOutCSV
-#'@description Outputs the bootstrap predictions to CSV files.  \\cr \\cr
-#'Executed By: controlFileTasksModel.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item unPackList.R\} \\cr
+#'@description Outputs the bootstrap predictions to CSV files.  \cr \cr
+#'Executed By: controlFileTasksModel.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param estimate.list list output from `estimate.R`

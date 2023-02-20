@@ -4,10 +4,17 @@
 \alias{readParameters}
 \title{readParameters}
 \usage{
-readParameters(file.output.list, if_estimate, if_estimate_simulation,
-  batch_mode)
+readParameters(
+  file.output.list,
+  if_estimate,
+  if_estimate_simulation,
+  batch_mode
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{if_estimate}{yes/no indicating whether or not estimation is run}
 
 \item{if_estimate_simulation}{character string setting from sparrow_control.R indicating

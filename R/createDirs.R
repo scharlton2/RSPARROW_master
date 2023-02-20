@@ -1,9 +1,9 @@
 #'@title createDirs
-#'@description creates all model subdirectories for file output \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
-#'Executes Routines: \\itemize\{\\item errorOccurred.R
-#'             \\item syncVarNames.R
-#'             \\item unPackList.R\} \\cr
+#'@description creates all model subdirectories for file output \cr \cr
+#'Executed By: executeRSPARROW.R \cr
+#'Executes Routines: \itemize{\item errorOccurred.R
+#'             \item syncVarNames.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param if_userModifyData yes/no indicating whether or not the userModifyData.R control file 

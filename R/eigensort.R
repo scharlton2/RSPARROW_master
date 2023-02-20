@@ -1,6 +1,6 @@
 #'@title eigensort
-#'@description Sorts eigenvectors and eigenvalues in decreasing order. \\cr \\cr
-#'Executed By: estimateNLLSmetrics.R \\cr
+#'@description Sorts eigenvectors and eigenvalues in decreasing order. \cr \cr
+#'Executed By: estimateNLLSmetrics.R \cr
 #'@param eigs object containing eigenvalues and vectors from the base R `eigen()` function
 #'@return `eigenout`  list object with eigenvalues and vectors sorted in decreasing order
 

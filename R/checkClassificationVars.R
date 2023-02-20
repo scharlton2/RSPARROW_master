@@ -1,10 +1,10 @@
 #'@title checkClassificationVars
 #'@description Checks for missing or zero values in classification variables in section 5 of 
 #'            the control script. If missing and/or zeros are found, a critical error has been found and 
-#'            program execution will terminate. \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item errorOccurred.R
-#'             \\item unPackList.R\} \\cr
+#'            program execution will terminate. \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item errorOccurred.R
+#'             \item unPackList.R} \cr
 #'@param subdata data.frame input data (subdata)
 #'@param class.input.list list of control settings related to classification variables
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 

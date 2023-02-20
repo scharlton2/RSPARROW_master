@@ -1,7 +1,7 @@
 #'@title areColors
 #'@description Tests color strings and indicate whether invalid (not supported by R) color 
-#'            designations have been found \\cr \\cr
-#'Executed By: getSpecialSett.R \\cr
+#'            designations have been found \cr \cr
+#'Executed By: getSpecialSett.R \cr
 #'@param strColors character vector of supported R color strings
 #'@return `testCol`  logical TRUE/FALSE indicating whether or not invalid color strings were 
 #'            found

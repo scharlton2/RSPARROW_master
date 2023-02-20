@@ -1,8 +1,7 @@
 #'@title estimateWeightedErrors
-#'@description  \\cr \\cr
-#'Executed By:  \\cr
-#'Executes Routines: \\itemize\{\\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'@description  \cr \cr
+#'Executes Routines: \itemize{\item named.list.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input 
 #'                        and output of external files.  Created by `generateInputList.R`
 #'@param xrun_id current model run_id used by `estimateWeightedErrors.R` executed in 

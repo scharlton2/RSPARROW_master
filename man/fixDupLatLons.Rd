@@ -4,10 +4,10 @@
 \alias{fixDupLatLons}
 \title{fixDupLatLons}
 \usage{
-fixDupLatLons(x)
+fixDupLatLons(latLon)
 }
 \arguments{
-\item{x}{numeric vector of latitude or longitude values}
+\item{latLon}{numeric vector of latitude or longitude values}
 }
 \value{
 \code{x} latitude or longitude vector with small random increment added to duplicate

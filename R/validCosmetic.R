@@ -1,8 +1,8 @@
 #'@title validCosmetic
 #'@description highlights invalid user inputs in the map settings rhandsontables in the shiny 
-#'            app \\cr \\cr
-#'Executed By: \\itemize\{\\item shinyMap2.R
-#'             \\item shinyScenariosMod.R\} \\cr
+#'            app \cr \cr
+#'Executed By: \itemize{\item shinyMap2.R
+#'             \item shinyScenariosMod.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param output shiny list object for session output
 #'@param session active shiny session

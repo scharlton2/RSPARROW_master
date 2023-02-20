@@ -5,10 +5,10 @@
 #'            RSPARROW, a plot of user's original data for Total Drainage Area vs. Total Drainage Area calculated 
 #'            by RSPARROW is output. For the control setting if_verify_demtarea_maps<-"yes", maps are output 
 #'            of `demtarea` and `hydseq` for unmatched areas as a ratio of RSPARROW calculated:original. A CSV 
-#'            file is output of all differences found to ~/estimate/(run_id)_diagnostic_darea_mismatches.csv. \\cr \\cr
-#'Executed By: verifyDemtarea.R \\cr
-#'Executes Routines: \\itemize\{\\item checkBinaryMaps.R
-#'             \\item unPackList.R\} \\cr
+#'            file is output of all differences found to ~/estimate/(run_id)_diagnostic_darea_mismatches.csv. \cr \cr
+#'Executed By: verifyDemtarea.R \cr
+#'Executes Routines: \itemize{\item checkBinaryMaps.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 

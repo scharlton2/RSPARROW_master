@@ -4,15 +4,39 @@
 \alias{startModelRun}
 \title{startModelRun}
 \usage{
-startModelRun(file.output.list, if_estimate, if_estimate_simulation,
-  if_boot_estimate, if_boot_predict, enable_interactiveMaps,
-  filter_data1_conditions, data1, if_userModifyData, data_names,
-  class.input.list, min.sites.list, if_validate, iseed, pvalidate,
-  mapping.input.list, estimate.input.list, if_predict, biters,
-  scenario.input.list, compare_models, modelComparison_name,
-  if_spatialAutoCorr, add_vars, batch_mode, RSPARROW_errorOption)
+startModelRun(
+  file.output.list,
+  if_estimate,
+  if_estimate_simulation,
+  if_boot_estimate,
+  if_boot_predict,
+  enable_ShinyApp,
+  filter_data1_conditions,
+  data1,
+  if_userModifyData,
+  data_names,
+  class.input.list,
+  min.sites.list,
+  if_validate,
+  iseed,
+  pvalidate,
+  mapping.input.list,
+  estimate.input.list,
+  if_predict,
+  biters,
+  scenario.input.list,
+  compare_models,
+  modelComparison_name,
+  if_spatialAutoCorr,
+  add_vars,
+  batch_mode,
+  RSPARROW_errorOption
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{if_estimate}{yes/no indicating whether or not estimation is run}
 
 \item{if_estimate_simulation}{character string setting from sparrow_control.R indicating
@@ -24,7 +48,7 @@ whether estimation should be run in simulation mode only.}
 \item{if_boot_predict}{yes/no control setting to specify if bootstrap predictions (mean, SE,
 confidence intervals) are to be executed}
 
-\item{enable_interactiveMaps}{yes/no control setting indicating whether shiny app should be
+\item{enable_ShinyApp}{yes/no control setting indicating whether shiny app should be
 triggered at the end of the run}
 
 \item{filter_data1_conditions}{User specified additional DATA1 variables (and conditions) to
@@ -37,6 +61,11 @@ is to be applied}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
 
+\item{class.input.list}{list of control settings related to classification variables}
+
+\item{min.sites.list}{named list of control settings \code{minimum_headwater_site_area},
+\code{minimum_reaches_separating_sites}, \code{minimum_site_incremental_area}}
+
 \item{if_validate}{yes/no indicating whether or not validation is run}
 
 \item{iseed}{User specified initial seed for the bootstraps from sparrow_control}
@@ -45,9 +74,21 @@ is to be applied}
 select for validation or if equal to 0 indicates that the user defined valsites variable should be
 used to select sites for validation. For more details see documentation Section 4.4.6}
 
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
+
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
+
 \item{if_predict}{yes/no indicating whether or not prediction is run}
 
 \item{biters}{User specified number of parametric bootstrap iterations from sparrow_control}
+
+\item{scenario.input.list}{list of control settings related to source change scenarios}
 
 \item{compare_models}{character string control setting indicated the run_ids of preivously
 run model to which the current model is to be compared}
@@ -64,7 +105,8 @@ prediction, yield, and residuals csv and shape files}
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}
 
-\item{RSPARROW_errorOption}{}
+\item{RSPARROW_errorOption}{yes/no control setting indicating where the RPSARROW_errorOption
+should be applied}
 }
 \description{
 executes sparrowSetup and sparrowExecution functions \cr \cr

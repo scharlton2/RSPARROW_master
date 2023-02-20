@@ -2,13 +2,13 @@
 #'@description Aggregate data for dynamic mapping by year, season, or year 
 #'             and season based on the user selected `map_years` and `map_seasons`
 #'             settings.  Available aggregation functions include mean, median,
-#'             min, and max. \\cr \\cr
-#'Executed By: \itemize\{\item diagnosticPlotsNLLS.Rmd
+#'             min, and max. \cr \cr
+#'Executed By: \itemize{\item diagnosticPlotsNLLS.Rmd
 #'                       \item diagnosticResidMapExec.R
 #'                       \item goShinyPlot.R
 #'                       \item predictMaps.R} \cr
-#'Executes Routines: \itemize\{\item test_addPlotlyvars.R
-#'                             \item named.list.R} \\cr
+#'Executes Routines: \itemize{\item test_addPlotlyvars.R
+#'                             \item named.list.R} \cr
 #'@param map_years RSPARROW dynamic user setting indicating how dynamic mapping 
 #'                 should proceed with regards to the year timestep.  A numeric 
 #'                 vector of years indicates mapping of each year in the vector.  

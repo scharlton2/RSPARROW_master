@@ -1,9 +1,9 @@
 #'@title predictScenariosPrep
-#'@description Sets up source reduction scenario applying change factors to specified areas \\cr \\cr
-#'Executed By: predictScenarios.R \\cr
-#'Executes Routines: \\itemize\{\\item hydseqTerm.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'@description Sets up source reduction scenario applying change factors to specified areas \cr \cr
+#'Executed By: predictScenarios.R \cr
+#'Executes Routines: \itemize{\item hydseqTerm.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param allMetrics character string of all load, yield, uncertainty, and data dictionary 
 #'       variables to map in shiny batch mode

@@ -1,15 +1,15 @@
 #'@title estimateNLLSmetrics
 #'@description Computes all model performance and other summary metrics and diagnostics for 
 #'            the estimated model for calibration sites, as reported in the ~/estimate/(run_id)_summary.txt 
-#'            file.  \\cr \\cr
-#'Executed By: estimate.R \\cr
-#'Executes Routines: \\itemize\{\\item eigensort.R
-#'             \\item errorOccurred.R
-#'             \\item estimateFeval.R
-#'             \\item estimateFevalNoadj.R
-#'             \\item getVarList.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'            file.  \cr \cr
+#'Executed By: estimate.R \cr
+#'Executes Routines: \itemize{\item eigensort.R
+#'             \item errorOccurred.R
+#'             \item estimateFeval.R
+#'             \item estimateFevalNoadj.R
+#'             \item getVarList.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 
 #'       whether estimation should be run in simulation mode only.

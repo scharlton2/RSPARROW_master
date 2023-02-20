@@ -1,32 +1,32 @@
 #'@title startModelRun
-#'@description executes sparrowSetup and sparrowExecution functions \\cr \\cr
-#'Executed By: \\itemize\{\\item batchRun.R
-#'             \\item executeRSPARROW.R\} \\cr
-#'Executes Routines: \\itemize\{\\item applyUserModify.R
-#'             \\item calcDemtareaClass.R
-#'             \\item calcIncremLandUse.R
-#'             \\item checkAnyMissingSubdataVars.R
-#'             \\item checkClassificationVars.R
-#'             \\item checkMissingSubdataVars.R
-#'             \\item controlFileTasksModel.R
-#'             \\item correlationMatrix.R
-#'             \\item createDataMatrix.R
-#'             \\item createMasterDataDictionary.R
-#'             \\item createSubdataSorted.R
-#'             \\item findMinMaxLatLon.R
-#'             \\item modelCompare.R
-#'             \\item named.list.R
-#'             \\item outputSettings.R
-#'             \\item readDesignMatrix.R
-#'             \\item readParameters.R
-#'             \\item selectCalibrationSites.R
-#'             \\item selectDesignMatrix.R
-#'             \\item selectParmValues.R
-#'             \\item selectValidationSites.R
-#'             \\item setNLLSWeights.R
-#'             \\item shinyMap2.R
-#'             \\item startEndmodifySubdata.R
-#'             \\item unPackList.R\} \\cr
+#'@description executes sparrowSetup and sparrowExecution functions \cr \cr
+#'Executed By: \itemize{\item batchRun.R
+#'             \item executeRSPARROW.R} \cr
+#'Executes Routines: \itemize{\item applyUserModify.R
+#'             \item calcDemtareaClass.R
+#'             \item calcIncremLandUse.R
+#'             \item checkAnyMissingSubdataVars.R
+#'             \item checkClassificationVars.R
+#'             \item checkMissingSubdataVars.R
+#'             \item controlFileTasksModel.R
+#'             \item correlationMatrix.R
+#'             \item createDataMatrix.R
+#'             \item createMasterDataDictionary.R
+#'             \item createSubdataSorted.R
+#'             \item findMinMaxLatLon.R
+#'             \item modelCompare.R
+#'             \item named.list.R
+#'             \item outputSettings.R
+#'             \item readDesignMatrix.R
+#'             \item readParameters.R
+#'             \item selectCalibrationSites.R
+#'             \item selectDesignMatrix.R
+#'             \item selectParmValues.R
+#'             \item selectValidationSites.R
+#'             \item setNLLSWeights.R
+#'             \item shinyMap2.R
+#'             \item startEndmodifySubdata.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param if_estimate yes/no indicating whether or not estimation is run

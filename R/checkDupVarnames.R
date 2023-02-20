@@ -1,7 +1,7 @@
 #'@title checkDupVarnames
 #'@description Checks for duplicate `sparrowNames` in the dataDictionary.csv file and outputs 
-#'            list of duplicates as message in console window \\cr \\cr
-#'Executed By: dataInputPrep.R \\cr
+#'            list of duplicates as message in console window \cr \cr
+#'Executed By: dataInputPrep.R \cr
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode

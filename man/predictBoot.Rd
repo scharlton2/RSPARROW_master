@@ -4,16 +4,31 @@
 \alias{predictBoot}
 \title{predictBoot}
 \usage{
-predictBoot(bEstimate, estimate.list, estimate.input.list, bootcorrectionR,
-  DataMatrix.list, SelParmValues, subdata)
+predictBoot(
+  bEstimate,
+  estimate.list,
+  estimate.input.list,
+  bootcorrectionR,
+  DataMatrix.list,
+  SelParmValues,
+  subdata
+)
 }
 \arguments{
 \item{bEstimate}{model coefficients generated in \code{estimateBootstraps.R}}
 
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
+
 \item{bootcorrectionR}{value of 1}
 
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
+
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
 \item{subdata}{data.frame input data (subdata)}
 }

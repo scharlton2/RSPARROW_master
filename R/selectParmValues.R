@@ -1,9 +1,9 @@
 #'@title selectParmValues
 #'@description Creates the 'SelParmValues' object with the user-selected parameter attributes 
-#'            and performs consistency checks on the initial, minimum, and maximum values of the parameters.  \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item errorOccurred.R
-#'             \\item named.list.R\} \\cr
+#'            and performs consistency checks on the initial, minimum, and maximum values of the parameters.  \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item errorOccurred.R
+#'             \item named.list.R} \cr
 #'@param df betavalues - list of parameters from parameters.csv
 #'@param if_estimate yes/no indicating whether or not estimation is run
 #'@param if_estimate_simulation character string setting from sparrow_control.R indicating 

@@ -4,15 +4,15 @@
 #'            The function accumulates loads in the reach network according to the user's model specification, 
 #'            making comparisons of the conditioned predictions of  load to the actual loads at monitored 
 #'            reaches to return a vector of weighted residuals (difference between the actual and predicted 
-#'            loads). Monitoring load substitution is performed (ifadjust=1).  \\cr \\cr
-#'Executed By: \\itemize\{\\item estimate.R
-#'             \\item estimateBootstraps.R
-#'             \\item estimateFevalNoadj.R
-#'             \\item estimateNLLSmetrics.R
-#'             \\item estimateOptimize.R
-#'             \\item validateFevalNoadj.R\} \\cr
-#'Executes Routines: \\itemize\{\\item unPackList.R
-#'             \\item tnoder.for\} \\cr
+#'            loads). Monitoring load substitution is performed (ifadjust=1).  \cr \cr
+#'Executed By: \itemize{\item estimate.R
+#'             \item estimateBootstraps.R
+#'             \item estimateFevalNoadj.R
+#'             \item estimateNLLSmetrics.R
+#'             \item estimateOptimize.R
+#'             \item validateFevalNoadj.R} \cr
+#'Executes Routines: \itemize{\item unPackList.R
+#'             \item tnoder.for} \cr
 #'@param beta0 estimated parameters (no constants)
 #'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
 #'                       for optimization

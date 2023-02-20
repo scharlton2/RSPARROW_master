@@ -1,36 +1,36 @@
 #'@title executeRSPARROW
 #'@description Runs manageDirVars functions and then proceeds with model excution either in 
-#'            regular mode or batch mode \\cr \\cr
-#'Executed By: runRsparrow.R \\cr
-#'Executes Routines: \\itemize\{\\item batchRun.R
-#'             \\item addVars.R
-#'             \\item copyPriorModelFiles.R
-#'             \\item createDirs.R
-#'             \\item createInitialDataDictionary.R
-#'             \\item createInitialParameterControls.R
-#'             \\item dataInputPrep.R
-#'             \\item deleteFiles.R
-#'             \\item errorOccurred.R
-#'             \\item findControlFiles.R
-#'             \\item generateInputLists.R
-#'             \\item getCharSett.R
-#'             \\item getNumSett.R
-#'             \\item getOptionSett.R
-#'             \\item getShortSett.R
-#'             \\item getYesNoSett.R
-#'             \\item isScriptSaved.R
-#'             \\item makePaths.R
-#'             \\item named.list.R
-#'             \\item openDesign.R
-#'             \\item openParameters.R
-#'             \\item openVarnames.R
-#'             \\item outputSettings.R
-#'             \\item removeObjects.R
-#'             \\item setMapDefaults.R
-#'             \\item setupMaps.R
-#'             \\item startModelRun.R
-#'             \\item testSettings.R
-#'             \\item unPackList.R\} \\cr
+#'            regular mode or batch mode \cr \cr
+#'Executed By: runRsparrow.R \cr
+#'Executes Routines: \itemize{\item batchRun.R
+#'             \item addVars.R
+#'             \item copyPriorModelFiles.R
+#'             \item createDirs.R
+#'             \item createInitialDataDictionary.R
+#'             \item createInitialParameterControls.R
+#'             \item dataInputPrep.R
+#'             \item deleteFiles.R
+#'             \item errorOccurred.R
+#'             \item findControlFiles.R
+#'             \item generateInputLists.R
+#'             \item getCharSett.R
+#'             \item getNumSett.R
+#'             \item getOptionSett.R
+#'             \item getShortSett.R
+#'             \item getYesNoSett.R
+#'             \item isScriptSaved.R
+#'             \item makePaths.R
+#'             \item named.list.R
+#'             \item openDesign.R
+#'             \item openParameters.R
+#'             \item openVarnames.R
+#'             \item outputSettings.R
+#'             \item removeObjects.R
+#'             \item setMapDefaults.R
+#'             \item setupMaps.R
+#'             \item startModelRun.R
+#'             \item testSettings.R
+#'             \item unPackList.R} \cr
 #'@param settingValues user input values for all control settings
 #'@param settingNames names of all control settings
 #'@param activeFile character string path to sparrow_control.R file at currently top level of 

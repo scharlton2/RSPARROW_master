@@ -11,6 +11,13 @@ createRTables(selectSources, data_names, mapping.input.list)
 as.character(JacobResults$Parmnames\link{which(JacobResults$btype=="SOURCE")}) if \code{JacobResults} object is available}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
 }
 \value{
 \code{out}  list containing all user input tables for the Rshiny app.

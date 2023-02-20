@@ -1,7 +1,7 @@
 #'@title findCodeStr
 #'@description find all instances where a given routine is executed, determine all arguments 
 #'            for a given routine, find all routines that use a given control setting or functional argument, 
-#'            or determine all locations within the system a given string occurs \\cr \\cr
+#'            or determine all locations within the system a given string occurs \cr \cr
 #'@param path_master character string path to RSPARROW_master directory.  Internally reset to 
 #'       'RSPARROW_master/R/' subdirectory
 #'@param str character string to find in function

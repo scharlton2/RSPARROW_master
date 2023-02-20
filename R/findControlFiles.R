@@ -1,8 +1,8 @@
 #'@title findControlFiles
 #'@description checks to make sure all necessary control files are present in the results 
-#'            directory \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
-#'Executes Routines: errorOccurred.R \\cr
+#'            directory \cr \cr
+#'Executed By: executeRSPARROW.R \cr
+#'Executes Routines: errorOccurred.R \cr
 #'@param path_user character string path to RSPARROW user directory containing results, data, 
 #'       and gis subdirectories
 #'@param if_userModifyData yes/no indicating whether or not the userModifyData.R control file 

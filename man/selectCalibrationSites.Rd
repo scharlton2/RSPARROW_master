@@ -10,6 +10,9 @@ selectCalibrationSites(subdata, data_names, min.sites.list)
 \item{subdata}{data.frame input data (subdata)}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
+
+\item{min.sites.list}{named list of control settings \code{minimum_headwater_site_area},
+\code{minimum_reaches_separating_sites}, \code{minimum_site_incremental_area}}
 }
 \value{
 \code{Csites.list} list output from \code{selectCalibrationSites.R} modified in

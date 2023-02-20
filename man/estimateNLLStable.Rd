@@ -4,13 +4,28 @@
 \alias{estimateNLLStable}
 \title{estimateNLLStable}
 \usage{
-estimateNLLStable(file.output.list, if_estimate, if_estimate_simulation,
-  ifHess, if_sparrowEsts, classvar, sitedata, numsites, ANOVA.list,
-  JacobResults, HesResults, sparrowEsts, Mdiagnostics.list,
-  Cor.ExplanVars.list, if_validate, vANOVA.list, vMdiagnostics.list,
-  betavalues, Csites.weights.list)
+estimateNLLStable(
+  file.output.list,
+  if_estimate,
+  if_estimate_simulation,
+  ifHess,
+  if_sparrowEsts,
+  classvar,
+  sitedata,
+  numsites,
+  estimate.list,
+  Cor.ExplanVars.list,
+  if_validate,
+  vANOVA.list,
+  vMdiagnostics.list,
+  betavalues,
+  Csites.weights.list
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{if_estimate}{yes/no indicating whether or not estimation is run}
 
 \item{if_estimate_simulation}{character string setting from sparrow_control.R indicating
@@ -25,23 +40,47 @@ Jacobian diagnostics and 0 \code{if_estimate_simulation<-'yes'} indicating no ca
 \item{classvar}{character vector of user specified spatially contiguous discrete
 classification variables from sparrow_control.  First element is reach classification variable.}
 
-\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0), ]}}
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
 
 \item{numsites}{number of sites selected for calibration}
+
+\item{Cor.ExplanVars.list}{list output from \code{correlationMatrix.R}}
+
+\item{if_validate}{yes/no indicating whether or not validation is run}
+
+\item{vANOVA.list}{list output of  model performance-related variables for the validation sites
+from \code{validateMetrics.R} contained in the estimate.list object. For more details
+see documentation Section 5.2.4.15}
+
+\item{vMdiagnostics.list}{list output containing summary variables for validation sites from
+\code{validateMetrics.R} contained in the estimate.list object.  For more
+details see documentation Section 5.2.4.14.}
+
+\item{betavalues}{data.frame of model parameters from parameters.csv}
+
+\item{Csites.weights.list}{regression weights as proportional to incremental area size}
+
+\item{ANOVA.list}{list output of  model performance-related variables for the calibration sites
+from \code{estimateNLLSmetrics.R} contained in the estimate.list object. For more
+details see documentation Section 5.2.4.8}
 
 \item{JacobResults}{list output of Jacobian first-order partial derivatives of the model
 residuals \code{estimateNLLSmetrics.R} contained in the estimate.list object.  For more details see
 documentation Section 5.2.4.5.}
 
 \item{HesResults}{list output of Hessian second-order standard errors
-\code{estimateNLLSmetrics.R} contained in the estimate.list object.  For more details see documentation Section 5.2.4.6}
+\code{estimateNLLSmetrics.R} contained in the estimate.list object.  For more details see
+documentation Section 5.2.4.6}
 
 \item{sparrowEsts}{list object contained in estimate.list \code{if_estimate<-'yes'}.  For more
 details see documentation Section 5.2.4.4.}
 
-\item{if_validate}{yes/no indicating whether or not validation is run}
-
-\item{betavalues}{data.frame of model parameters from parameters.csv}
+\item{Mdiagnostics.list}{list output containing summary variables for calibration sites from
+\code{estimateNLLSmetrics.R} contained in the estimate.list object.  For
+more details see documentation Section 5.2.4.7.}
 }
 \description{
 Outputs all model performance and other summary metrics and diagnostics for the

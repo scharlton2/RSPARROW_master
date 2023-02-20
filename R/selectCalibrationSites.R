@@ -1,11 +1,11 @@
 #'@title selectCalibrationSites
 #'@description Identifies the calibration sites based on the 'calsites' indicator variable, 
 #'            filters the sites according to user control setttings (section 3 of control script), and assigns 
-#'            a unique sequence number to the sites. \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item assignIncremSiteIDs.R
-#'             \\item named.list.R
-#'             \\item unPackList.R\} \\cr
+#'            a unique sequence number to the sites. \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item assignIncremSiteIDs.R
+#'             \item named.list.R
+#'             \item unPackList.R} \cr
 #'@param subdata data.frame input data (subdata)
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param min.sites.list named list of control settings `minimum_headwater_site_area`,

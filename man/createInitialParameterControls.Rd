@@ -7,6 +7,9 @@
 createInitialParameterControls(file.output.list, batch_mode)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}
 }

@@ -1,16 +1,16 @@
 #'@title outputSettings
-#'@description outputs archived list of all control settings \\cr \\cr
-#'Executed By: \\itemize\{\\item controlFileTasksModel.R
-#'             \\item executeRSPARROW.R
-#'             \\item predictScenarios.R
-#'             \\item setupMaps.R
-#'             \\item startModelRun.R\} \\cr
-#'Executes Routines: \\itemize\{\\item getCharSett.R
-#'             \\item getNumSett.R
-#'             \\item getOptionSett.R
-#'             \\item getShortSett.R
-#'             \\item getYesNoSett.R
-#'             \\item unPackList.R\} \\cr
+#'@description outputs archived list of all control settings \cr \cr
+#'Executed By: \itemize{\item controlFileTasksModel.R
+#'             \item executeRSPARROW.R
+#'             \item predictScenarios.R
+#'             \item setupMaps.R
+#'             \item startModelRun.R} \cr
+#'Executes Routines: \itemize{\item getCharSett.R
+#'             \item getNumSett.R
+#'             \item getOptionSett.R
+#'             \item getShortSett.R
+#'             \item getYesNoSett.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param save TRUE/FALSE indicating whether control setting values are to be saved to a csv 

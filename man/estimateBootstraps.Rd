@@ -4,19 +4,40 @@
 \alias{estimateBootstraps}
 \title{estimateBootstraps}
 \usage{
-estimateBootstraps(iseed, biters, estimate.list, DataMatrix.list,
-  SelParmValues, Csites.weights.list, estimate.input.list, dlvdsgn,
-  file.output.list)
+estimateBootstraps(
+  iseed,
+  biters,
+  estimate.list,
+  DataMatrix.list,
+  SelParmValues,
+  Csites.weights.list,
+  estimate.input.list,
+  dlvdsgn,
+  file.output.list
+)
 }
 \arguments{
 \item{iseed}{User specified initial seed for the bootstraps from sparrow_control}
 
 \item{biters}{User specified number of parametric bootstrap iterations from sparrow_control}
 
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
+
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+
+\item{Csites.weights.list}{regression weights as proportional to incremental area size}
+
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
 
 \item{dlvdsgn}{design matrix imported from design_matrix.csv}
+
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
 }
 \value{
 \code{BootResults} data archive using the control setting \code{if_boot_estimate <- "yes"} for

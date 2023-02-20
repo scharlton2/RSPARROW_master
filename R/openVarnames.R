@@ -1,6 +1,6 @@
 #'@title openVarnames
-#'@description opens the dataDictionary.csv control file for edit \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
+#'@description opens the dataDictionary.csv control file for edit \cr \cr
+#'Executed By: executeRSPARROW.R \cr
 #'@param path_user character string path to RSPARROW user directory containing results, data, 
 #'       and gis subdirectories
 #'@param results_directoryName character string indicating the users results subdirectory name

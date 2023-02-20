@@ -9,6 +9,8 @@ checkClassificationVars(subdata, class.input.list, batch_mode)
 \arguments{
 \item{subdata}{data.frame input data (subdata)}
 
+\item{class.input.list}{list of control settings related to classification variables}
+
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}
 }

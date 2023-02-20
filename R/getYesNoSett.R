@@ -1,9 +1,9 @@
 #'@title getYesNoSett
-#'@description list of all yes/no control settings \\cr \\cr
-#'Executed By: \\itemize\{\\item executeRSPARROW.R
-#'             \\item outputSettings.R
-#'             \\item runRsparrow.R
-#'             \\item testSettings.R\} \\cr
+#'@description list of all yes/no control settings \cr \cr
+#'Executed By: \itemize{\item executeRSPARROW.R
+#'             \item outputSettings.R
+#'             \item runRsparrow.R
+#'             \item testSettings.R} \cr
 #'@return `yesNoSettings` list of all yes/no control settings
 
 

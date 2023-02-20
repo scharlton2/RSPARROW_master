@@ -1,9 +1,9 @@
 #'@title hydseqTerm
 #'@description flags all reaches upstream of the designated target reaches for execution of 
-#'            source reduction scenarios \\cr \\cr
-#'Executed By: predictScenariosPrep.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item unPackList.R\} \\cr
+#'            source reduction scenarios \cr \cr
+#'Executed By: predictScenariosPrep.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item unPackList.R} \cr
 #'@param subdata data.frame input data (subdata)
 #'@param select_targetReachWatersheds Indicate the watershed locations where the scenarios 
 #'       will be applied. For more details see documenation Section 4.4.9.1

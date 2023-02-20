@@ -4,15 +4,26 @@
 \alias{predictSensitivity}
 \title{predictSensitivity}
 \usage{
-predictSensitivity(AEstimate, estimate.list, DataMatrix.list,
-  SelParmValues, reach_decay_specification, reservoir_decay_specification,
-  subdata)
+predictSensitivity(
+  AEstimate,
+  estimate.list,
+  DataMatrix.list,
+  SelParmValues,
+  reach_decay_specification,
+  reservoir_decay_specification,
+  subdata
+)
 }
 \arguments{
 \item{AEstimate}{parameter estimates (original or adjusted by 1 percent)}
 
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
+
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
 \item{reach_decay_specification}{the SAS IML reach decay function code from sparrow_control}
 

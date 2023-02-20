@@ -1,14 +1,14 @@
 #'@title predict
 #'@description Calculates all conditioned and unconditioned model predictions for reaches for 
-#'            the control setting if_predict<-"yes".  \\cr \\cr
-#'Executed By: \\itemize\{\\item controlFileTasksModel.R
-#'             \\item estimate.R\} \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item named.list.R
-#'             \\item unPackList.R
-#'             \\item deliv_fraction.for
-#'             \\item mptnoder.for
-#'             \\item ptnoder.for\} \\cr
+#'            the control setting if_predict<-"yes".  \cr \cr
+#'Executed By: \itemize{\item controlFileTasksModel.R
+#'             \item estimate.R} \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item named.list.R
+#'             \item unPackList.R
+#'             \item deliv_fraction.for
+#'             \item mptnoder.for
+#'             \item ptnoder.for} \cr
 #'@param estimate.list list output from `estimate.R`
 #'@param estimate.input.list named list of sparrow_control settings: ifHess, s_offset, 
 #'                           NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars

@@ -4,7 +4,14 @@
 \alias{shinyScenarios}
 \title{shinyScenarios}
 \usage{
-shinyScenarios(id, input, choices)
+shinyScenarios(
+  id,
+  input,
+  choices,
+  sitedata,
+  add_plotlyVars,
+  scenario.input.list
+)
 }
 \arguments{
 \item{id}{Shiny namespace designation}
@@ -12,6 +19,14 @@ shinyScenarios(id, input, choices)
 \item{input}{top level interactive user input in Shiny app}
 
 \item{choices}{data.frame output of function createInteractiveChoices.R}
+
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
+
+\item{add_plotlyVars}{character vector indicating user selected variables to add to plot
+hover text}
 }
 \description{
 shiny ui for source change scenario mapping \cr \cr

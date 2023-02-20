@@ -4,16 +4,43 @@
 \alias{diagnosticSpatialAutoCorr}
 \title{diagnosticSpatialAutoCorr}
 \usage{
-diagnosticSpatialAutoCorr(file.output.list, classvar, sitedata, numsites,
-  estimate.list, estimate.input.list, subdata)
+diagnosticSpatialAutoCorr(
+  file.output.list,
+  classvar,
+  sitedata,
+  numsites,
+  estimate.list,
+  estimate.input.list,
+  mapping.input.list,
+  subdata,
+  min.sites.list
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{classvar}{character vector of user specified spatially contiguous discrete
 classification variables from sparrow_control.  First element is reach classification variable.}
 
-\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0), ]}}
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
 
 \item{numsites}{number of sites selected for calibration}
+
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
 
 \item{subdata}{data.frame input data (subdata)}
 }

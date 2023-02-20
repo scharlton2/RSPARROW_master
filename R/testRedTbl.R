@@ -1,9 +1,9 @@
 #'@title testRedTbl
 #'@description test for invalid user inputs in source reduction scenario rhandsontables in 
-#'            shiny app \\cr \\cr
-#'Executed By: shinyMap2.R \\cr
-#'Executes Routines: \\itemize\{\\item convertHotTables.R
-#'             \\item named.list.R\} \\cr
+#'            shiny app \cr \cr
+#'Executed By: shinyMap2.R \cr
+#'Executes Routines: \itemize{\item convertHotTables.R
+#'             \item named.list.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param output shiny list object for session output
 #'@param session active shiny session

@@ -4,23 +4,48 @@
 \alias{predictBootstraps}
 \title{predictBootstraps}
 \usage{
-predictBootstraps(iseed, biters, estimate.list, estimate.input.list,
-  predict.list, BootResults, DataMatrix.list, SelParmValues, subdata,
-  file.output.list)
+predictBootstraps(
+  iseed,
+  biters,
+  estimate.list,
+  estimate.input.list,
+  predict.list,
+  BootResults,
+  DataMatrix.list,
+  SelParmValues,
+  subdata,
+  file.output.list
+)
 }
 \arguments{
 \item{iseed}{User specified initial seed for the bootstraps from sparrow_control}
 
 \item{biters}{User specified number of parametric bootstrap iterations from sparrow_control}
 
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
+
+\item{predict.list}{archive with all load and yield prediction variables to provide for the
+efficient access and use of predictions in subsequent execution of the parametric
+bootstrap predictions and uncertainties, mapping, and scenario evaluations.
+For more details see documentation Section 5.3.1.5}
+
 \item{BootResults}{data archive using the control setting \code{if_boot_estimate <- "yes"} for
 use in subsequent execution of parametric bootstrap predictions. For more details see
 documenation Section 5.2.6.2.}
 
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
+
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
 \item{subdata}{data.frame input data (subdata)}
+
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
 }
 \value{
 \code{predictBoots.list} contains parametric bootstrap predictions for load and yield.

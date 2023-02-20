@@ -1,9 +1,9 @@
 #'@title getOptionSett
-#'@description list of all control settings with specified optional values \\cr \\cr
-#'Executed By: \\itemize\{\\item executeRSPARROW.R
-#'             \\item outputSettings.R
-#'             \\item runRsparrow.R
-#'             \\item testSettings.R\} \\cr
+#'@description list of all control settings with specified optional values \cr \cr
+#'Executed By: \itemize{\item executeRSPARROW.R
+#'             \item outputSettings.R
+#'             \item runRsparrow.R
+#'             \item testSettings.R} \cr
 #'@return `optionSettings` list of all control settings with specified optional values
 
 

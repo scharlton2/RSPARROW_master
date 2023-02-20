@@ -1,7 +1,7 @@
 #'@title replaceNAs
-#'@description Replaces all NAs with 0's. Output is saved to parent.frame(). \\cr \\cr
-#'Executed By: \\itemize\{\\item applyUserModify.R
-#'             \\item mapSiteAttributes.R\} \\cr
+#'@description Replaces all NAs with 0's. Output is saved to parent.frame(). \cr \cr
+#'Executed By: \itemize{\item applyUserModify.R
+#'             \item mapSiteAttributes.R} \cr
 #'@param listColumns a named list of variables in which to replace NAs.
 
 

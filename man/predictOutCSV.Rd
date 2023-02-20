@@ -4,10 +4,27 @@
 \alias{predictOutCSV}
 \title{predictOutCSV}
 \usage{
-predictOutCSV(file.output.list, estimate.list, predict.list, subdata,
-  add_vars, data_names)
+predictOutCSV(
+  file.output.list,
+  estimate.list,
+  predict.list,
+  subdata,
+  add_vars,
+  data_names
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{predict.list}{archive with all load and yield prediction variables to provide for
+the efficient access and use of predictions in subsequent execution
+of the parametric bootstrap predictions and uncertainties, mapping,
+and scenario evaluations.  For more details see documentation Section
+5.3.1.5}
+
 \item{subdata}{data.frame input data (subdata)}
 
 \item{add_vars}{additional variables specified by the setting \code{add_vars} to be included in

@@ -1,15 +1,15 @@
 #'@title plotlyLayout
-#'@description initiates plotly plot and sets up layout for plot area and axes \\cr \\cr
-#'Executed By: \\itemize\{\\item checkDrainageareaErrors.Rmd
-#'                        \\item diagnosticClassLandChild.Rmd
-#'                        \\item diagnosticClassvarChild.Rmd
-#'                        \\item diagnosticContiguousChild.Rmd
-#'                        \\item diagnosticCorrChild.Rmd
-#'                        \\item diagnosticPlotsNLLS.Rmd
-#'                        \\item diagnosticSensitivity.Rmd
-#'                        \\item diagnosticSensParamChild.Rmd
-#'                        \\item diagnosticSpatialAutoCorr.Rmd} \\cr
-#'Executes Routines: named.list.R \\cr
+#'@description initiates plotly plot and sets up layout for plot area and axes \cr \cr
+#'Executed By: \itemize{\item checkDrainageareaErrors.Rmd
+#'                        \item diagnosticClassLandChild.Rmd
+#'                        \item diagnosticClassvarChild.Rmd
+#'                        \item diagnosticContiguousChild.Rmd
+#'                        \item diagnosticCorrChild.Rmd
+#'                        \item diagnosticPlotsNLLS.Rmd
+#'                        \item diagnosticSensitivity.Rmd
+#'                        \item diagnosticSensParamChild.Rmd
+#'                        \item diagnosticSpatialAutoCorr.Rmd} \cr
+#'Executes Routines: named.list.R \cr
 #'@param x data to plot on x-axis
 #'@param y data to plot on y-axis
 #'@param log character string indicating which axes are to be plotted in log space

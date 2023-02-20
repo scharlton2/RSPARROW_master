@@ -1,8 +1,8 @@
 #'@title shinyScenarios
-#'@description shiny ui for source change scenario mapping \\cr \\cr
-#'Executed By: shinyMap2.R \\cr
-#'Executes Routines: \\itemize\{\\item dropFunc.R
-#'             \\item handsOnUI.R\} \\cr
+#'@description shiny ui for source change scenario mapping \cr \cr
+#'Executed By: shinyMap2.R \cr
+#'Executes Routines: \itemize{\item dropFunc.R
+#'             \item handsOnUI.R} \cr
 #'@param id Shiny namespace designation
 #'@param input top level interactive user input in Shiny app
 #'@param choices data.frame output of function createInteractiveChoices.R

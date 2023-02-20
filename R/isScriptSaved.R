@@ -1,7 +1,7 @@
 #'@title isScriptSaved
 #'@description outputs question to the console asking if the current sparrow_control.R file 
-#'            has been saved and stopping execution until the user indicates that it has been saved \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
+#'            has been saved and stopping execution until the user indicates that it has been saved \cr \cr
+#'Executed By: executeRSPARROW.R \cr
 #'@param scriptName name of functional routine or '.R' control file
 #'@param testDir subdirectory in the results directory with the current run_id.  If this 
 #'       directory exists it will be overwritten, if the user indicates 'yes' to the question in the console

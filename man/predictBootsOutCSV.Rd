@@ -4,10 +4,24 @@
 \alias{predictBootsOutCSV}
 \title{predictBootsOutCSV}
 \usage{
-predictBootsOutCSV(file.output.list, estimate.list, predictBoots.list,
-  subdata, add_vars, data_names)
+predictBootsOutCSV(
+  file.output.list,
+  estimate.list,
+  predictBoots.list,
+  subdata,
+  add_vars,
+  data_names
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{predictBoots.list}{contains parametric bootstrap predictions for load and yield.
+For more details see documentation Section 5.3.2.3}
+
 \item{subdata}{data.frame input data (subdata)}
 
 \item{add_vars}{additional variables specified by the setting \code{add_vars} to be included in

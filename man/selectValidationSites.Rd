@@ -4,8 +4,13 @@
 \alias{selectValidationSites}
 \title{selectValidationSites}
 \usage{
-selectValidationSites(iseed, pvalidate, subdata,
-  minimum_reaches_separating_sites, data_names)
+selectValidationSites(
+  iseed,
+  pvalidate,
+  subdata,
+  minimum_reaches_separating_sites,
+  data_names
+)
 }
 \arguments{
 \item{iseed}{User specified initial seed for the bootstraps from sparrow_control}

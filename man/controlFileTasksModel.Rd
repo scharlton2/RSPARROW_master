@@ -4,30 +4,71 @@
 \alias{controlFileTasksModel}
 \title{controlFileTasksModel}
 \usage{
-controlFileTasksModel(file.output.list, SelParmValues, betavalues,
-  Csites.weights.list, subdata, data_names, DataMatrix.list, sitedata,
-  Vsites.list, vsitedata, numsites, class.input.list, Cor.ExplanVars.list,
-  minimum_reaches_separating_sites, if_estimate, if_estimate_simulation,
-  dlvdsgn, estimate.input.list, if_predict, if_validate, sitedata.landuse,
-  vsitedata.landuse, sitedata.demtarea.class, vsitedata.demtarea.class,
-  mapping.input.list, iseed, biters, scenario.input.list, batch_mode,
-  RSPARROW_errorOption)
+controlFileTasksModel(
+  file.output.list,
+  SelParmValues,
+  betavalues,
+  Csites.weights.list,
+  subdata,
+  data_names,
+  DataMatrix.list,
+  sitedata,
+  Vsites.list,
+  vsitedata,
+  numsites,
+  class.input.list,
+  Cor.ExplanVars.list,
+  minimum_reaches_separating_sites,
+  if_estimate,
+  if_estimate_simulation,
+  dlvdsgn,
+  estimate.input.list,
+  if_predict,
+  if_validate,
+  sitedata.landuse,
+  vsitedata.landuse,
+  sitedata.demtarea.class,
+  vsitedata.demtarea.class,
+  mapping.input.list,
+  iseed,
+  biters,
+  scenario.input.list,
+  batch_mode,
+  RSPARROW_errorOption
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) &  ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")}}
 
 \item{betavalues}{data.frame of model parameters from parameters.csv}
+
+\item{Csites.weights.list}{regression weights as proportional to incremental area size}
 
 \item{subdata}{data.frame input data (subdata)}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
 
-\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0), ]}}
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
 
-\item{vsitedata}{sitedata for validation. Calculated by \code{subdata[(subdata$vdepvar > 0), ]}}
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
+
+\item{Vsites.list}{named list of sites for validation}
+
+\item{vsitedata}{sitedata for validation. Calculated by \code{subdata[(subdata$vdepvar > 0 & subdata$calsites==1), ]}}
 
 \item{numsites}{number of sites selected for calibration}
+
+\item{class.input.list}{list of control settings related to classification variables}
+
+\item{Cor.ExplanVars.list}{list output from \code{correlationMatrix.R}}
 
 \item{minimum_reaches_separating_sites}{number indicating the minimum number of reaches
 separating sites}
@@ -39,18 +80,42 @@ whether estimation should be run in simulation mode only.}
 
 \item{dlvdsgn}{design matrix imported from design_matrix.csv}
 
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
+
 \item{if_predict}{yes/no indicating whether or not prediction is run}
 
 \item{if_validate}{yes/no indicating whether or not validation is run}
+
+\item{sitedata.landuse}{Land use for incremental basins for diagnostics.}
+
+\item{vsitedata.landuse}{Land use for incremental basins for diagnostics for validation
+sites.}
+
+\item{sitedata.demtarea.class}{Total drainage area classification variable for calibration
+sites.}
+
+\item{vsitedata.demtarea.class}{Total drainage area classification variable for validation
+sites.}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
 
 \item{iseed}{User specified initial seed for the bootstraps from sparrow_control}
 
 \item{biters}{User specified number of parametric bootstrap iterations from sparrow_control}
 
+\item{scenario.input.list}{list of control settings related to source change scenarios}
+
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}
 
-\item{RSPARROW_errorOption}{}
+\item{RSPARROW_errorOption}{yes/no control setting indicating where the RPSARROW_errorOption
+should be applied}
 }
 \value{
 \code{runTimes}  named list of run times for bootstrap estimation, bootstrap prediction,

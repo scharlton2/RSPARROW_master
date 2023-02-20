@@ -1,10 +1,10 @@
 #'@title diagnosticPlotsValidate
 #'@description Creates diagnostic plots and maps for validation sites output to 
-#'            ~/estimate/(run_id)_validation_plots.pdf, and saves residual maps as shape files. \\cr \\cr
-#'Executed By: estimate.R \\cr
-#'Executes Routines: \\itemize\{\\item checkBinaryMaps.R
-#'             \\item diagnosticMaps.R
-#'             \\item unPackList.R\} \\cr
+#'            ~/estimate/(run_id)_validation_plots.pdf, and saves residual maps as shape files. \cr \cr
+#'Executed By: estimate.R \cr
+#'Executes Routines: \itemize{\item checkBinaryMaps.R
+#'             \item diagnosticMaps.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param class.input.list list of control settings related to classification variables

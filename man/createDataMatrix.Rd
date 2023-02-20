@@ -4,8 +4,12 @@
 \alias{createDataMatrix}
 \title{createDataMatrix}
 \usage{
-createDataMatrix(if_mean_adjust_delivery_vars, subdata, SelParmValues,
-  betavalues)
+createDataMatrix(
+  if_mean_adjust_delivery_vars,
+  subdata,
+  SelParmValues,
+  betavalues
+)
 }
 \arguments{
 \item{if_mean_adjust_delivery_vars}{yes/no character string indicating if the delivery
@@ -14,7 +18,7 @@ variables are to be mean adjusted from sparrow_control}
 \item{subdata}{data.frame input data (subdata)}
 
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
 \item{betavalues}{data.frame of model parameters from parameters.csv}
 }

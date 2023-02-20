@@ -4,25 +4,25 @@
 #'            sp, data.table, maptools, rgdal, shinyWidgets, stringr, and rhandsontable Uses subroutines: 
 #'            setup routines : createInteractiveChoices, createInteractiveScenarioChoices, createRTables, UIs : 
 #'            streamCatch, shinySiteAttr, shinyScenarios MODS : compileALL, selectAll, updateVariable, 
-#'            shinyScenariosMod, goShinyPlot \\cr \\cr
-#'Executed By: \\itemize\{\\item runShiny.R
-#'             \\item startModelRun.R\} \\cr
-#'Executes Routines: \\itemize\{\\item compileALL.R
-#'             \\item createInteractiveChoices.R
-#'             \\item createRTables.R
-#'             \\item goShinyPlot.R
-#'             \\item handsOnMod.R
-#'             \\item selectAll.R
-#'             \\item shapeFunc.R
-#'             \\item shinyScenarios.R
-#'             \\item shinyScenariosMod.R
-#'             \\item shinySiteAttr.R
-#'             \\item streamCatch.R
-#'             \\item testCosmetic.R
-#'             \\item testRedTbl.R
-#'             \\item unPackList.R
-#'             \\item updateVariable.R
-#'             \\item validCosmetic.R\} \\cr
+#'            shinyScenariosMod, goShinyPlot \cr \cr
+#'Executed By: \itemize{\item runShiny.R
+#'             \item startModelRun.R} \cr
+#'Executes Routines: \itemize{\item compileALL.R
+#'             \item createInteractiveChoices.R
+#'             \item createRTables.R
+#'             \item goShinyPlot.R
+#'             \item handsOnMod.R
+#'             \item selectAll.R
+#'             \item shapeFunc.R
+#'             \item shinyScenarios.R
+#'             \item shinyScenariosMod.R
+#'             \item shinySiteAttr.R
+#'             \item streamCatch.R
+#'             \item testCosmetic.R
+#'             \item testRedTbl.R
+#'             \item unPackList.R
+#'             \item updateVariable.R
+#'             \item validCosmetic.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param map_uncertainties Vector of user selected uncertainty parameters to map, if 

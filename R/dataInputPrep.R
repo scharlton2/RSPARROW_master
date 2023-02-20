@@ -4,17 +4,17 @@
 #'            navigation variables for large integers and/or all missing values, creates and/or verifies navigation 
 #'            variables and `demtarea`, saves `data1` and `data_names` (dataDictionary.csv import object) 
 #'            objects as binary file in top level of results (input_data_fileName)_priorImport, and saves 
-#'            `data_names` and `data1` to `.GlobalEnv` \\cr \\cr
-#'Executed By: \\itemize\{\\item batchRun.R
-#'             \\item executeRSPARROW.R\} \\cr
-#'Executes Routines: \\itemize\{\\item checkData1NavigationVars.R
-#'             \\item checkDupVarnames.R
-#'             \\item checkMissingData1Vars.R
-#'             \\item createVerifyReachAttr.R
-#'             \\item read_dataDictionary.R
-#'             \\item readData.R
-#'             \\item replaceData1Names.R
-#'             \\item unPackList.R\} \\cr
+#'            `data_names` and `data1` to `.GlobalEnv` \cr \cr
+#'Executed By: \itemize{\item batchRun.R
+#'             \item executeRSPARROW.R} \cr
+#'Executes Routines: \itemize{\item checkData1NavigationVars.R
+#'             \item checkDupVarnames.R
+#'             \item checkMissingData1Vars.R
+#'             \item createVerifyReachAttr.R
+#'             \item read_dataDictionary.R
+#'             \item readData.R
+#'             \item replaceData1Names.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param input_data_fileName name of users data1 file

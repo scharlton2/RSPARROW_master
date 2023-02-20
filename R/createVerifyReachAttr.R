@@ -1,15 +1,15 @@
 #'@title createVerifyReachAttr
 #'@description Calculates REQUIRED system reach attributes for reaches with `fnode>0`, 
 #'            `tnode>0` and `termflag!=3`from `calculate_reach_attribute_list` control setting and verifies 
-#'            `demtarea` if `if_verify_demtarea<-"yes"` \\cr \\cr
-#'Executed By: dataInputPrep.R \\cr
-#'Executes Routines: \\itemize\{\\item accumulateIncrArea.R
-#'             \\item calcHeadflag.R
-#'             \\item calcTermflag.R
-#'             \\item errorOccurred.R
-#'             \\item hydseq.R
-#'             \\item unPackList.R
-#'             \\item verifyDemtarea.R\} \\cr
+#'            `demtarea` if `if_verify_demtarea<-"yes"` \cr \cr
+#'Executed By: dataInputPrep.R \cr
+#'Executes Routines: \itemize{\item accumulateIncrArea.R
+#'             \item calcHeadflag.R
+#'             \item calcTermflag.R
+#'             \item errorOccurred.R
+#'             \item hydseq.R
+#'             \item unPackList.R
+#'             \item verifyDemtarea.R} \cr
 #'@param if_verify_demtarea specify whether or not to verify demtarea
 #'@param calculate_reach_attribute_list list of attributes to calculate
 #'@param data1 input data (data1)

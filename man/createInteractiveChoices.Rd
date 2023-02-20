@@ -4,12 +4,17 @@
 \alias{createInteractiveChoices}
 \title{createInteractiveChoices}
 \usage{
-createInteractiveChoices(SelParmValues, existPredict, subdata, data_names,
-  map_uncertainties)
+createInteractiveChoices(
+  SelParmValues,
+  existPredict,
+  subdata,
+  data_names,
+  map_uncertainties
+)
 }
 \arguments{
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
 
 \item{existPredict}{logical TRUE/FALSE whether predict.list is available in shiny environment}
 

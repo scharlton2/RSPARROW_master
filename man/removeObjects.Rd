@@ -6,6 +6,9 @@
 \usage{
 removeObjects(remove.list)
 }
+\arguments{
+\item{remove.list}{character vector of objects to remove}
+}
 \description{
 Removes objects from the global environment if the object exists. Warnings are
 suppressed. \cr \cr

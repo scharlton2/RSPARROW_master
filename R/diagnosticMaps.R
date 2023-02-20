@@ -1,9 +1,9 @@
 #'@title diagnosticMaps
 #'@description Creates diagnostic maps of residuals and site attributes and saves them to 
-#'            ~/estimate/(run_id)_diagnostic_plots.pdf. \\cr \\cr
-#'Executed By: \\itemize\{\\item diagnosticPlotsNLLS.R
-#'             \\item diagnosticPlotsValidate.R\} \\cr
-#'Executes Routines: unPackList.R \\cr
+#'            ~/estimate/(run_id)_diagnostic_plots.pdf. \cr \cr
+#'Executed By: \itemize{\item diagnosticPlotsNLLS.R
+#'             \item diagnosticPlotsValidate.R} \cr
+#'Executes Routines: unPackList.R \cr
 #'@param mapColumn character string indicating column of data to be mapped
 #'@param mapdata input data.frame with lat, long, and column to be mapped
 #'@param GeoLines Optional geospatial shape file for overlay of lines on output maps

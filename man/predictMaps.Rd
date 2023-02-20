@@ -4,9 +4,21 @@
 \alias{predictMaps}
 \title{predictMaps}
 \usage{
-predictMaps(input, allMetrics, output_map_type, Rshiny, file.output.list,
-  data_names, mapping.input.list, subdata, mapScenarios, scenario_map_list,
-  predictScenarios.list, scenarioFlag, batch_mode)
+predictMaps(
+  input,
+  allMetrics,
+  output_map_type,
+  Rshiny,
+  file.output.list,
+  data_names,
+  mapping.input.list,
+  subdata,
+  mapScenarios,
+  scenario_map_list,
+  predictScenarios.list,
+  scenarioFlag,
+  batch_mode
+)
 }
 \arguments{
 \item{input}{top level interactive user input in Shiny app}
@@ -19,7 +31,17 @@ to PDF file from "stream","catchment", or "both"}
 
 \item{Rshiny}{TRUE/FALSE indicating whether routine is being run from the Shiny app}
 
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
 
 \item{subdata}{data.frame input data (subdata)}
 
@@ -28,14 +50,16 @@ to PDF file from "stream","catchment", or "both"}
 \item{scenario_map_list}{character vector of load and yield metrics to map in the source
 change scenario}
 
+\item{predictScenarios.list}{an archive with key scenario control settings and the load and
+yield prediction variables that are output from the execution of
+a source-change scenario evaluation. For more details see
+documentation Section 5.5.9}
+
 \item{scenarioFlag}{binary vector indicating whether a reach is included in the source
 reduction scenario}
 
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}
-
-\item{BootUncertainties}{Uncertainty values if available, if uncertainty analysis was not
-run NA}
 }
 \description{
 executes prediction and source reduction scenario stream and catchment mapping \cr \cr

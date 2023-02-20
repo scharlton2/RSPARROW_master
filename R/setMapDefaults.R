@@ -1,8 +1,8 @@
 #'@title setMapDefaults
 #'@description Sets default values for any missing required mapping settings and assigns 
-#'            default value to global environment. \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
-#'Executes Routines: unPackList.R \\cr
+#'            default value to global environment. \cr \cr
+#'Executed By: executeRSPARROW.R \cr
+#'Executes Routines: unPackList.R \cr
 #'@param settings named list of all control settings
 
 

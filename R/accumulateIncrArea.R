@@ -1,10 +1,10 @@
 #'@title accumulateIncrArea
 #'@description Accumulates incremental area for `accum_elements` variables, expressed in areal 
 #'            units. Function can only be run after replaceData1Names.R has been executed. Uses reach 
-#'            navigation data. \\cr \\cr
-#'Executed By: \\itemize\{\\item calcClassLandusePercent.R
-#'             \\item createVerifyReachAttr.R
-#'             \\item hydseq.R\} \\cr
+#'            navigation data. \cr \cr
+#'Executed By: \itemize{\item calcClassLandusePercent.R
+#'             \item createVerifyReachAttr.R
+#'             \item hydseq.R} \cr
 #'@param indata data.frame containing reach navigation variables and variables to be selected 
 #'       for incremental area accumulation
 #'@param accum_elements character vector indicating variables to be selected for incremental 

@@ -1,6 +1,6 @@
 #'@title create_diagnosticPlotList
 #'@description Create a list of diagnostic plot functions to be applied to data
-#'             at a specific timestep. \\cr \\cr
+#'             at a specific timestep. \cr \cr
 #'Executed By: \itemize{\item diagnosticClassLandChild.Rmd
 #'                       \item diagnosticClassvarChild.Rmd
 #'                       \item diagnosticContiguousChild.Rmd
@@ -17,7 +17,7 @@
 #'                            \item diagnosticPlots_4panel_B.R
 #'                            \item addMarkerText.R
 #'                            \item plotlyLayout.R
-#'                            \item fixDupLatLons.R} \\cr
+#'                            \item fixDupLatLons.R} \cr
 #'@return list of the following diagnostic plots (by plot title) 
 #'        \itemize{\item ModEstimation_Obs_v_Pred
 #'                 \item ModEstimation_Box_and_Quantile_Resid

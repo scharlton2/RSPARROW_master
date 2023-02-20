@@ -1,10 +1,10 @@
 #'@title diagnosticPlots_4panel_B
 #'@description Generates 4 panel diagnostic plots including "Residuals",
 #'              "Observed / Predicted Ratio","Normal Q-Q Plot","Squared Residuals 
-#'              vs Predicted Load") \\cr \\cr
-#'Executed By: create_diagnosticPlotList.R \\cr
-#'Executes Routines: \\itemize\{\\item addMarkerText.R
-#'             \\item plotlyLayout.R \} \\cr
+#'              vs Predicted Load") \cr \cr
+#'Executed By: create_diagnosticPlotList.R \cr
+#'Executes Routines: \itemize{\item addMarkerText.R
+#'             \item plotlyLayout.R } \cr
 #'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
 #'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
 #'                ‘sparrowNames’ variables, with records sorted in hydrological 

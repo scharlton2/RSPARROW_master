@@ -13,8 +13,8 @@ calcHeadflag(data1)
 \code{outdata}  data.frame with waterid and headflag
 }
 \description{
-Calculates the system variable headflag (translated from SAS hydseq code) \cr \cr
-Executed By: createVerifyReachAttr.R \cr
-Executes Routines: \itemize{\item getVarList.R
-\item unPackList.R} \cr
+Calculates the system variable headflag (translated from SAS hydseq code) \\cr \\cr
+Executed By: createVerifyReachAttr.R \\cr
+Executes Routines: \\itemize\{\\item getVarList.R
+\\item unPackList.R\} \\cr
 }

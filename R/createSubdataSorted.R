@@ -1,8 +1,8 @@
 #'@title createSubdataSorted
 #'@description Creates a subset of `data1`, called `subdata`, sorted by `hydseq` , based on 
 #'            the application of the control setting 'filter_data1_conditions'. The 'subdata' object is used in 
-#'            model estimation, prediction, mapping, and other functions.  \\cr \\cr
-#'Executed By: startModelRun.R \\cr
+#'            model estimation, prediction, mapping, and other functions.  \cr \cr
+#'Executed By: startModelRun.R \cr
 #'@param filter_data1_conditions User specified additional DATA1 variables (and conditions) to 
 #'       be used to filter reaches from sparrow_control
 #'@param data1 input data (data1)

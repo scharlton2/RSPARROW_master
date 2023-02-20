@@ -4,10 +4,23 @@
 \alias{estimateNLLSmetrics}
 \title{estimateNLLSmetrics}
 \usage{
-estimateNLLSmetrics(if_estimate, if_estimate_simulation, if_sparrowEsts,
-  sparrowEsts, file.output.list, classvar, dlvdsgn, Csites.weights.list,
-  estimate.input.list, Csites.list, SelParmValues, subdata, sitedata,
-  DataMatrix.list, batch_mode)
+estimateNLLSmetrics(
+  if_estimate,
+  if_estimate_simulation,
+  if_sparrowEsts,
+  sparrowEsts,
+  file.output.list,
+  classvar,
+  dlvdsgn,
+  Csites.weights.list,
+  estimate.input.list,
+  Csites.list,
+  SelParmValues,
+  subdata,
+  sitedata,
+  DataMatrix.list,
+  batch_mode
+)
 }
 \arguments{
 \item{if_estimate}{yes/no indicating whether or not estimation is run}
@@ -21,17 +34,33 @@ Jacobian diagnostics and 0 \code{if_estimate_simulation<-'yes'} indicating no ca
 \item{sparrowEsts}{list object contained in estimate.list \code{if_estimate<-'yes'}.  For more
 details see documentation Section 5.2.4.4.}
 
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{classvar}{character vector of user specified spatially contiguous discrete
 classification variables from sparrow_control.  First element is reach classification variable.}
 
 \item{dlvdsgn}{design matrix imported from design_matrix.csv}
 
+\item{Csites.weights.list}{regression weights as proportional to incremental area size}
+
+\item{estimate.input.list}{named list of sparrow_control settings: ifHess, s_offset,
+NLLS_weights,if_auto_scaling, and if_mean_adjust_delivery_vars}
+
+\item{Csites.list}{list output from \code{selectCalibrationSites.R} modified in \code{startModelRun.R}}
+
 \item{SelParmValues}{selected parameters from parameters.csv using condition
-\code{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & ((parmType=="SOURCE" &  parmMin>=0) | parmType!="SOURCE")}}
+\verb{ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) &  ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")}}
 
 \item{subdata}{data.frame input data (subdata)}
 
-\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0), ]}}
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
+
+\item{DataMatrix.list}{named list of 'data' and 'beta' matrices and 'data.index.list'
+for optimization}
 
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}

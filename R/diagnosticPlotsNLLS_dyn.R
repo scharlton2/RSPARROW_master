@@ -1,14 +1,14 @@
 #'@title diagnosticPlotsNLLS_dyn
 #'@description run diagnostic plots and maps at each selected timestep for 
-#'             dynamic data \\cr \\cr
-#'Executed By: \\itemize\{\\item diagnosticPlotsNLLS.R
-#'             \\item diagnosticPlotsValidate.R
+#'             dynamic data \cr \cr
+#'Executed By: \itemize{\item diagnosticPlotsNLLS.R
+#'             \item diagnosticPlotsValidate.R
 #'             \item diagnosticSensitivity.R
-#'             \item diagnosticSpatialAutoCorr.R} \\cr
+#'             \item diagnosticSpatialAutoCorr.R} \cr
 #'Executes Routines: \itemize{\item unPackList.R
 #'                            \item create_diagnosticPlotList.R
 #'                            \item diagnosticPlotsNLLS_dynOut.Rmd
-#'                            \item diagnosticPlotsNLLS_timeSeries.Rmd} \\cr
+#'                            \item diagnosticPlotsNLLS_timeSeries.Rmd} \cr
 #'@param diagnostic_params list of all parameters required for dynamic diagnostics.
 #'                         Includes: \itemize{\item validation - TRUE/FALSE indicating 
 #'                                                               whether validation should 

@@ -7,6 +7,9 @@
 read_dataDictionary(file.output.list, batch_mode)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}
 }
@@ -14,7 +17,7 @@ mode}
 \code{data_names} data.frame of variable metadata from data_Dictionary.csv file
 }
 \description{
-\cr \cr
+Reads the 'dataDictionary.csv' file. \cr \cr
 Executed By: dataInputPrep.R \cr
 Executes Routines: \itemize{\item getVarList.R
 \item importCSVcontrol.R

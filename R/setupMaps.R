@@ -1,11 +1,11 @@
 #'@title setupMaps
-#'@description A preprocessor to read shape files and store objects \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
-#'Executes Routines: \\itemize\{\\item batchGeoLines.R
-#'             \\item batchlineShape.R
-#'             \\item batchpolyShape.R
-#'             \\item outputSettings.R
-#'             \\item unPackList.R\} \\cr
+#'@description A preprocessor to read shape files and store objects \cr \cr
+#'Executed By: executeRSPARROW.R \cr
+#'Executes Routines: \itemize{\item batchGeoLines.R
+#'             \item batchlineShape.R
+#'             \item batchpolyShape.R
+#'             \item outputSettings.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param mapping.input.list Named list of sparrow_control settings for mapping: lat_limit, 

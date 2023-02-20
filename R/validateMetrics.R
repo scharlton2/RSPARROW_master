@@ -1,12 +1,12 @@
 #'@title validateMetrics
 #'@description Computes all model performance and other summary metrics and diagnostics for 
 #'            the estimated model for the validation sites, as reported in the ~/estimate/(run_id)_summary.txt 
-#'            file.  \\cr \\cr
-#'Executed By: estimate.R \\cr
-#'Executes Routines: \\itemize\{\\item getVarList.R
-#'             \\item named.list.R
-#'             \\item unPackList.R
-#'             \\item validateFevalNoadj.R\} \\cr
+#'            file.  \cr \cr
+#'Executed By: estimate.R \cr
+#'Executes Routines: \itemize{\item getVarList.R
+#'             \item named.list.R
+#'             \item unPackList.R
+#'             \item validateFevalNoadj.R} \cr
 #'@param classvar character vector of user specified spatially contiguous discrete 
 #'       classification variables from sparrow_control.  First element is reach classification variable.
 #'@param estimate.list list output from `estimate.R`

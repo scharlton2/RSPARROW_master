@@ -1,7 +1,7 @@
 #'@title executionTree
 #'@description Function to trace all function and routine executions from the `startRoutine` 
 #'            forward and either print a data.tree of the executions or output a data.table with executions 
-#'            and line numbers of executions \\cr \\cr
+#'            and line numbers of executions \cr \cr
 #'@param path_main character string path to RSPARROW_master directory
 #'@param startRoutine character string name of functional RPSPARROW routine
 #'@param includeTypes character string vector indicating which types of functions/routines to 

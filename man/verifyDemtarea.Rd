@@ -4,8 +4,14 @@
 \alias{verifyDemtarea}
 \title{verifyDemtarea}
 \usage{
-verifyDemtarea(if_verify_demtarea, data1, compareData, file.output.list,
-  mapping.input.list, batch_mode)
+verifyDemtarea(
+  if_verify_demtarea,
+  data1,
+  compareData,
+  file.output.list,
+  mapping.input.list,
+  batch_mode
+)
 }
 \arguments{
 \item{if_verify_demtarea}{specify whether or not to verify demtarea}
@@ -14,6 +20,16 @@ verifyDemtarea(if_verify_demtarea, data1, compareData, file.output.list,
 
 \item{compareData}{data.frame of reach verification attributes to compare with the users
 data1 file}
+
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
 
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}

@@ -4,8 +4,14 @@
 \alias{checkingMissingVars}
 \title{checkingMissingVars}
 \usage{
-checkingMissingVars(checkData, data_names, betavalues, types, allMissing,
-  returnData)
+checkingMissingVars(
+  checkData,
+  data_names,
+  betavalues,
+  types,
+  allMissing,
+  returnData
+)
 }
 \arguments{
 \item{checkData}{data.frame in which to check for missing values}

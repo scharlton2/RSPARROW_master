@@ -2,12 +2,12 @@
 #'@description Accumulates loads in the reach network according to the user's model 
 #'            specification, making comparisons of the unconditioned predictions of  load to the actual loads for 
 #'            monitored (calibration site) reaches to return a vector of weighted residuals (difference between 
-#'            the actual and predicted loads). No monitoring load substitution is performed (ifadjust=0).  \\cr \\cr
-#'Executed By: \\itemize\{\\item estimate.R
-#'             \\item estimateNLLSmetrics.R\} \\cr
-#'Executes Routines: \\itemize\{\\item estimateFeval.R
-#'             \\item unPackList.R
-#'             \\item tnoder.for\} \\cr
+#'            the actual and predicted loads). No monitoring load substitution is performed (ifadjust=0).  \cr \cr
+#'Executed By: \itemize{\item estimate.R
+#'             \item estimateNLLSmetrics.R} \cr
+#'Executes Routines: \itemize{\item estimateFeval.R
+#'             \item unPackList.R
+#'             \item tnoder.for} \cr
 #'@param beta0 estimated parameters (no constants)
 #'@param DataMatrix.list named list of 'data' and 'beta' matrices and 'data.index.list' 
 #'                       for optimization

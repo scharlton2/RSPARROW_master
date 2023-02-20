@@ -1,13 +1,13 @@
 #'@title mapSiteAttributes
-#'@description function to execute site attribute mapping \\cr \\cr
-#'Executed By: \\itemize\{\\item interactiveBatchRun.R
-#'             \\item diagnosticPlotsNLLS.R
-#'             \\item goShinyPlot.R\} \\cr
-#'Executes Routines: \\itemize\{\\item checkBinaryMaps.R
-#'             \\item mapBreaks.R
-#'             \\item named.list.R
-#'             \\item replaceNAs.R
-#'             \\item unPackList.R\} \\cr
+#'@description function to execute site attribute mapping \cr \cr
+#'Executed By: \itemize{\item interactiveBatchRun.R
+#'             \item diagnosticPlotsNLLS.R
+#'             \item goShinyPlot.R} \cr
+#'Executes Routines: \itemize{\item checkBinaryMaps.R
+#'             \item mapBreaks.R
+#'             \item named.list.R
+#'             \item replaceNAs.R
+#'             \item unPackList.R} \cr
 #'@param input top level interactive user input in Shiny app
 #'@param attr character string shiny user input of attribute to map in `mapSiteAttributes.R`
 #'@param path_gis path to users gis data

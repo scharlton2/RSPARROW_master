@@ -4,8 +4,15 @@
 \alias{setNLLSWeights}
 \title{setNLLSWeights}
 \usage{
-setNLLSWeights(NLLS_weights, run_id, subdata, sitedata, data_names,
-  minimum_reaches_separating_sites, batch_mode)
+setNLLSWeights(
+  NLLS_weights,
+  run_id,
+  subdata,
+  sitedata,
+  data_names,
+  minimum_reaches_separating_sites,
+  batch_mode
+)
 }
 \arguments{
 \item{NLLS_weights}{character string control setting to select regression weights}
@@ -14,7 +21,10 @@ setNLLSWeights(NLLS_weights, run_id, subdata, sitedata, data_names,
 
 \item{subdata}{data.frame input data (subdata)}
 
-\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0), ]}}
+\item{sitedata}{Sites selected for calibration using \code{subdata[(subdata$depvar > 0 & subdata$calsites==1), ]}. The object contains the dataDictionary
+‘sparrowNames’ variables, with records sorted in hydrological
+(upstream to downstream) order (see the documentation Chapter
+sub-section 5.1.2 for details)}
 
 \item{data_names}{data.frame of variable metadata from data_Dictionary.csv file}
 

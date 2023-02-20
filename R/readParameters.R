@@ -1,10 +1,10 @@
 #'@title readParameters
-#'@description Reads the 'parameters.csv' file. \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item errorOccurred.R
-#'             \\item getVarList.R
-#'             \\item importCSVcontrol.R
-#'             \\item unPackList.R\} \\cr
+#'@description Reads the 'parameters.csv' file. \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item errorOccurred.R
+#'             \item getVarList.R
+#'             \item importCSVcontrol.R
+#'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input and 
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param if_estimate yes/no indicating whether or not estimation is run

@@ -1,13 +1,13 @@
 #'@title testSettings
-#'@description test for invalid user inputs in shiny app \\cr \\cr
-#'Executed By: executeRSPARROW.R \\cr
-#'Executes Routines: \\itemize\{\\item getCharSett.R
-#'             \\item getNumSett.R
-#'             \\item getOptionSett.R
-#'             \\item getShortSett.R
-#'             \\item getSpecialSett.R
-#'             \\item getYesNoSett.R
-#'             \\item unPackList.R\} \\cr
+#'@description test for invalid user inputs in shiny app \cr \cr
+#'Executed By: executeRSPARROW.R \cr
+#'Executes Routines: \itemize{\item getCharSett.R
+#'             \item getNumSett.R
+#'             \item getOptionSett.R
+#'             \item getShortSett.R
+#'             \item getSpecialSett.R
+#'             \item getYesNoSett.R
+#'             \item unPackList.R} \cr
 #'@param settings named list of all control settings
 #'@param saved binary value indicated whether the user has saved all changes to the 
 #'       `sparrow_control.R` file

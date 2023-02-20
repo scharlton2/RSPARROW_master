@@ -4,12 +4,40 @@
 \alias{diagnosticPlotsValidate}
 \title{diagnosticPlotsValidate}
 \usage{
-diagnosticPlotsValidate(file.output.list, class.input.list,
-  vsitedata.demtarea.class, vsitedata, vsitedata.landuse, estimate.list,
-  mapping.input.list, add_vars, batch_mode)
+diagnosticPlotsValidate(
+  file.output.list,
+  class.input.list,
+  vsitedata.demtarea.class,
+  vsitedata,
+  vsitedata.landuse,
+  estimate.list,
+  mapping.input.list,
+  add_vars,
+  batch_mode
+)
 }
 \arguments{
-\item{vsitedata}{sitedata for validation. Calculated by \code{subdata[(subdata$vdepvar > 0), ]}}
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
+\item{class.input.list}{list of control settings related to classification variables}
+
+\item{vsitedata.demtarea.class}{Total drainage area classification variable for validation
+sites.}
+
+\item{vsitedata}{sitedata for validation. Calculated by \code{subdata[(subdata$vdepvar > 0 & subdata$vcalsites==1), ]}}
+
+\item{vsitedata.landuse}{Land use for incremental basins for diagnostics for validation
+sites.}
+
+\item{estimate.list}{list output from \code{estimate.R}}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
 
 \item{add_vars}{additional variables specified by the setting \code{add_vars} to be included in
 prediction, yield, and residuals csv and shape files}

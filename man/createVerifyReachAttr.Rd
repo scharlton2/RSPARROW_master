@@ -4,8 +4,14 @@
 \alias{createVerifyReachAttr}
 \title{createVerifyReachAttr}
 \usage{
-createVerifyReachAttr(if_verify_demtarea, calculate_reach_attribute_list,
-  data1, file.output.list, mapping.input.list, batch_mode)
+createVerifyReachAttr(
+  if_verify_demtarea,
+  calculate_reach_attribute_list,
+  data1,
+  file.output.list,
+  mapping.input.list,
+  batch_mode
+)
 }
 \arguments{
 \item{if_verify_demtarea}{specify whether or not to verify demtarea}
@@ -13,6 +19,16 @@ createVerifyReachAttr(if_verify_demtarea, calculate_reach_attribute_list,
 \item{calculate_reach_attribute_list}{list of attributes to calculate}
 
 \item{data1}{input data (data1)}
+
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
 
 \item{batch_mode}{yes/no character string indicating whether RSPARROW is being run in batch
 mode}

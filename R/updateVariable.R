@@ -1,8 +1,8 @@
 #'@title updateVariable
 #'@description Shiny server function updates variable drop down list according to the user's 
 #'            selection of mapping variable type and outputs the definition of the variable in Shiny namespace 
-#'            = 'nsStreamCatch' \\cr \\cr
-#'Executed By: shinyMap2.R \\cr
+#'            = 'nsStreamCatch' \cr \cr
+#'Executed By: shinyMap2.R \cr
 #'@param input top level interactive user input in Shiny app
 #'@param output shiny list object for session output
 #'@param session active shiny session

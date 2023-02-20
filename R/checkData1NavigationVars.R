@@ -1,9 +1,9 @@
 #'@title checkData1NavigationVars
 #'@description Checks for excessively large integer values (maximum>1M) for the sparrowNames 
 #'            `waterid`, `tnode`, `fnode`, `hydseq` to avoid array storage problems in R and Fortran 
-#'            subroutines. Exceedence of the threshold causes a renumbering of the 'waterid' and node numbers. \\cr \\cr
-#'Executed By: dataInputPrep.R \\cr
-#'Executes Routines: errorOccurred.R \\cr
+#'            subroutines. Exceedence of the threshold causes a renumbering of the 'waterid' and node numbers. \cr \cr
+#'Executed By: dataInputPrep.R \cr
+#'Executes Routines: errorOccurred.R \cr
 #'@param data1 input data (data1)
 #'@param if_reverse_hydseq yes/no indicating whether hydseq in the DATA1 file needs to be 
 #'       reversed from sparrow_control

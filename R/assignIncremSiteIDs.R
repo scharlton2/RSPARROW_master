@@ -1,11 +1,11 @@
 #'@title assignIncremSiteIDs
 #'@description Assigns the nearest downstream site ID (staidseq variable based on staid 
 #'            variable) to reaches in the incremental areas between monitoring sites by climbing network structure 
-#'            (reaches sorted by HYDSEQ) \\cr \\cr
-#'Executed By: \\itemize\{\\item selectCalibrationSites.R
-#'             \\item selectValidationSites.R
-#'             \\item setNLLSWeights.R\} \\cr
-#'Executes Routines: sites_incr.for \\cr
+#'            (reaches sorted by HYDSEQ) \cr \cr
+#'Executed By: \itemize{\item selectCalibrationSites.R
+#'             \item selectValidationSites.R
+#'             \item setNLLSWeights.R} \cr
+#'Executes Routines: sites_incr.for \cr
 #'@param minnum user selected minimum number of reaches between sites
 #'@param staid reach site IDs (non-zero for reaches with selected monitoring sites)
 #'@param waterid reach ID number

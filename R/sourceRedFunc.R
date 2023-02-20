@@ -1,6 +1,6 @@
 #'@title sourceRedFunc
-#'@description create source change functions from rhandsontables in shiny app \\cr \\cr
-#'Executed By: goShinyPlot.R \\cr
+#'@description create source change functions from rhandsontables in shiny app \cr \cr
+#'Executed By: goShinyPlot.R \cr
 #'@param shinyInput compiled Shiny input selections
 #'@return `out` named list of source change functions based on user input to rhandsontables in 
 #'            shiny app

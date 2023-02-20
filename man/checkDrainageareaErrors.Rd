@@ -4,10 +4,25 @@
 \alias{checkDrainageareaErrors}
 \title{checkDrainageareaErrors}
 \usage{
-checkDrainageareaErrors(file.output.list, mapping.input.list,
-  DAreaFailCheckObj, data1, batch_mode)
+checkDrainageareaErrors(
+  file.output.list,
+  mapping.input.list,
+  DAreaFailCheckObj,
+  data1,
+  batch_mode
+)
 }
 \arguments{
+\item{file.output.list}{list of control settings and relative paths used for input and
+output of external files.  Created by \code{generateInputList.R}}
+
+\item{mapping.input.list}{Named list of sparrow_control settings for mapping: lat_limit,
+lon_limit, master_map_list, lineShapeName, lineWaterid,
+polyShapeName, ployWaterid, LineShapeGeo, LineShapeGeo, CRStext,
+convertShapeToBinary.list, map_siteAttributes.list,
+residual_map_breakpoints, site_mapPointScale,
+if_verify_demtarea_maps}
+
 \item{DAreaFailCheckObj}{data.frame of all rows of subdata in which the user's original data
 for Total Drainage Area vs. Total Drainage Area calculated by RSPARROW differ}
 

@@ -1,12 +1,12 @@
 #'@title checkMissingSubdataVars
 #'@description Identifies REQUIRED system variables and user selected parameters with all 
 #'            missing/zero values in `subdata` and outputs a list of variables with all missing values as message 
-#'            in console. \\cr \\cr
-#'Executed By: startModelRun.R \\cr
-#'Executes Routines: \\itemize\{\\item checkingMissingVars.R
-#'             \\item errorOccurred.R
-#'             \\item getVarList.R
-#'             \\item unPackList.R\} \\cr
+#'            in console. \cr \cr
+#'Executed By: startModelRun.R \cr
+#'Executes Routines: \itemize{\item checkingMissingVars.R
+#'             \item errorOccurred.R
+#'             \item getVarList.R
+#'             \item unPackList.R} \cr
 #'@param subdata data.frame input data (subdata)
 #'@param betavalues data.frame of model parameters from parameters.csv
 #'@param file.output.list list of control settings and relative paths used for input and 
