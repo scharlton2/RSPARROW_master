@@ -15,10 +15,10 @@
 sumIncremAttributes <- function(idseq,attrib,attrib_name) { 
   
   xx <- data.frame(idseq,attrib)
-  count<-ddply(xx,.(idseq), summarize, nirchs=length(idseq))      # get count for unique staids
+  count<-ddply(xx,.(idseq), dplyr::summarize, nirchs=length(idseq))      # get count for unique staids
   count <- count[-1,]  # delete first row
   
-  siteiarea<-ddply(xx,.(idseq),summarize,tiarea=sum(attrib))    # sum attribute for unique staids
+  siteiarea<-ddply(xx,.(idseq),dplyr::summarize,tiarea=sum(attrib))    # sum attribute for unique staids
   siteiarea <- siteiarea[-1,]  # delete first row with "0" idseq
   colnames(siteiarea) <- c("idseq",attrib_name)
   

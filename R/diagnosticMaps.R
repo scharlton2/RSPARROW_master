@@ -39,7 +39,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
   #set up according to maptype
   if (regexpr("Resid",mapColumn,ignore.case = TRUE)>0 ){
     #set breakpoints
-    if (is.na(residual_map_breakpoints) | length(residual_map_breakpoints)!=7){
+    if (identical(residual_map_breakpoints,NA) | length(residual_map_breakpoints)!=7){
       cls <- c(-2.5,-0.75,-0.25,0,0.25,0.75,2.5)  # Residual breakpoints
     }else{
       cls<-residual_map_breakpoints
@@ -49,7 +49,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     threshold<-0
     
   }else{# Ratio breakpoints
-    if (is.na(ratio_map_breakpoints) | length(ratio_map_breakpoints)!=7){
+    if (identical(ratio_map_breakpoints,NA) | length(ratio_map_breakpoints)!=7){
       cls <-  c(0.3,0.5,0.8,1,1.25,2,3.3)    # Residual breakpoints
     }else{
       cls<-ratio_map_breakpoints
@@ -96,7 +96,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
   if (enable_plotlyMaps=="no"){
     pnch <- residualPointStyle
     par(mfrow=c(1,1))    # 1 plots on one page
-    if (is.na(p)){
+    if (identical(NA,p)){
     p <- ggplot() +
       geom_sf(data = GeoLines, size = 0.1, fill = cbckgrd, colour ="black") +
       theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
@@ -138,7 +138,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     #wrap up text strings
     plotLocStr<-paste0(plotLocStr,")")
   
-  if (is.na(p)){
+  if (identical(NA,p)){
     #plotly plot
     p<-plot_ly() %>%
       layout(
@@ -326,7 +326,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     if (enable_plotlyMaps=="yes"){
 #plotly
  #plotly plot
-      if (is.na(p)){
+      if (identical(NA,p)){
       p<-plot_ly() %>%
         layout(
           showlegend =TRUE,
@@ -508,7 +508,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
 #plotly
 
       #plotly plot
-      if (is.na(p)){
+      if (identical(NA,p)){
       p<-plot_ly() %>%
         layout(
           showlegend =TRUE,

@@ -117,7 +117,7 @@ modelCompare<-function(file.output.list,compare_models,modelComparison_name,
         cparamEst<-read.csv(file=paste0(path_summary,"ParameterEstimates.csv"),
                             dec = csv_decimalSeparator,sep=csv_columnSeparator)
         
-        if (cifdiag=="yes"){
+        if (identical(cifdiag,"yes")){
           cmoran<-read.csv(file=paste0(path_summary,"EuclideanMoransI.csv"),
                            dec = csv_decimalSeparator,sep=csv_columnSeparator)
         }
@@ -136,7 +136,7 @@ modelCompare<-function(file.output.list,compare_models,modelComparison_name,
         print(outcharfun("EigenValue Spread"))
         print(ceigenSpread)
         print(space)
-        if (cifdiag=="yes"){
+        if (identical(cifdiag,"yes")){
           print(outcharfun("Euclidean Moran's I"))
           print(cmoran)
           print(space)
@@ -150,7 +150,7 @@ modelCompare<-function(file.output.list,compare_models,modelComparison_name,
         cmodelPerformance$modelName<-m
         ceigenSpread$modelName<-m
         cparamEst$modelName<-m
-        if (cifdiag=="yes"){
+        if (identical(cifdiag,"yes")){
           cmoran$modelName<-m
         }
         
@@ -159,7 +159,7 @@ modelCompare<-function(file.output.list,compare_models,modelComparison_name,
         eigenSpread<-rbind.fill(eigenSpread,ceigenSpread)
         paramEst<-rbind.fill(paramEst,cparamEst)
         if (if_spatialAutoCorr=="yes"){
-          if (cifdiag=="yes"){
+          if (identical(cifdiag,"yes")){
             moran<-rbind.fill(moran,cmoran)
           }
         }

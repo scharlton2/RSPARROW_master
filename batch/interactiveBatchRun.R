@@ -132,7 +132,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
     if (inputShiny$enablePlotly=="static"){
       dev.off()
     } 
-    if (a==inputShiny$dataCheck[length(inputShiny$dataCheck)]){
+    if (identical(a,inputShiny$dataCheck[length(inputShiny$dataCheck)])){
       shell.exec(filename)  
     }
   }#for each attr

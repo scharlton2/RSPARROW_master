@@ -57,12 +57,15 @@ testCosmetic<-function(input, output, session, DF, mapType, scenario.input.list,
     #eval map colors
     if (length(which(names(compiledInput)=="predictionMapColors"))!=0){
       predictionMapColors<-eval(parse(text = predictionMapColors))
+      predictionMapColors<-trimws(predictionMapColors)
+     
     }else if (length(which(names(compiledInput)=="siteAttrColors"))!=0){
       siteAttrColors<-eval(parse(text = siteAttrColors))
     }else if (length(which(names(compiledInput)=="scenarioMapColors"))!=0){
       
       scenarioMapColors<-eval(parse(text = scenarioMapColors))
       assign("compiledInput2",compiledInput,envir = .GlobalEnv)
+     
     }
     
     assign("compiledInput_scenarioMapColors",scenarioMapColors,envir = .GlobalEnv)
@@ -77,7 +80,7 @@ testCosmetic<-function(input, output, session, DF, mapType, scenario.input.list,
       setting<-eval(parse(text = s))
       fail<-paste0(" \nINVALID SETTING : ",s," should be a numeric class\n ")
       # fail<-paste0(s," should be a numeric")
-      if (class(setting)=="numeric" | is.na(setting)){
+      if (identical(class(setting),"numeric") | identical(setting,NA)){
       }else{
         badSet<-data.frame(Setting = s)
         badSet$CurrentValue<-capture.output(dput(setting))
@@ -98,6 +101,9 @@ testCosmetic<-function(input, output, session, DF, mapType, scenario.input.list,
           scenarioMapColors<-eval(parse(text = scenarioMapColors))
         }
       }
+      
+
+      
       if (setting %in% names(compiledInput)){
         test<-as.character(specialSettings$test[s])
         
@@ -105,7 +111,8 @@ testCosmetic<-function(input, output, session, DF, mapType, scenario.input.list,
         
         fail<-(paste0(" \nINVALID SETTING : ",setting," should be meet the required test \n",specialSettings$fail[s],"\n "))
         goodvalue<-eval(parse(text=test))
-        goodvalue<-ifelse(is.na(goodvalue),FALSE,goodvalue)
+        
+        goodvalue<-ifelse(identical(goodvalue,NA),FALSE,goodvalue)
         if (goodvalue){
         }else{
           badSet<-data.frame(Setting = setting)

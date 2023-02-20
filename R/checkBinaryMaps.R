@@ -21,9 +21,9 @@ checkBinaryMaps<-function(mapSetting,path_gis,batch_mode){
   settingName<-deparse(substitute(mapSetting))
   
   #set name of output object
-  if (settingName=="lineShapeName"){
+  if (identical(settingName,"lineShapeName")){
     outObj<-"lineShape"
-  }else if (settingName=="LineShapeGeo"){
+  }else if (identical(settingName,"LineShapeGeo")){
     outObj<-"GeoLines"
   }else{
     outObj<-"polyShape"
@@ -32,7 +32,7 @@ checkBinaryMaps<-function(mapSetting,path_gis,batch_mode){
   
   
   
-  if(!is.na(mapSetting) & file.exists(objfile)) { 
+  if(!identical(mapSetting,NA) & file.exists(objfile)) { 
     load(objfile)
     assign(outObj,get(outObj),env = parent.frame())
     

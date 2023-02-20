@@ -1,4 +1,38 @@
-diagnoticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs,sitedata,plotResids,plotclass,
+#'@title diagnosticPlots_4panel_A
+#'@description Generates 4 panel diagnostic plots including "Observed vs 
+#'             Predicted Load","Observed vs Predicted Yield","Residuals 
+#'             vs Predicted Load","Residuals vs Predicted Yield" \\cr \\cr
+#'Executed By: create_diagnosticPlotList.R \\cr
+#'Executes Routines: \\itemize\{\\item addMarkerText.R
+#'             \\item plotlyLayout.R \} \\cr
+#'@param plotpredict numeric vector of load prediction values
+#'@param plotObs numeric vector of load observation values
+#'@param plotyldpredict numeric vector of yield prediction values
+#'@param plotyldobs numeric vector of yield observation values
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
+#'@param plotResids numeric vector of residuals
+#'@param plotclass character string indicating which class (selection of classvar 
+#'                 or class_landuse) to filter according to `filterClass`
+#'@param plotTitles character vector of plot titles for 4-panel
+#'@param loadUnits character string RSPARROW user setting defining units for load
+#'@param yieldUnits character string RSPARROW user setting defining units for yield
+#'@param showPlotGrid yes/no setting controlling whether gridlines are displayed
+#'@param markerList character string defining plotly marker hover text
+#'@param add_plotlyVars character vector indicating user selected variables to add to plot hover
+#'                      text
+#'@param pnch numeric vector of pnch point styles
+#'@param markerCols vector of hexodecimal color values
+#'@param hline function to create horizontal red line
+#'@param filterClass numeric vector of classvar variable being plotted
+#'@return 4 panel diagnostic plot of "Observed vs Predicted Load","Observed 
+#'vs Predicted Yield","Residuals vs Predicted Load","Residuals vs Predicted Yield"
+
+
+diagnosticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs,sitedata,plotResids,plotclass,
                                   plotTitles,loadUnits,yieldUnits,showPlotGrid,markerList,add_plotlyVars,
                                   pnch,markerCols,hline,filterClass){
   
@@ -10,7 +44,7 @@ diagnoticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs,
   markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
   df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
   
-  if(!is.na(filterClass)){
+  if(!identical(NA,filterClass)){
     df <- subset(df,plotclass == filterClass)
   }
   
@@ -46,7 +80,7 @@ diagnoticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs,
   markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
   df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
   
-  if(!is.na(filterClass)){
+  if(!identical(NA,filterClass)){
     df <- subset(df,plotclass == filterClass)
   }
   
@@ -80,7 +114,7 @@ diagnoticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs,
   markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
   df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
   
-  if(!is.na(filterClass)){
+  if(!identical(NA,filterClass)){
     df <- subset(df,plotclass == filterClass)
   }
   
@@ -109,7 +143,7 @@ diagnoticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs,
   markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
   df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
   
-  if(!is.na(filterClass)){
+  if(!identical(NA,filterClass)){
     df <- subset(df,plotclass == filterClass)
   }
   

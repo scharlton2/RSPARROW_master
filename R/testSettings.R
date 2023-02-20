@@ -39,7 +39,7 @@ testSettings<-function(settings,saved){
     for (s in yesNoSettings){
       setting<-get(s)
       setting<-tolower(setting)
-      if (setting=="yes" |setting=="no"){
+      if (identical(setting,"yes") | identical(setting,"no")){
         assign(s,setting,envir = .GlobalEnv)
       }else{
         message(paste0(" \nINVALID SETTING : ",s," should have a value of 'yes' or 'no'\n "))
@@ -55,7 +55,7 @@ testSettings<-function(settings,saved){
     for (s in charSettings){
       if (exists(s)){
         setting<-get(s)
-        if (class(setting)=="character" | is.na(setting)){
+        if (identical(class(setting),"character") | identical(NA,setting)){
         }else{
           message(paste0(" \nINVALID SETTING : ",s," should be a character class\n "))
           badSet<-data.frame(Setting = s)
@@ -100,7 +100,7 @@ testSettings<-function(settings,saved){
     numericSettings<-getNumSett()
     for (s in numericSettings){
       setting<-get(s)
-      if (class(setting)=="numeric" | is.na(setting)){
+      if (identical(class(setting),"numeric") | identical(NA,setting)){
       }else{
         message(paste0(" \nINVALID SETTING : ",s," should be a numeric class\n "))
         badSet<-data.frame(Setting = s)

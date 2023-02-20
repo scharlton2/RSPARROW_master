@@ -1,3 +1,29 @@
+#'@title predictMaps_single
+#'@description Create a single trace on stream or catchment map for a given 
+#'             timestep \\cr \\cr
+#'Executed By: mapLoopStr.R \\cr
+#'Executes Routines: \\itemize\{\\item unPackList.R
+#'             \\item addMarkerText.R
+#'             \\item named.list.R} \\cr
+#'@param mapType character string indicating type of map being executed ("stream" 
+#'               or"catchment")
+#'@param mapLoopInput.list list of all objects required for a given mapType
+#'@param p plot object with base map layer
+#'@param plotdata data.frame with variables to map
+#'@param plotPageData data.frame with mapping colors
+#'@param titleStr character string multi-panel map title
+#'@param subTitle character string title for each panel in multi-panel map
+#'@param legendPos character string legend position
+#'@param legendJus character string legend justification
+#'@param usedColors vector of colors already present on `p`
+#'@param mapvarname name of column with colors to map in the form MAPCOLORS1,
+#'                  MAPCOLORS2, etc
+#'@param i numeric index of color being mapped.
+#'@return list including single map with stream or catchment data and vector
+#'of colors present on map
+
+
+
 predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData,titleStr,subTitle,
                              legendPos,legendJus,usedColors,mapvarname,i){
   
@@ -31,7 +57,7 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
     
     if (existGeoLines){
       if (mapType=="stream"){
-        
+  
         p<-p %+% geom_sf(data = plotdata, size = lineWidth, 
                          aes(colour = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),
                          show.legend = TRUE) +
@@ -51,7 +77,7 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                 legend.key.size = unit(predictionLegendSize, 'cm')) +
           guides(col=guide_legend(nrow=length(unique(plotPageData$mapColor)))) +
           ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
-        
+
       }else{#catchment
         p<-p %+% geom_sf(data = plotdata, size = lineWidth,
                          aes(fill = factor(mapColor,levels =  uniqueCols[1:length(break1[k][[1]])])),colour = NA,
@@ -94,6 +120,7 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
                 legend.key.size = unit(predictionLegendSize, 'cm')) +
           guides(col=guide_legend(nrow=length(unique(plotPageData$mapColor)))) +
           ggtitle(subTitle) + theme(plot.title = element_text(hjust = 0.5))
+        
       }else{#catchment
         p<-ggplot() +
           geom_sf(data = plotdata, #size = lineWidth,

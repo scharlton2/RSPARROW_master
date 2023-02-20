@@ -203,8 +203,8 @@ estimateNLLSmetrics <- function(if_estimate,if_estimate_simulation,if_sparrowEst
       }
     }
     x1 <- dd %>%
-      group_by(stime) %>%
-      summarize(count_num = n())
+      dplyr::group_by(stime) %>%
+      dplyr::summarize(count_num = n())
     dynyearmin <- min(stime)         # first year of record
     dynyearmax <- max(stime)         # last year of record
     dynsites <- max(x1$count_num)    # number sites
@@ -741,7 +741,7 @@ estimateNLLSmetrics <- function(if_estimate,if_estimate_simulation,if_sparrowEst
   }
 
   ######################################################################################
-  if (if_sparrowEsts == 1) {
+  if (identical(if_sparrowEsts, 1)) {
     
     jacobian <- sparrowEsts$jacobian
     JacobResults <- named.list(Parmnames,Beta.inital,bmin,bmax,esttype,btype,

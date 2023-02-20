@@ -79,7 +79,7 @@ createInteractiveChoices<-function(SelParmValues,existPredict,subdata, data_name
                         definition = definitions)
     Choices<-rbind(Choices,choices)
     
-    if (!is.na(map_uncertainties)){
+    if (!identical(map_uncertainties,NA)){
       #Uncertainty metrics
       choices<-c("se_pload_total",
                  "ci_pload_total",

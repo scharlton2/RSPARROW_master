@@ -1,7 +1,28 @@
+#'@title mapLoopStr
+#'@description Creates list of map objects with number of panels equal to
+#'             RSPARROW user setting mapsPerPage \\cr \\cr
+#'Executed By: \\itemize\{\\item goShinyPlot.R
+#'             \\item outputMaps.Rmd
+#'             \item predictMaps.R
+#'             \item predictMaps.Rmd \} \\cr
+#'Executes Routines: \itemize{\item unPackList.R
+#'                            \item checkBinaryMaps.R
+#'                            \item predictMaps_single.R
+#'                            \item mapSiteAttributes.R
+#'                            \item diagnosticMaps.R} \\cr
+#'@param mapType character string indicating type of map being executed ("site",
+#'               "stream", "catchment", or "resid")
+#'@param mapLoopInput.list list of all objects required for a given mapType
+#'@return named list multi-panel maps
+
+
+
+
 mapLoopStr<-function(mapType,mapLoopInput.list){
   aggFuncs<-c("mean","min","max","median")
   unPackList(lists = list(mapLoopInput.list = mapLoopInput.list),
              parentObj = list(NA))
+
 
 if (Rshiny & mapType=="site"){
   # create global variable from list names (mapping.input.list)
@@ -24,7 +45,7 @@ if (Rshiny & mapType=="site"){
   mapPageGroupBy<-NA
 
 }
-  
+ 
   if (mapType %in% c("site","resid")){
     existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
   }
@@ -40,16 +61,16 @@ if (Rshiny & mapType=="site"){
     }
 
   for (j in 1:nrow(plotSub)){
-    if (is.na(mapPageGroupBy) & is.na(map_years) & is.na(map_seasons)){#all
+    if (identical(NA,mapPageGroupBy) & identical(map_years,NA) & identical(map_seasons,NA)){#all
       dmapfinal$year<-rep(1,nrow(dmapfinal))
       dmapfinal$season<-rep(1,nrow(dmapfinal))
       y<-unique(dmapfinal$year)
       s<-unique(dmapfinal$season)
-    }else if (mapPageGroupBy %in% (c("year",NA)) & is.na(map_seasons) & !is.na(map_years)){
+    }else if (mapPageGroupBy %in% (c("year",NA)) & identical(map_seasons,NA) & !identical(map_years,NA)){
       y<-plotSub[j,]$year
       dmapfinal$season<-rep(1,nrow(dmapfinal))
       s<-unique(dmapfinal$season)
-    }else if (mapPageGroupBy %in% (c("season",NA)) & is.na(map_years) & !is.na(map_seasons)){
+    }else if (mapPageGroupBy %in% (c("season",NA)) & identical(map_years,NA) & !identical(map_seasons,NA)){
       dmapfinal$year<-rep(1,nrow(dmapfinal))
       y<-unique(dmapfinal$year)
       s<-plotSub[j,]$season
@@ -63,7 +84,7 @@ if (Rshiny & mapType=="site"){
       plotdata<-dmapfinal[dmapfinal$year %in% c(y) & dmapfinal$season %in% c(s),]
 
       if (mapType %in% c("catchment","stream")){
-      if ((is.na(map_years) & is.na(map_seasons)) | (!is.na(map_years) & map_years %in% aggFuncs) | (!is.na(map_seasons) & map_seasons %in% aggFuncs)){
+      if ((identical(map_years,NA) & identical(map_seasons,NA)) | (!identical(map_years,NA) & length(map_years[map_years %in% aggFuncs])!=0) | (!identical(map_seasons,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0)){
         plotdata <- merge(plotShape, plotdata, by.x = commonvar, by.y = commonvar)
       }else{
         plotdata <- merge(plotShape, plotdata, by.x = commonvar, by.y = "mapping_waterid")
@@ -71,7 +92,7 @@ if (Rshiny & mapType=="site"){
 
       }
       
-   
+
       if (!mapScenarios){
         if (!is.na(mapunits.list[k])){
          titleStr<-paste0(master_map_list[k],"\n",mapunits.list[k]) 
@@ -124,31 +145,31 @@ if (Rshiny & mapType=="site"){
           }#resid
       
 
-      if(is.na(map_years) & is.na(map_seasons)){
+      if(identical(map_years,NA) & identical(map_seasons,NA)){
         subTitle<-""                
-      }else if (!is.na(map_years) & map_years %in% aggFuncs & !is.na(map_seasons) & map_seasons %in% aggFuncs){
-        if (is.na(map_years)){
+      }else if (!identical(map_years,NA) & length(map_years[map_years %in% aggFuncs])!=0 & !identical(map_seasons,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0){
+        if (identical(map_years,NA)){
           titleStr<-paste(map_seasons,titleStr)
         }else{
           titleStr<-paste(map_years,titleStr)
         }
         subTitle<-titleStr
-      }else if (is.na(map_seasons) | map_seasons %in% aggFuncs){
-        if (map_seasons %in% aggFuncs){
+      }else if (identical(map_seasons,NA) | length(map_seasons[map_seasons %in% aggFuncs])!=0){
+        if (length(map_seasons[map_seasons %in% aggFuncs])!=0){
           titleStr<-paste(map_seasons,titleStr)
         }
         
-        if ((is.na(map_seasons) & map_years %in% aggFuncs) | (is.na(map_years) & map_seasons %in% aggFuncs)){
+        if ((identical(map_seasons,NA) & length(map_years[map_years %in% aggFuncs])!=0) | (identical(map_years,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0)){
           subTitle<-"" 
         }else{
           subTitle<-y
         }
         
-      }else if (is.na(map_years) | map_years %in% aggFuncs){
-        if (map_years %in% aggFuncs){
+      }else if (identical(map_years,NA) | length(map_years[map_years %in% aggFuncs])!=0){
+        if (length(map_years[map_years %in% aggFuncs])!=0){
           titleStr<-paste(map_years,titleStr)
         }
-        if (is.na(map_years) & map_seasons %in% aggFuncs | (is.na(map_seasons) & map_years %in% aggFuncs)){
+        if (identical(map_years,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0 | (identical(map_seasons,NA) & length(map_years[map_years %in% aggFuncs])!=0)){
           subTitle<-"" 
         }else{
           subTitle<-s
@@ -177,16 +198,16 @@ if (Rshiny & mapType=="site"){
         font = list(size = 14)
       )
       
-      if (is.na(mapPageGroupBy) & !is.na(map_years) & map_years %in% aggFuncs & !is.na(map_seasons) & map_seasons %in% aggFuncs){
+      if (is.na(mapPageGroupBy) & !identical(map_years,NA) & length(map_years[map_years %in% aggFuncs])!=0 & !identical(map_seasons,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0){
         plotPageData<-dmapfinal
-      }else if (is.na(mapPageGroupBy) & !is.na(map_seasons) & map_seasons %in% aggFuncs){
+      }else if (is.na(mapPageGroupBy) & !identical(map_seasons,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0){
         plotPageData<-dmapfinal[dmapfinal$year %in% plotSub$year,]
-      }else if (is.na(mapPageGroupBy) & !is.na(map_years) & map_years %in% aggFuncs){
+      }else if (is.na(mapPageGroupBy) & !identical(map_years,NA) & length(map_years[map_years %in% aggFuncs])!=0){
         plotPageData<-dmapfinal[dmapfinal$season %in% plotSub$season,]
       }else{
         plotPageData<-dmapfinal[dmapfinal$year %in% plotSub$year & dmapfinal$season %in% plotSub$season,]
       }
-      
+
       if (mapType %in% c("catchment","stream")){
       pageColors<-unique(plotPageData$color)
       }
@@ -236,7 +257,7 @@ if (Rshiny & mapType=="site"){
         
         
       }
-
+      
       if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
         if (nrow(plotSub[!is.na(plotSub$year),])>1 & mapType!="resid"){ 
           legendPos<-c(0.1,0.9)
@@ -256,6 +277,7 @@ if (Rshiny & mapType=="site"){
       if (mapType %in% c("catchment","stream")){
       p.list<-predictMaps_single(mapType,mapLoopInput.list, p, plotdata,plotPageData,titleStr,subTitle,
                                  legendPos,legendJus,usedColors,mapvarname,i)
+      
       }else if (mapType=="site"){
         
         p.list<-mapSiteAttributes(#Rshiny
@@ -285,12 +307,12 @@ if (Rshiny & mapType=="site"){
         }
       }#static
 
-
+      
 
       eval(parse(text = paste0("p",j,"<-p")))
     }#if plot not missing
   }#j
-  
+    
     #create pStr and nrws
     if (nrow(plotSub[!is.na(plotSub$year),])>1){  
       pStr<-paste("p",seq(1,nrow(plotSub[!is.na(plotSub$year),]),1),collapse=",",sep="") 

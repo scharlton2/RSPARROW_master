@@ -1,3 +1,17 @@
+#'@title checkDynamic
+#'@description Determine whether the model is dynamic or static using the
+#'             presence of "year" and/or "season" data in subdata \\cr \\cr
+#'Executed By: \itemize\{\item createVerifyReachAttr.R
+#'                       \item diagnosticPlotsNLLS.Rmd
+#'                       \item diagnosticPlotsNLLS_timeSeries.Rmd
+#'                       \item estimate.R
+#'                       \item estimateNLLSmetrics.R
+#'                       \item predictScenariosPrep.R
+#'                       \item readForecast.R
+#'                       \item startModelRun.R} \cr
+#'@param subdata data.frame input data (subdata)
+#'@return logical TRUE/FALSE indicating whether the data is dynamic
+
 checkDynamic<-function(subdata){
   dynamic<-TRUE
   if (length(names(subdata)[names(subdata) %in% c("year","season")])==0){

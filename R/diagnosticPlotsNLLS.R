@@ -124,7 +124,7 @@ rmarkdown::render(paste0(path_master,"diagnosticPlotsNLLS.Rmd"),
   
   #shell.exec(filename)
 #add if dynamic
-if (!is.na(diagnosticPlots_timestep)){
+if (!identical(diagnosticPlots_timestep,NA)){
 diagnosticPlotsNLLS_dyn(diagnostic_params)
 }
   

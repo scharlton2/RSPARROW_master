@@ -133,7 +133,7 @@ predictSummaryOutCSV <- function(file.output.list,estimate.input.list,
   colnames(outvars) <- headlist
   
   #calculate yields for user selected class_landuse_percent
-  if (!is.na(class_landuse_percent) & !is.na(class_landuse)){
+  if (!identical(NA,class_landuse_percent) & !identical(NA,class_landuse)){
     classLandusePercent<-calcClassLandusePercent(subdata,class.input.list)
     #for each class_landuse cget yield add to outvars
     for (c in class_landuse){

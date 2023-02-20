@@ -58,7 +58,7 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
       aData<-NA
     }
     
-    if (!is.na(aData)){
+    if (!identical(NA,aData)){
       #test if scientific notation is needed
       if (min(aData, na.rm = TRUE)>1000 | max(aData,na.rm = TRUE)>100000){
         sciNote<-TRUE
@@ -105,7 +105,7 @@ plotlyLayout<-function(x, y, log, nTicks, digits,
                                                   showgrid =", showPlotGrid,",
                              yref = 'paper',y=0, titlefont = list(size = 11))"))) 
     }else{
-      if (is.na(xLabs)){
+      if (identical(NA,xLabs)){
         eval(parse(text = paste0(a,"Axis.list <- list(showticklabels = FALSE,
                                                      showgrid =", showPlotGrid,",
                                                      showline = TRUE)"))) 

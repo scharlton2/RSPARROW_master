@@ -1,4 +1,35 @@
-diagnoticPlots_4panel_B<-function(sitedata,plotResids,plot.ratio.obs.pred,plot.standardResids,plotpredict,
+#'@title diagnosticPlots_4panel_B
+#'@description Generates 4 panel diagnostic plots including "Residuals",
+#'              "Observed / Predicted Ratio","Normal Q-Q Plot","Squared Residuals 
+#'              vs Predicted Load") \\cr \\cr
+#'Executed By: create_diagnosticPlotList.R \\cr
+#'Executes Routines: \\itemize\{\\item addMarkerText.R
+#'             \\item plotlyLayout.R \} \\cr
+#'@param sitedata Sites selected for calibration using `subdata[(subdata$depvar > 0
+#'                & subdata$calsites==1), ]`. The object contains the dataDictionary 
+#'                ‘sparrowNames’ variables, with records sorted in hydrological 
+#'                (upstream to downstream) order (see the documentation Chapter 
+#'                sub-section 5.1.2 for details)
+#'@param plotResids numeric vector of residuals
+#'@param plot.ratio.obs.pred numeric vector ratio of observed vs predicted with 
+#'                           no monitoring adjustment
+#'@param plot.standardResids numeric vector of standardized residuals
+#'@param plotpredict numeric vector of load prediction values
+#'@param plotTitles character vector of plot titles for 4-panel
+#'@param loadUnits character string RSPARROW user setting defining units for load
+#'@param yieldUnits character string RSPARROW user setting defining units for yield
+#'@param showPlotGrid yes/no setting controlling whether gridlines are displayed
+#'@param markerList character string defining plotly marker hover text
+#'@param add_plotlyVars character vector indicating user selected variables to add to plot hover
+#'                      text
+#'@param pnch numeric vector of pnch point styles
+#'@param markerCols vector of hexodecimal color values
+#'@param hline function to create horizontal red line
+#'@return 4 panel diagnostic plot of "Residuals","Observed / Predicted Ratio",
+#'"Normal Q-Q Plot","Squared Residuals 
+
+
+diagnosticPlots_4panel_B<-function(sitedata,plotResids,plot.ratio.obs.pred,plot.standardResids,plotpredict,
                                   plotTitles,loadUnits,yieldUnits,showPlotGrid,markerList,add_plotlyVars,
                                   pnch,markerCols,hline){
   
@@ -24,7 +55,7 @@ diagnoticPlots_4panel_B<-function(sitedata,plotResids,plot.ratio.obs.pred,plot.s
   
   
   # Normality probability plot
-  if(!is.na(plot.standardResids)){
+  if(!identical(NA,plot.standardResids)){
   markerText<-"~paste('</br> Standard Residual: ',plot.standardResids,
                       '</br> Theoretical Value: ',y.theo"
   yTitle<-"Standardized Residuals"

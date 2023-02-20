@@ -55,6 +55,8 @@ if (length(res)!=0){
   GeoLines <- sf::st_read(paste0(path_gis,"/",LineShapeGeo,".shp"), quiet = TRUE)
   GeoLines<-st_transform(GeoLines,CRS(CRStext))
 
+  GeoLines<-st_zm(GeoLines)
+  
   #save file
   objfile <- paste0(path_gis,.Platform$file.sep,"GeoLines")
   save(GeoLines,file=objfile) 

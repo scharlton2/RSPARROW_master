@@ -88,10 +88,10 @@ predictScenariosPrep<-function(##Rshiny
       }
   }#Rshiny
   
-  if (map_years=="all"){
+  if (identical(map_years,"all")){
     map_years<-unique(subdata$year)
   }
-  if (map_seasons=="all"){
+  if (identical(map_seasons,"all")){
     map_seasons<-unique(subdata$season)
   }
   
@@ -227,7 +227,7 @@ predictScenariosPrep<-function(##Rshiny
     dynamic<-checkDynamic(subdata) 
     if (dynamic){
     #   #loop through timesteps
-      if (!is.na(map_years) & !is.na(map_seasons)){
+      if (!identical(map_years,NA) & !identical(map_seasons,NA)){
         subdata_target<-subdata
         subdata_target$hydseq<-rep(NA,nrow(subdata_target))
         for (y in map_years){
@@ -239,7 +239,7 @@ predictScenariosPrep<-function(##Rshiny
             subdata_target<-rbind(subdata_target,hydSub_target)
           }
         }
-      }else if (!is.na(map_years)){
+      }else if (!identical(map_years,NA)){
         subdata_target<-subdata
         subdata_target$hydseq<-rep(NA,nrow(subdata_target))
         for (y in map_years){
@@ -249,7 +249,7 @@ predictScenariosPrep<-function(##Rshiny
           hydSub_target<-hydseqTerm(hydSub, select_targetWaterIDs)
           subdata_target<-rbind(subdata_target,hydSub_target)
         }
-      }else if (!is.na(map_seasons)){
+      }else if (!identical(map_seasons,NA)){
         subdata_target<-subdata
         subdata_target$hydseq<-rep(NA,nrow(subdata_target))
         for (s in map_seasons){
@@ -297,7 +297,7 @@ predictScenariosPrep<-function(##Rshiny
       }else if (!Rshiny & exists(paste0("S_",scenario_sources[i],"_LC"))){
         temp<-eval(parse(text =paste0("S_",scenario_sources[i],"_LC") ))
         
-        if (length(unique(temp))==1 & is.na(unique(temp))){
+        if (length(unique(temp))==1 & identical(unique(temp),NA)){
           
           suppressWarnings(rm(list = c(paste0("S_",scenario_sources[i],"_LC"))))
         }

@@ -104,7 +104,7 @@ mapSiteAttributes<-function(#Rshiny
     mapdata$mapColumn<-mapColumn
     
     #set breakpoints
-    if (is.na(plotPageData)){
+    if (identical(NA,plotPageData)){
     cls<-unique(mapBreaks(mapdata$mapColumn,siteAttrColors)$brks)
     }else{
 
@@ -157,7 +157,7 @@ mapSiteAttributes<-function(#Rshiny
       plotLocStr<-paste0(plotLocStr,")")
       
       if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
-        if (is.na(p)){
+        if (identical(NA,p)){
         #plotly plot
         p<-plot_ly() %>%
           layout(
@@ -173,7 +173,7 @@ mapSiteAttributes<-function(#Rshiny
 
       }#plotly
     }#else plotly or leaflet
-    if (is.na(p)){
+    if (identical(NA,p)){
     #plotgeolines
       if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
         p <- ggplot() +

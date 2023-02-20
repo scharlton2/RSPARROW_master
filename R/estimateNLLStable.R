@@ -81,7 +81,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
                parentObj = list(NA))
   }
   
-  if(!is.na(Cor.ExplanVars.list)) {
+  if(!identical(NA,Cor.ExplanVars.list)) {
     unPackList(lists = list(Cor.ExplanVars.list = Cor.ExplanVars.list),
                parentObj = list(NA))
   }
@@ -233,12 +233,12 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   }
   
   # options for weighted SPARROW optimization
-  if(NLLS_weights=="lnload") {     
+  if(identical(NLLS_weights,"lnload")) {     
     writeLines("\n   The model was estimated with a weighted error variance. The weights are proportional \n     to the log predicted load to account for heteroscedasticity.")
     x <- paste0("\n   NLLS_weights control setting = ",NLLS_weights)
     writeLines(x)
   }
-  if(NLLS_weights=="user") {    
+  if(identical(NLLS_weights,"user")) {    
     writeLines("\n   The model was estimated with a weighted error variance. The weights are assigned by the user, expressed as the \n     reciprocal of the variance proportional to user-selected variables.")
     x <- paste0("\n   NLLS_weights control setting = ",NLLS_weights)
     writeLines(x)
@@ -419,7 +419,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
            dec = csv_decimalSeparator,sep=csv_columnSeparator,col.names = TRUE,na = "NA")
   }
   
-  if(NLLS_weights!="default") {    
+  if(!identical(NLLS_weights,"default")) {    
     # Output weights percentiles
     print(space)
     print(outcharfun("MODEL WEIGHTS"))
@@ -556,7 +556,7 @@ estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulatio
   } # end 'ifHess'
   
   # Explanatory variable correlations
-  if (if_corrExplanVars == "yes" & !is.na(Cor.ExplanVars.list)) {
+  if (if_corrExplanVars == "yes" & !identical(NA,Cor.ExplanVars.list)) {
     
     if(numsites>2){
       print(outcharfun("CORRELATION MATRICES FOR EXPLANATORY VARIABLES (Site Incremental Areas)"))

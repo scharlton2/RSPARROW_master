@@ -215,9 +215,12 @@ predict <- function(estimate.list,estimate.input.list,bootcorrection,DataMatrix.
   pred <- return_data$ee
   mpload_decay <- pred  # decayed monitoring total load
   
-  if(mpload_total > 0) {
-    mpload_fraction <- mpload_decay / mpload_total
-  }
+  # if(mpload_total > 0) {
+  #   mpload_fraction <- mpload_decay / mpload_total
+  # }
+  mpload_fraction<-vapply(1:length(mpload_total), function(i) 
+    ifelse(mpload_total[i]>0 & !is.na(mpload_total[i]),mpload_decay[i] / mpload_total[i],NA),
+    FUN.VALUE = numeric(1))
   
   # Total nondecayed load 
   

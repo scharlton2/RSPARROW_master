@@ -52,7 +52,7 @@ executeRSPARROW<-function(settingValues,settingNames,activeFile, envir = .Global
              parentObj = list(NA))   
   
   #copy old model if requested
-  if (!is.na(copy_PriorModelFiles)){
+  if (!identical(NA,copy_PriorModelFiles)){
     copyPriorModelFiles(activeFile,copy_PriorModelFiles,path_master, batch_mode)
     runOld<-"yes"
   }else{

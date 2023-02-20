@@ -72,7 +72,7 @@ importCSVcontrol<-function(filein,Ctype,NAMES,strEndMessage,
     if (regexpr("design_matrix.csv",filein)>0){
       data<-read.csv(filein,header=TRUE,row.names=1,dec = csv_decimalSeparator,sep=csv_columnSeparator)
     }else{
-      data<-fread(file = filein,sep = csv_columnSeparator, dec = csv_decimalSeparator, 
+      data<-data.table::fread(file = filein,sep = csv_columnSeparator, dec = csv_decimalSeparator, 
                   header = TRUE,colClasses=Ctype)
     }
     

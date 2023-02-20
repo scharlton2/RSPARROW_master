@@ -121,7 +121,7 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
     colnames(df) <- names
     cor.allValuesM <- cor(df,method=c("spearman"),use="pairwise.complete.obs")
     
-    scatterplotMatrix(df,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,smooth=TRUE)
+    car::scatterplotMatrix(df,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,smooth=TRUE)
     boxplot(log(df))
     
   }
@@ -154,10 +154,13 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   nsamples <- ifelse(rows < maxsamples,rows,maxsamples)
   
   # Untransformed data
-  sdf <- sample_n(df,nsamples)
+  sdf <- dplyr::sample_n(df,nsamples)
   cor.sampleValues <- cor(sdf,method=c("spearman"),use="pairwise.complete.obs")
   # maximum size limited to 6472 observations
-  scatterplotMatrix(sdf,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,smooth=TRUE)
+  assign("sdf",sdf,envir = .GlobalEnv)
+  car::scatterplotMatrix(sdf,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,
+                         smooth=list(smoother=loessLine, var=FALSE, lty.var=2, lty.var=4))
+ 
   boxplot(sdf)
   
   # Transformed data
@@ -169,7 +172,7 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   cmatrix <- data.frame(log10(cmatrix))        # log transformation
   df <- data.frame(cmatrix)
   colnames(df) <- names
-  sdf <- sample_n(df,nsamples)
+  sdf <- dplyr::sample_n(df,nsamples)
   cor.sampleLogValues <- cor(sdf,method=c("spearman"),use="pairwise.complete.obs")
   
   # remove variables based on correlations with NAs and resample transformed data
@@ -204,9 +207,10 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   cmatrix <- data.frame(log10(cmatrix))        # log transformation
   df <- data.frame(cmatrix)
   nsamples <- ifelse(rows < maxsamples,rows,maxsamples)
-  sdf <- sample_n(df,nsamples)
+  sdf <- dplyr::sample_n(df,nsamples)
   # maximum size limited to 6472 observations
-  scatterplotMatrix(sdf,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,smooth=TRUE)
+  car::scatterplotMatrix(sdf,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,
+                         smooth=list(smoother=loessLine, var=FALSE, lty.var=2, lty.var=4))
   boxplot(sdf)
   
   dev.off()  # shuts down current graphics device

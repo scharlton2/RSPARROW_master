@@ -43,7 +43,7 @@ readParameters <- function(file.output.list,if_estimate,if_estimate_simulation,
   #replace NAs with 0 in numeric columns
   for (c in names(betavalues)){
     test<-eval(parse(text=paste0("betavalues$",c)))
-    if (class(test)=="numeric"){
+    if (identical(class(test),"numeric")){
       test<-ifelse(is.na(test),0,test)
       eval(parse(text=paste0("betavalues$",c,"<-test")))
     }

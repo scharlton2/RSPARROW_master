@@ -43,7 +43,7 @@ createVerifyReachAttr <- function(if_verify_demtarea,calculate_reach_attribute_l
   
   sub1 <- data1[(data1$fnode > 0 & data1$tnode > 0 & data1$termflag != 3), ]
   
-  if(!is.na(calculate_reach_attribute_list) == TRUE ){  
+  if(!identical(calculate_reach_attribute_list,NA)){  
     
     if (nrow(sub1)==0){
       cat("\n \n")

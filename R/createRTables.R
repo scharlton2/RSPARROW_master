@@ -19,7 +19,7 @@ createRTables<-function(selectSources,data_names, mapping.input.list){
   #set up Rtables
   #for different reach selection for different sources
   if (length(selectSources)==1){
-    if (selectSources!=""){
+    if (!identical(selectSources,"")){
       selectSources<-c("",selectSources)
     }else{
       selectSources<-"" 

@@ -54,7 +54,7 @@ read_dataDictionary <- function(file.output.list,batch_mode){
   data_names<-data_names[!duplicated(data_names),]
   
   #test if add_vars in data_names
-  if(!is.na(add_vars)){
+  if(!identical(NA,add_vars)){
     if (any(!add_vars %in% data_names$sparrowNames)){
       message(paste0("WARNING: add_vars MISSING FROM dataDictionary sparrowNames : ",paste(add_vars[which(!add_vars %in% data_names$sparrowNames)],collapse=","),"\n \n"))
       cat("\n \n")   

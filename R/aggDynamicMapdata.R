@@ -1,13 +1,58 @@
+#'@title aggDynamicMapdata
+#'@description Aggregate data for dynamic mapping by year, season, or year 
+#'             and season based on the user selected `map_years` and `map_seasons`
+#'             settings.  Available aggregation functions include mean, median,
+#'             min, and max. \\cr \\cr
+#'Executed By: \itemize\{\item diagnosticPlotsNLLS.Rmd
+#'                       \item diagnosticResidMapExec.R
+#'                       \item goShinyPlot.R
+#'                       \item predictMaps.R} \cr
+#'Executes Routines: \itemize\{\item test_addPlotlyvars.R
+#'                             \item named.list.R} \\cr
+#'@param map_years RSPARROW dynamic user setting indicating how dynamic mapping 
+#'                 should proceed with regards to the year timestep.  A numeric 
+#'                 vector of years indicates mapping of each year in the vector.  
+#'                 A character string equal to "all" indicates that all years 
+#'                 present in the data1 file should be mapped. A character string
+#'                 from the following list of approved aggregation functions
+#'                 c("mean","median","min","max") indicates that the selected
+#'                 aggregation function should be applied to the "year" attribute
+#'                 to obtain a seasonal mean, median, min or max.  NA indicates that
+#'                 the year timestep is not present in data1
+#'@param map_seasons RSPARROW dynamic user setting indicating how dynamic mapping 
+#'                 should proceed with regards to the season timestep.  A character 
+#'                 vector of seasons indicates mapping of each season in the vector.
+#'                 Seasons must be from the following list c("winter","spring","summer"
+#'                 "fall").A character string equal to "all" indicates that all seasons 
+#'                 present in the data1 file should be mapped. A character string
+#'                 from the following list of approved aggregation functions
+#'                 c("mean","median","min","max") indicates that the selected
+#'                 aggregation function should be applied to the "season" attribute
+#'                 to obtain an annual mean, median, min or max.  NA indicates that
+#'                 the season timestep is not present in data1    
+#'@param enable_plotlyMaps yes/no indicating whether to enable plotly interactive 
+#'                         displays for maps
+#'@param add_plotlyVars character vector indicating user selected variables to add to plot hover
+#'                      text
+#'@param aggFuncs character vector of possible aggregate functions. For RSPARROW 2.0,
+#'                c("mean","median","min","max")
+#'@param vvar mapping variable as vector
+#'@param MAPID vector of waterid_for_RSPARROW_mapping
+#'@param commonvar string indicating the column to join the map data and the shapefile
+#'@param subdata data.frame input data (subdata)
+#'@return `map_agg.list` named list including data.frame aggregated according to `map_years`
+#'                       and `map_seasons` and all objects required to generate a map.              
+
 aggDynamicMapdata<-function(map_years,map_seasons,enable_plotlyMaps,add_plotlyVars,
                             aggFuncs,vvar,MAPID,commonvar,subdata){
   
   #is static add year and seasons as add_plotlyVars
   if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-    if (is.na(map_years) & is.na(map_seasons)){
+    if (identical(NA,map_years) & identical(NA,map_seasons)){
       add_plotlyVars<-NA
-    }else if (is.na(map_years)){
+    }else if (identical(NA,map_years)){
       add_plotlyVars<-"season"
-    }else if (is.na(map_seasons)){
+    }else if (identical(NA,map_seasons)){
       add_plotlyVars<-"year"
     }else{
       add_plotlyVars<-c("year","season")
@@ -21,10 +66,10 @@ aggDynamicMapdata<-function(map_years,map_seasons,enable_plotlyMaps,add_plotlyVa
   }
   
   #aggregate seasons or years if required
-  if (!is.na(map_years) & map_years %in% aggFuncs & (!map_seasons %in% aggFuncs & !is.na(map_seasons))){
+  if (!identical(NA,map_years) & length(map_years[map_years %in% aggFuncs])!=0 & (!length(map_seasons[map_seasons %in% aggFuncs])!=0 & !identical(NA,map_seasons))){
     mapdata<-data.frame(subdata[c("mapping_waterid","season")],vvar)
 
-    if (map_seasons!="all"){
+    if (!identical(map_seasons,"all")){
       mapdata<-mapdata[mapdata$season %in% map_seasons,]
     }
     mapdata<-aggregate(mapdata["vvar"], by=list(mapping_waterid= mapdata$mapping_waterid,season=mapdata$season),
@@ -48,14 +93,14 @@ aggDynamicMapdata<-function(map_years,map_seasons,enable_plotlyMaps,add_plotlyVa
         names(uniqueSubdata)<-commonvar 
       }
       uniqueSubdata$year<-rep(1,nrow(uniqueSubdata))
-      if (map_seasons!="all"){
+      if (!identical(map_seasons,"all")){
         uniqueSubdata<-uniqueSubdata[uniqueSubdata$season %in% map_seasons,]
       }
     }
     
-  }else if (!is.na(map_seasons) & map_seasons %in% aggFuncs & (!map_years %in% aggFuncs & !is.na(map_years))){
+  }else if (!identical(NA,map_seasons) & length(map_seasons[map_seasons %in% aggFuncs])!=0 & (!length(map_years[map_years %in% aggFuncs])!=0 & !identical(NA,map_years))){
     mapdata<-data.frame(subdata[c("mapping_waterid","year")],vvar)
-    if (map_years!="all"){
+    if (!identical(map_years,"all")){
       mapdata<-mapdata[mapdata$year %in% map_years,]
     }
     mapdata<-aggregate(mapdata["vvar"], by=list(mapping_waterid=mapdata$mapping_waterid,year=mapdata$year),
@@ -78,12 +123,12 @@ aggDynamicMapdata<-function(map_years,map_seasons,enable_plotlyMaps,add_plotlyVa
         names(uniqueSubdata)<-commonvar 
       }
       uniqueSubdata$season<-rep(1,nrow(uniqueSubdata))
-      if (map_years!="all"){
+      if (!identical(map_years,"all")){
         uniqueSubdata<-uniqueSubdata[uniqueSubdata$year %in% map_years,]
       }
     }
     
-  }else if (!is.na(map_years) & map_years %in% aggFuncs & !is.na(map_seasons) & map_seasons %in% aggFuncs){
+  }else if (!identical(NA,map_years) & length(map_years[map_years %in% aggFuncs])!=0 & !identical(NA,map_seasons) & length(map_seasons[map_seasons %in% aggFuncs])!=0){
     mapdata<-data.frame(subdata[c("mapping_waterid","year")],vvar)
     mapdata<-aggregate(mapdata["vvar"], by=list(mapping_waterid=mapdata$mapping_waterid,year=mapdata$year),
                        FUN=eval(parse(text=naOmitFuncStr(map_years))))
@@ -110,9 +155,9 @@ aggDynamicMapdata<-function(map_years,map_seasons,enable_plotlyMaps,add_plotlyVa
       uniqueSubdata$year<-rep(1,nrow(uniqueSubdata))
     }
     
-  }else if ((!is.na(map_years) & map_years %in% aggFuncs) | (!is.na(map_seasons) & map_seasons %in% aggFuncs)){
+  }else if ((!identical(NA,map_years) & length(map_years[map_years %in% aggFuncs])!=0) | (!identical(NA,map_seasons) & length(map_seasons[map_seasons %in% aggFuncs])!=0)){
     mapdata<-data.frame(subdata[c("mapping_waterid")],vvar)
-    if (map_years %in% aggFuncs){
+    if (length(map_years[map_years %in% aggFuncs])!=0){
       aggFunc<-map_years
     }else{
       aggFunc<-map_seasons

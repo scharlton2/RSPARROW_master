@@ -96,7 +96,7 @@ diagnosticSensitivity <- function(file.output.list,classvar,estimate.list,DataMa
 
   
   #if dynamic data
-  if (!is.na(diagnosticPlots_timestep)){
+  if (!identical(NA,diagnosticPlots_timestep)){
     diagnosticPlotsNLLS_dyn(diagnostic_params)
   }  
  

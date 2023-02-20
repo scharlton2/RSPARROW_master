@@ -41,7 +41,7 @@ predictOutCSV <- function(file.output.list,estimate.list,predict.list,
   
   if (unique(unique(waterid_for_RSPARROW_mapping-waterid)!=0) & length(unique(unique(waterid_for_RSPARROW_mapping-waterid)!=0))==1){
     add_vars<-c("waterid_for_RSPARROW_mapping",add_vars)
-  }else if (origWaterid!="waterid"){
+  }else if (!identical(origWaterid,"waterid")){
     add_vars<-c(origWaterid,add_vars)
   }
   

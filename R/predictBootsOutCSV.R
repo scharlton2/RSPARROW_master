@@ -37,7 +37,7 @@ predictBootsOutCSV <- function(file.output.list,estimate.list,predictBoots.list,
   
   #test if waterid was renumbered, if so add it to add_vars
   origWaterid<-as.character(data_names[which(data_names$sparrowNames=="waterid"),]$data1UserNames)
-  if (origWaterid!="waterid"){
+  if (!identical(origWaterid,"waterid")){
     add_vars<-c(origWaterid,add_vars)    
   }else{
     add_vars<-c("waterid_for_RSPARROW_mapping",add_vars)

@@ -93,13 +93,13 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
               
               
               aggFuncs<-c("mean","median","min","max")
-              if (!is.na(map_years)){
-              if (map_years=="all" | map_years %in% aggFuncs){
+              if (!identical(map_years,NA)){
+              if (identical(map_years,"all") | length(map_years[map_years %in% aggFuncs])!=0){
                 map_years<-unique(data1$year)
               }
               }
-              if (!is.na(map_seasons)){
-              if (map_seasons=="all" | map_seasons %in% aggFuncs){
+              if (!identical(map_seasons,NA)){
+              if (identical(map_seasons,"all") | length(map_seasons[map_seasons %in% aggFuncs])!=0){
                 map_seasons<-unique(data1$season)
               }
               }
@@ -131,16 +131,17 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
               
               if ((enable_plotlyMaps!="no" & enable_plotlyMaps!="static") | !is.na(add_plotlyVars[1])){
                 
-                if ((!is.na(map_seasons) & !map_seasons %in% aggFuncs) & (!is.na(map_years) & !map_years %in% aggFuncs)){
+                if ((!identical(map_seasons,NA) & !length(map_seasons[map_seasons %in% aggFuncs])!=0) & 
+                    (!identical(map_years,NA) & !length(map_years[map_years %in% aggFuncs])!=0)){
                   data1Merge<-merge(dmap,data1,by.x = commonvar, by.y = "waterid")
                   names(data1Merge)[names(data1Merge)==commonvar]<-"waterid_for_RSPARROW_mapping"
                   data1Merge<-data1Merge[,names(data1Merge) %in% names(data1)]
                   
-                  if (is.na(map_years) & is.na(map_seasons)){
+                  if (identical(map_years,NA) & identical(map_seasons,NA)){
                     dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon")), dmap, data1Merge)$mapData
-                  }else if (is.na(map_seasons)){
+                  }else if (identical(map_seasons,NA)){
                     dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","year","mapping_waterid")), dmap, data1Merge)$mapData
-                  }else if (is.na(map_years)){
+                  }else if (identical(map_years,NA)){
                     dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","season","mapping_waterid")), dmap, data1Merge)$mapData
                   }else{
                     dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","year","season","mapping_waterid")), dmap, data1Merge)$mapData
@@ -149,11 +150,11 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
                 
                   
                 }else{
-                  if (is.na(map_years) & is.na(map_seasons)){
+                  if (identical(map_years,NA) & identical(map_seasons,NA)){
                     NAMES<-unique(c(names(dmap),add_plotlyVars,"lat","lon"))
-                  }else if (is.na(map_seasons)){
+                  }else if (identical(map_seasons,NA)){
                     NAMES<-unique(c(names(dmap),add_plotlyVars,"lat","lon","year","mapping_waterid"))
-                  }else if (is.na(map_years)){
+                  }else if (identical(map_years,NA)){
                     NAMES<-unique(c(names(dmap),add_plotlyVars,"lat","lon","season","mapping_waterid"))
                   }else{
                     NAMES<-unique(c(names(dmap),add_plotlyVars,"lat","lon","year","season","mapping_waterid"))

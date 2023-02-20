@@ -31,12 +31,12 @@ findMinMaxLatLon <- function(sitedata,mapping.input.list) {
   lonmin <- min(lon,na.rm=TRUE)
   sitegeolimits <- named.list(latmax,latmin,lonmax,lonmin)
   
-  if (is.na(lat_limit)){
+  if (identical(NA,lat_limit)){
     mapping.input.list$lat_limit<-c(latmin-2,latmax+2)
     assign("mapping.input.list",mapping.input.list,envir = .GlobalEnv)
     assign("lat_limit",c(latmin-2,latmax+2),envir = .GlobalEnv)
   }
-  if (is.na(lon_limit)){
+  if (identical(NA,lon_limit)){
     mapping.input.list$lon_limit<-c(lonmin-2,lonmax+2)
     assign("mapping.input.list",mapping.input.list,envir = .GlobalEnv)
     assign("lon_limit",c(lonmin-2,lonmax+2),envir = .GlobalEnv)

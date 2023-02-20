@@ -108,7 +108,7 @@ predictMaps<-function(#Rshiny
         #test numeric
         testvar<-subdata[,which(names(subdata)==l)]
         testNum<-class(testvar)
-        if (testNum!="numeric" & any(unique(as.numeric(testvar)-testvar)!=0)){
+        if (!identical(testNum,"numeric") & any(unique(as.numeric(testvar)-testvar)!=0)){
           testList<-testList[which(testList!=l)]
           noMaplist<-c(noMaplist,l)
           message(paste0("\n \nWARNING : MAPPING VARIABLE ", l, " NOT NUMERIC MAPPING NOT COMPLETED."))
@@ -121,7 +121,7 @@ predictMaps<-function(#Rshiny
     }#if non prediction variables exist
     
   }#if map scenarios FALSE
-  
+
   if ((file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list")) 
        & !mapScenarios) | 
       mapScenarios |
@@ -179,7 +179,7 @@ predictMaps<-function(#Rshiny
       predictionMapBackground<-gsub("\"","",gsub("'","",input$predictionMapBackground))
       lineWidth<-as.numeric(input$lineWidth)
       if (!mapScenarios){
-        predictionMapColors<-eval(parse(text=input$predictionMapColors))
+        predictionMapColors<-trimws(eval(parse(text=input$predictionMapColors)))
       }else{
         scenarioMapColors<-eval(parse(text=input$scenarioMapColors))
       }
@@ -272,7 +272,7 @@ predictMaps<-function(#Rshiny
       }
     }
     
-    
+   
     commonvar<-"tempID"
     
     #---------------------------------------------------------------#
@@ -445,8 +445,8 @@ predictMaps<-function(#Rshiny
           
           #aggregate seasons or years if required
           aggFuncs<-c("mean","median","min","max")
-          if (!is.na(map_seasons) & map_seasons %in% aggFuncs & !is.na(map_years) & map_years %in% aggFuncs){
-            if (map_seasons!=map_years){
+          if (!identical(map_seasons,NA) & map_seasons[1] %in% aggFuncs & !identical(map_years,NA) & map_years[1] %in% aggFuncs){
+            if (!identical(map_seasons,map_years)){
               message("ERROR : CANNOT AGGREGATE YEARS AND SEASONS WITH DIFFERENT FUNCTIONS")
               errorOccurred("predictMaps.R",batch_mode)
             }
@@ -505,7 +505,7 @@ predictMaps<-function(#Rshiny
                 Mcolors <- Mcolors[1:(length(brks)-1)]
                 nintervals[k] <- length(uniqueBrks)-1
               }else{
-                if (!is.na(brks)){
+                if (!identical(brks,NA)){
                   qvars <- as.integer(cut(vvar, brks, include.lowest=TRUE))  # classify variable
                   
                   
@@ -525,7 +525,7 @@ predictMaps<-function(#Rshiny
               iprob<-mapBreaks(vvar2,Mcolors)$iprob
               chk <- unique(chk1) # define quartiles with values of 1.0 removed
               qvars<-as.integer(cut(as.numeric(vvar), chk1, include.lowest=TRUE))
-              qvars<-ifelse(is.na(qvars),0,qvars)
+              qvars<-ifelse(identical(qvars,NA),0,qvars)
               qvars<-qvars+1
               if (!mapScenarios){
                 Mcolors <- c("gray",Mcolors)
@@ -653,8 +653,8 @@ predictMaps<-function(#Rshiny
           
           
           dmapfinal <- merge(dmapfinal,dmap,by=names(mapdata)[names(mapdata)!="vvar"])
-          mapvarname <- paste0("dmapfinal$MAPCOLORS",k," <- as.character(dmapfinal$MAPCOLORS",k,")")
-          eval(parse(text=mapvarname))
+          mapvarnameStr <- paste0("dmapfinal$MAPCOLORS",k," <- as.character(dmapfinal$MAPCOLORS",k,")")
+          eval(parse(text=mapvarnameStr))
 
         }
       } # end variable loop
@@ -671,31 +671,31 @@ predictMaps<-function(#Rshiny
           
         if ((enable_plotlyMaps!="no" & enable_plotlyMaps!="static") | !is.na(add_plotlyVars[1])){
         
-        if ((!is.na(map_seasons) & !map_seasons %in% aggFuncs) & (!is.na(map_years) & !map_years %in% aggFuncs)){
+        if ((!identical(map_seasons,NA) & !map_seasons[1] %in% aggFuncs) & (!identical(map_years,NA) & !map_years[1] %in% aggFuncs)){
           names(subdataMerge)[names(subdataMerge)==commonvar]<-"waterid_for_RSPARROW_mapping"
           subdataMerge<-subdataMerge[,names(subdataMerge) %in% names(subdata)]
           
-        if (is.na(map_years) & is.na(map_seasons)){
+        if (identical(map_years,NA) & identical(map_seasons,NA)){
         dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon")), dmapfinal, subdataMerge)$mapData
-        }else if (is.na(map_seasons)){
+        }else if (identical(map_seasons,NA)){
           dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","year","mapping_waterid")), dmapfinal, subdataMerge)$mapData
-        }else if (is.na(map_years)){
+        }else if (identical(map_years,NA)){
           dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","season","mapping_waterid")), dmapfinal, subdataMerge)$mapData
         }else{
           dmapfinal<-addMarkerText("",unique(c(add_plotlyVars,"lat","lon","year","season","mapping_waterid")), dmapfinal, subdataMerge)$mapData
         }
         
-          }else if ((!is.na(map_years) & map_years %in% aggFuncs) | (!is.na(map_seasons) & map_seasons %in% aggFuncs)){
+          }else if ((!identical(map_years,NA) & map_years[1] %in% aggFuncs) | (!identical(map_seasons,NA) & map_seasons[1] %in% aggFuncs)){
           uniqueSubdata$mapping_waterid<-eval(parse(text=paste0("uniqueSubdata$",commonvar)))  
           dmapfinal<-merge(dmapfinal,uniqueSubdata,by.x = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)],
                            by.y = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)])
         
         }else{
-          if (is.na(map_years) & is.na(map_seasons)){
+          if (identical(map_years,NA) & identical(map_seasons,NA)){
             NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon"))
-          }else if (is.na(map_seasons)){
+          }else if (identical(map_seasons,NA)){
             NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","year","mapping_waterid"))
-          }else if (is.na(map_years)){
+          }else if (identical(map_years,NA)){
             NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","season","mapping_waterid"))
           }else{
             NAMES<-unique(c(names(dmapfinal),add_plotlyVars,"lat","lon","year","season","mapping_waterid"))
@@ -706,7 +706,7 @@ predictMaps<-function(#Rshiny
           
         }
           
-      }else if (((!is.na(map_seasons) & map_seasons %in% aggFuncs) | (!is.na(map_years) & map_years %in% aggFuncs)) & is.na(add_plotlyVars[1])){
+      }else if (((!identical(map_seasons,NA) & map_seasons[1] %in% aggFuncs) | (!identical(map_years,NA) & map_years[1] %in% aggFuncs)) & is.na(add_plotlyVars[1])){
         uniqueSubdata$mapping_waterid<-eval(parse(text=paste0("uniqueSubdata$",commonvar)))
         dmapfinal<-merge(dmapfinal,uniqueSubdata,by.x = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)], 
                             by.y = names(dmapfinal)[names(dmapfinal) %in% names(uniqueSubdata)]) 
@@ -725,7 +725,7 @@ predictMaps<-function(#Rshiny
 
         #output shapefile
         if (outputESRImaps[1]=="yes"){
-          if (is.na(map_years) & is.na(map_seasons)){
+          if (identical(map_years,NA) & identical(map_seasons,NA)){
             lineShape2 <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = commonvar)
           }else{
             lineShape2 <- merge(lineShape, dmapfinal, by.x = commonvar, by.y = "mapping_waterid") 
@@ -942,7 +942,7 @@ predictMaps<-function(#Rshiny
 
          #output shapefile
         if (outputESRImaps[2]=="yes"){
-          if (is.na(map_years) & is.na(map_seasons)){
+          if (identical(map_years,NA) & identical(map_seasons,NA)){
             polyShape2 <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = commonvar)
           }else{
             polyShape2 <- merge(polyShape, dmapfinal, by.x = commonvar, by.y = "mapping_waterid")

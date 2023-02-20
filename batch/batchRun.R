@@ -68,7 +68,7 @@ if (length(res)!=0){
     cat("\n \n")
     cat("RSPARROW MODEL NAME: ",run_id,sep="")
     cat("\n \n")
-    if (select_scenarioReachAreas=="yes"){
+    if (identical(select_scenarioReachAreas,"yes")){
       cat("SCENARIO NAME: ",scenario_name,sep="")
       cat("\n \n")
     }

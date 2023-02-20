@@ -51,6 +51,8 @@ if (length(res)!=0){
   lineShape <- sf::st_read(paste0(path_gis,"/",lineShapeName,".shp"), quiet = TRUE)
   lineShape<-st_transform(lineShape,CRS(CRStext))
   
+  lineShape<-st_zm(lineShape)
+  
   objfile <- paste0(path_gis,.Platform$file.sep,"lineShape")
   save(lineShape,file=objfile)
   

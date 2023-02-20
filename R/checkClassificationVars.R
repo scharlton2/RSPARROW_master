@@ -18,7 +18,7 @@ checkClassificationVars<-function(subdata,class.input.list,batch_mode){
   unPackList(lists = list(class.input.list = class.input.list),
              parentObj = list(NA)) 
   
-  if (!is.na(classvar)){
+  if (!identical(classvar,NA)){
     #test for class var in names subdata
     testClassvar<-classvar[which(!classvar %in% names(subdata))]
     if (length(testClassvar)!=0){

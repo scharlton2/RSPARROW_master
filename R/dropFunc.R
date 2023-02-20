@@ -16,7 +16,7 @@ dropFunc<-function(id,category, choices){
   
   #create dropdown button
   lab<-category
-  if (category!="Prediction Uncertainties"){
+  if (!identical(category,"Prediction Uncertainties")){
     name<-paste0(tolower(str_split(category," ")[[1]][1]),"Check")
   }else{
     name<-"uncertaintyCheck"

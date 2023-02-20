@@ -130,7 +130,7 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
   )
   
   #if dynamic data
-  if (!is.na(diagnosticPlots_timestep)){
+  if (!identical(NA,diagnosticPlots_timestep)){
     diagnosticPlotsNLLS_dyn(diagnostic_params)
   }
 

@@ -95,7 +95,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
   
   #check for setting errors
   errMsg<-shinyErrorTrap(compiledInput,path_results, badSettings,errMsg)
-  if (is.na(errMsg)){
+  if (identical(NA,errMsg)){
     
     #load predicitons if available
     if (file.exists(paste0(path_results,.Platform$file.sep,"predict",.Platform$file.sep,run_id,"_predict.list"))){
@@ -110,7 +110,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
     }
     
     #setup output file paths for batch and pdf output
-    if (button=="savePDF" | input$batch=="Batch"){
+    if (identical(button,"savePDF") | input$batch=="Batch"){
       if (!dir.exists(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep))){
         dir.create(paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep))
       }
@@ -170,7 +170,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
     #set mapping input variable
     if (input$batch!="Batch"){
       
-      if (button!="savePDF"){
+      if (!identical(button,"savePDF")){
         
         
         if (input$mapType=="Stream" | input$mapType=="Catchment"){
@@ -231,7 +231,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
                      parentObj = list(NA)) 
 
           #prep aggdata for plots
-          if (!map_years %in% aggFuncs & !map_seasons %in% aggFuncs){
+          if (!map_years[1] %in% aggFuncs & !map_seasons[1] %in% aggFuncs){
            mapdata<-merge(uniqueSubdata,mapdata,by=commonvar) 
           }else{
             mapdata<-merge(uniqueSubdata,mapdata, 
@@ -239,7 +239,7 @@ goShinyPlot<-function(input, output, session, choices, button, badSettings,errMs
           }
           
           names(mapdata)[names(mapdata)=="vvar"]<-mapColumn
-          if (map_years %in% aggFuncs | map_seasons %in% aggFuncs){
+          if (map_years[1] %in% aggFuncs | map_seasons[1] %in% aggFuncs){
            names(mapdata)[names(mapdata)==commonvar]<-"mapping_waterid"
            add_plotlyVars<-as.character(ifelse(add_plotlyVars=="waterid","mapping_waterid",add_plotlyVars))
           }else{

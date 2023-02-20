@@ -281,7 +281,7 @@ startModelRun<-function(file.output.list,
   print(paste0("Number of selected validation sites with non-zero observed loads: ",vic))
   
   save(subdata,file=paste0(path_results,.Platform$file.sep,"data",.Platform$file.sep,"subdata"))
-  
+
   ###############################################################
   # 6. Missing data checks and data setup for estimation 
   ###############################################################
@@ -296,7 +296,7 @@ startModelRun<-function(file.output.list,
   # DataMatrixEstimate.list <- createDataMatrixEstimate(if_auto_scaling,if_mean_adjust_delivery_vars,subdata,
   #                                                    SelParmValues,betavalues,batch_mode)
   
-  
+
   # (C) Setup SITEDATA and VSITEDATA for diagnostics
   sitedata <- subdata[(subdata$depvar > 0 & subdata$calsites==1), ]  # create site attribute object
   assign("sitedata",sitedata,envir = .GlobalEnv)
@@ -314,7 +314,7 @@ startModelRun<-function(file.output.list,
   print(unlist(sitegeolimits))
   cat("\n \n")
   
-  
+
   vnumsites <- 0
   if(if_validate == "yes") {
     vsitedata <- subdata[(subdata$vdepvar > 0), ]  # create site attribute object
@@ -352,7 +352,7 @@ startModelRun<-function(file.output.list,
     }
     
     
-    
+
     
     classvar[1]<-"sitedata.demtarea.class"
     uniqueClasses<-unique(sitedata.demtarea.class)[order(unique(sitedata.demtarea.class))]
@@ -371,7 +371,7 @@ startModelRun<-function(file.output.list,
     assign("classvar",classvar,envir = .GlobalEnv)
     
   }
-  
+
   
   # (E) Run correlations among explanatory variables
   #     NOTE: needs conversion to subroutine; HUC8 computation of mean to reduce size needs generalization

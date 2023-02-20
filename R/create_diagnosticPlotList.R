@@ -1,3 +1,47 @@
+#'@title create_diagnosticPlotList
+#'@description Create a list of diagnostic plot functions to be applied to data
+#'             at a specific timestep. \\cr \\cr
+#'Executed By: \itemize{\item diagnosticClassLandChild.Rmd
+#'                       \item diagnosticClassvarChild.Rmd
+#'                       \item diagnosticContiguousChild.Rmd
+#'                       \item diagnosticCorrChild.Rmd
+#'                       \item diagnosticPlotsNLLS.Rmd
+#'                       \item diagnosticPlotsNLLS_dyn.R
+#'                       \item diagnosticPlotsNLLS_dynOut.Rmd
+#'                       \item diagnosticSensitivity.Rmd
+#'                       \item diagnosticSensParamChild.Rmd
+#'                       \item diagnosticSpatialAutoCorr.Rmd} \cr
+#'Executes Routines: \itemize{\item named.list.R
+#'                            \item unPackList.R
+#'                            \item diagnosticPlots_4panel_A.R
+#'                            \item diagnosticPlots_4panel_B.R
+#'                            \item addMarkerText.R
+#'                            \item plotlyLayout.R
+#'                            \item fixDupLatLons.R} \\cr
+#'@return list of the following diagnostic plots (by plot title) 
+#'        \itemize{\item ModEstimation_Obs_v_Pred
+#'                 \item ModEstimation_Box_and_Quantile_Resid
+#'                 \item ModEstimation_Conditioned_v_Unconditioned_loads
+#'                 \item ModEstimation_Correlations_ExplanitoryVariables
+#'                 \item ModEstimation_DrainageArea_DecileClass_Box
+#'                 \item ModEstimation_Classvar_Decile_Box
+#'                 \item ModEstimation_LanduseClass_Decile_Box
+#'                 \item ModEstimation_4panel_Classvar
+#'                 \item ModSimulation_Obs_v_Pred
+#'                 \item ModSimulation_Box_and_Quantile_Resid
+#'                 \item ModSimulation_Correlations_ExplanitoryVariables
+#'                 \item ModSimulation_DrainageArea_DecileClass_Box
+#'                 \item ModSimulation_Classvar_Decile_Box
+#'                 \item ModSimulation_LanduseClass_Decile_Box
+#'                 \item ModSimulation_4panel_Classvar
+#'                 \item DiagSensitivity_by_Param
+#'                 \item DiagSensitivity1%_by_Param
+#'                 \item DiagSensitivity1%_by_Param_logScale
+#'                 \item CDF_of_Station_Hydrological_Distances
+#'                 \item CDF_of_Station_Euclidean_Distances
+#'                 \item Morans_I_by_river_basins
+#'                 \item Morans_I_by_Class_variable}
+
 create_diagnosticPlotList<-function(){
   plotList<-list()
   plotList$p1<-list()
@@ -25,7 +69,7 @@ plotList$p1$plotFunc<-function(plotParams.list){
      plotyldpredict<-yldpredict
      plotResids<-Resids
      
-     p<-diagnoticPlots_4panel_A(plotpredict,plotObs,plotyldpredict,plotyldobs,sitedata,plotResids,plotclass=NA,
+     p<-diagnosticPlots_4panel_A(plotpredict,plotObs,plotyldpredict,plotyldobs,sitedata,plotResids,plotclass=NA,
                                 plotTitles = c("'MODEL ESTIMATION PERFORMANCE \n(Monitoring-Adjusted Predictions) \nObserved vs    Predicted Load'",
                                                "'MODEL ESTIMATION PERFORMANCE \nObserved vs Predicted Yield'",
                                                "'Residuals vs Predicted \nLoad'",
@@ -62,7 +106,7 @@ Diagnostics are based on the use of conditioned (monitoring-adjusted) prediction
        plot.standardResids<-standardResids
        plotpredict<-predict
        
-      p<-diagnoticPlots_4panel_B(sitedata,plotResids,plot.ratio.obs.pred,plot.standardResids,plotpredict,
+      p<-diagnosticPlots_4panel_B(sitedata,plotResids,plot.ratio.obs.pred,plot.standardResids,plotpredict,
                                          plotTitles = c("'MODEL ESTIMATION PERFORMANCE \nResiduals'",
                                                         "'MODEL ESTIMATION PERFORMANCE \nObserved / Predicted Ratio'",
                                                         "'Normal Q-Q Plot'",
@@ -335,7 +379,7 @@ The panels include:  observed vs. predicted loads, observed vs. predicted yields
         plotyldpredict<-yldpredict
         plotResids<-Resids
       
-     p<-diagnoticPlots_4panel_A(plotpredict,plotObs,plotyldpredict,plotyldobs,sitedata,plotResids,plotclass,
+     p<-diagnosticPlots_4panel_A(plotpredict,plotObs,plotyldpredict,plotyldobs,sitedata,plotResids,plotclass,
                                           plotTitles = c("paste0('Observed vs Predicted Load \nCLASS Region = ',filterClass,'(n=',nsites,')')",
                                                          "'Observed vs Predicted \nYield'",
                                                          "'Residuals vs Predicted \nLoad'",
@@ -373,7 +417,7 @@ Four-plot panel for observed vs. predicted for loads and yields, and log residua
       plotyldpredict<-pyldpredict
       plotResids<-pResids
       
-      p<-diagnoticPlots_4panel_A(plotpredict,plotObs,plotyldpredict,plotyldobs,sitedata,plotResids,plotclass=NA,
+      p<-diagnosticPlots_4panel_A(plotpredict,plotObs,plotyldpredict,plotyldobs,sitedata,plotResids,plotclass=NA,
                                  plotTitles = c("'MODEL SIMULATION PERFORMANCE \nObserved vs Predicted Load'",
                                                 "'MODEL SIMULATION PERFORMANCE \nObserved vs Predicted Yield'",
                                                 "'Residuals vs Predicted \nLoad'",
@@ -409,7 +453,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
       plot.standardResids<-NA
       plotpredict<-ppredict
       
-      p<-diagnoticPlots_4panel_B(sitedata,plotResids,plot.ratio.obs.pred,plot.standardResids,plotpredict,
+      p<-diagnosticPlots_4panel_B(sitedata,plotResids,plot.ratio.obs.pred,plot.standardResids,plotpredict,
                                  plotTitles = c("'MODEL SIMULATION PERFORMANCE \nResiduals'",
                                                 "'MODEL SIMULATION PERFORMANCE \nObserved / Predicted Ratio'",
                                                 "'Normal Q-Q Plot'",

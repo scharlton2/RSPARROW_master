@@ -226,10 +226,10 @@ cat(eval(parse(text=paste0("plotList$",plotIndex,"$header"))))
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"} 
 p.list<-list()
 
-if (diagnosticPlots_timestep=="season"){
+if (all(diagnosticPlots_timestep=="season")){
   diagnosticPlots_timestep<-unique(sitedata$season)
      diagnosticPlots_timestep<-diagnosticPlots_timestep[match(c("winter","spring","summer","fall"),diagnosticPlots_timestep)]
-}else if (diagnosticPlots_timestep=="year"){
+}else if (all(diagnosticPlots_timestep=="year")){
   diagnosticPlots_timestep<-unique(sitedata$year)
 }
 
@@ -242,7 +242,7 @@ if (!sensitivity & !spatialAutoCorr){
      MdiagSub<-estimate.list$vMdiagnostics.list 
     }
     
-    if (diagnosticPlots_timestep %in% unique(sitedata$year)){
+    if (all(diagnosticPlots_timestep %in% unique(sitedata$year))){
       subStaid<-sitedata[sitedata$year==t ,]$staid
     }else{
       subStaid<-sitedata[sitedata$season==t,]$staid 
@@ -261,7 +261,7 @@ if (!sensitivity & !spatialAutoCorr){
     sitedata.demtarea.class_orig<-sitedata.demtarea.class
     sitedata.demtarea.class<-sitedata.demtarea.class[which(sitedata$staid %in% subStaid)]
 }else if (sensitivity){#sensitivity
-         if (diagnosticPlots_timestep %in% unique(sitedata$year)){
+         if (all(diagnosticPlots_timestep %in% unique(sitedata$year))){
       subWaterId<-subdata[subdata$year==t ,]$waterid
     }else{
       subWaterId<-subdata[subdata$season==t,]$waterid 
@@ -298,7 +298,7 @@ for (j in 1:length(Estimate)) {
   
 }else if (spatialAutoCorr){
   
-           if (diagnosticPlots_timestep %in% unique(sitedata$year)){
+           if (all(diagnosticPlots_timestep %in% unique(sitedata$year))){
       subWaterId<-subdata[subdata$year==t ,]$waterid
     }else{
       subWaterId<-subdata[subdata$season==t,]$waterid 
@@ -382,9 +382,9 @@ numsites <- length(sitedata$waterid)
   } 
 }else{#plotIndex==p4
   if (plotIndex %in% c("p4","p11")){
-    condList<-"!is.na(Cor.ExplanVars.list)"
+    condList<-"!identical(NA,Cor.ExplanVars.list)"
   }else if (plotIndex %in% c("p6","p13")){
-    condList<-"classvar!='sitedata.demtarea.class'"
+    condList<-"!identical(classvar,'sitedata.demtarea.class')"
   }else if (plotIndex %in% c("p7","p14")){
     condList<-"!is.na( class_landuse[1])"
   }else if (plotIndex %in% c("p8","p15","p16")){
@@ -416,7 +416,7 @@ numsites <- length(sitedata$waterid)
           MdiagSub<-estimate.list$vMdiagnostics.list
         }
         
-        if (diagnosticPlots_timestep %in% unique(sitedata$year)){
+        if (all(diagnosticPlots_timestep %in% unique(sitedata$year))){
           subStaid<-sitedata[sitedata$year==t ,]$staid
         }else{
           subStaid<-sitedata[sitedata$season==t,]$staid  
@@ -451,13 +451,13 @@ numsites <- length(sitedata$waterid)
         }
         
         
-        if(!is.na(Cor.ExplanVars.list) & plotIndex %in% c("p4","p11")){ 
+        if(!identical(NA,Cor.ExplanVars.list) & plotIndex %in% c("p4","p11")){ 
           Cor.ExplanVars.list_orig<-Cor.ExplanVars.list
           Cor.ExplanVars.list$cmatrixM_all<-Cor.ExplanVars.list$cmatrixM_all[which(estimate.list$Mdiagnostics.list$xstaid %in% subStaid),]
         }
         
         }else{#sensitivity
-         if (diagnosticPlots_timestep %in% unique(sitedata$year)){
+         if (all(diagnosticPlots_timestep %in% unique(sitedata$year))){
       subWaterId<-subdata[subdata$year==t ,]$waterid
     }else{
       subWaterId<-subdata[subdata$season==t,]$waterid 
@@ -507,7 +507,7 @@ for (j in 1:length(Estimate)) {
         eval(parse(text=paste0("p.list$p",i,which(t==diagnosticPlots_timestep),"<-p")))
         if (!sensitivity){
         sitedata<-sitedata_orig
-        if(!is.na(Cor.ExplanVars.list)){ 
+        if(!identical(NA,Cor.ExplanVars.list)){ 
           Cor.ExplanVars.list<-Cor.ExplanVars.list_orig
         }
         sitedata.landuse<-sitedata.landuse_orig

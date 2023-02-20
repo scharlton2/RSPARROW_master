@@ -50,7 +50,7 @@ createMasterDataDictionary<-function(file.output.list,batch_mode){
     data_names<-importCSVcontrol(filein,Ctype,NAMES,"paste0('\n \n',filein,' NOT ADDED TO master_dataDictionary.csv\n \n')",
                                  file.output.list,FALSE,batch_mode)
     
-    if (data_names!="error"){
+    if (!identical(data_names,"error")){
       
       #trim whitespaces
       data_names$sparrowNames<-trimws(data_names$sparrowNames,which="both")

@@ -13,7 +13,7 @@
 createSubdataSorted <- function(filter_data1_conditions,data1) {
   
   
-  if(is.na(filter_data1_conditions)) {
+  if(identical(filter_data1_conditions,NA)) {
     data1$fnode[is.na(data1$fnode)] <- 0
     data1$tnode[is.na(data1$tnode)] <- 0
     dname <- paste0("subdata <- data1[(data1$fnode > 0 & data1$tnode > 0), ]") 

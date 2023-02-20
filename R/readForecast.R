@@ -1,3 +1,28 @@
+#'@title readForecast
+#'@description  Prepare generic external forecast file for 
+#'              merging with the explanatory data matrix in 
+#'              the DSS.\\cr \\cr
+#'Executed By: predictScenariosPrep.R \\cr
+#'Executes Routines: \\itemize\{\\item unPackList.R
+#'             \\item errorOccurred.R
+#'             \\item checkDynamic.R} \\cr
+#'@param file.output.list list of control settings and relative paths used for input and 
+#'                        output of external files.  Created by `generateInputList.R`
+#'@param if_mean_adjust_delivery_vars yes/no character string indicating if the delivery 
+#'       variables are to be mean adjusted from sparrow_control
+#'@param use_sparrowNames TRUE/FALSE indicating whether the forecast file
+#'                        contains sparrowNames as column headers (TRUE) or
+#'                        contains data1UserNames as column headers (FALSE)
+#'@param subdata data.frame input data (subdata)
+#'@param SelParmValues selected parameters from parameters.csv using condition 
+#'       `ifelse((parmMax > 0 | (parmType=="DELIVF" & parmMax>=0)) & (parmMin<parmMax) & 
+#'       ((parmType=="SOURCE" & parmMin>=0) | parmType!="SOURCE")`
+#'@param forecast_filename character string path to forecast file
+#'@param data_names data.frame of variable metadata from data_Dictionary.csv file
+#'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
+#'       mode
+#'@return data.frame of formatted forecast data
+
 #######################################################################################################
 # readForecast.R
 #
@@ -226,7 +251,7 @@ readForecast <- function(file.output.list,if_mean_adjust_delivery_vars,use_sparr
   for (i in 1:length(fData2$waterid_for_RSPARROW_mapping)) {
     c1 <- paste0("fData2$",dname,".x[",i,"]")   # check forecast value for missing
     fcheckval <- eval(parse(text=c1))
-    if(is.na(fcheckval)) {
+    if(identical(NA,fcheckval)) {
       c1 <- paste0(dname,"[",i,"] <- ","fData2$",dname,".y[",i,"]")  # missing forecast value found; fill-in with original value from subdata
       eval(parse(text=c1))
     } else {
