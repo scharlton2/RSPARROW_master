@@ -1,5 +1,8 @@
 #'@title estimateWeightedErrors
-#'@description  \cr \cr
+#'@description  Estimates the residual weights for a SPARROW model according to the 
+#'              "lnload" method, with the weights estimated using a nonlinear power 
+#'              function regression of the squared log residuals on log transformed 
+#'              values of the prediction loads.  \cr \cr
 #'Executes Routines: \itemize{\item named.list.R
 #'             \item unPackList.R} \cr
 #'@param file.output.list list of control settings and relative paths used for input 
