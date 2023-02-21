@@ -179,7 +179,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       eval(parse(text = plotLocStr))
       #update markerList for marker styling
       markerList<-paste0("list(symbol = pnch[1], size = sze[1],")
-      if (regexpr("open",pnch)>0){
+      if (any(regexpr("open",pnch)>0)){
         markerList1<-paste0(markerList,"color = uniqueColsleaf(1))")
       }else{
         markerList1<-paste0(markerList,"line = list(color = uniqueColsleaf(1)),color = uniqueColsleaf(1))")
