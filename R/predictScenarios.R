@@ -135,7 +135,7 @@ if (!Rshiny){
   input$forecast_filename<-""
 }
       vcheck<-0
-      if (length(forecast_filename)==0 | forecast_filename==""){
+      if (length(forecast_filename)==0 | forecast_filename=="" | is.na(forecast_filename)){
       for (i in 1:length(JacobResults$Parmnames)) {
         for (j in 1:length(scenario_sources)) {
           if(scenario_sources[j] == JacobResults$Parmnames[i]) {vcheck<-vcheck+1}

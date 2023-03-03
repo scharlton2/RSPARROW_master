@@ -297,7 +297,7 @@ predictScenariosPrep<-function(##Rshiny
       }else if (!Rshiny & exists(paste0("S_",scenario_sources[i],"_LC"))){
         temp<-eval(parse(text =paste0("S_",scenario_sources[i],"_LC") ))
         
-        if (length(unique(temp))==1 & identical(unique(temp),NA)){
+        if (length(unique(temp))==1 & all(is.na(unique(temp)))){
           
           suppressWarnings(rm(list = c(paste0("S_",scenario_sources[i],"_LC"))))
         }

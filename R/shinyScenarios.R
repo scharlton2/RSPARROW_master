@@ -96,8 +96,8 @@ shinyScenarios<-function(id, input, choices,sitedata,add_plotlyVars, scenario.in
         h4("Select Model Explanatory Variables and Percent Change Factors"),
         h6("Right click on Row to insert above/below or remove row"),
         handsOnUI(ns("nsSourceRed"),input),
-        h4("Reach Selection Criteria"),
-        h5("(Reach Selection Criteria applys to all sources)"),
+        h4("Reach (time) Selection Criteria"),
+        h5("(Reach Selection Criteria applys to all sources and/or delivery variables)"),
         
         handsOnUI(ns("nsAllSources"),input)
         
@@ -113,7 +113,7 @@ shinyScenarios<-function(id, input, choices,sitedata,add_plotlyVars, scenario.in
     ),#end conditional selected reaches
     conditionalPanel(
       condition = paste0("input['",ns("domain"),"'] == 'all reaches'"),
-      h4("Select Sources and Percent Change (+/-) Factors"),
+      h4("Select Sources and/or delivery variables and Percent Change (+/-) Factors"),
       h6("Right click on Row to insert above/below or remove row"),
       handsOnUI(ns("nsSourceRedALL"),input)
     )),

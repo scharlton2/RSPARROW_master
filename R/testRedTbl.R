@@ -46,9 +46,10 @@ testRedTbl<-function(input, output, session, DF){
     #SourceRedALL<-compiledInput$
   }
 
-  SourceRedALLcomplete<-SourceRedALL
+  
 
   names(SourceRedALL)[which(names(SourceRedALL)=="ModelVariables")]<-"Source"
+  SourceRedALLcomplete<-SourceRedALL
   names(DF)[which(names(DF)=="ModelVariables")]<-"Source"
 
   if (!is.null(SourceRedALL)!=0 & length(which(names(DF)=="Source"))!=0){
@@ -141,14 +142,16 @@ testRedTbl<-function(input, output, session, DF){
           }
         }#duplicate sources
       }else{#no sources
-        
+
         rowNum<-data.frame(row = which(is.na(SourceRedALLcomplete$Source)),
                            col=which(names(SourceRedALL)=="Source"))
         
         rowNums<-rbind(rowNums,rowNum)
+        
         if (any(!is.na(SourceRedALLcomplete$Source))){
           errMsg<-NA
-        }else if (length(compiledInput$forecast_filename)==0 | compiledInput$forecast_filename==""){
+        }else if (length(compiledInput$forecast_filename)==0 | 
+                  compiledInput$forecast_filename=="" ){
           errMsg<-"Please select at least 1 'Source' variable to run a Source Change Scenario"
         }else{
           errMsg<-NA
