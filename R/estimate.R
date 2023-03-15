@@ -251,12 +251,12 @@ estimate <- function(if_estimate,if_predict,file.output.list,
           save(sparrowEsts,file=objfile)
           
           
+
           estimateNLLStable(file.output.list,if_estimate,if_estimate_simulation,ifHess,if_sparrowEsts,
                             classvar,sitedata,numsites,
-                            ANOVA.list,JacobResults,HesResults,sparrowEsts,Mdiagnostics.list,
+                            estimate.list,
                             Cor.ExplanVars.list,
                             if_validate,vANOVA.list,vMdiagnostics.list,betavalues,Csites.weights.list)
-          
           
           ### Output diagnostic graphics (plots & maps) ###
           message("Running diagnostic plots and sensitivity analysis...")

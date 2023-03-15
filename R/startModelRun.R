@@ -343,7 +343,7 @@ startModelRun<-function(file.output.list,
   }
   
   # if no classvar/classvar[1] then use sitedata.demtarea.class 5.5.17
-  if (is.na(classvar) |is.na(classvar[1])){
+  if (all(is.na(classvar)) |is.na(classvar[1])){
     sitedata$sitedata.demtarea.class<-sitedata.demtarea.class
     assign("sitedata",sitedata,envir = .GlobalEnv)
     if(vnumsites > 0) {
