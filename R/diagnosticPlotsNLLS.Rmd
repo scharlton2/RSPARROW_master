@@ -65,6 +65,7 @@ if (!validation){
                               NA,
                               NA,
                               NA))
+  Mdiagnostics.list<-estimate.list$Mdiagnostics.list
 }else{
   unPackList(lists = list(mapping.input.list = mapping.input.list,
                           vMdiagnostics.list = estimate.list$vMdiagnostics.list,
@@ -395,7 +396,9 @@ if (!validation){
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE,fig.height=8, fig.width=8}  
 if (!validation){ 
+  list2env(estimate.list$Mdiagnostics.list)
   create_diagnosticPlotList()$p2$plotFunc(eval(parse(text =create_diagnosticPlotList()$p2$plotParams)))
+  plotparmList<-create_diagnosticPlotList()$p2$plotParams
 }
 
 ```
@@ -828,6 +831,15 @@ cat("<P style='page-break-before: always'>")
 #################
 # Residual MAPS
 #################
+if (!dynamic){
+        mapdata <- data.frame(lat=sitedata$lat,lon=sitedata$lon,
+                              Resids = estimate.list$Mdiagnostics.list$Resids,
+                              ratio.obs.pred = estimate.list$Mdiagnostics.list$ratio.obs.pred,
+                              pResids = estimate.list$Mdiagnostics.list$pResids, 
+                              pratio.obs.pred = estimate.list$Mdiagnostics.list$pratio.obs.pred,
+                              standardResids = estimate.list$Mdiagnostics.list$standardResids) 
+}
+
 if (!validation){
 
     residmapTypes<-c("threshold-above","threshold-below","all")

@@ -35,7 +35,12 @@ checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
     
   if (k %in% c(2,3)){#hydseq, breakpoints by plotpage
     plots<-setupDynamicMaps(data1,map_years,map_seasons,mapPageGroupBy,mapsPerPage, Rshiny=FALSE, enable_plotlyMaps)
+    if (checkDynamic(data1)){
     DAreaFailCheckObj<-merge(DAreaFailCheckObj,data1[c("waterid","year","season")],by="waterid")
+    }else{
+      DAreaFailCheckObj$year<-rep(1,nrow(DAreaFailCheckObj))
+      DAreaFailCheckObj$season<-rep(1,nrow(DAreaFailCheckObj))
+    }
     break2<-list()
     Mcol2<-list()
      for (p in unique(plots$plotKey)){

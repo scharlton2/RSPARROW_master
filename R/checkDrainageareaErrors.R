@@ -108,7 +108,7 @@ checkDrainageareaErrors <- function(file.output.list,mapping.input.list,
                                                        DAreaFailCheckObj,data1, 
                                                        existGeoLines, commonvar, map.vars.list, k)
             
-            makePlot<-!is.na(prepReturns.list)
+            makePlot<-!identical(NA,prepReturns.list)
             if (makePlot){
               unPackList(lists = list(prepReturns.list = prepReturns.list),
                          parentObj = list(NA)) 

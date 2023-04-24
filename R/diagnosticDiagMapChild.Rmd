@@ -14,9 +14,9 @@ p.list$p
 
 ```{r chunkdiagMap2{{n}},eval = notPlotly, echo = FALSE, fig.width=8, fig.height=8, warning = FALSE, message = FALSE}
 n<-{{n}}
-map.list<-residmapTypes[n]  
+map.list<-residmapTypes[n] 
 p.list<-diagnosticMaps(mapColumn,mapdata,GeoLines,
-                         map.list,strTitle,mapping.input.list,sitedata,p=NA,usedColors=NA,legendPos='bottom',legendJus='left', subTitle)
+                         map.list,strTitle,mapping.input.list,sitedata,p=NA,usedColors=NA,legendPos='bottom',legendJus='left', subTitle=NA)
 
 p.list$p  
 ```

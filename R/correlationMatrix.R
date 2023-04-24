@@ -121,8 +121,10 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
     colnames(df) <- names
     cor.allValuesM <- cor(df,method=c("spearman"),use="pairwise.complete.obs")
     
-    car::scatterplotMatrix(df,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,smooth=TRUE)
-    boxplot(log(df))
+    #car::scatterplotMatrix(df,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,smooth=TRUE)
+    car::scatterplotMatrix(df,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,
+                           smooth=list(smoother=loessLine, var=FALSE, lty.var=2, lty.var=4))
+     boxplot(log(df))
     
   }
   

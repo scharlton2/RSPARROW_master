@@ -61,7 +61,7 @@ if (Rshiny & mapType=="site"){
     }
 
   for (j in 1:nrow(plotSub)){
-    if (identical(NA,mapPageGroupBy) & identical(map_years,NA) & identical(map_seasons,NA)){#all
+    if (identical(map_years,NA) & identical(map_seasons,NA)){#all
       dmapfinal$year<-rep(1,nrow(dmapfinal))
       dmapfinal$season<-rep(1,nrow(dmapfinal))
       y<-unique(dmapfinal$year)
@@ -81,12 +81,16 @@ if (Rshiny & mapType=="site"){
     
    
     if (!is.na(y[1]) & !is.na(s[1])){
+      if (identical(map_years,NA) & identical(map_seasons,NA)){
+        plotdata<-dmapfinal
+      }else{
       plotdata<-dmapfinal[dmapfinal$year %in% c(y) & dmapfinal$season %in% c(s),]
+      } 
 
       if (mapType %in% c("catchment","stream")){
       if ((identical(map_years,NA) & identical(map_seasons,NA)) | (!identical(map_years,NA) & length(map_years[map_years %in% aggFuncs])!=0) | (!identical(map_seasons,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0)){
         plotdata <- merge(plotShape, plotdata, by.x = commonvar, by.y = commonvar)
-      }else{
+        }else{
         plotdata <- merge(plotShape, plotdata, by.x = commonvar, by.y = "mapping_waterid")
         plotdata$mapping_waterid<-eval(parse(text=paste0("plotdata$",commonvar)))
 
@@ -198,7 +202,10 @@ if (Rshiny & mapType=="site"){
         font = list(size = 14)
       )
       
-      if (is.na(mapPageGroupBy) & !identical(map_years,NA) & length(map_years[map_years %in% aggFuncs])!=0 & !identical(map_seasons,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0){
+      if ((is.na(mapPageGroupBy) & !identical(map_years,NA) & 
+          length(map_years[map_years %in% aggFuncs])!=0 & 
+          !identical(map_seasons,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0) |
+          (identical(map_years,NA) & identical(map_seasons,NA))){
         plotPageData<-dmapfinal
       }else if (is.na(mapPageGroupBy) & !identical(map_seasons,NA) & length(map_seasons[map_seasons %in% aggFuncs])!=0){
         plotPageData<-dmapfinal[dmapfinal$year %in% plotSub$year,]
@@ -270,7 +277,11 @@ if (Rshiny & mapType=="site"){
         g_legend<-function(a.gplot){
           tmp <- ggplot_gtable(ggplot_build(a.gplot))
           leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
-          legend <- tmp$grobs[[leg]]
+          if (length(leg)==0){
+            legend<-NULL
+          }else{
+           legend <- tmp$grobs[[leg]] 
+          }
           return(legend)}
       }
 

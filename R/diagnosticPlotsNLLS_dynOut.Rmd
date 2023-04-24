@@ -225,12 +225,15 @@ cat(eval(parse(text=paste0("plotList$",plotIndex,"$header"))))
 
 ```{r, eval=TRUE, echo=FALSE,warning=FALSE, message = FALSE, out.width="750px", out.height="750px"} 
 p.list<-list()
-
-if (all(diagnosticPlots_timestep=="season")){
+if ((all(diagnosticPlots_timestep=="season") & !all(is.na(sitedata$season))) |
+    (all(diagnosticPlots_timestep) %in% sitedata$season & !all(is.na(sitedata$season)))){
   diagnosticPlots_timestep<-unique(sitedata$season)
      diagnosticPlots_timestep<-diagnosticPlots_timestep[match(c("winter","spring","summer","fall"),diagnosticPlots_timestep)]
-}else if (all(diagnosticPlots_timestep=="year")){
+}else if ((all(diagnosticPlots_timestep=="year") & !all(is.na(sitedata$year))) |
+          (all(diagnosticPlots_timestep) %in% sitedata$year & !all(is.na(sitedata$year)))){
   diagnosticPlots_timestep<-unique(sitedata$year)
+}else{
+ diagnosticPlots_timestep<-NA 
 }
 
 if (!plotIndex %in% c("p4","p6","p7","p8","p11","p13","p14","p15","p16")){

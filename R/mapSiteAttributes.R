@@ -106,6 +106,7 @@ mapSiteAttributes<-function(#Rshiny
     #set breakpoints
     if (identical(NA,plotPageData)){
     cls<-unique(mapBreaks(mapdata$mapColumn,siteAttrColors)$brks)
+    plotPageData<-mapdata
     }else{
 
       cls<-unique(mapBreaks(eval(parse(text=paste0("plotPageData$",mapColumnName))),siteAttrColors)$brks)
@@ -300,9 +301,15 @@ mapSiteAttributes<-function(#Rshiny
         }#end plotly
         
       } #for each middle class k 
-
-      mapdata$Lat<- mapdata$lat
-      mapdata$Lon<- mapdata$lon  
+if ("lat" %in% names(mapdata)){
+  mapdata$Lat<- mapdata$lat
+      mapdata$Lon<- mapdata$lon
+}else{
+  mapdata$Lat<- mapdata$xlat
+  mapdata$Lon<- mapdata$xlon
+  mapdata$lat<- mapdata$xlat
+  mapdata$lon<- mapdata$xlon
+}
 
       
       mapdata$mapColor<-ifelse(mapdata$mapColumn<=cls[1],col2hex(color)[1],NA)
@@ -314,7 +321,7 @@ mapSiteAttributes<-function(#Rshiny
       mapdata$mapColor<-ifelse(is.na(mapdata$mapColor),col2hex(color)[length(color)],mapdata$mapColor)
       mapdata$mapColor<-factor(mapdata$mapColor, levels = col2hex(color))
       
-      plotPageData$mapColumn<-eval(parse(text = paste0("plotPageData$",mapColumnName)))
+      eval(parse(text = paste0("plotPageData$mapColumn<-plotPageData$",mapColumnName)))
       plotPageData$mapColor<-ifelse(plotPageData$mapColumn<=cls[1],col2hex(color)[1],NA)
       for (k in 1:(length(cls)-1)) {
         plotPageData$mapColor<-ifelse(plotPageData$mapColumn > cls[k] & plotPageData$mapColumn <= cls[k+1],

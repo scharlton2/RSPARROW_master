@@ -159,8 +159,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
   if ("threshold-above" %in% map.list){   
    # par(mfrow=c(1,1), pch=16)    # 1 plots on one page
     #subset data
-    above <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn,"<",threshold,"),]")))  # over predictions (neg residuals)
-    nabove <- eval(parse(text=paste0("length(above$",mapColumn,")")))
+    eval(parse(text=paste0("above <- mapdata[(mapdata$",mapColumn,"<",threshold,"),]")))  # over predictions (neg residuals)
+    eval(parse(text=paste0("nabove <- length(above$",mapColumn,")")))
 
     #for below threshold
     strTitle2<-paste(strTitle," - Over Predictions - n=",nabove)
@@ -169,7 +169,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     } 
     
     
-    map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn,"<= cls[1]), ]")))
+    eval(parse(text=paste0("map1 <- mapdata[(mapdata$",mapColumn,"<= cls[1]), ]")))
     Lat<- map1$lat
     Lon<- map1$lon
     
@@ -220,7 +220,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     strLegend<-paste0("< ",cls[1])
     
     for (k in 1:3) {
-      map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn,"<= cls[k+1]), ]")))
+      eval(parse(text=paste0("map1 <- mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn,"<= cls[k+1]), ]")))
       Lat<- map1$lat
       Lon<- map1$lon
 
@@ -273,12 +273,20 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     
     if (enable_plotlyMaps=="no"){
       
-      mapdata$mapColumn<-eval(parse(text = paste0("mapdata$",mapColumn)))
+      eval(parse(text = paste0("mapdata$mapColumn<-mapdata$",mapColumn)))
       map1<-mapdata[mapdata$mapColumn<=cls[4],]
       
       #create vector of classes for legend
       map1$cls<-makeAESvector(map1,values = seq(1,4,1), breaks = cls[1:4], include = "first")
-      
+      if ("lat" %in% names(map1)){
+        map1$Lat<- map1$lat
+        map1$Lon<- map1$lon
+      }else{
+        map1$Lat<- map1$xlat
+        map1$Lon<- map1$xlon
+        map1$lat<- map1$xlat
+        map1$lon<- map1$xlon
+      }
       #make sf object
       map1<-st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
 
@@ -320,9 +328,8 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     return(p.list)
    
   }else if ("threshold-below" %in% map.list){ 
-    below <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn,">",threshold,"),]")))
-    nbelow <- eval(parse(text=paste0("length(below$",mapColumn,")")))
-
+    eval(parse(text=paste0("below <- mapdata[(mapdata$",mapColumn,">",threshold,"),]")))
+    eval(parse(text=paste0("nbelow <- length(below$",mapColumn,")")))
     if (enable_plotlyMaps=="yes"){
 #plotly
  #plotly plot
@@ -351,7 +358,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     strLegend<-vector('character')
 
     for (k in 4:7) {
-      map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]")))
+      eval(parse(text=paste0("map1 <- mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]")))
       Lat<- map1$lat
       Lon<- map1$lon
 
@@ -407,7 +414,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     }
     
 
-    map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[7]), ]")))
+    eval(parse(text=paste0("map1 <- mapdata[(mapdata$",mapColumn," > cls[7]), ]")))
     Lat<- map1$lat
     Lon<- map1$lon
 
@@ -453,12 +460,20 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     }
 
     if (enable_plotlyMaps=="no"){
-      mapdata$mapColumn<-eval(parse(text = paste0("mapdata$",mapColumn)))
+      eval(parse(text = paste0("mapdata$mapColumn<-mapdata$",mapColumn)))
       map1<-mapdata[mapdata$mapColumn>cls[4],]
 
       #create vector of classes for legend
       map1$cls<-makeAESvector(map1,values = seq(4,8,1), breaks = cls[4:8], include = "last")
-
+      if ("lat" %in% names(map1)){
+        map1$Lat<- map1$lat
+        map1$Lon<- map1$lon
+      }else{
+        map1$Lat<- map1$xlat
+        map1$Lon<- map1$xlon
+        map1$lat<- map1$xlat
+        map1$lon<- map1$xlon
+      }
       map1<-st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
 
       p<-p +
@@ -531,7 +546,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     }
     
     
-    map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," <= cls[1]), ]")))
+    eval(parse(text=paste0("map1 <- mapdata[(mapdata$",mapColumn," <= cls[1]), ]")))
     Lat<- map1$lat
     Lon<- map1$lon
 
@@ -574,7 +589,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
     }
     
     for (k in 1:7) {
-      map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]")))
+      eval(parse(text=paste0("map1 <- mapdata[(mapdata$",mapColumn," > cls[k] & mapdata$",mapColumn," <= cls[k+1]), ]")))
       Lat<- map1$lat
       Lon<- map1$lon
 
@@ -623,17 +638,25 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
       }
     }
     }
-    map1 <- eval(parse(text=paste0("mapdata[(mapdata$",mapColumn," > cls[7]), ]")))
+    eval(parse(text=paste0("map1 <- mapdata[(mapdata$",mapColumn," > cls[7]), ]")))
     Lat<- map1$lat
     Lon<- map1$lon
     if (enable_plotlyMaps=="no"){
-
-      mapdata$mapColumn<-eval(parse(text = paste0("mapdata$",mapColumn)))
+      eval(parse(text = paste0("mapdata$mapColumn<-mapdata$",mapColumn)))
       map1<-mapdata
       
       #create vector of classes for legend
       map1$cls<-makeAESvector(map1,values = seq(1,8,1), breaks = cls, include = "all")
       #map1$cls<-factor(map1$cls,levels=seq(1,8,1))
+      if ("lat" %in% names(map1)){
+        map1$Lat<- map1$lat
+        map1$Lon<- map1$lon
+      }else{
+        map1$Lat<- map1$xlat
+        map1$Lon<- map1$xlon
+        map1$lat<- map1$xlat
+        map1$lon<- map1$xlon
+      }
       map1<-st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
 
       p<-p +

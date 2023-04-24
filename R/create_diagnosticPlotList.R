@@ -1342,7 +1342,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
         xmoran.dists <- as.matrix(dist(cbind(xmoran$xLon, xmoran$xLat)),method = "euclidean")   # planar coordinates
         
         distance <- xmoran.dists
-        xmoran.dists.inv <- eval(parse(text=MoranDistanceWeightFunc))
+        eval(parse(text=paste0("xmoran.dists.inv <-",MoranDistanceWeightFunc)))
         diag(xmoran.dists.inv) <- 0
         
         cind[ibasin] <- as.character(j)
@@ -1368,7 +1368,7 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
         
         # Hydrologic distance weighting
         distance <- bdistance
-        xmoran.dists.inv <- ifelse(!distance==0,eval(parse(text=MoranDistanceWeightFunc)),0)
+        eval(parse(text=paste0("xmoran.dists.inv <- ifelse(!distance==0,",MoranDistanceWeightFunc,",0)")))
         diag(xmoran.dists.inv) <- 0
         
         # convert w to a row standardised general weights object (same standardization as used in ape::Moran.I)
@@ -1388,7 +1388,9 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
     
     # Euclidean weighted results
     pmoran <- ifelse(pmoran == 0.0,min(pmoran[pmoran > 0]),pmoran)  # apply minimum non-zero to zero values
-    
+    if (length(pmoran)==0){
+      cind<-character(0)
+    }
     p <- plotlyLayout(NA,pmoran, log = "", nTicks = 7, digits = 1,
                       xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
                       xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
@@ -1401,7 +1403,9 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
     p1 <- p %>% layout(shapes = list(hline(0.1)))
     
     
-    
+    if (length(pmoran_dev)==0){
+      cind<-character(0)
+    }
     
     p <- plotlyLayout(NA,pmoran_dev, log = "", nTicks = 7, digits = 1,
                       xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
@@ -1419,6 +1423,10 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
     # Hydrological weighted results
     bpmoran <- ifelse(bpmoran == 0.0,min(bpmoran[bpmoran > 0]),bpmoran)  # apply minimum non-zero to zero values
     
+    if (length(bpmoran)==0){
+      cind<-character(0)
+    }
+    
     p <- plotlyLayout(NA,bpmoran, log = "", nTicks = 7, digits = 1,
                       xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
                       xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),
@@ -1430,6 +1438,9 @@ Four-plot panel for boxplots of residuals and observed/predicted ratios, normal 
                                                                                                   width = 3)))
     p3 <- p %>% layout(shapes = list(hline(0.1)))
     
+    if (length(bpmoran_dev)==0){
+      cind<-character(0)
+    }
     p <- plotlyLayout(NA,bpmoran_dev, log = "", nTicks = 7, digits = 1,
                       xTitle = "River Basin ID Index",ymin = 0, ymax = 1,
                       xZeroLine = FALSE,xLabs = sort(as.numeric(unique(cind))),

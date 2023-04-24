@@ -44,8 +44,9 @@ diagnosticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs
   markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
   df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
   
-  if(!identical(NA,filterClass)){
+  if(!all(is.na(filterClass))){
     df <- subset(df,plotclass == filterClass)
+    df<-df[!is.na(df$waterid_for_RSPARROW_mapping),]
   }
   
   nsites <- as.numeric(length(df$plotpredict))
@@ -80,8 +81,9 @@ diagnosticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs
   markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
   df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
   
-  if(!identical(NA,filterClass)){
+  if(!all(is.na(filterClass))){
     df <- subset(df,plotclass == filterClass)
+    df<-df[!is.na(df$waterid_for_RSPARROW_mapping),]
   }
   
   p2 <- plotlyLayout(df$plotyldpredict,df$plotyldobs, log = "xy", nTicks = 5, digits = 0,
@@ -114,8 +116,9 @@ diagnosticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs
   markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
   df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
   
-  if(!identical(NA,filterClass)){
+  if(!all(is.na(filterClass))){
     df <- subset(df,plotclass == filterClass)
+    df<-df[!is.na(df$waterid_for_RSPARROW_mapping),]
   }
   
   p3 <- plotlyLayout(df$plotpredict,df$plotResids, log = "x", nTicks = 5, digits = 0,
@@ -143,8 +146,9 @@ diagnosticPlots_4panel_A<-function(plotpredict,plotObs,plotyldpredict,plotyldobs
   markerText<-addMarkerText(markerText,add_plotlyVars,df, sitedata)$markerText
   df<-addMarkerText(markerText,add_plotlyVars, df,sitedata)$mapData
   
-  if(!identical(NA,filterClass)){
+  if(!all(is.na(filterClass))){
     df <- subset(df,plotclass == filterClass)
+    df<-df[!is.na(df$waterid_for_RSPARROW_mapping),]
   }
   
   p4 <- plotlyLayout(df$plotyldpredict,df$plotResids, log = "x", nTicks = 5, digits = 0,

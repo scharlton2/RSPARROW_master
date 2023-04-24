@@ -19,7 +19,7 @@ input<-list(var=NA, sizeBatch=NA,size=NA)
           #regular
           mapColumn=names(siteAttr),mapdata=mapdata,GeoLines,mapping.input.list,
           strTitle=titleAttr,unitAttr,add_plotlyVars = mapping.input.list$add_plotlyVars,
-          legendPos='right',legendJus="top",subTitle=NA,p=NA,plotPageData=NA,usedColors=NA,
+          legendPos='right',legendJus="top",subTitle="",p=NA,plotPageData=NA,usedColors=NA,
           batch_mode)
 p.list$p
 

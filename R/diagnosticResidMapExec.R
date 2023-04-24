@@ -95,7 +95,7 @@ diagnosticResidMapExec<-function(validation,existGeoLines,residmapTypes,mapColum
         1:(length(residmapTypes)),
         function(n) {
           
-          knit_expand(path_diagnosticDiagMapChild, n = n)
+          knit_expand(path_diagnosticDiagMapChild, n = n, mapdata=mapdata)
         }
       )
       rmd <- paste(rmd, collapse = "\n")

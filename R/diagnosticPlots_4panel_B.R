@@ -55,7 +55,7 @@ diagnosticPlots_4panel_B<-function(sitedata,plotResids,plot.ratio.obs.pred,plot.
   
   
   # Normality probability plot
-  if(!identical(NA,plot.standardResids)){
+  if(!all(is.na(plot.standardResids))){
   markerText<-"~paste('</br> Standard Residual: ',plot.standardResids,
                       '</br> Theoretical Value: ',y.theo"
   yTitle<-"Standardized Residuals"
@@ -70,8 +70,12 @@ diagnosticPlots_4panel_B<-function(sitedata,plotResids,plot.ratio.obs.pred,plot.
   
   markerText<-addMarkerText(markerText,add_plotlyVars,data, sitedata)$markerText
   data<-addMarkerText(markerText,add_plotlyVars, data,sitedata)$mapData
+  if (length(data)==1){
+    data<-data.frame(plot.standardResids = data[order(data$plot.standardResids),] )
+  }else{
+   data<-data[order(data$plot.standardResids),] 
+  }
   
-  data<-data[order(data$plot.standardResids),]
   
   #get f values for data
   i<-1:nrow(data)

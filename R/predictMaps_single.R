@@ -36,7 +36,7 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
    
   
   if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-    plotdata$mapColor<-eval(parse(text = paste0("plotdata$",mapvarname)))
+   eval(parse(text = paste0("plotdata$mapColor<-plotdata$",mapvarname)))
   }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){#plotly
     suppressWarnings(remove(list = c(add_plotlyVars)))
   }
@@ -47,12 +47,12 @@ predictMaps_single<-function(mapType,mapLoopInput.list, p, plotdata,plotPageData
     
   }
   
-  uniqueCols<-eval(parse(text = paste0("as.character(unique(plotPageData$",mapvarname,"))")))
+  eval(parse(text = paste0("uniqueCols<-as.character(unique(plotPageData$",mapvarname,"))")))
   uniqueCols<-Mcolors[Mcolors %in% uniqueCols]
   break1[k][[1]]<-break1[k][[1]][which(Mcolors %in% uniqueCols)]
   strlegColor<-paste0("'", uniqueCols[1:length(break1[k][[1]])],"'='", uniqueCols[1:length(break1[k][[1]])],"'",collapse = ",")
   strlegColor<-paste0("c(",strlegColor,")")
-  plotPageData$mapColor<-eval(parse(text=paste0("plotPageData$",mapvarname)))
+  eval(parse(text=paste0("plotPageData$mapColor<-plotPageData$",mapvarname)))
   if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
     
     if (existGeoLines){

@@ -78,7 +78,9 @@ generateInputLists<-function(settings){
                                    map_years,
                                    map_seasons,
                                    mapsPerPage,
-                                   mapPageGroupBy) 
+                                   mapPageGroupBy,
+                                   diagnosticPlots_timestep,
+                                   diagnostic_timeSeriesPlots) 
   
   file.output.list <- named.list(path_master,
                                  path_main,

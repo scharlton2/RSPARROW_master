@@ -124,8 +124,10 @@ rmarkdown::render(paste0(path_master,"diagnosticPlotsNLLS.Rmd"),
   
   #shell.exec(filename)
 #add if dynamic
-if (!identical(diagnosticPlots_timestep,NA)){
+if (checkDynamic(sitedata)){
+  if (!identical(NA,diagnosticPlots_timestep)){
 diagnosticPlotsNLLS_dyn(diagnostic_params)
+  }
 }
   
   #output siteAttr shapefile

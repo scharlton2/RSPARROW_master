@@ -94,9 +94,11 @@ diagnosticSpatialAutoCorr <- function(file.output.list,classvar,sitedata,numsite
   
   
   #if dynamic data
+  if (checkDynamic(sitedata)){
   if (!identical(NA,diagnosticPlots_timestep)){
     diagnosticPlotsNLLS_dyn(diagnostic_params)
   } 
+  }
   
   
   #sink text file
