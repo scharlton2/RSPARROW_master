@@ -67,7 +67,6 @@ createVerifyReachAttr <- function(if_verify_demtarea,calculate_reach_attribute_l
           if (all(is.na(sub1$year))){
           #loop through seasons
             hydseq_data<-sub1[0,]
-            print(unique(sub1$season)[match(c("winter","spring","summer","fall"),unique(sub1$season))])
             for (s in unique(sub1$season)[match(c("winter","spring","summer","fall"),unique(sub1$season))]){
               data1_sub<-sub1[sub1$season==s,]
               if (nrow(data1_sub)!=0){
@@ -91,7 +90,6 @@ createVerifyReachAttr <- function(if_verify_demtarea,calculate_reach_attribute_l
               if (!all(is.na(sub1$season))){#loop through season and year
                 hydseq_data<-sub1[0,]
                 for (y in sort(unique(sub1$year))){
-                  print(unique(sub1$season)[match(c("winter","spring","summer","fall"),unique(sub1$season))])
                   for (s in unique(sub1$season)[match(c("winter","spring","summer","fall"),unique(sub1$season))]){
                     data1_sub<-sub1[sub1$year==y & sub1$season==s,]
                     if (nrow(data1_sub)!=0){
@@ -108,7 +106,6 @@ createVerifyReachAttr <- function(if_verify_demtarea,calculate_reach_attribute_l
             if (!all(is.na(sub1$season))){#loop through season
           #loop through seasons
               hydseq_data<-sub1[0,]
-              print(unique(sub1$season)[match(c("winter","spring","summer","fall"),unique(sub1$season))])
               for (s in unique(sub1$season)[match(c("winter","spring","summer","fall"),unique(sub1$season))]){
                 data1_sub<-sub1[sub1$season==s,]
                 if (nrow(data1_sub)!=0){
