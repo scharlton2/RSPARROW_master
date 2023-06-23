@@ -44,15 +44,15 @@ checkDrainageareaMapPrep<-function(file.output.list,mapping.input.list,
     break2<-list()
     Mcol2<-list()
      for (p in unique(plots$plotKey)){
-      if (!is.na(plots[plots$plotKey==p,]$year)  & !is.na(plots[plots$plotKey==p,]$season)){
+      if (!all(is.na(plots[plots$plotKey==p,]$year))  & !all(is.na(plots[plots$plotKey==p,]$season))){
         subdata1<-data1[data1$year %in% plots[plots$plotKey==p,]$year & 
                           data1$season %in% plots[plots$plotKey==p,]$season,]
         subDAreaFailCheckObj<-DAreaFailCheckObj[DAreaFailCheckObj$year %in% plots[plots$plotKey==p,]$year & 
                                                   DAreaFailCheckObj$season %in% plots[plots$plotKey==p,]$season,]
-      }else if (!is.na(plots[plots$plotKey==p,]$year)){
+      }else if (!all(is.na(plots[plots$plotKey==p,]$year))){
         subdata1<-data1[data1$year %in% plots[plots$plotKey==p,]$year,]
         subDAreaFailCheckObj<-DAreaFailCheckObj[DAreaFailCheckObj$year,]
-      }else if (!is.na(plots[plots$plotKey==p,]$season)){
+      }else if (!all(is.na(plots[plots$plotKey==p,]$season))){
         subdata1<-data1[data1$season %in% plots[plots$plotKey==p,]$season,]
         subDAreaFailCheckObj<-DAreaFailCheckObj[DAreaFailCheckObj$season,]
       }else{
