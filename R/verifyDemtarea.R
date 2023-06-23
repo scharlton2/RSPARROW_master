@@ -66,8 +66,8 @@ verifyDemtarea<-function(if_verify_demtarea,data1,compareData,
     sub1$AreaRatio_NewOld <- sub1$demtarea_new / sub1$demtarea
     sub1$Headflag_NewOld <- as.character(ifelse(sub1$headflag == sub1$headflag_new,"  ","DIFFER"))
     sub1$AreaRatio_NewOld[is.na(sub1$AreaRatio_NewOld)] <- 0     # NAs removed first or will create NA records in 'sub1'
-    DAreaFailCheckObj <- sub1[(sub1$AreaRatio_NewOld < 0.99 | sub1$AreaRatio_NewOld > 1.01), ]
-    if(nrow(DAreaFailCheckObj) > 0) {
+    DAreaFailCheckObj <- sub1[((sub1$AreaRatio_NewOld < 0.99 | sub1$AreaRatio_NewOld > 1.01) & sub1$AreaRatio_NewOld!=0), ]
+    if(nrow(DAreaFailCheckObj) > 0 ) {
       DAreaFailCheckMessage <- 
         paste0("Number of reaches with different (>1%) total drainage areas (see records in DAreaFailCheckObj): ",
               nrow(DAreaFailCheckObj))
