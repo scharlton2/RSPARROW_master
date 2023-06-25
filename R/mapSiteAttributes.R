@@ -191,8 +191,8 @@ mapSiteAttributes<-function(#Rshiny
 
     map1 <- mapdata[(mapdata$mapColumn <= cls[1]), ]
     if (!"lat" %in% names(map1)){
-      Lat<- map1$lat
-      Lon<- map1$lon
+      Lat<- map1$xlat
+      Lon<- map1$xlon
     }else{
       Lat<- map1$lat
       Lon<- map1$lon
@@ -245,8 +245,8 @@ mapSiteAttributes<-function(#Rshiny
       for (k in 1:(length(cls)-1)) {
         map1 <- mapdata[(mapdata$mapColumn > cls[k] & mapdata$mapColumn <= cls[k+1]), ]
        if (!"lat" %in% names(map1)){
-         Lat<- map1$lat
-        Lon<- map1$lon
+         Lat<- map1$xlat
+        Lon<- map1$xlon
        }else{
         Lat<- map1$lat
         Lon<- map1$lon
