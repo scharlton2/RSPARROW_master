@@ -174,7 +174,12 @@ mapSiteAttributes<-function(#Rshiny
 
       }#plotly
     }#else plotly or leaflet
-    if (identical(NA,p)){
+    #get geoLines
+    existGeoLines<-checkBinaryMaps(LineShapeGeo,path_gis,batch_mode)
+    if ((identical(NA,p) & checkDynamic(sitedata) & existGeoLines) | 
+        (!checkDynamic(sitedata) & existGeoLines)){
+    
+    #if (existGeoLines){
     #plotgeolines
       if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
         p <- ggplot() +
@@ -182,7 +187,15 @@ mapSiteAttributes<-function(#Rshiny
           theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
                              panel.grid.minor = element_blank(), axis.line = element_blank())
       }else if (enable_plotlyMaps=="yes" | enable_plotlyMaps=="plotly"){
-        p<-p %>%
+        p<-plot_ly() %>%
+          layout(
+            showlegend =TRUE,
+            xaxis = list(range = lon_limit,
+                         showticklabels= TRUE,
+                         title = "Longitude"),
+            yaxis = list(range = lat_limit,
+                         showticklabels = TRUE,
+                         title = "Latitude")) %>%
           add_sf(data = GeoLines,  mode = "lines", type = "scatter",
                  stroke = I("black"),color = I(cbckgrd),
                  name = LineShapeGeo)

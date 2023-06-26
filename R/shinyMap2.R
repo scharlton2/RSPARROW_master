@@ -180,13 +180,15 @@ shinyMap2<-function(
                      br(),
                      selectInput("mapType","Map Type",mapTypeChoices),
                      
-                     
+                     if (checkDynamic(subdata)){ 
                      conditionalPanel("input.mapType!='Scenarios for Changes in Sources and/or Delivery Variables (e.g., Climate, Land use)'",
-                     h5(HTML("<font color = 'black'><strong>Dynamic Mapping Settings</strong></font>"))),
+                     h5(HTML("<font color = 'black'><strong>Dynamic Mapping Settings</strong></font>")))},
+                     if (checkDynamic(subdata)){ 
                      conditionalPanel("input.mapType=='Scenarios for Changes in Sources and/or Delivery Variables (e.g., Climate, Land use)'",
                                       h5(HTML("<font color = 'black'><strong>Dynamic Mapping Display Settings</strong></font>")),
-                                      h6("For 'Change Scenarios', the 'year' and/or 'season' selection(s) control the MAPPING DISPLAY ONLY. To display mapped results for a change scenario, select a display timestep ('year' and/or 'season') that is consistent with the model simulation timestep for the scenario. Use the 'year' and/or 'season' display selection(s) as the timestep in the model simulations by executing the menu options below for 'Run Scenario using...' and/or 'Select Target Reach Watersheds'. The simulation timestep is associated with the base or reference conditions for an explanatory variable(s) during the calibration time period that are either altered (i.e., percentage-change scenarios) or are used as a benchmark to facilitate comparisons with future water-quality predictions based on forecasted changes in watershed conditions (i.e., scenarios with changed values of the explanatory variables entered from an external CSV file). Additional year(s) and/or season(s) may be selected for display to compare historical results with those for the change scenario simulations.")),
-                      fluidRow(dropdownButton(circle = FALSE,
+                                      h6("For 'Change Scenarios', the 'year' and/or 'season' selection(s) control the MAPPING DISPLAY ONLY. To display mapped results for a change scenario, select a display timestep ('year' and/or 'season') that is consistent with the model simulation timestep for the scenario. Use the 'year' and/or 'season' display selection(s) as the timestep in the model simulations by executing the menu options below for 'Run Scenario using...' and/or 'Select Target Reach Watersheds'. The simulation timestep is associated with the base or reference conditions for an explanatory variable(s) during the calibration time period that are either altered (i.e., percentage-change scenarios) or are used as a benchmark to facilitate comparisons with future water-quality predictions based on forecasted changes in watershed conditions (i.e., scenarios with changed values of the explanatory variables entered from an external CSV file). Additional year(s) and/or season(s) may be selected for display to compare historical results with those for the change scenario simulations."))},
+                     if (checkDynamic(subdata)){ 
+                     fluidRow(dropdownButton(circle = FALSE,
                                       label = "year(s)",
                                       inputId = "yearDrop",
                                       checkboxGroupInput("yearSelect", "Select year(s) to Map", 
@@ -200,7 +202,7 @@ shinyMap2<-function(
                                                        seasonChoices,
                                                        selected = as.character(mapping.input.list$map_seasons),
                                                        inline=FALSE)),
-                      ),
+                      )},
                      
                      br(),
                      
