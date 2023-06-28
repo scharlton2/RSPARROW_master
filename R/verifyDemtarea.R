@@ -92,11 +92,17 @@ verifyDemtarea<-function(if_verify_demtarea,data1,compareData,
       if(nrow(DAreaFailCheckObj) > 0) {
         
         message("Writing results from drainage area comparisons (CSV, HTML maps) in estimate directory...")
-        
+        if (checkDynamic(data1)){
         checkDrainageareaErrors(file.output.list,mapping.input.list,
                                 #sub1.plot,
                                 DAreaFailCheckObj,data1, 
                                 batch_mode)
+        }else{#static
+          checkDrainageareaErrors_static(file.output.list,mapping.input.list,
+                                                     #sub1.plot,
+                                                     DAreaFailCheckObj,data1,
+                                                     batch_mode)
+        }
       }
     }
     

@@ -21,10 +21,13 @@ checkAnyMissingSubdataVars.R,,,,,,1,,,,,,
 checkBinaryMaps.R,,,,,,1,1,,,,,
 checkClassificationVars.R,,1,,,,1,,,,,,
 checkData1NavigationVars.R,,1,,,,1,,,,,,
-checkDrainageareaErrors.R,,1,,,,1,,,,,,
-checkDrainageareaErrors.Rmd,,1,,,,1,,,1,,,
-checkDrainageareaErrorsChild.Rmd,,,,,,,,,1,,,
-checkDrainageareaMapPrep.R,,1,,,,1,,,,,,
+checkDrainageareaErrors.R,,1,,,,1,,,,,,1
+checkDrainageareaErrors.Rmd,,1,,,,1,,,1,,,1
+checkDrainageareaErrors_static.R,,1,,,,1,,,,,,
+checkDrainageareaErrors_static.Rmd,,1,,,,1,,,1,,,
+checkDrainageareaErrorsChild_static.Rmd,,,,,,,,,1,,,
+checkDrainageareaMapPrep.R,,1,,,,1,,,,,,1
+checkDrainageareaMapPrep_static.R,,1,,,,1,,,,,,
 checkDupVarnames.R,,1,,,,1,,,,,,
 checkDynamic.R,,,,,,,1,,,,,1
 checkingMissingVars.R,,1,,,,1,,,,,,

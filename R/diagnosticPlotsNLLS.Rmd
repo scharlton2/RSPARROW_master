@@ -314,11 +314,12 @@ filename<- paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,
     }
   }#if existGeolines
 }else{#validation
-
+if (dynamic){
 if (!dir.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"validation_plots_dynamic",.Platform$file.sep))){
                 dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"validation_plots_dynamic",.Platform$file.sep))
   
 }
+}#if dynamic
   }
 ```
 
@@ -837,7 +838,12 @@ if (!dynamic){
                               ratio.obs.pred = estimate.list$Mdiagnostics.list$ratio.obs.pred,
                               pResids = estimate.list$Mdiagnostics.list$pResids, 
                               pratio.obs.pred = estimate.list$Mdiagnostics.list$pratio.obs.pred,
-                              standardResids = estimate.list$Mdiagnostics.list$standardResids) 
+                              standardResids = estimate.list$Mdiagnostics.list$standardResids)
+  Resids <-estimate.list$Mdiagnostics.list$Resids
+  ratio.obs.pred <- estimate.list$Mdiagnostics.list$ratio.obs.pred
+  pResids <- estimate.list$Mdiagnostics.list$pResids 
+  pratio.obs.pred <- estimate.list$Mdiagnostics.list$pratio.obs.pred
+  standardResids <- estimate.list$Mdiagnostics.list$standardResids      
 }
 
 if (!validation){

@@ -42,10 +42,11 @@ unPackList(lists = list(Mdiagnostics.list = estimate.list$Mdiagnostics.list,
                             NA,
                             NA,
                             NA))
-
+if (checkDynamic(subdata)){
 if (!dir.exists(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_spatialautocor_dynamic",.Platform$file.sep))){
                 dir.create(paste0(path_results,.Platform$file.sep,"estimate",.Platform$file.sep,"diagnostic_spatialautocor_dynamic",.Platform$file.sep))
   
+}
 }
 
 data.index.list = DataMatrix.list$data.index.list
