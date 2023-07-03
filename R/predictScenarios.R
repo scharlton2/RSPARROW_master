@@ -112,7 +112,8 @@ predictScenarios <- function(#Rshiny
            dec = csv_decimalSeparator,sep=csv_columnSeparator,na = "NA")
   }
   
-  if ((select_scenarioReachAreas!="none" & !Rshiny) | Rshiny){ 
+  if (((select_scenarioReachAreas!="none" |!is.na(forecast_filename)) & !Rshiny) | 
+      Rshiny){ 
     
     if (Rshiny){
       scenario_sources<-as.character(input$scenario_sources)
