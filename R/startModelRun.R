@@ -203,6 +203,7 @@ startModelRun<-function(file.output.list,
     if ("season" %in% names(subdata)){
       add_vars<-as.character(unique(c(add_vars,"season"))) 
     }
+    assign("add_vars",add_vars,envir = .GlobalEnv)
   }
   
   message("Testing for missing variables in subdata...")
