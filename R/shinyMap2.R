@@ -1,7 +1,7 @@
 #'@title shinyMap2
 #'@description Modular Shiny app that allows the user to interactively generate Stream, 
 #'            Catchment, and Site Attribute maps, as well as execute Source Change Scenarios Uses libraries shiny, 
-#'            sp, data.table, maptools, rgdal, shinyWidgets, stringr, and rhandsontable Uses subroutines: 
+#'            sp, data.table, shinyWidgets, stringr, and rhandsontable Uses subroutines: 
 #'            setup routines : createInteractiveChoices, createInteractiveScenarioChoices, createRTables, UIs : 
 #'            streamCatch, shinySiteAttr, shinyScenarios MODS : compileALL, selectAll, updateVariable, 
 #'            shinyScenariosMod, goShinyPlot \cr \cr
@@ -92,8 +92,6 @@ shinyMap2<-function(
   suppressWarnings(suppressMessages(library(sp)))
   suppressWarnings(suppressMessages(library(sf)))
   suppressWarnings(suppressMessages(library(data.table)))
-  suppressWarnings(suppressMessages(library(maptools)))
-  suppressWarnings(suppressMessages(library(rgdal)))
   suppressWarnings(suppressMessages(library(shinyWidgets)))
   suppressWarnings(suppressMessages(library(stringr)))
   suppressWarnings(suppressMessages(library(rhandsontable)))

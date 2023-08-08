@@ -156,7 +156,7 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
     
     
     
-    siteAttrshape<-sp::SpatialPointsDataFrame(siteAttrshape[,c("xlon","xlat")],siteAttrshape[,which(!names(siteAttrshape) %in% c("xlat","xlon"))],proj4string=sp::CRS(CRStext))
+    siteAttrshape<-sp::SpatialPointsDataFrame(siteAttrshape[,c("xlon","xlat")],siteAttrshape[,which(!names(siteAttrshape) %in% c("xlat","xlon"))],proj4string=sf::st_crs(CRStext))
     
     if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
       dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
@@ -165,9 +165,11 @@ if (inputShiny$mapType=="Stream" | inputShiny$mapType=="Catchment"){
       dir.create(paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep),showWarnings = FALSE)
     }
     
-    maptools::writeSpatialShape(siteAttrshape,paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape"))
-    cat(rgdal::showWKT(sp::proj4string(siteAttrshape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape.prj")) 
-  }
+   # maptools::writeSpatialShape(siteAttrshape,paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape"))
+#    cat(rgdal::showWKT(sp::proj4string(siteAttrshape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape.prj")) 
+    sf::st_write(siteAttrshape, paste0(path_results,"maps",.Platform$file.sep,"Interactive",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape.shp"), 
+                  driver = "ESRI Shapefile")
+     }
   
 }else if (grepl("Scenarios",input$mapType)){
   

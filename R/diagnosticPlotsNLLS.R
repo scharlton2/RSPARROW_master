@@ -145,7 +145,7 @@ diagnosticPlotsNLLS_dyn(diagnostic_params)
     
     
     
-    siteAttrshape<-SpatialPointsDataFrame(siteAttrshape[,c("xlon","xlat")],siteAttrshape[,which(!names(siteAttrshape) %in% c("xlat","xlon"))],proj4string=CRS(CRStext))
+    #siteAttrshape<-SpatialPointsDataFrame(siteAttrshape[,c("xlon","xlat")],siteAttrshape[,which(!names(siteAttrshape) %in% c("xlat","xlon"))],proj4string=sf::st_crs(CRStext))
     
     if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
       dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
@@ -154,9 +154,12 @@ diagnosticPlotsNLLS_dyn(diagnostic_params)
       dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep),showWarnings = FALSE)
     }
     
-    maptools::writeSpatialShape(siteAttrshape,paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape"))
-    cat(showWKT(proj4string(siteAttrshape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape.prj")) 
-  }
+    #maptools::writeSpatialShape(siteAttrshape,paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape"))
+    #cat(showWKT(proj4string(siteAttrshape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape.prj")) 
+    sf::st_write(sf::st_as_sf(siteAttrshape,coords=c("xlon","xlat"),crs=sf::st_crs(CRStext)),
+                 paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"siteAttributes",.Platform$file.sep,"siteAttrshape.shp"),
+                 driver = "ESRI Shapefile",overwrite=TRUE)
+    }
   
   #output residuals shapefile
   if (outputESRImaps[3]=="yes"){
@@ -183,7 +186,7 @@ diagnosticPlotsNLLS_dyn(diagnostic_params)
       residShape<-cbind(residShape,add_data)
     }
     
-    residShape <-SpatialPointsDataFrame(residShape[,c("xlon","xlat")],residShape[,which(!names(residShape) %in% c("xlat","xlon"))],proj4string=CRS(CRStext))
+    #residShape <-SpatialPointsDataFrame(residShape[,c("xlon","xlat")],residShape[,which(!names(residShape) %in% c("xlat","xlon"))],proj4string=sf::st_crs(CRStext))
     
     if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
       dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
@@ -192,9 +195,12 @@ diagnosticPlotsNLLS_dyn(diagnostic_params)
       dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep),showWarnings = FALSE)
     }
     
-    maptools::writeSpatialShape(residShape,paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"residShape"))
-    cat(showWKT(proj4string(residShape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"residShape.prj")) 
-    
+   #maptools::writeSpatialShape(residShape,paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"residShape"))
+   #cat(showWKT(proj4string(residShape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"residShape.prj"))
+    sf::st_write(sf::st_as_sf(residShape,coords=c("xlon","xlat"),crs=sf::st_crs(CRStext)),
+                             paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"residShape.shp"),
+                  driver = "ESRI Shapefile",overwrite=TRUE)
+
   }
   
   

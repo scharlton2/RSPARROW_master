@@ -44,12 +44,11 @@ if (length(res)!=0){
   
   
   
-  suppressWarnings(suppressMessages(library(rgdal)))
   suppressWarnings(suppressMessages(library(sp)))
   suppressWarnings(suppressMessages(library(sf)))
   
   lineShape <- sf::st_read(paste0(path_gis,"/",lineShapeName,".shp"), quiet = TRUE)
-  lineShape<-st_transform(lineShape,CRS(CRStext))
+  lineShape<-st_transform(lineShape,sf::st_crs(CRStext))
   
   lineShape<-st_zm(lineShape)
   

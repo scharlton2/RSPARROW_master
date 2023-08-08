@@ -43,12 +43,11 @@ if (length(res)!=0){
   }#end Error 
   
   
-  suppressWarnings(suppressMessages(library(rgdal)))
   suppressWarnings(suppressMessages(library(sp)))
   suppressWarnings(suppressMessages(library(sf)))
   
   polyShape <- sf::st_read(paste0(path_gis,"/",polyShapeName,".shp"), quiet = TRUE)
-  polyShape<-st_transform(polyShape,CRS(CRStext))
+  polyShape<-st_transform(polyShape,sf::st_crs(CRStext))
   
   objfile <- paste0(path_gis,.Platform$file.sep,"polyShape")
   save(polyShape,file=objfile)

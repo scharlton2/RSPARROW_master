@@ -68,8 +68,6 @@ if (length(res)!=0){
   
   #load libraries
   suppressWarnings(suppressMessages(library(sp)))
-  suppressWarnings(suppressMessages(library(rgdal)))
-  suppressWarnings(suppressMessages(library(maptools)))
   suppressWarnings(suppressMessages(library(sf)))
   suppressWarnings(suppressMessages(library(plotly)))
   suppressWarnings(suppressMessages(library(rmarkdown)))

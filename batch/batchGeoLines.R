@@ -44,7 +44,6 @@ if (length(res)!=0){
   
   
   
-  suppressWarnings(suppressMessages(library(rgdal)))
   suppressWarnings(suppressMessages(library(sp)))
   suppressWarnings(suppressMessages(library(sf)))
 
@@ -53,7 +52,7 @@ if (length(res)!=0){
 
 
   GeoLines <- sf::st_read(paste0(path_gis,"/",LineShapeGeo,".shp"), quiet = TRUE)
-  GeoLines<-st_transform(GeoLines,CRS(CRStext))
+  GeoLines<-st_transform(GeoLines,sf::st_crs(CRStext))
 
   GeoLines<-st_zm(GeoLines)
   

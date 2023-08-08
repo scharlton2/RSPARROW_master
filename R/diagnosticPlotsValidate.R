@@ -158,7 +158,7 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
         validationResidShape<-cbind(validationResidShape,add_data)
       }
       
-      validationResidShape <-SpatialPointsDataFrame(validationResidShape[,c("xlon","xlat")],validationResidShape[,which(!names(validationResidShape) %in% c("xlat","xlon"))],proj4string=CRS(CRStext))
+      #validationResidShape <-SpatialPointsDataFrame(validationResidShape[,c("xlon","xlat")],validationResidShape[,which(!names(validationResidShape) %in% c("xlat","xlon"))],proj4string=sf::st_crs(CRStext))
       
       if (!dir.exists(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep))){
         dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep),showWarnings = FALSE)
@@ -167,9 +167,11 @@ diagnosticPlotsValidate <- function(file.output.list,class.input.list,vsitedata.
         dir.create(paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep),showWarnings = FALSE)
       }
       
-      maptools::writeSpatialShape(validationResidShape,paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"validationResidShape"))
-      cat(showWKT(proj4string(validationResidShape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"validationResidShape.prj")) 
-      
+      #maptools::writeSpatialShape(validationResidShape,paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"validationResidShape"))
+      #cat(showWKT(proj4string(validationResidShape)),file=paste0(path_results,.Platform$file.sep,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"validationResidShape.prj")) 
+      sf::st_write(sf::st_as_sf(validationResidShape,coords=c("xlon","xlat"),crs=sf::st_crs(CRStext)),
+                   paste0(path_results,"maps",.Platform$file.sep,"ESRI_ShapeFiles",.Platform$file.sep,"residuals",.Platform$file.sep,"validationResidShape.shp"),
+                   driver = "ESRI Shapefile",overwrite=TRUE)
     }
     
 
