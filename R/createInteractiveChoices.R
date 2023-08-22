@@ -100,7 +100,8 @@ createInteractiveChoices<-function(SelParmValues,existPredict,subdata, data_name
       Choices<-rbind(Choices,choices)
     }
     #data dictionary variables
-    for (n in names(subdata)[which(regexpr("waterid",names(subdata))<0)]){
+    for (n in c("demtarea",names(subdata)[which(regexpr("waterid",names(subdata))<0 & 
+                                                regexpr("demtarea",names(subdata))<0)])){
       if (class(subdata[,n])=="numeric"){
         def<-data_names[which(data_names$sparrowNames==n),]$explanation
         if (length(def)==0){
@@ -116,7 +117,8 @@ createInteractiveChoices<-function(SelParmValues,existPredict,subdata, data_name
   }else{#only data dictionary variables
     Choices<-data.frame(matrix(0, nrow= 0, ncol = 3))
     names(Choices)<-c("category","variable","definition")
-    for (n in names(subdata)[which(regexpr("waterid",names(subdata))<0)]){
+    for (n in c("demtarea",names(subdata)[which(regexpr("waterid",names(subdata))<0 & 
+                                                regexpr("demtarea",names(subdata))<0)])){
       if (class(subdata[,n])=="numeric"){
         def<-data_names[which(data_names$sparrowNames==n),]$explanation
         if (length(def)==0){

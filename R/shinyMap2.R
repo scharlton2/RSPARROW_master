@@ -180,7 +180,8 @@ shinyMap2<-function(
                      
                      if (checkDynamic(subdata)){ 
                      conditionalPanel("input.mapType!='Scenarios for Changes in Sources and/or Delivery Variables (e.g., Climate, Land use)'",
-                     h5(HTML("<font color = 'black'><strong>Dynamic Mapping Settings</strong></font>")))},
+                     h5(HTML("<font color = 'black'><strong>Dynamic Mapping Settings</strong></font>")),
+                     h6("A maximum of 4 maps can be displayed. The maps are based on selections of individual 'year(s)' and/or 'season(s)', or alternatively, the selection of a summary metric (e.g., 'mean', 'min'), which is either computed across all 'year(s)' for each 'season(s)' selection (up to a maximum of 4 seasons) or computed across all 'season(s)' for each 'year(s)' selection. Note that the selection of a summary metric (e.g., mean) for both 'year(s)' and 'season(s)' will display a single map, based on the computation of the metric across all available observations for the period of record."))},
                      if (checkDynamic(subdata)){ 
                      conditionalPanel("input.mapType=='Scenarios for Changes in Sources and/or Delivery Variables (e.g., Climate, Land use)'",
                                       h5(HTML("<font color = 'black'><strong>Dynamic Mapping Display Settings</strong></font>")),
@@ -367,7 +368,9 @@ shinyMap2<-function(
       #interactive plot
         p1<-eventReactive(input$goPlot, {
           gc()
-
+          if(exists("errOccured")){remove(errOccured) }
+          
+          tryCatch({
           
                     output$plotOne<-NULL
                     output$plotlyPlot<-NULL
@@ -406,7 +409,8 @@ shinyMap2<-function(
             
           }
           
-          currentP<-goShinyPlot(input, output, session, choices,"goPlot", badSettings,errMsg,
+         
+              currentP<-goShinyPlot(input, output, session, choices,"goPlot", badSettings,errMsg,
                       file.output.list,map_uncertainties,BootUncertainties,
                       data_names,mapping.input.list,
                       #predict.list,
@@ -424,7 +428,9 @@ shinyMap2<-function(
                       batch_mode,
                       RSPARROW_errorOption)
 
+    
           
+        
           #print plot size
           env <- environment()
           objs<-data.frame(
@@ -466,7 +472,15 @@ shinyMap2<-function(
               isolate(currentP)
             })
           }
-          
+          }, error = function(e) {
+            cat("Handling error:\n", paste(e, collapse = "\n"))
+            errOccured<<-TRUE
+          }, warning = function(w) {
+            cat("Handling warning:\n", paste(w, collapse = "\n"))
+          }, finally = { if(exists("errOccured")){
+            cat(paste(traceback(),collapse = "\n"))
+          }
+          })  
 
         })
 
@@ -475,8 +489,7 @@ shinyMap2<-function(
 
             p1()
 
-        })
-
+})
 
         
            
@@ -487,6 +500,7 @@ shinyMap2<-function(
       #pdf output
 
         p2<-eventReactive(input$savePDF, {
+         
           #test bad Settings
         badSettings<-as.data.frame(matrix(0,ncol=4,nrow=0))
         names(badSettings)<-c("Setting","CurrentValue","Type","Test")
@@ -589,7 +603,10 @@ shinyMap2<-function(
                     #batchError
                     batch_mode,
                     RSPARROW_errorOption)
-      })#end batch plot p3
+  
+        
+       
+        })#end batch plot p3
         
         observe({
           p3()

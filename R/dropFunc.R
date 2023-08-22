@@ -21,6 +21,7 @@ dropFunc<-function(id,category, choices){
   }else{
     name<-"uncertaintyCheck"
   }
+
   dropdownButton(circle = FALSE,
                  label = lab,
                  inputId = ns("dropdown"),

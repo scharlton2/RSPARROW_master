@@ -26,8 +26,9 @@ shinySiteAttr<-function(id, input, choices,sitedata,add_plotlyVars){
     
     conditionalPanel(
       condition = "input.batch=='Interactive'",
-      selectInput(ns("var"), "Site Attribute", 
-                  c("",as.character(choices[which(choices$category=="Data Dictionary Variable"),]$variable))),
+      selectInput(inputId=ns("var"),label= "Site Attribute", 
+                  choices=c("",as.character(choices[which(choices$category=="Data Dictionary Variable"),]$variable)),
+                  selected="demtarea"),
       textOutput(ns("definition"))),
     
     conditionalPanel(
