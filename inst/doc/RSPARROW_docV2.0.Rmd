@@ -1,5 +1,5 @@
 ---
-title: "RSPARROW:  An R System for SPARROW Modeling"
+title: "RSPARROW 2.0:  An R System for SPARROW Modeling"
 author: "Lillian Gorman Sanisaca and Richard B. Alexander, U.S. Geological Survey"
 date: "`r format(Sys.time(), '%d %B, %Y')`(Version 2.0)"
 output: 
@@ -46,11 +46,19 @@ For complete information on the model theory, including the development, applica
 
 
 ## RSPARROW features
-RSPARROW is a system of R scripts and functions for executing and evaluating SPARROW models that generates graphical, map, and tabular output. Users operate the system within RStudio from a single control script (*sparrow_control.R*) that accesses the supporting input files and functions.
 
-\textcolor{red}{This documentation describes the steps necessary to estimate the original static version of the model (long-term mean annual loads; e.g., Smith et al., 1997) as well as the recently developed dynamic (time-dimensioned) version for modeling mean annual or mean seasonal loads. Both models provide reach-level predictions (and uncertainties) of the mean water-quality loads, yields, and flow-weighted concentrations. The predictions also include the shares of the load attributable to individual upstream sources and predictions of the mass quantities of the total load and individual sources that are delivered to downstream water bodies.}
+\textcolor{red}{FOLLOWING PARAGRAPHS HAVE EDITED AND/OR NEW TEXT}
 
-\textcolor{red}{The dynamic model, available for the first time in the 2.0 version of RSPARROW, supports applications with time-dimensioned input data for modeling seasonal and annual variations in sources and transport properties in watersheds. The input data of time-varying conditions can be expressed as mean seasonal (four mean seasonal values at each monitoring site, computed as seasonal averages of the observations across multiple years), mean annual (multiple continuous or discrete mean annual values, computed as mean averages of the observations across multiple seasons), or a time series of seasonal observations across multiple years and seasons. The dynamic model in the 2.0 version is a simplified model specification that does not account for the storage and release (i.e., temporal lags) of physical or chemical substances in watersheds over time. The calibrated model consists of a single set of coefficients estimated for the collection of observations from all seasons and/or years. Contaminant storage processes, which are available in the current SAS SPARROW model code, will be added to a future version of RSPARROW. }
+RSPARROW is a system of R scripts and functions for executing and evaluating SPARROW models that generates graphical, map, and tabular output ([Alexander and Gorman Sanisaca, 2019](https://doi.org/10.5066/P9UAZ6FO)). Users operate the system within RStudio from a single control script (*sparrow_control.R*) that accesses the supporting input files and functions.
+
+This documentation describes the steps necessary to estimate the original static version of the model (long-term mean annual loads; e.g., Smith et al., 1997), as presented in the RSPARROW 1.1 version ([Alexander and Gorman Sanisaca, 2019](https://doi.org/10.5066/P9UAZ6FO)), but additionally describes the steps for estimating a dynamic (time-dimensioned) version of SPARROW (R. Smith, USGS, written comm., 2022) for modeling mean annual or mean seasonal loads. Both models provide reach-level predictions (and uncertainties) of the mean water-quality loads, yields, and flow-weighted concentrations. The predictions also include the shares of the load attributable to individual upstream sources and predictions of the mass quantities of the total load and individual sources that are delivered to downstream water bodies.
+
+The dynamic model, available for the first time in the 2.0 version of RSPARROW, supports applications with time-dimensioned input data for modeling seasonal and annual variations in sources and transport properties in watersheds. The input data of time-varying conditions can be expressed as mean seasonal (four mean seasonal values at each monitoring site, computed as seasonal averages of the observations across multiple years), mean annual (multiple continuous or discrete mean annual values, computed as mean averages of the observations across multiple seasons), or a time series of seasonal observations across multiple years and seasons. The dynamic model in the 2.0 version is a simplified model specification that does not account for the storage and release (i.e., temporal lags) of physical or chemical substances in watersheds over time. The calibrated model consists of a single set of coefficients estimated for the collection of observations from all seasons and/or years. Contaminant storage processes, which are simulated in the current SAS SPARROW model code (R. Smith, USGS, written comm., 2022), will be added to a future version of RSPARROW. 
+
+As an additional simplification, RSPARROW dynamic model residuals are assumed to be temporally independent of one another. Thus, the standard errors of the coefficients of the dynamic RSPARROW models are not adjusted for serial correlation that can exist in the time series of dynamic model residuals; this can cause somewhat overestimated significance levels (i.e., lower p-values) for SPARROW model coefficients (e.g., Ator et al., 2019; Schmadel et al., 2021). A future version of RSPARROW will provide statistical adjustments for serial correlation that provide more accurate estimates (Schmadel et al., 2021) of the coefficient standard errors and significance levels.
+
+\textcolor{red}{END OF REVISED TEXT}
+
 
 **RSPARROW offers the following enhancements to the [SAS SPARROW](https://pubs.usgs.gov/tm/2006/tm6b3/) (Schwarz et al., 2006) version:**
 
@@ -64,14 +72,17 @@ RSPARROW includes the same analytical capabilities as the original SAS SPARROW v
 
 
 
-**\textcolor{red}{The 2.0 RSPARROW version provides the following new enhancements to the earlier 1.1 version: }**
+\textcolor{red}{NEW TEXT ADDED}
 
-* \textcolor{red}{Executes dynamic SPARROW models for annually and/or seasonally varying input data. The input data can be expressed as mean seasonal (four mean seasonal values at each monitoring site, computed as seasonal averages of the observations across multiple years), mean annual (multiple continuous or discrete mean annual values, computed as mean averages of the observations across multiple seasons), or a time series of seasonal observations across multiple years and seasons. The dynamic version is capable of simulating temporal changes in both contaminant sources and land-to-water delivery factors (e.g., climate).  Note that the model doesn’t include internal process components (or separate model coefficients) to account for the temporary storage and release of water and water-quality constituents, processes that can cause temporal lags in transport across time periods in watersheds (e.g., Schmadel et al., 2021). }
+**The 2.0 RSPARROW version provides the following new enhancements to the earlier 1.1 version ([Alexander and Gorman Sanisaca, 2019](https://doi.org/10.5066/P9UAZ6FO)): **
 
-* \textcolor{red}{Provides graphical displays of temporally varying output to support the dynamic models, including annual and seasonal diagnostic maps and plots as well as interactive multi-panel stream and catchment water-quality prediction map displays for separate seasons and years. }
+* Executes dynamic SPARROW models for annually and/or seasonally varying input data. The input data can be expressed as mean seasonal (four mean seasonal values at each monitoring site, computed as seasonal averages of the observations across multiple years), mean annual (multiple continuous or discrete mean annual values, computed as mean averages of the observations across multiple seasons), or a time series of seasonal observations across multiple years and seasons. The dynamic version is capable of simulating temporal changes in both contaminant sources and land-to-water delivery factors (e.g., climate).  Note that the model doesn’t include internal process components (or separate model coefficients) to account for the temporary storage and release of water and water-quality constituents, processes that can cause temporal lags in transport across time periods in watersheds (e.g., Schmadel et al., 2021). 
 
-* \textcolor{red}{Supports the execution of additional types of management scenarios for static and dynamic models in the RShiny Decision Support System (DSS). This includes scenarios that evaluate the stream water-quality effects of:  (1) percentage changes in untransformed land-to-water delivery variables (e.g., temperature, precipitation); and (2) user-supplied forecasted changes in source and/or land-water delivery variables that are input from an external CSV file. The capabililty to input a user's CSV file allows, for example, the evaluation of the stream water-quality effects of forecasted changes in land use or climate conditions (e.g., temperature, precipitation) as reported by global climate models. User control over forecasted changes input from a CSV file also allows the evaluation of scenarios that entail changes in land-water delivery variables that are transformed in the calibrated model (e.g., logarithmic). In these cases, a relative or absolute change can be externally applied to the untransformed delivery variable by the user, with the variable subsequently transformed and stored in the external CSV file prior to input to the RSPARROW DSS. }
+* Provides graphical displays of temporally varying output to support the dynamic models, including annual and seasonal diagnostic maps and plots as well as interactive multi-panel stream and catchment water-quality prediction map displays for separate seasons and years. 
 
+* Supports the execution of additional types of management scenarios for static and dynamic models in the RShiny Decision Support System (DSS). This includes scenarios that evaluate the stream water-quality effects of:  (1) percentage changes in untransformed land-to-water delivery variables (e.g., temperature, precipitation); and (2) user-supplied forecasted changes in source and/or land-water delivery variables that are input from an external CSV file. The capabililty to input a user's CSV file allows, for example, the evaluation of the stream water-quality effects of forecasted changes in land use or climate conditions (e.g., temperature, precipitation) as reported by global climate models. User control over forecasted changes input from a CSV file also allows the evaluation of scenarios that entail changes in land-water delivery variables that are transformed in the calibrated model (e.g., logarithmic). In these cases, a relative or absolute change can be externally applied to the untransformed delivery variable by the user, with the variable subsequently transformed and stored in the external CSV file prior to input to the RSPARROW DSS. 
+
+\textcolor{red}{END OF REVISED TEXT}
 
 
 ## RSPARROW software installation
@@ -115,25 +126,25 @@ Download RSPARROW from the USGS GitLab repository:  <https://code.usgs.gov/water
 
 ### Download of the required R software
 
-\textcolor{red}{RSPARROW 2.0 was tested for compatibility with versions of R, RStudio, and the required R library functions available at the time of public release (September 2023): These include R-4.2.2, RStudio 2022.12.0 (Build 353),} and the required versions of R library dependencies that are listed in the DESCRIPTION file located in the "RSPARROW_master" directory. RSPARROW may operate with more current versions of the software, but full compatibility of RSPARROW with newer versions is not guaranteed.
+\textcolor{red}{RSPARROW 2.0 was tested for compatibility with versions of R, RStudio, and the required R library functions available at the time of public release (September 2023): These include R-4.3.1, RStudio 2022.12.0 (Build 353),} and the required versions of R library dependencies that are listed in the DESCRIPTION file located in the "RSPARROW_master" directory. RSPARROW may operate with more current versions of the software, but full compatibility of RSPARROW with newer versions is not guaranteed.
 
 
 \textcolor{red}{SELECTED PORTIONS OF THE FOLLOWING TEXT HAS BEEN REVISED}
 
 **The required software can be obtained as follows:**
 
-* *R:* The current and past versions are available from the Cran server at *https://cran.r-project.org/bin/windows/base/old/*. We recommend installation of R-4.2.2, using the zipped version included with the RSPARROW 2.0 download from the USGS GitLab repository. The included R version contains all R libraries and dependencies that are required to execute RSPARROW 2.0. The R directory should be unzipped to a location on your PC that does not require Administrator rights. RStudio access to the R directory is achieved by setting the R directory path in the *"Tools >> Global Options >> R version:"* (see section 1.3.4 below for details). 
+* *R:* The current and past versions are available from the Cran server at *https://cran.r-project.org/bin/windows/base/old/*. We recommend installation of R-4.3.1, using the zipped version included with the RSPARROW 2.0 download from the USGS GitLab repository. The included R version contains all R libraries and dependencies that are required to execute RSPARROW 2.0. The R directory should be unzipped to a location on your PC that does not require Administrator rights. RStudio access to the R directory is achieved by setting the R directory path in the *"Tools >> Global Options >> R version:"* (see section 1.3.4 below for details). 
 
 * *RStudio:* The most current version is available at *https://rstudio.com/products/rstudio/download/*, with older versions available at *https://rstudio.com/products/rstudio/older-versions/*. 
 
-* *R libraries and dependencies:* Advanced R users can install R for versions >=4.2.2 from CRAN and automatically install R dependencies for RSPARROW when executing the RSPARROW control script (located in the *"UserTutorial/results"* directory) in RStudio. Execution of the control script automatically installs the most recent versions of the required R library packages and functions in the user's default R library as specified in RStudio (see the next subsections for instructions on setting RStudio defaults and information on the installation of RSPARROW library dependencies). If the included version of R-4.2.2 (with pre-installed RSPARROW R library dependencies) is used, then the auto-installation steps are not executed.
+* *R libraries and dependencies:* Advanced R users can install R for versions >=4.3.1 from CRAN and automatically install R dependencies for RSPARROW when executing the RSPARROW control script (located in the *"UserTutorial/results"* directory) in RStudio. Execution of the control script automatically installs the most recent versions of the required R library packages and functions in the user's default R library as specified in RStudio (see the next subsections for instructions on setting RStudio defaults and information on the installation of RSPARROW library dependencies). If the included version of R-4.3.1 (with pre-installed RSPARROW R library dependencies) is used, then the auto-installation steps are not executed.
 
 
 ### RStudio defaults 
 
 Users should be attentive to the RStudio default settings for the R version and the working directory. These default settings can be viewed and changed by selecting *"Tools >> Global Options..."* from the RStudio drop-down menu. In the pop-up dialog box under the *"General"* and *"Basic"* tabs, the *"R Sessions"* settings can be specified:
 
-* For the *"R version"*, select the *"Change..."* button and choose the appropriate 64-bit R version or browse to the directory where the R version is located and select it.   
+* For the *"R version"*, select the *"Change..."* button and choose an already installed 64-bit R version or, as we recommend, browse to the *"R.exe"* executable binary object for the R-4.3.1 version (*".../R-4.3.1/bin/x64/R.exe"*) and select the binary object.   
 
 * For the *"Default working directory"*, select the *"Browse..."* button to identify the current default working directory. The user should either change the default working directory to the directory where the *"RSPARROW_master"* directory resides or ensure that the *"RSPARROW_master"* directory is located in the current default working directory. Either option is consistent with the use of a relative path name for the `path_master` setting in the RSPARROW control script (section 11). 
 
@@ -152,11 +163,11 @@ More advanced users, who choose to manually download R from CRAN and install the
 
 * *Initial opening of the control script:*  RStudio will print the following message in a yellow banner when the RSPARROW control script is opened in RStudio for the first time with a new R version:  *"Packages devtools and rstudioapi required but are not installed."* Users should ignore this message and instead execute (*"Source"*) the control script, which will install these and the other required R packages (**User caution:** Package installation using the yellow banner prompt may exclude certain required packages such as *"backports"*). 
 
-* *R package installation and updating:*  The required RSPARROW library dependencies (and the most recent library versions) are automatically installed when the control script is initially executed with a newly installed version of R that excludes the RSPARROW R library dependencies (>=R-4.2.2). In subsequent executions of the control script, no updates are made to the library dependencies (see Chapter subsection 4.4.12 for details).
+* *R package installation and updating:*  The required RSPARROW library dependencies (and the most recent library versions) are automatically installed when the control script is initially executed with a newly installed version of R that excludes the RSPARROW R library dependencies (>=R-4.3.1). In subsequent executions of the control script, no updates are made to the library dependencies (see Chapter subsection 4.4.12 for details).
 
 * *R package installation from source:*  If the following question appears in a pop-up box in RStudio during the installation of R library dependencies, users should select *"No"* as the response: *"Do you want to install from sources the packages which need compilation?"*. A *"No"* response installs the most current R packages from binary versions. The selection of *"Yes"* requires that users have installed *Rtools42* (an R developer package) on the Windows operating system; this enables the compilation and installation of R packages from their source.
 
-* *Resolution of library installation problems:* Users have periodically encountered R library dependencies that will not install properly in RStudio. The problem is often resolved by:  (1) deleting the current R version and installing a new R base version (i.e., >=4.2.2), and (2) executing the RSPARROW control file, which will auto-install the required library dependencies to the new R version. Alternatively, users can install the version of R-4.2.2 with RSPARROW R library dependencies that is included with the RSPARROW download.
+* *Resolution of library installation problems:* Users have periodically encountered R library dependencies that will not install properly in RStudio. The problem is often resolved by:  (1) deleting the current R version and installing a new R base version (i.e., >=4.3.1), and (2) executing the RSPARROW control file, which will auto-install the required library dependencies to the new R version. Alternatively, users can install the version of R-4.3.1 with RSPARROW R library dependencies that is included with the RSPARROW download.
 
 \textcolor{red}{END OF EDITED TEXT}
 
@@ -2008,6 +2019,14 @@ This computes the second derivative Hessian standard errors for the estimated mo
 In cases of severe multi-collinearity that results in a singular (ill-conditioned) Hessian matrix, RSPARROW terminates the model execution. The Hessian matrix will be singular (with a determinant equal zero) if at least one of the explanatory variables can be expressed as a linear combination of one or more of the other explanatory variables. See subsection 4.4.4.8 for details. 
 
 
+\textcolor{red}{NEW TEXT}
+
+Note that the standard errors of the coefficients of dynamic RSPARROW models are not adjusted for serial correlation, which can exist in the time series of dynamic model residuals. Serial correlation in model residuals can cause somewhat underestimated coefficient standard errors, which will result in overestimates of the significance levels (i.e., lower p-values) of SPARROW model coefficients (e.g., Ator et al., 2019; Schmadel et al., 2021). 
+
+\textcolor{red}{END OF NEW TEXT}
+
+
+
 #### Weighted nonlinear least squares
 
 &nbsp;
@@ -3583,7 +3602,7 @@ The mean yield predictions include the variables and naming syntax as shown belo
 ```{r, eval=FALSE}
 #-------------------------------------------------------------------------------
   # Add a relative or absolute path name (No spaces are allowed)
-  path_master <- "~/RSPARROW_master"
+  path_master <- "./RSPARROW_master"
   
   #results, data, and gis directories should be in Users Directory
   #  results_directoryName<-"results_1234"
@@ -6940,7 +6959,9 @@ RUN EXECUTION TERMINATED.
 
 ## Introduction
 
-This tutorial uses an unpublished SPARROW model of total phosphorus (TP) in streams of the Tampa Bay watershed (R. Smith, USGS; J. Srikishen, NASA; written comm., 2022), a 5,700 square kilometer basin on the central western coast of the state of Florida that drains to the Gulf of Mexico. The model calibration uses seasonal mean estimates of TP, computed from the instantaneous TP measurements and mean daily streamflow values using the WRTDS method (Hirsch et al., 2010). The seasonal mean values are available for the period Spring 2001 to Summer 2014 at 23 monitoring sites. The calibrated model is applied to 2,780 stream reaches in watersheds draining to the Tampa Bay estuary, using the NHD medium resolution (1:100,000 scale) digital stream network data. 
+The tutorial uses a preliminary test-version of a SPARROW dynamic model, developed to simulate total phosphorus (TP) loads in streams of the Tampa Bay watershed, a 5,700 square kilometer basin on the central western coast of the state of Florida that drains to the Gulf of Mexico. The model uses non-propriety data from the USGS (R. Smith, written comm., 2022) and NASA (J. Srikishen, written comm., 2022) that are currently being evaluated with various versions of a SPARROW dynamic TP model for the Tampa Bay watershed. One version of the TP model is presented here; however, the model and data are used for illustration purposes only to demonstrate the features and capabilities of RSPARROW. The model and supporting data should not be used for actual water resource evaluations of TP loads in the Tampa Bay watershed or to support related water management decisions for the watershed or estuary.  
+
+The dynamic model calibration uses seasonal mean estimates of TP, computed from the instantaneous TP measurements and mean daily streamflow values using the WRTDS method (Hirsch et al., 2010). The seasonal mean values are available for the period Spring 2001 to Summer 2014 at 23 monitoring sites. The calibrated model is applied to 2,780 stream reaches in watersheds draining to the Tampa Bay estuary, using the NHD medium resolution (1:100,000 scale) digital stream network data. 
 
 The estimated TP model includes five source variables, five land-to-water delivery variables, and one stream decay variable. Temporally varying phosphorus inputs are estimated for two sources:  fertilizer (`FertP_Seas`) and urban runoff (`urban_Seas`), whereas the remaining three sources are represented by constant seasonal phosphorus inputs:  municipal wastewater treatment (`FacWW_P`), phosphorus in the runoff from active and inactive mines (`Pmines_v17`), and natural geologic sources of phosphorus (`GeolP`).  All of the land-to-water climate-related variables vary by year and season, including total precipitation (`logPPT`), mean air temperature (`logAirTemp`), soil moisture (`PrevSurfSoMoi`), and enhanced vegetation index (EVI; `PrevEVIMean`). The remaining land-to-water delivery variable is a seasonally constant soil erodibility index (`lkfactup`). The stream decay variable (`rchtot`) is expressed as the mean annual reach time of travel per depth of streamflow, with no seasonal variation. 
 
@@ -6959,7 +6980,11 @@ Finally, the upper-level *“UserTutorial_Dynamic/results/(run_id)/estimate” *
 
 ###  Model estimation and diagnostics
 
-The model performance metrics for the estimated model are shown below as output to the *(run\_id)\_summary.txt* file.  These reflect the aggregate performance of the model across all seasons and years for the 1220 seasonal observations at 23 monitoring sites. The R-square is 0.916 for loads and 0.846 for yields for the estimated (monitoring-adjusted) model with a prediction bias of 6.9%. The model performance in simulation mode for unconditioned predictions (i.e., without any adjustment for the monitoring data) provides a more accurate measure of the predictive skill of the model, independent of the monitored data; model predictions in simulation mode frequently show somewhat lower prediction accuracy than model predictions from the estimated model using monitoring-adjusted loads. Accordingly, the simulation model performance shows a somewhat lower R-square of 0.842 for loads and 0.713 for yields, with a much higher prediction bias of 22.8%.  
+Execution of the provided RSPARROW control script (*sparrow_control.R*) in RStudio (after installing the required software and setting RStudio defaults--see subsections 1.3.3 and 1.3.4) will run the SPARROW tutorial model "TP_season", with results written to the "TP_season_User" directory. To verify the software installation and model execution, users can compare the results with those provided in the "TP_season" directory. 
+
+During execution of the control script in RStudio, a variety of warning messages will appear in the Console window related to data checks for missing or zero values. This is expected for the TP model data set and does not adversely affect the execution of the model or generation of the results. 
+
+The model performance metrics for the estimated model as shown below are output to the *(run\_id)\_summary.txt* file.  These reflect the aggregate performance of the model across all seasons and years for the 1220 seasonal observations at 23 monitoring sites. The R-square is 0.916 for loads and 0.846 for yields for the estimated (monitoring-adjusted) model with a prediction bias of 6.9%. The model performance in simulation mode for unconditioned predictions (i.e., without any adjustment for the monitoring data) provides a more accurate measure of the predictive skill of the model, independent of the monitored data; model predictions in simulation mode frequently show somewhat lower prediction accuracy than model predictions from the estimated model using monitoring-adjusted loads. Accordingly, the simulation model performance shows a somewhat lower R-square of 0.842 for loads and 0.713 for yields, with a much higher prediction bias of 22.8%.  
 
 
 ```{r, eval=FALSE}
@@ -7105,7 +7130,7 @@ Additional diagnostics are also available to evaluate the geographic distributio
 
 For dynamic models, the DSS menu interface is identical to that described for static models, with the exception of the additional menu display feature labeled *“Dynamic Mapping Settings”*. This feature allows the user to control the timestep of the data in the map display (note that when executing management scenarios, user selection of the timestep for the model simulation is managed by other DSS menu settings--see details in Chapter subsection 7.2.2.2 below). 
 
-Depending on the timestep associated with the dynamic model, a menu setting, with dropdown check-box entries, appears with the label *“year(s)”* and/or *“season(s)”* (see examples of the dropdown entry options for these settings in Figures \ref{dyntutorial_4} and \ref{dyntutorial_5}). A maximum of four maps is allowed for display on the DSS page for any single execution (i.e., “Generate Map” button) of user settings from the menu. Therefore, users can select a maximum of four years or seasons for display for a multi-year seasonal model, such as the Tampa Bay TP model. 
+Depending on the timestep associated with the dynamic model, a menu setting, with dropdown check-box entries, appears with the label *“year(s)”* and/or *“season(s)”* (see examples of the dropdown entry options and explanation for these settings in Figures \ref{dyntutorial_4} and \ref{dyntutorial_5}). A maximum of four maps is allowed for display on the DSS page for any single execution (i.e., “Generate Map” button) of user settings from the menu. Therefore, users can select a maximum of four years or seasons for display for a multi-year seasonal model, such as the Tampa Bay TP model. 
 
 Note that the timestep associated with a dynamic model is automatically detected according to the availability of the “year” and/or “season” variable in the *data1.csv* input file. 
 
@@ -7116,10 +7141,26 @@ Note that the timestep associated with a dynamic model is automatically detected
 
 All of the *dataDictionary* variables and model predictions can be mapped for any of the available timesteps of the model. These can be display for the monitoring stations (i.e., “Site attributes”) or for the streams or catchments. Figure \ref{dyntutorial_4} illustrates the mapping of the seasonal fertilizer use variable (`FertP_Seas`) for each of the four seasons in 2002 at the monitoring sites, whereas Figure \ref{dyntutorial_6} illustrates the mapping of the model predictions of total yield for the same time period in all streams. 
 
-Users also have the option to compute summary metrics for the variables that is selected for display, including *“mean”*, *“median”*, *“min”*, or *“max”*, by using the *“Dynamic Mapping Settings”* for *“year(s)”* and “season(s)”. For example, selection of the “mean” check-box option for the “year(s)” setting, as shown in Figure \ref{dyntutorial_5}, computes a mean across all years for each season that is check-box selected (up to the maximum of four seasons) for “season(s)” setting.  Four seasons are displayed in Figure \ref{dyntutorial_5} because all seasons were selected as check-box options for the “season(s)” setting.
+Users also have the option to compute summary metrics for the variables that is selected for display, including *“mean”*, *“median”*, *“min”*, or *“max”*, by using the *“Dynamic Mapping Settings”* for *“year(s)”* and *“season(s)”*. For example, selection of the “mean” check-box option for the “year(s)” setting, as shown in Figure \ref{dyntutorial_5}, computes a mean across all years for each season that is check-box selected (up to the maximum of four seasons) for “season(s)” setting.  Four seasons are displayed in Figure \ref{dyntutorial_5} because all seasons were selected as check-box options for the “season(s)” setting.
 
 By contrast, if a user were to select the *“mean”* check-box option for the *“season(s)”* setting, this would compute a mean across all seasons for each year that is check-box selected in the *“year(s)”* setting, up to the maximum of an allowed four years (i.e., the allowable maximum of four maps for the DSS page display). 
 
+Note that the following text is provided in the *“Dynamic Mapping Settings”* section of the RShiny DSS menu to explain the use of the *“year(s)”* and *“season(s)”* options for selecting timesteps for the map display: 
+
+&nbsp;
+
+```{r, eval=FALSE}
+RShiny DSS Menu:  Explanation of the Dynamic Mapping Settings
+
+A maximum of 4 maps can be displayed. The maps are based on selections of individual 
+“year(s)” and/or “season(s)”, or alternatively, the selection of a summary metric 
+(e.g., “mean”, “min”), which is either computed across all “year(s)” for each “season(s)” 
+selection (up to a maximum of 4 seasons) or computed across all “season(s)” for each 
+“year(s)” selection. Note that the selection of a summary metric (e.g., mean) for both 
+“year(s)” and “season(s)” will display a single map, based on the computation of the 
+metric across all available observations for the period of record.  
+
+```
 
 See Table 7 in Chapter subsection 4.4.8.4 for additional guidance and examples of the map display options based on the settings available in the sparrow control script. There is no limit placed on the number of maps that can be output using the control script settings.  
 
@@ -7161,7 +7202,7 @@ Illustrations of the forecasting file change scenarios use external CSV files th
 
 &nbsp;
 
-Scenarios are executed by selecting the *“Scenarios for Changes in Sources and/or Delivery Variables”* option for the *“Map Type”* menu item. Two modes are available to specify the land-water delivery variables and/or source variables for which natural or managed changes in their values are to be evaluated in a scenario:  
+Scenarios are executed by selecting the *“Scenarios for Changes in Sources and/or Delivery Variables”* option for the *“Map Type”* menu item. Two modes are available to specify the land-water delivery variables and/or source variables for which natural or managed changes in their values are to be evaluated in a scenario (note that detailed explanations for executing these scenarios are provided in each of two subsequent subsections 7.2.2.2.2 and 7.2.2.2.3):  
 
 * **“Change-percentage scenarios”** - Menu entries allow users to specify the magnitude of a hypothetical percentage change in the values of one or more explanatory variables relative to the values for a base or reference timestep during the calibration period. A percentage change can also be applied to one or more model coefficients associated with explanatory variable values for a base or reference timestep (see Chapter subsection 4.4.9.1.2 for details). Note that the change-percentage scenario option should not be applied to transformed (e.g., logarithmic) land-to-water delivery variables because this implicitly assumes a disproportionate change in the original units of the variable relative to the user-specified percentage; this can result in erroneous interpretations of the magnitudes of the simulated changes in stream water-quality loads. 
 
@@ -7178,27 +7219,31 @@ For **“forecasting file change scenarios”** (activated by a *“yes”* resp
 
 &nbsp;
 
-This **“change-percentage scenario”** illustrates the effects on TP stream loads of a 10 percent reduction in seasonal fertilizer use (`FertP_Seas`). The DSS menu settings and the map display of the reach-level effects of fertilizer reduction on TP load are shown in Figure \ref{dyntutorial_7}. The base year and season for application of the scenario is Summer 2014, the most recent season and year available in the record used to calibrate the model. The check-box *“Dynamic Mapping Display Settings”* are *“2014”* for *“year(s)”* and *“summer”* for *“season(s)”*, which will generate a map in the DSS display that is consistent with the simulation timestep. 
+This **“change-percentage scenario”** illustrates the effects on TP stream loads of a 10 percent reduction in seasonal fertilizer use (`FertP_Seas`). The DSS menu settings and the map display of the reach-level effects of fertilizer reduction on TP load are shown in Figures \ref{dyntutorial_7a} and \ref{dyntutorial_7b}. The base year and season for application of the scenario is Summer 2014, the most recent season and year available in the record used to calibrate the model. The check-box *“Dynamic Mapping Display Settings”* are *“2014”* for *“year(s)”* and *“summer”* for *“season(s)”*, which will generate a map in the DSS display that is consistent with the simulation timestep. 
 
-To specify the timestep (year and/or season) for application of the scenario simulation (as illustrated in Figure \ref{dyntutorial_7}), the following menu entries are required: 
+To specify the timestep (year and/or season) for application of the scenario simulation (as illustrated in Figures \ref{dyntutorial_7a}), the following menu entries are required: 
 
 * Select the option *“selected reaches”* for the menu setting labeled *“Select reaches for applying the scenario (within targeted watersheds)”*. Note that selection of the option *“all reaches”* for this setting does not allow the user to enter values for the timestep. 
 
 * Select the option *“yes”* or *“no”* for the menu setting labeled *“Apply same reach selection criteria to all selected changed variables (yes/no)”*. 
 
-  * A *“yes”* entry, as illustrated in Figure \ref{dyntutorial_7}, displays two tables in the menu. The first table allows users to select the changed model variable (`FertP_Seas`) and enter the percentage quantity for application of the percentage change (see table label *“Select Model Explanatory Variables and Percent Change Factors”*). The second table allows users to specify additional criteria for the scenario, including the timestep entries (see table label *“Reach Selection Criteria”*), which apply to all model explanatory variables (i.e., sources and/or delivery variables). As shown in Figure \ref{dyntutorial_7}, the year and season were entered into the second table, using the *“AND”* separator to ensure that both conditions are applied to all of the reaches. 
+  * A *“yes”* entry, as illustrated in Figure \ref{dyntutorial_7a}, displays two tables in the menu. The first table allows users to select the changed model variable (`FertP_Seas`) and enter the percentage quantity for application of the percentage change (see table label *“Select Model Explanatory Variables and Percent Change Factors”*). The second table allows users to specify additional criteria for the scenario, including the timestep entries (see table label *“Reach Selection Criteria”*), which apply to all model explanatory variables (i.e., sources and/or delivery variables). As shown in Figure \ref{dyntutorial_7a}, the year and season were entered into the second table, using the *“AND”* separator to ensure that both conditions are applied to all of the reaches. 
 
   *	A *“no”* entry results in the display of only one table. This option provides greater flexibility, allowing users to apply different reach (and timestep) selection criteria and change percentages to each model variable. To enter the timestep for a seasonal model, two rows are required, one for the year and a second for the season, with the *“AND”* separator selected for the first row. Note that the changed model variable (e.g., seasonal fertilizer) and the change percentage (e.g., -10) must be entered on both rows for the table entries to be accepted (*this does NOT cause any replication of the application of the change percentage*). 
-
-The results of the scenario simulation as shown in Figure \ref{dyntutorial_7} display the relative change in TP load in streams.  These show that a 10 percent reduction in seasonal fertilizer would be expected to result in reductions in stream TP load of less than about 8 percent, with most changes less than 2 percent. Predicted reductions of substantially less than 10 percent in many of the Tampa Bay streams is an indication that other sources that are unchanged in the scenario contribute considerably to stream phosphorus loads. 
-
-
+  
 \begin{figure}
-\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_7.jpg}
-\caption{\textbf{RShiny DSS interactive mapper interface for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a percentage-change scenario for a 10 percent reduction in the seasonal fertilizer source variable. } }
-\label{dyntutorial_7}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_7a.jpg}
+\caption{\textbf{RShiny DSS interactive mapper interface for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a percentage-change scenario for a 10 percent reduction in the seasonal fertilizer source variable. The table outlined in blue illustrates how to add a second row to the table to select for season timestep in the reach selection criteria. } }
+\label{dyntutorial_7a}
 \end{figure}
 
+\begin{figure}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_7b.jpg}
+\caption{\textbf{RShiny DSS interactive mapper display results for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a percentage-change scenario for a 10 percent reduction in the seasonal fertilizer source variable. } }
+\label{dyntutorial_7b}
+\end{figure}
+
+The results of the scenario simulation as shown in Figure \ref{dyntutorial_7b} display the relative change in TP load in streams.  These show that a 10 percent reduction in seasonal fertilizer would be expected to result in reductions in stream TP load of less than about 8 percent, with most changes less than 2 percent. Predicted reductions of substantially less than 10 percent in many of the Tampa Bay streams is an indication that other sources that are unchanged in the scenario contribute considerably to stream phosphorus loads. 
 
 
 
@@ -7206,11 +7251,11 @@ The results of the scenario simulation as shown in Figure \ref{dyntutorial_7} di
 
 &nbsp;
 
-Four scenarios are presented in this subsection that illustrate the effects of a changes in climate and land-cover conditions on stream TP loads. The model explanatory variables evaluated in these scenarios include the seasonal mean precipitation (`logPPT`), mean temperature (`logAirTemp`), and fertilizer use (`FertP_Seas`).  The DSS menu settings and the map display of the reach-level effects of changes in the explanatory variables on TP load are shown in Figures \ref{dyntutorial_8} to \ref{dyntutorial_11}. A base year of 2014 is used in the scenarios to facilitate comparisons with the predictions for future years; 2014 is the most recent year available in the record that was used to calibrate the model. The methods and references used to derive the forecasts of future climate and land-cover conditions associated with the explanatory model variables are described in the next subsection (7.2.2.2.4).
+Four scenarios are presented in this subsection that illustrate the effects of a changes in climate and land-cover conditions on stream TP loads. The model explanatory variables evaluated in these scenarios include the seasonal mean precipitation (`logPPT`), mean temperature (`logAirTemp`), and fertilizer use (`FertP_Seas`).  The DSS menu settings and the map display of the reach-level effects of changes in the explanatory variables on TP load are shown in Figures \ref{dyntutorial_8a} to \ref{dyntutorial_11b}. A base year of 2014 is used in the scenarios to facilitate comparisons with the predictions for future years; 2014 is the most recent year available in the record that was used to calibrate the model. The methods and references used to derive the forecasts of future climate and land-cover conditions associated with the explanatory model variables are described in the next subsection (7.2.2.2.4).
 
-The temporal menu selections for the *“Dynamic Mapping Display Settings”*, which control the map display of the results, include *“2014”* for *“year(s)”* for all of the scenarios; the *“season(s)”* setting is *“spring”* for the first scenario (Figure \ref{dyntutorial_8}), whereas all four seasons are selected for display for the subsequent scenarios (Figures \ref{dyntutorial_9} to \ref{dyntutorial_11}). For each of the scenarios, the *“year”* and *“season”* settings generate prediction maps in the DSS display that are consistent with the simulation timestep that is implicitly reflected in the values of the *waterid* variable (unique reach and timestep variable) in the external CSV file.
+The temporal menu selections for the *“Dynamic Mapping Display Settings”*, which control the map display of the results, include *“2014”* for *“year(s)”* for all of the scenarios; the *“season(s)”* setting is *“spring”* for the first scenario (Figures \ref{dyntutorial_8a} and \ref{dyntutorial_8b}), whereas all four seasons are selected for display for the subsequent scenarios (Figures \ref{dyntutorial_9a} to \ref{dyntutorial_11b}). For each of the scenarios, the *“year”* and *“season”* settings generate prediction maps in the DSS display that are consistent with the simulation timestep that is implicitly reflected in the values of the *waterid* variable (unique reach and timestep variable) in the external CSV file. A pair of figures are shown for each scenario example, with the first displaying the menu settings and the second displaying the mapped results for the model simulations. 
 
-To input the external CSV forecasting files to the DSS, the following menu entries are required, as shown in Figures \ref{dyntutorial_8} to \ref{dyntutorial_11}:
+To input the external CSV forecasting files to the DSS, the following menu entries are required, as shown in the figures:
 
 * Enter *“yes”* for the menu setting labeled *“Run Scenario using forecasting file input”*. 
 
@@ -7221,38 +7266,50 @@ To input the external CSV forecasting files to the DSS, the following menu entri
 
 &nbsp;&nbsp;
 
-*Short-term change in climate conditions (Figure \ref{dyntutorial_8})*
+*Short-term change in climate conditions (Figures \ref{dyntutorial_8a} and \ref{dyntutorial_8b})*
 
-The simulation predictions display the percentage change in TP load in streams that result from changes in the seasonal mean precipitation (`logPPT`) and mean temperature (`logAirTemp`) from the spring of 2014 to the spring of 2022 (*Tampa_NMME_2022_02_Spring.csv* forecast file).  These simulations are based on short-term NMME forecasts of seasonal climate conditions for time periods extending 6 months into the future (Kirtman et al., 2014). 
+The simulation predictions display the percentage change in TP load in streams that result from changes in the seasonal mean precipitation (`logPPT`) and mean temperature (`logAirTemp`) from the spring of 2014 to the spring of 2022 (*Tampa_NMME_2022_02_Spring.csv* forecast file).  These simulations are based on short-term NMME forecasts of seasonal climate conditions for time periods extending 6 months into the future (Kirtman et al., 2014), as obtained from the RSAPPT tool (White et al., 2022). 
 
 Forecasted changes in seasonal precipitation and seasonal temperature would be expected to result in changes in stream TP load ranging from about -80% to +170%, with the changes in most stream reaches falling between a 33% increase and 56% decrease. Most increases in TP load would be expected to occur in the central portion of the Tampa Bay watershed, whereas most decreases would occur in the northern and southern portions of the watershed. 
 
+When executing this scenario, two warning messages will appear in the DOS command prompt window, indicating that two variables (PPT30MEAN, meanTemp), which are not used as explanatory variables in the TP model, were found in the forecasting file and removed from use in the forecasting scenario. This resulted from an RSPARROW quality control check, which ensures that only SPARROW model explanatory variables are used in the forecasting simulations.  
+
 \begin{figure}
-\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_8.jpg}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_8a.jpg}
 \caption{\textbf{RShiny DSS interactive mapper interface for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a forecasting file change scenario, involving a change in the mean precipitation and temperature conditions from the spring 2014 to the spring 2022.   } }
-\label{dyntutorial_8}
+\label{dyntutorial_8a}
 \end{figure}
 
+\begin{figure}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_8b.jpg}
+\caption{\textbf{RShiny DSS interactive mapper display results for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a forecasting file change scenario, involving a change in the mean precipitation and temperature conditions from the spring 2014 to the spring 2022.   } }
+\label{dyntutorial_8b}
+\end{figure}
 
 &nbsp;&nbsp;
 
-*Long-term change in climate conditions (Figure \ref{dyntutorial_9})*
+*Long-term change in climate conditions (Figures \ref{dyntutorial_9a} and \ref{dyntutorial_9b})*
 
-The simulation predictions display the percentage change in TP load in streams that result from changes in the seasonal mean precipitation (`logPPT`) and mean temperature (`logAirTemp`) from 2014 to 2030 for all seasons of the year (*Tampa_CMIP5_2030_rcp45.csv* forecast file).  These simulations are based on long-term MACA (Multivariate Adaptive Constructed Analogs) climate predictions, which are statistically downscaled from the seasonal forecasts from an ensemble of seven global climate models.
+The simulation predictions display the percentage change in TP load in streams that result from changes in the seasonal mean precipitation (`logPPT`) and mean temperature (`logAirTemp`) from 2014 to 2030 for all seasons of the year (*Tampa_CMIP5_2030_rcp45.csv* forecast file).  These simulations are based on long-term MACA (Multivariate Adaptive Constructed Analogs) climate predictions, which are statistically downscaled from the seasonal forecasts from an ensemble of seven global climate models, as obtained from the RSAPPT tool (White et al., 2022).
 
 Forecasted changes in seasonal precipitation and seasonal temperature would be expected to result in changes in stream TP load ranging from -80% to +170%, with the changes in most stream reaches falling between a 18% increase and 38% decrease. During the winter and fall seasons, most reaches display decreases in TP load of from -6% to -38%. TP loads during the spring and summer seasons are predominantly higher within streams, with the largest increases observed in the middle portion of the Tampa Bay watershed in the spring season. 
 
 
 \begin{figure}
-\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_9.jpg}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_9a.jpg}
 \caption{\textbf{RShiny DSS interactive mapper interface for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a forecasting file change scenario, involving a change in the mean precipitation and temperature conditions from 2014 to 2030.  Results are shown for all seasons of the year.  } }
-\label{dyntutorial_9}
+\label{dyntutorial_9a}
 \end{figure}
 
+\begin{figure}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_9b.jpg}
+\caption{\textbf{RShiny DSS interactive mapper display results for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a forecasting file change scenario, involving a change in the mean precipitation and temperature conditions from 2014 to 2030.  Results are shown for all seasons of the year.  } }
+\label{dyntutorial_9b}
+\end{figure}
 
 &nbsp;&nbsp;
 
-*Long-term change in land-cover conditions (Figure \ref{dyntutorial_10})*
+*Long-term change in land-cover conditions (Figures \ref{dyntutorial_10a} and \ref{dyntutorial_10b})*
 
 The simulation predictions display the percentage change in TP load in streams that result from changes in seasonal mean fertilizer use (`FertP_Seas`) associated with changes in crop lands from 2014 to 2030 for all seasons of the year (*RSPARROW_LU_Tampa_Tp.csv* forecast file).  These simulations are based on projections of fertilizer use derived from forecasts of land-cover changes (M. Estes, 2022). 
 
@@ -7260,27 +7317,37 @@ Forecasted changes in seasonal fertilizer use would be expected to result in cha
 
 
 \begin{figure}
-\includegraphics[width=1.8\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_10.jpg}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_10a.jpg}
 \caption{\textbf{RShiny DSS interactive mapper interface for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a forecasting file change scenario, involving a change in the fertilizer use from 2014 to 2030.  } Results are shown for all seasons of the year. }
-\label{dyntutorial_10}
+\label{dyntutorial_10a}
 \end{figure}
 
+\begin{figure}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_10b.jpg}
+\caption{\textbf{RShiny DSS interactive mapper display results for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a forecasting file change scenario, involving a change in the fertilizer use from 2014 to 2030.  } Results are shown for all seasons of the year. }
+\label{dyntutorial_10b}
+\end{figure}
 
 &nbsp;&nbsp;
 
-*Long-term change in land-cover and climate conditions (Figure \ref{dyntutorial_11})*
+*Long-term change in land-cover and climate conditions (Figures \ref{dyntutorial_11a} and \ref{dyntutorial_11b})*
 
-The simulation predictions display the percentage change in TP load in streams that result from changes in the seasonal mean precipitation (`logPPT`) and mean temperature (`logAirTemp`), and seasonal mean fertilizer use (`FertP_Seas`) from 2014 to 2030 for all seasons of the year (*RSPARROW_LuClimate_Tampa_Tp.csv* forecast file).  These simulations are based on long-term MACA (Multivariate Adaptive Constructed Analogs) climate predictions, which are statistically downscaled from the seasonal forecasts from an ensemble of seven global climate models, as well as projections of fertilizer use derived from forecasts of land-cover changes (M. Estes, 2022).
+The simulation predictions display the percentage change in TP load in streams that result from changes in the seasonal mean precipitation (`logPPT`) and mean temperature (`logAirTemp`), and seasonal mean fertilizer use (`FertP_Seas`) from 2014 to 2030 for all seasons of the year (*RSPARROW_LuClimate_Tampa_Tp.csv* forecast file).  These simulations are based on long-term MACA (Multivariate Adaptive Constructed Analogs) climate predictions, which are statistically downscaled from the seasonal forecasts from an ensemble of seven global climate models, as obtained from the RSAPPT tool (White et al., 2022), as well as projections of fertilizer use derived from forecasts of land-cover changes (M. Estes, 2022).
 
 Forecasted changes in seasonal precipitation, temperature, and fertilizer use would be expected to result in changes in stream TP load ranging from -80% to a maximum of about 14,000%, with the changes in most stream reaches falling within an interval ranging from a 45% increase to a 34% decrease. The predominant increases in TP load, which are projected to result from increases in fertilizer use in 2030 (as displayed in Fig. \ref{dyntutorial_11}), are moderated by the forecasted changes in climate conditions for 2030. This gives rise to a greater balance in the number of stream reaches that would be expected to show increases and decreases in TP load.  Some seasonal differences in the direction of change are projected to occur:  During the winter and fall seasons, more streams tend to display decreases in TP loads, whereas TP loads during the spring and summer seasons show somewhat larger numbers of stream reaches with increases.
 
 
 \begin{figure}
-\includegraphics[width=1.8\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_11.jpg}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_11a.jpg}
 \caption{\textbf{RShiny DSS interactive mapper interface for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a forecasting file change scenario, involving a change in the mean precipitation, mean temperature, and fertilizer use from 2014 to 2030.  }  Results are shown for all seasons of the year. }
-\label{dyntutorial_11}
+\label{dyntutorial_11a}
 \end{figure}
 
+\begin{figure}
+\includegraphics[width=2.0\linewidth]{figures/tutorial_dynamic/figures_dyntutorial_11b.jpg}
+\caption{\textbf{RShiny DSS interactive mapper display results for the Tampa Bay seasonal total phosphorus model, with settings to evaluate a forecasting file change scenario, involving a change in the mean precipitation, mean temperature, and fertilizer use from 2014 to 2030.  }  Results are shown for all seasons of the year. }
+\label{dyntutorial_11b}
+\end{figure}
 
 \break
 
@@ -7531,11 +7598,11 @@ RSPARROW was developed as a system of interconnected R functions and scripts wri
 
 ## Library dependences 
 
-The RSPARROW library dependencies include the standard R packages listed in the DESCRIPTION file located in the *"RSPARROW_master"* directory. The 2.0 version of RSPARROW with an R-4.2.2 installation was tested using the versions of the library dependencies listed in the DESCRIPTION file. 
+The RSPARROW library dependencies include the standard R packages listed in the DESCRIPTION file located in the *"RSPARROW_master"* directory. The 2.0 version of RSPARROW with an R-4.3.1 installation was tested using the versions of the library dependencies listed in the DESCRIPTION file. 
 
-We recommend installation of R-4.2.2, using the zipped version included with the RSPARROW 2.0 download from the USGS GitLab repository. The included R version contains all R libraries and dependencies that are required to execute RSPARROW 2.0. 
+We recommend installation of R-4.3.1, using the zipped version included with the RSPARROW 2.0 download from the USGS GitLab repository. The included R version contains all R libraries and dependencies that are required to execute RSPARROW 2.0. 
 
-Advanced R users can alternatively install R for versions >=4.2.2 from CRAN and automatically install R dependencies for RSPARROW when executing the RSPARROW control script. Execution of the control script runs the R statement shown below (`devtools::install_deps`), which automatically installs (on the first run of the script) the most recent versions of the required R functions in the user's default R library (as specified in RStudio). The installed R library packages are then loaded into the RStudio session by the R statement `devtools::load_all`. 
+Advanced R users can alternatively install R for versions >=4.3.1 from CRAN and automatically install R dependencies for RSPARROW when executing the RSPARROW control script. Execution of the control script runs the R statement shown below (`devtools::install_deps`), which automatically installs (on the first run of the script) the most recent versions of the required R functions in the user's default R library (as specified in RStudio). The installed R library packages are then loaded into the RStudio session by the R statement `devtools::load_all`. 
 
 ```{r, eval=FALSE}
 
@@ -7552,7 +7619,7 @@ Advanced R users can alternatively install R for versions >=4.2.2 from CRAN and 
   devtools::load_all(path_master,recompile = FALSE)  
 ```
 
-In subsequent executions of the control script, no updates are made to the library dependencies (see Chapter subsection 4.4.12 for details). Users are not required to update the R packages to versions that are more recent than those listed for the RSPARROW compatibility versions in the DESCRIPTION file. However, when a more recent version of R is installed (>R-4.2.2), the latest versions of the library dependencies will be automatically installed with the initial execution of the control script. Note that RSPARROW compatibility with updated R package versions (more recent than those listed in the DESCRIPTION file) is not guaranteed.
+In subsequent executions of the control script, no updates are made to the library dependencies (see Chapter subsection 4.4.12 for details). Users are not required to update the R packages to versions that are more recent than those listed for the RSPARROW compatibility versions in the DESCRIPTION file. However, when a more recent version of R is installed (>R-4.3.1), the latest versions of the library dependencies will be automatically installed with the initial execution of the control script. Note that RSPARROW compatibility with updated R package versions (more recent than those listed in the DESCRIPTION file) is not guaranteed.
 
 Note that RStudio will print the following message in a yellow banner when the RSPARROW control script is opened in RStudio for the first time with a new R version:  *"Packages devtools and rstudioapi required but are not installed."* Users should ignore this message and instead execute (*"Source"*) the control script, which will install these and other required R packages (**User caution:** Package installation using the yellow banner prompt may exclude certain required packages such as *"backports"*). 
 
@@ -7675,11 +7742,12 @@ Note that the "routine" and "args" options are only valid on functional routines
 
 &nbsp;
 
-Consider the case in which an R developer wants to add an argument to the *mapBreaks.R* function. Without the `findCodeStr()` function, the developer would have to manually search all 135 R scripts and 7 batch Rscripts for every instance where the *mapBreaks* function was executed.  This is not only time consuming, but prone to error as it is possible that one or more executions might be missed, resulting in execution errors. By contrast, the `findCodeStr()` function allows users to simply execute the R statement as shown below in the RStudio Console. Now it is a simple operation to add the new argument to all executions of the mapBreaks.R routine allowing the update to propagate through the entire system so that it can be executed without error. Note that because all string searches are case dependent, a search for `mapbreaks.R` would yield no results, while a search for `mapBreaks.R` will output results.
+Consider the case in which an R developer wants to add an argument to the *mapBreaks.R* function. Without the `findCodeStr()` function, the developer would have to manually search all 187 R functions and routines for every instance where the *mapBreaks* function was executed.  This is not only time consuming, but prone to error as it is possible that one or more executions might be missed, resulting in execution errors. By contrast, the `findCodeStr()` function allows users to simply execute the R statement as shown below in the RStudio Console. Now it is a simple operation to add the new argument to all executions of the mapBreaks.R routine allowing the update to propagate through the entire system so that it can be executed without error. Note that because all string searches are case dependent, a search for `mapbreaks.R` would yield no results, while a search for `mapBreaks.R` will output results.
 
 ```{r, eval=TRUE}
-path_master <- "~/RSPARROW_master"
+path_master <- "C:/DATA/rsparrow_2.0.0_08-22-2023_dyn3/RSPARROW_master"
 path_main <- path_master
+write.table(file="C:/DATA/rsparrow_2.0.0_08-22-2023_dyn3/RSPARROW_master/myWD.txt",path_main) 
 devtools::load_all(path_main,recompile = FALSE)
 findCodeStr(path_master, "mapBreaks.R", "routine")
 ```
@@ -7731,7 +7799,7 @@ Note that all functions/routines are listed in the order of first execution with
 
 
 ```{r, eval=TRUE}
-path_master <- "~/RSPARROW_master"
+path_master <- "C:/DATA/rsparrow_2.0.0_08-22-2023_dyn3/RSPARROW_master"
 path_main <- path_master
 devtools::load_all(path_main,recompile = FALSE)
 executionTree(path_master)
@@ -7741,7 +7809,7 @@ executionTree(path_master)
 The `executionTree()` function does not have to be executed with output generated for the entire RSPARROW library. Entering a different `startRoutine` argument allows the user to trace executions forward from that function location only. As an illustration, if the user is only interested in functional and routine dependencies associated with the *predictScenarios.R* functions, then the following arguments could be used in the function to generate the list. 
 
 ```{r, eval=TRUE}
-path_master <- "~/RSPARROW_master"
+path_master <- "C:/DATA/rsparrow_2.0.0_08-22-2023_dyn3/RSPARROW_master"
 path_main <- path_master
 devtools::load_all(path_main,recompile = FALSE)
 executionTree(path_master,"predictScenarios.R",includeTypes = 'all', excludeList = NA)
@@ -7752,7 +7820,7 @@ executionTree(path_master,"predictScenarios.R",includeTypes = 'all', excludeList
 If more detailed information on function executions is needed that includes a display of all executions and line numbers, then the following statement will generate a data.table, as shown for the *estimateNLLSmetrics.R* function. 
 
 ```{r, eval=TRUE}
-path_master <- "~/RSPARROW_master"
+path_master <- "C:/DATA/rsparrow_2.0.0_08-22-2023_dyn3/RSPARROW_master"
 path_main <- path_master
 devtools::load_all(path_main,recompile = FALSE)
 executionTable<-executionTree(path_master,startRoutine="estimateNLLSmetrics.R",
@@ -7879,7 +7947,7 @@ The RShiny app in the RSPARROW system allows users to easily display maps of the
 The `executionTree()` of the shiny app is shown below.
 
 ```{r, eval=TRUE}
-path_master <- "~/RSPARROW_master"
+path_master <- "C:/DATA/rsparrow_2.0.0_08-22-2023_dyn3/RSPARROW_master"
 path_main <- path_master
 devtools::load_all(path_main,recompile = FALSE)
 executionTree(path_main,"shinyMap2.R")
@@ -8182,7 +8250,7 @@ scenario.input.list<-named.list(select_scenarioReachAreas,
 
 * *Estimation of contaminant storage in watersheds in dynamic SPARROW models.* The dynamic model specification in RSPARROW 2.0 is a simplified version of the current SAS dynamic SPARROW model, and does not account for the storage and release (i.e., temporal lags) of physical or chemical substances in watersheds over time. These contaminant storage processes will be added to a future version of RSPARROW by implementing the storage process methods in the current SAS SPARROW model code.
 
-* *Adjustment of the model coefficient standard errors of dynamic models for serial correlation.* Serial correlation can exist in the time series of the residuals of dynamic SPARROW models, which can lower the statistical significance of the model coefficients as compared to that for conventional SPARROW models that assume temporal independence in the residuals (e.g., Ator et al., 2019; Schmadel et al., 2021). Ancillary SAS SPARROW code is currently available to adjust the standard errors of the coefficients of the dynamic models for serial correlation (G. Schwarz, USGS, written comm., 2022). A future version of RSPARROW will incorporate these methods for use with RSPARROW dynamic models. 
+* *Adjustment of the model coefficient standard errors of dynamic models for serial correlation.* Serial correlation can exist in the time series of the residuals of dynamic SPARROW models, which can cause somewhat less accurate estimates of the model coefficient standard errors and their statistical significance (e.g., Ator et al., 2019; Schmadel et al., 2021). Ancillary SAS SPARROW code is currently available to adjust the standard errors of the coefficients of the dynamic models for serial correlation (G. Schwarz, USGS, written comm., 2022). A future version of RSPARROW will incorporate these methods for use with RSPARROW dynamic models. 
 
 
 \break
@@ -8195,6 +8263,10 @@ Alexander, R.B., Smith, R.A. Schwarz, G.E., Preston, S.D., Brakebill, J.W., Srin
 Alexander, R.B., Elliott, S., Shankar, U., McBride, G.B. (2002), [Estimating the sources of nutrients in the Waikato River Basin](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2001WR000878), New Zealand, Water Resources Research 38: 1268-1290.  
 
 Alexander, R.B., Boyer, E.W., Smith, R.A., Schwarz, G.E., and Moore, R.B. (2007), [The role of headwater streams in downstream water quality](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1752-1688.2007.00005.x), Journal American Water Resources Association, 43(1):  41-59.  
+
+\textcolor{red}{NEW REFERENCE}
+
+Alexander, R. B., and Gorman Sanisaca, L. (2019). [RSPARROW: An R system for SPARROW modeling](https://code.usgs.gov/water/stats/RSPARROW) [Software release]. U.S. Geological Survey. DOI: https://doi.org/10.5066/P9UAZ6FO 
 
 Alexander, R.B., Smith, R.A., Schwarz, G.E., Boyer, E.W., Nolan, J.V., and Brakebill, J.W. (2008), [Differences in phosphorus and nitrogen delivery to the Gulf of Mexico from the Mississippi River Basin](http://pubs.acs.org/doi/abs/10.1021/es0716103), Environ. Sci. Technol., v. 42(3), 822-830. DOI:10.1021/es0716103 
 
@@ -8309,12 +8381,12 @@ Wellen, C., Arhonditsis, G. B., Labencki, T., & Boyd, D. (2014), [Application of
 
 \textcolor{red}{NEW REFERENCE}
 
-White, C., M. Barik, J. Srikishen, M. Al-Hamdan, and W. Crosson (2022), “RSPARROW Atmospheric Post Processing Tool”, Universities Space Research Association. *ADD URL HERE*
+White, C., M. Barik, J. Srikishen, M. Al-Hamdan, and W. Crosson (2022), [“RSPARROW Atmospheric Post Processing Tool”](https://po.ncche.olemiss.edu/sharing/5RNbVR5qB), Universities Space Research Association and University of Mississippi. 
 
 
 # ACKNOWLEDGMENTS
 
-We thank Matt Miller and Bradley Huffman of the U.S. Geological Survey (USGS) for their reviews and suggestions on the documentation and R code. Additional suggestions and testing of RSPARROW were provided by Ana Garcia, Laura Nagy, Victor Roland, Kristina Hopkins, David Saad, and Allison Appling of the USGS, Marcelo Luiz de Souza and Alexandre de Amorim of the National Water Agency of Brazil (ANA), Eber Josér Anda and Lucus Goncalves of the Geological Survey of Brazil (CPRM), and Jayanthi Srikishen and Mohammad Alhamdan of the Universities Space Research Association at NASA (National Aeronautics and Space Administration). Additional support was provided by Gregory Schwarz, Laura De Cicco, Anne Hoos, and Mike Ierardi of the USGS. Reviews and suggestions were also provided on the RShiny interface and decision-support tool by Steve Preston, David Wolock, and Michael Woodside of the USGS. We also thank Marcus Beck at the Tampa Bay Estuary Program, who contributed R code for the RShiny *leaflet* interactive maps in the 1.1.0 version. 
+We thank Matt Miller and Bradley Huffman of the U.S. Geological Survey (USGS) for their reviews and suggestions on the documentation and R code. Additional suggestions and testing of RSPARROW were provided by Ana Garcia, Laura Nagy, Victor Roland, Kristina Hopkins, David Saad, and Allison Appling of the USGS, Marcelo Luiz de Souza and Alexandre de Amorim of the National Water Agency of Brazil (ANA), Eber Josér Anda and Lucus Goncalves of the Geological Survey of Brazil (CPRM), and Jayanthi Srikishen and Mohammad Alhamdan of the Universities Space Research Association at NASA (National Aeronautics and Space Administration). Additional support was provided by Gregory Schwarz, Laura De Cicco, Anne Hoos, and Mike Ierardi of the USGS. Reviews and suggestions were also provided on the RShiny interface and decision-support tool by Steve Preston, David Wolock, and Michael Woodside of the USGS. We also thank Marcus Beck at the Tampa Bay Estuary Program, who contributed R code for the RShiny *leaflet* interactive maps in the 1.1.0 version and served as a beta tester of the 2.0 RSPARROW version. Also, thanks are extended to Jiayu Fang of the University of Mississippi, who served as a 2.0 version beta tester. 
 
 We extend our appreciation to the participants in SPARROW training workshops, held in Brasilia, Brazil (May 29-June 2, 2017; sponsored by ANA and CPRM) and Baltimore, Maryland USA (September 13, 2018; sponsored by the USGS), for their feedback on preliminary versions of the RSPARROW software. 
 
@@ -8329,7 +8401,7 @@ Any use of trade, firm, or product names is for descriptive purposes only and do
 
 # CITATION FOR THE PUBLICATION
 
-Alexander, Richard B., and Gorman Sanisaca, Lillian. (2019). [RSPARROW: An R system for SPARROW modeling](https://code.usgs.gov/water/stats/RSPARROW) [Software release]. U.S. Geological Survey. DOI: https://doi.org/10.5066/P9UAZ6FO 
+Gorman Sanisaca, Lillian and Alexander, Richard B.  (2023). [RSPARROW 2.0: An R system for SPARROW modeling](https://code.usgs.gov/water/stats/RSPARROW) [Software release]. U.S. Geological Survey. DOI: XXX
 
 
 
