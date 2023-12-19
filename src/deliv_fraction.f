@@ -6,6 +6,7 @@ C Notes:  The input reaches are sorted in reverse hydrologic order
       subroutine deliv_fraction(nreach,waterid,nnode,data2,
      &incdecay,totdecay,sumatt)
         !GCC$ ATTRIBUTES DLLEXPORT::deliv_fraction
+        implicit none
         integer, intent(in) :: nreach
         integer, intent(in) :: nnode,waterid(nreach)
         integer :: fnode,tnode,termflag
@@ -14,6 +15,8 @@ C Notes:  The input reaches are sorted in reverse hydrologic order
         double precision, intent(in) :: totdecay(nreach)
         double precision :: frac,node(nnode),xiftran
         double precision, intent(inout) :: sumatt(nreach)
+
+        integer :: i
 
 C        open(50,file='outtest.txt')
         do i=1,nnode

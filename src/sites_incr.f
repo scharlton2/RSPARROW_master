@@ -18,11 +18,14 @@ C  4. Return variable: 'rchstaid' - site IDs assigned to upstream incremental re
       subroutine sites_incr(nreach,nnode,minnum,fnode,tnode,staid,
      &waterid,nstaid)
         !GCC$ ATTRIBUTES DLLEXPORT::sites_incr
+        implicit none
         integer, intent(in) :: nreach,nnode,minnum
         integer, intent(in) :: fnode(nreach),tnode(nreach)
         integer, intent(in) :: staid(nreach),waterid(nreach)
         integer, intent(inout) :: nstaid(nreach)
         integer :: nmont(nnode),nrch(nnode)
+
+        integer :: i
 
         do i=1,nnode
          nmont(i) = 0

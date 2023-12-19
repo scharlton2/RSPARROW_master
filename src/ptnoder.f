@@ -4,6 +4,7 @@ C Purpose: Load stream network accumulation routine that returns predictions.
 
       subroutine ptnoder(ifadj,nreach,nnode,data2,incddsrc,carryf,pred)
         !GCC$ ATTRIBUTES DLLEXPORT::ptnoder
+        implicit none
         integer, intent(in) :: ifadj
         integer, intent(in) :: nreach
         integer, intent(in) :: nnode
@@ -12,6 +13,9 @@ C Purpose: Load stream network accumulation routine that returns predictions.
         double precision, intent(in) :: incddsrc(nreach),carryf(nreach)
         double precision :: depvar,node(nnode),ee(nreach)
         double precision, intent(inout) :: pred(nreach)
+
+        integer :: i
+        double precision :: rchld
 
         i_obs = 1
         do i=1,nnode

@@ -46,6 +46,7 @@ C    fsumiarea <- sumatts(incatt)  # total reach area
 
       subroutine sum_atts(nreach,nnode,data2,incatt,sumatt)
         !GCC$ ATTRIBUTES DLLEXPORT::sum_atts
+        implicit none
         integer, intent(in) :: nreach
         integer, intent(in) :: nnode
         integer :: fnode,tnode,iftran
@@ -53,6 +54,8 @@ C    fsumiarea <- sumatts(incatt)  # total reach area
         double precision, intent(in) :: incatt(nreach)
         double precision :: frac(nreach),node(nnode)
         double precision, intent(inout) :: sumatt(nreach)
+
+        integer :: i
 
         do i=1,nnode
          node(i) = 0

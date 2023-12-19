@@ -9,6 +9,7 @@ C Notes:   See predict.R calculation of 'mpload_' shares for background.
       subroutine mptnoder(ifadj,share,nreach,nnode,
      cdata2,incddsrc,carryf,pred)
         !GCC$ ATTRIBUTES DLLEXPORT::mptnoder
+        implicit none
         integer, intent(in) :: ifadj
         integer, intent(in) :: nreach
         integer, intent(in) :: nnode
@@ -17,6 +18,9 @@ C Notes:   See predict.R calculation of 'mpload_' shares for background.
         double precision, intent(in) :: incddsrc(nreach),carryf(nreach)
         double precision :: depvar,node(nnode)
         double precision, intent(inout) :: pred(nreach)
+
+        integer :: i
+        double precision :: rchld
 
         i_obs = 1
         do i=1,nnode

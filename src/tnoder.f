@@ -4,6 +4,7 @@ C Purpose: Load stream network accumulation routine that returns residuals for u
 
       subroutine tnoder(ifadj,nreach,nnode,data2,incddsrc,carryf,ee)
         !GCC$ ATTRIBUTES DLLEXPORT::tnoder
+        implicit none
         integer, intent(in) :: ifadj
         integer, intent(in) :: nreach
         integer, intent(in) :: nnode
@@ -12,6 +13,9 @@ C Purpose: Load stream network accumulation routine that returns residuals for u
         double precision, intent(in) :: incddsrc(nreach),carryf(nreach)
         double precision :: depvar,node(nnode)
         double precision, intent(inout) :: ee(nreach)
+
+        integer :: i
+        double precision :: rchld
 
         i_obs = 1
         do i=1,nnode
