@@ -161,7 +161,7 @@ predictSensitivity <- function(AEstimate,estimate.list,DataMatrix.list,SelParmVa
                           data2=as.double(data2),
                           incddsrc=as.double(incddsrc),
                           carryf=as.double(carryf),
-                          ee=as.double(ee),PACKAGE="ptnoder") 
+                          ee=as.double(ee),PACKAGE="RSPARROW")
   pred <- return_data$ee
   
   pload_total <- pred   # nonadjusted total load 

@@ -166,7 +166,7 @@ predictBoot <- function(bEstimate,estimate.list,estimate.input.list,bootcorrecti
                           data2=as.double(data2),
                           incddsrc=as.double(incddsrc),
                           carryf=as.double(carryf),
-                          ee=as.double(ee),PACKAGE="ptnoder") 
+                          ee=as.double(ee),PACKAGE="RSPARROW")
   pred <- return_data$ee
   
   pload_total <- pred   # nonadjusted total load 
@@ -188,7 +188,7 @@ predictBoot <- function(bEstimate,estimate.list,estimate.input.list,bootcorrecti
                           data2=as.double(data2),
                           incddsrc=as.double(incddsrc),
                           carryf=as.double(carryf),
-                          ee=as.double(ee),PACKAGE="ptnoder") 
+                          ee=as.double(ee),PACKAGE="RSPARROW")
   pred <- return_data$ee
   
   mpload_total <- pred  # monitoring-adjusted total load
@@ -211,7 +211,7 @@ predictBoot <- function(bEstimate,estimate.list,estimate.input.list,bootcorrecti
                           data2=as.double(data2),
                           incddsrc_nd=as.double(incddsrc_nd),
                           carryf_nd=as.double(carryf_nd),
-                          ee=as.double(ee),PACKAGE="ptnoder") 
+                          ee=as.double(ee),PACKAGE="RSPARROW")
   pred <- return_data$ee
   
   pload_nd_total <- pred   
@@ -250,7 +250,7 @@ predictBoot <- function(bEstimate,estimate.list,estimate.input.list,bootcorrecti
                             data2=as.double(data2),
                             incddsrc=as.double(incddsrc),
                             carryf=as.double(carryf),
-                            ee=as.double(ee),PACKAGE="ptnoder") 
+                            ee=as.double(ee),PACKAGE="RSPARROW")
     pred <- return_data$ee
     
     assign(paste0("pload_",Parmnames[j]),pred)   # create variable 'pload_(source name)'
@@ -274,7 +274,7 @@ predictBoot <- function(bEstimate,estimate.list,estimate.input.list,bootcorrecti
                             data2=as.double(data2),
                             incddsrc_nd=as.double(incddsrc_nd),
                             carryf_nd=as.double(carryf_nd),
-                            ee=as.double(ee),PACKAGE="ptnoder") 
+                            ee=as.double(ee),PACKAGE="RSPARROW")
     pred <- return_data$ee
     
     assign(paste0("pload_nd_",Parmnames[j]),pred)   # create variable 'pload_(source name)'
@@ -314,7 +314,7 @@ predictBoot <- function(bEstimate,estimate.list,estimate.input.list,bootcorrecti
                               data2=as.double(data2),
                               incddsrc=as.double(incddsrc),
                               carryf=as.double(carryf),
-                              ee=as.double(ee),PACKAGE="mptnoder") 
+                              ee=as.double(ee),PACKAGE="RSPARROW")
       pred <- return_data$ee
       
       assign(paste0("mpload_",Parmnames[j]),pred)   # create variable 'mpload_(source name)'
@@ -340,7 +340,7 @@ predictBoot <- function(bEstimate,estimate.list,estimate.input.list,bootcorrecti
                             data2=as.double(data2),
                             incdecay=as.double(incdecay),
                             totdecay=as.double(totdecay),
-                            sumatt=as.double(sumatt),PACKAGE="deliv_fraction") 
+                            sumatt=as.double(sumatt),PACKAGE="RSPARROW")
     fsumatt <- return_data$sumatt
     return(fsumatt) 
   }  # end sumatts function

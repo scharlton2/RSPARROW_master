@@ -133,7 +133,7 @@ estimateFevalNoadj <- function(beta0,
                           data2=as.double(data2),
                           incddsrc=as.double(incddsrc),
                           carryf=as.double(carryf),
-                          ee=as.double(ee),PACKAGE="tnoder") 
+                          ee=as.double(ee),PACKAGE="RSPARROW")
   e <- return_data$ee
   
   e <- sqrt(weight) * e

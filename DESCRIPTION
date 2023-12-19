@@ -208,3 +208,4 @@ Collate:
     'validCosmetic.R'
     'verifyDemtarea.R'
 RoxygenNote: 7.2.3
+Encoding: UTF-8

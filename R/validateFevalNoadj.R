@@ -124,7 +124,7 @@ validateFevalNoadj <- function(beta0,vdepvar,
                           data2=as.double(data2),
                           incddsrc=as.double(incddsrc),
                           carryf=as.double(carryf),
-                          ee=as.double(ee),PACKAGE="tnoder") 
+                          ee=as.double(ee),PACKAGE="RSPARROW")
   e <- return_data$ee
   
   weight <- rep(1,nstaid)  # no weights applied

@@ -31,7 +31,7 @@ assignIncremSiteIDs <- function(minnum,staid,waterid,tnode,fnode) {
                           tnode=as.integer(tnode),
                           staid=as.integer(staid),
                           waterid=as.integer(waterid),
-                          rchstaid=as.integer(rchstaid),PACKAGE='sites_incr')
+                          rchstaid=as.integer(rchstaid),PACKAGE='RSPARROW')
   rchstaid <- return_data$rchstaid
   
   
