@@ -58,7 +58,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.config.os }}-src
+          name: ${{ matrix.config.os }}-(${{ matrix.config.r }})-src
           path: src/
 
       - run: roxygen2::roxygenise()
