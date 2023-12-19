@@ -1,0 +1,11 @@
+# Linux dll artifacts
+# Rscript -e "pkgbuild::compile_dll()"
+# Rscript -e "pkgbuild::clean_dll()"
+src/deliv_fraction.o
+src/mptnoder.o
+src/ptnoder.o
+src/RSPARROW_init.o
+src/RSPARROW.so
+src/sites_incr.o
+src/sum_atts.o
+src/tnoder.o
