@@ -24,7 +24,7 @@ jobs:
           # # use 4.1 to check with rtools40's older compiler
           # - {os: windows-latest, r: '4.1'}
 
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          # - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
           # - {os: ubuntu-latest,   r: 'oldrel-1'}
           # - {os: ubuntu-latest,   r: 'oldrel-2'}
@@ -48,11 +48,22 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: |
+            any::devtools
+            any::rcmdcheck
           needs: check
 
       - run: pkgbuild::compile_dll()
-        shell: Rscript {0}          
+        shell: Rscript {0}
+
+      - run: find -type f | xargs ls -al
+        shell: bash
+
+      - run: roxygen2::roxygenise()
+        shell: Rscript {0}
+
+      - run: devtools::document()
+        shell: Rscript {0}
 
       # - uses: r-lib/actions/check-r-package@v2
       #   with:
