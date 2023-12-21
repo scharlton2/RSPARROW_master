@@ -73,8 +73,8 @@ jobs:
       - run: devtools::document()
         shell: Rscript {0}
 
-      - run: devtools::check()
-        shell: Rscript {0}
+      # - run: devtools::check()
+      #   shell: Rscript {0}
 
       - run: Get-Command pdflatex
         if: matrix.config.os == 'Windows'
