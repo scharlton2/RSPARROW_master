@@ -47,7 +47,7 @@ jobs:
           use-public-rspm: true
 
       # https://github.com/yihui/knitr/blob/1bb83af56b9af8c233e8be85ceaa7413ac0b3583/.github/workflows/R-CMD-check.yaml#L52-L55
-      - uses: r-lib/actions/setup-tinytex@v2-branch
+      - uses: r-lib/actions/setup-tinytex@v2
         env:
           # install full prebuilt version
           TINYTEX_INSTALLER: TinyTeX
