@@ -5,7 +5,7 @@
 #'@param path_PastResults character string path to previously generated results including run_id subdirectory
 #'@param path_shinyBrowser character string path to browser executible, if NA defualt browser will be used
 #'@examples
-#'path_master<-'./RSPARROW_master'
+#'path_master<-'.'
 #'suppressWarnings(remove(list="runRsparrow"))
 #'devtools::load_all(path_master,recompile = FALSE)
 #'runBatchShiny("~/UserDirectory/results/customRunId") #uses default browser
