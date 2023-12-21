@@ -67,6 +67,12 @@ jobs:
       - run: devtools::document()
         shell: Rscript {0}
 
+      - run: Get-Command pdflatex
+        if: matrix.config.os == 'Windows'
+
+      - run: which pdflatex
+        if: matrix.config.os != 'Windows'
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
