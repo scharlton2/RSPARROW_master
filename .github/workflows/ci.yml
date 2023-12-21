@@ -70,6 +70,8 @@ jobs:
       - run: roxygen2::roxygenise()
         shell: Rscript {0}
 
+      - run: cat NAMESPACE
+
       - run: devtools::document()
         shell: Rscript {0}
 
