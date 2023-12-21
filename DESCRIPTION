@@ -15,6 +15,7 @@ Imports:
     car (>= 3.0-10),
     data.table (>= 1.13.2),
     data.tree (>= 1.0.0),
+    devtools,
     dplyr (>=  1.0.2),
     evaluate (>= 0.14),
     formatR (>= 1.7),
