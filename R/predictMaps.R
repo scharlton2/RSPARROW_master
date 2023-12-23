@@ -34,7 +34,7 @@
 #'       reduction scenario
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
-
+#' @importFrom sf st_write
 
 
 predictMaps<-function(#Rshiny

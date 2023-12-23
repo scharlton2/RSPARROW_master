@@ -13,6 +13,7 @@
 #'                sub-section 5.1.2 for details)
 #'@param add_plotlyVars character vector indicating user selected variables to add to plot 
 #'                      hover text
+#' @importFrom shiny actionButton column NS textInput
 
 
 shinyScenarios<-function(id, input, choices,sitedata,add_plotlyVars, scenario.input.list){

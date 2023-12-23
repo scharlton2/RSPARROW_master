@@ -1,3 +1,5 @@
+#' @importFrom sf st_transform
+
 #find path to this file
 cmdArgs = commandArgs(trailingOnly = FALSE)
 needle = "--file="
@@ -43,8 +45,8 @@ if (length(res)!=0){
   }#end Error 
   
   
-  suppressWarnings(suppressMessages(library(sp)))
-  suppressWarnings(suppressMessages(library(sf)))
+  ##SRC## suppressWarnings(suppressMessages(library(sp)))
+  ##SRC## suppressWarnings(suppressMessages(library(sf)))
   
   polyShape <- sf::st_read(paste0(path_gis,"/",polyShapeName,".shp"), quiet = TRUE)
   polyShape<-st_transform(polyShape,sf::st_crs(CRStext))

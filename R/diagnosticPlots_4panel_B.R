@@ -27,6 +27,7 @@
 #'@param hline function to create horizontal red line
 #'@return 4 panel diagnostic plot of "Residuals","Observed / Predicted Ratio",
 #'"Normal Q-Q Plot","Squared Residuals 
+#' @importFrom plotly subplot
 
 
 diagnosticPlots_4panel_B<-function(sitedata,plotResids,plot.ratio.obs.pred,plot.standardResids,plotpredict,

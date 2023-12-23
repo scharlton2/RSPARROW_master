@@ -38,6 +38,7 @@
 #'                         displays for maps
 #'@return data.frame of all pages of plots grouped according to map_years, map_seasons,
 #'             mapPageGroupBy, and mapsPerPage
+## ?arrange
 
 
 setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage, 

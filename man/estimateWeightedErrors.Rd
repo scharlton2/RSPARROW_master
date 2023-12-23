@@ -31,7 +31,10 @@ executed in \code{userModifyData.R}}
 squared residutals (variance) predicted by the power function
 }
 \description{
-\cr \cr
+Estimates the residual weights for a SPARROW model according to the
+"lnload" method, with the weights estimated using a nonlinear power
+function regression of the squared log residuals on log transformed
+values of the prediction loads.  \cr \cr
 Executes Routines: \itemize{\item named.list.R
 \item unPackList.R} \cr
 }

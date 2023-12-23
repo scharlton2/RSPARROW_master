@@ -8,6 +8,7 @@
 #'@param session active shiny session
 #'@param DF rhandsontable for cosmetic mapping settings in the shiny app
 #'@param rowNum rownumbers of invalid settings in the rhandsontables in the shiny app
+#' @importFrom shiny observe reactiveValues
 
 
 

@@ -34,6 +34,7 @@
 #'       `mapSiteAttributes.R`
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
+#' @importFrom ggplot2 scale_colour_manual unit
 
 
 
@@ -345,8 +346,8 @@ if ("lat" %in% names(mapdata)){
       plotPageData$mapColor<-factor(plotPageData$mapColor, levels = col2hex(color))
 
       if (enable_plotlyMaps=="no" | enable_plotlyMaps=="static"){
-        #mapdata<-st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = CRStext)
-        mapdata<-st_as_sf(mapdata,coords = c("lon", "lat"), crs = CRStext)
+        #mapdata<-sf::st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = CRStext)
+        mapdata<-sf::st_as_sf(mapdata,coords = c("lon", "lat"), crs = CRStext)
          p<-p +
           geom_sf(data = mapdata,
                   aes(colour = factor(mapColor, levels = col2hex(color))), 
@@ -375,8 +376,8 @@ if ("lat" %in% names(mapdata)){
         
         markerTextHTML<-paste0("~lapply(",markerText,",HTML)")
         
-       # mapdata<-st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = 4326)
-        mapdata<-st_as_sf(mapdata,coords = c("lon", "lat"), crs = 4326)
+       # mapdata<-sf::st_as_sf(mapdata,coords = c("xlon", "xlat"), crs = 4326)
+        mapdata<-sf::st_as_sf(mapdata,coords = c("lon", "lat"), crs = 4326)
         
         p <- mapview(mapdata,
                      fill = F, homebutton = F, popup = NULL, legend = F, viewer.suppress = F) %>% 

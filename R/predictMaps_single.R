@@ -21,6 +21,10 @@
 #'@param i numeric index of color being mapped.
 #'@return list including single map with stream or catchment data and vector
 #'of colors present on map
+#' @importFrom ggplot2 %+% geom_sf scale_colour_manual scale_fill_manual theme
+#' @importFrom grid unit
+#' @importFrom plotly toRGB
+#' @importFrom sf st_transform st_zm
 
 
 

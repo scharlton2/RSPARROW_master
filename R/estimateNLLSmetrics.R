@@ -41,7 +41,7 @@
 #'       mode
 #'@return `estimate.metrics.list` named list of summary metrics. For more details see 
 #'            documentation section 5.2.4
-
+#' @importFrom dplyr n
 
 
 estimateNLLSmetrics <- function(if_estimate,if_estimate_simulation,if_sparrowEsts,sparrowEsts,

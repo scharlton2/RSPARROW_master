@@ -29,8 +29,8 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   ntype <- SelParmValues$betatype[SelParmValues$bCorrGroup==1]
   
   #### Add libraries to the DESCRIPTION file, but necessary to invoke in function
-  suppressWarnings(suppressMessages(library(car)))     # scatterplotMatrix function
-  suppressWarnings(suppressMessages(library(dplyr)))   # sample_n function (requires 'rlang' library)
+  ##SRC## suppressWarnings(suppressMessages(library(car)))     # scatterplotMatrix function
+  ##SRC## suppressWarnings(suppressMessages(library(dplyr)))   # sample_n function (requires 'rlang' library)
   
   # create global variables from list names
   rows <- length(assign(names[1],eval(parse(text=paste0("subdata$",names[1])))))
@@ -124,7 +124,7 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
     #car::scatterplotMatrix(df,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,smooth=TRUE)
     car::scatterplotMatrix(df,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,
                            smooth=list(smoother=loessLine, var=FALSE, lty.var=2, lty.var=4))
-     boxplot(log(df))
+     graphics::boxplot(log(df))
     
   }
   
@@ -163,7 +163,7 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   car::scatterplotMatrix(sdf,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,
                          smooth=list(smoother=loessLine, var=FALSE, lty.var=2, lty.var=4))
  
-  boxplot(sdf)
+  graphics::boxplot(sdf)
   
   # Transformed data
   # convert 0 values to minimum positive value to allow log transformation
@@ -213,7 +213,7 @@ correlationMatrix <- function(file.output.list,SelParmValues,subdata){
   # maximum size limited to 6472 observations
   car::scatterplotMatrix(sdf,diagonal="boxplot",reg.line=FALSE,use="pairwise.complete.obs",spread=FALSE,
                          smooth=list(smoother=loessLine, var=FALSE, lty.var=2, lty.var=4))
-  boxplot(sdf)
+  graphics::boxplot(sdf)
   
   dev.off()  # shuts down current graphics device
   graphics.off()  # shuts down all open graphics devices

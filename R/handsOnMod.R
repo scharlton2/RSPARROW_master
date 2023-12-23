@@ -7,7 +7,7 @@
 #'@param output shiny list object for session output
 #'@param session active shiny session
 #'@param DF rhandsontable for cosmetic mapping settings in the shiny app
-
+#' @importFrom shiny observe reactiveValues
 
 
 handsOnMod<-function(input, output, session, DF){

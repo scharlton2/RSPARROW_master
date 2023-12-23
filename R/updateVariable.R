@@ -8,6 +8,7 @@
 #'@param session active shiny session
 #'@param choices data.frame output of function createInteractiveChoices.R
 #'@param mapType character string indicating type of map (prediction, siteAttr, scenario)
+#' @importFrom shiny renderText updateSelectInput
 
 
 

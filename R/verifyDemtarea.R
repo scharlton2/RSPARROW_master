@@ -20,6 +20,7 @@
 #'                          if_verify_demtarea_maps
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
+#' @importFrom ggplot2 qplot
 
 
 

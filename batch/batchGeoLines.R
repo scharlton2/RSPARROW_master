@@ -1,3 +1,5 @@
+#' @importFrom sf st_transform st_zm
+
 #find path to this file
 cmdArgs = commandArgs(trailingOnly = FALSE)
 needle = "--file="
@@ -44,8 +46,8 @@ if (length(res)!=0){
   
   
   
-  suppressWarnings(suppressMessages(library(sp)))
-  suppressWarnings(suppressMessages(library(sf)))
+  ##SRC## suppressWarnings(suppressMessages(library(sp)))
+  ##SRC## suppressWarnings(suppressMessages(library(sf)))
 
   #load and convert shape file
 

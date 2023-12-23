@@ -5,6 +5,7 @@
 #'             \item streamCatch.R} \cr
 #'@param id Shiny namespace designation
 #'@param input top level interactive user input in Shiny app
+#' @importFrom shiny NS
 
 
 

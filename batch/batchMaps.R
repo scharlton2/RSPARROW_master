@@ -67,13 +67,13 @@ if (length(res)!=0){
              parentObj = list(NA,NA)) 
   
   #load libraries
-  suppressWarnings(suppressMessages(library(sp)))
-  suppressWarnings(suppressMessages(library(sf)))
-  suppressWarnings(suppressMessages(library(plotly)))
+  ##SRC## suppressWarnings(suppressMessages(library(sp)))
+  ##SRC## suppressWarnings(suppressMessages(library(sf)))
+  ##SRC## suppressWarnings(suppressMessages(library(plotly)))
   suppressWarnings(suppressMessages(library(rmarkdown)))
   suppressWarnings(suppressMessages(library(knitr)))
   suppressWarnings(suppressMessages(library(tools)))
-  suppressWarnings(suppressMessages(library(gridExtra)))
+  ##SRC## suppressWarnings(suppressMessages(library(gridExtra)))
   suppressWarnings(suppressMessages(library(ggplot2)))
   suppressWarnings(suppressMessages(library(gplots)))
   suppressWarnings(suppressMessages(library(mapview)))

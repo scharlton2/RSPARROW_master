@@ -9,6 +9,7 @@
 #'@param session active shiny session
 #'@param scenarioRtables named list of rhandsontables used as initial values for shiny app
 #'@param path_results path to results model subdirectory
+#' @importFrom shiny observe observeEvent
 
 
 

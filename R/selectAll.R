@@ -7,6 +7,7 @@
 #'@param session active shiny session
 #'@param category variable type from `unique(choices$category)` in the Rshiny app
 #'@param choices data.frame output of function createInteractiveChoices.R
+#' @importFrom shiny observeEvent updateCheckboxGroupInput
 
 
 

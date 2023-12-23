@@ -16,10 +16,3 @@ runs shiny app on previously executed RSPARROW model in batch mode from user
 specified browser \cr \cr
 Executes Routines: shinyBatch.R \cr
 }
-\examples{
-path_master<-'./RSPARROW_master'
-suppressWarnings(remove(list="runRsparrow"))
-devtools::load_all(path_master,recompile = FALSE)
-runBatchShiny("~/UserDirectory/results/customRunId") #uses default browser
-runBatchShiny("~/UserDirectory/results/customRunId",path_shinyBrowser = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
-}

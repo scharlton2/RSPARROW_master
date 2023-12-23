@@ -63,7 +63,11 @@
 #'                            should be applied
 #'@return `outshinyInput`  the Shiny Input list with hottables as dataframes and cosmetic 
 #'            mapping settings as list objects
-
+#' @importFrom leaflet renderLeaflet
+#' @importFrom gridExtra grid.arrange
+#' @importFrom plotly plotlyOutput renderPlotly
+#' @importFrom shiny actionButton callModule checkboxGroupInput conditionalPanel eventReactive fluidPage fluidRow isolate mainPanel observe plotOutput renderPlot renderText renderUI selectInput shinyApp shinyServer shinyUI sidebarLayout sidebarPanel textOutput titlePanel uiOutput updateSelectInput
+#' @importFrom shinyWidgets dropdownButton
 
 
 shinyMap2<-function(
@@ -87,12 +91,12 @@ shinyMap2<-function(
   
 
   
-  suppressWarnings(suppressMessages(library(shiny)))
-  suppressWarnings(suppressMessages(library(shinycssloaders)))
-  suppressWarnings(suppressMessages(library(sp)))
-  suppressWarnings(suppressMessages(library(sf)))
+  ##SRC## suppressWarnings(suppressMessages(library(shiny)))
+  ##SRC## suppressWarnings(suppressMessages(library(shinycssloaders)))
+  ##SRC## suppressWarnings(suppressMessages(library(sp)))
+  ##SRC## suppressWarnings(suppressMessages(library(sf)))
   suppressWarnings(suppressMessages(library(data.table)))
-  suppressWarnings(suppressMessages(library(shinyWidgets)))
+  ##SRC## suppressWarnings(suppressMessages(library(shinyWidgets)))
   suppressWarnings(suppressMessages(library(stringr)))
   suppressWarnings(suppressMessages(library(rhandsontable)))
   
@@ -100,12 +104,12 @@ shinyMap2<-function(
   suppressWarnings(suppressMessages(library(leaflet.extras)))
   suppressWarnings(suppressMessages(library(htmlwidgets)))
   suppressWarnings(suppressMessages(library(htmltools)))
-  suppressWarnings(suppressMessages(library(plotly)))
+  ##SRC## suppressWarnings(suppressMessages(library(plotly)))
   suppressWarnings(suppressMessages(library(mapview)))
   suppressWarnings(suppressMessages(library(magrittr)))
   suppressWarnings(suppressMessages(library(gplots)))
   suppressWarnings(suppressMessages(library(ggplot2)))
-  suppressWarnings(suppressMessages(library(gridExtra)))
+  ##SRC## suppressWarnings(suppressMessages(library(gridExtra)))
   
   unPackList(lists = list(file.output.list = file.output.list,
                           scenario.input.list = scenario.input.list,

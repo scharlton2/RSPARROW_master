@@ -8,6 +8,7 @@
 #'       entries in the shiny app
 #'@param errMsg character string custom message indicating invalid entries in the shiny app
 #'@return `errMsg` character string custom message indicating invalid entries in the shiny app
+#' @importFrom shiny modalButton modalDialog showModal
 
 
 

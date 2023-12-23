@@ -22,7 +22,9 @@
 #'                ‘sparrowNames’ variables, with records sorted in hydrological 
 #'                (upstream to downstream) order (see the documentation Chapter 
 #'                sub-section 5.1.2 for details)
-
+#' @importFrom ggplot2 aes coord_sf element_blank element_rect element_text geom_sf ggplot ggtitle guides guide_legend scale_colour_manual scale_shape_manual scale_size_manual theme theme_bw
+#' @importFrom plotly add_sf add_trace layout plot_ly
+#' @importFrom grid unit
 
 diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
                          map.list,strTitle,mapping.input.list,sitedata,p, usedColors,
@@ -288,7 +290,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
         map1$lon<- map1$xlon
       }
       #make sf object
-      map1<-st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
+      map1<-sf::st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
 
       p<-p +
         geom_sf(data = map1,
@@ -474,7 +476,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
         map1$lat<- map1$xlat
         map1$lon<- map1$xlon
       }
-      map1<-st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
+      map1<-sf::st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
 
       p<-p +
         geom_sf(data = map1,
@@ -657,7 +659,7 @@ diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
         map1$lat<- map1$xlat
         map1$lon<- map1$xlon
       }
-      map1<-st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
+      map1<-sf::st_as_sf(map1,coords = c("lon", "lat"), crs = CRStext)
 
       p<-p +
         geom_sf(data = map1,

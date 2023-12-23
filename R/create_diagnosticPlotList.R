@@ -41,6 +41,7 @@
 #'                 \item CDF_of_Station_Euclidean_Distances
 #'                 \item Morans_I_by_river_basins
 #'                 \item Morans_I_by_Class_variable}
+#' @importFrom plotly subplot
 
 create_diagnosticPlotList<-function(){
   plotList<-list()
@@ -245,7 +246,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
                         legend = FALSE,showPlotGrid = showPlotGrid)
       p <- p %>% add_trace(y = ratio.obs.pred,x = vvar, type = 'box', color = I("black"), 
                            fillcolor = "white")
-      p <- p %>% layout(shapes = list(hline(1)))
+      ##SRC## p <- p %>% layout(shapes = list(hline(1)))
       return(p)
    # }
     }#p5 func
@@ -278,6 +279,7 @@ Output only if control setting if_corrExplanVars<-'yes' selected and a value of 
     add_trace(y = boxvar,x = vvar, type = 'box', color = I("black"), 
               fillcolor = "white") %>%
     layout(shapes = list(hline(1)))
+    ##SRC## plotly::layout(shapes = list(hline(1)))
   return(p)
     
   }#p6 func
