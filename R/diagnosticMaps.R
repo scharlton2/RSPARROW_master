@@ -22,9 +22,12 @@
 #'                ‘sparrowNames’ variables, with records sorted in hydrological 
 #'                (upstream to downstream) order (see the documentation Chapter 
 #'                sub-section 5.1.2 for details)
+#' @importFrom gplots col2hex
 #' @importFrom ggplot2 aes coord_sf element_blank element_rect element_text geom_sf ggplot ggtitle guides guide_legend scale_colour_manual scale_shape_manual scale_size_manual theme theme_bw
-#' @importFrom plotly add_sf add_trace layout plot_ly
 #' @importFrom grid unit
+#' @importFrom leaflet colorNumeric
+#' @importFrom magrittr %>%
+#' @importFrom plotly add_sf add_trace layout plot_ly
 
 diagnosticMaps<-function(mapColumn,mapdata,GeoLines,
                          map.list,strTitle,mapping.input.list,sitedata,p, usedColors,

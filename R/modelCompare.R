@@ -11,6 +11,7 @@
 #'       model comparision being executed
 #'@param if_spatialAutoCorr yes/no control setting to specifiy if the spatial autocorrelation 
 #'       diagnostic graphics for Moran's I test are to be output
+#' @importFrom data.table fwrite
 
 
 

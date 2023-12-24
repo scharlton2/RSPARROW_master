@@ -4,23 +4,23 @@
 ## usethis namespace: end
 #' @import OpenMx
 #' @rawNamespace import(car, except = c(pointLabel))
-#' @import data.table
+## @import data.table
 #' @import data.tree
 #' @import devtools
 #' @import evaluate
 #' @import formatR
 #' @rawNamespace import(gear, except = c(evaluate))
 ## @rawNamespace import(ggplot2, except = c(last_plot))
-#' @rawNamespace import(gplots, except = c(reorder.factor))
+## @rawNamespace import(gplots, except = c(reorder.factor))
 #' @import highr
-#' @rawNamespace import(htmltools, except = c(code))
-#' @import htmlwidgets
+## @rawNamespace import(htmltools, except = c(code))
+## @import htmlwidgets
 #' @import inline
 #' @import knitr
-#' @import leaflet
-#' @import leaflet.extras
-#' @rawNamespace import(magrittr, except = c(extract))
-#' @import mapview
+## @import leaflet
+## @import leaflet.extras
+## @rawNamespace import(magrittr, except = c(extract))
+## @import mapview
 #' @import markdown
 #' @import methods
 #' @import nlmrt
@@ -28,7 +28,7 @@
 #' @importFrom plotly add_sf add_trace layout plot_ly
 #' @rawNamespace import(plyr, except = c(mutate,summarize,arrange,failwith,
 #'                         summarise, id, rename, desc, count))
-#' @import rhandsontable
+## @import rhandsontable
 #' @import rmarkdown
 #' @import roxygen2
 #' @import rstan
@@ -39,7 +39,7 @@
 ## @import shinycssloaders
 ## @import sp
 #' @import spdep
-#' @import stringr
+## @import stringr
 #' @import svDialogs
 #' @import svGUI
 #' @import tools

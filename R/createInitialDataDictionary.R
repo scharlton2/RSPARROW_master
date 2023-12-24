@@ -12,6 +12,7 @@
 #'@param input_data_fileName name of users data1 file
 #'@param create_initial_parameterControlFiles yes/no indicating if new parameter files should 
 #'       be generated based on the dataDictionary.csv control file
+#' @importFrom data.table fwrite
 
 
 

@@ -23,6 +23,7 @@
 #'@return `BootResults` data archive using the control setting `if_boot_estimate <- "yes"` for 
 #'            use in subsequent execution of parametric bootstrap predictions. For more details see 
 #'            documenation Section 5.2.6.2.
+#' @importFrom data.table fwrite
 
 
 

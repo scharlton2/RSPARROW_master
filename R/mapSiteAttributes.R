@@ -35,7 +35,10 @@
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
 #' @importFrom ggplot2 scale_colour_manual unit
-
+#' @importFrom gplots col2hex
+#' @importFrom leaflet addCircleMarkers addLegend clearMarkers clearShapes colorNumeric
+#' @importFrom magrittr %>%
+#' @importFrom mapview mapview
 
 
 mapSiteAttributes<-function(#Rshiny

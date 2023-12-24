@@ -21,6 +21,7 @@
 #'       parmMin>=0) | parmType!="SOURCE")`
 #'@param subdata data.frame input data (subdata)
 #'@param class.input.list list of control settings related to classification variables
+#' @importFrom data.table fwrite
 
 
 predictSummaryOutCSV <- function(file.output.list,estimate.input.list,

@@ -12,6 +12,7 @@
 #'@param add_vars additional variables specified by the setting `add_vars` to be included in 
 #'       prediction, yield, and residuals csv and shape files
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
+#' @importFrom data.table fwrite
 
 
 

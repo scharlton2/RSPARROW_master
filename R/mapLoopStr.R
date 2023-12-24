@@ -15,6 +15,7 @@
 #'@param mapLoopInput.list list of all objects required for a given mapType
 #'@return named list multi-panel maps
 #' @importFrom ggplot2 %+% ggplot_build ggplot_gtable 
+#' @importFrom magrittr %>%
 
 
 

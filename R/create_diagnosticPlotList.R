@@ -41,6 +41,8 @@
 #'                 \item CDF_of_Station_Euclidean_Distances
 #'                 \item Morans_I_by_river_basins
 #'                 \item Morans_I_by_Class_variable}
+#' @importFrom data.table fwrite
+#' @importFrom magrittr %>%
 #' @importFrom plotly subplot
 
 create_diagnosticPlotList<-function(){

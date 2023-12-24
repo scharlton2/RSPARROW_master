@@ -39,6 +39,7 @@
 #'@return data.frame of all pages of plots grouped according to map_years, map_seasons,
 #'             mapPageGroupBy, and mapsPerPage
 ## ?arrange
+#' @importFrom magrittr %>%
 
 
 setupDynamicMaps<-function(dmapfinal,map_years,map_seasons,mapPageGroupBy,mapsPerPage, 

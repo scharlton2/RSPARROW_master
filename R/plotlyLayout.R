@@ -28,6 +28,7 @@
 #'@param legend TRUE/FALSE indicated whether legend should be included
 #'@param showPlotGrid yes/no setting controlling whether gridlines are displayed
 #'@return `p` plotly plot object with custom layout
+#' @importFrom magrittr %>%
 
 
 plotlyLayout<-function(x, y, log, nTicks, digits, 

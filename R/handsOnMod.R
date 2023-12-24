@@ -7,6 +7,8 @@
 #'@param output shiny list object for session output
 #'@param session active shiny session
 #'@param DF rhandsontable for cosmetic mapping settings in the shiny app
+#' @importFrom magrittr %>%
+#' @importFrom rhandsontable hot_col hot_to_r renderRHandsontable rhandsontable
 #' @importFrom shiny observe reactiveValues
 
 

@@ -29,6 +29,7 @@
 #'                        output of external files.  Created by `generateInputList.R`
 #'@return `scenarioPrep.list` list of source change scenario setup control settings, data with 
 #'            change factors applied, and the scenarioFlag indicating the scenario mapping area
+#' @importFrom data.table fread fwrite
 
 
 

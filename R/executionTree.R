@@ -19,6 +19,7 @@
 #'@param treeLimit number of lines to print in data.tree
 #'@return `traceProgram` data.table of all function/routine executions and line number of 
 #'            executions after the `startRoutine`
+#' @importFrom data.table := as.data.table data.table fread
 
 
 

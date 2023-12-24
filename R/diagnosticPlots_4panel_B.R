@@ -27,6 +27,8 @@
 #'@param hline function to create horizontal red line
 #'@return 4 panel diagnostic plot of "Residuals","Observed / Predicted Ratio",
 #'"Normal Q-Q Plot","Squared Residuals 
+#' @importFrom gplots lowess
+#' @importFrom magrittr %>%
 #' @importFrom plotly subplot
 
 

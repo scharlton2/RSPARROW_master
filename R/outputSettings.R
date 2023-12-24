@@ -16,6 +16,7 @@
 #'@param save TRUE/FALSE indicating whether control setting values are to be saved to a csv 
 #'       file
 #'@return `settings` data.frame of all user control file settings and setting values
+#' @importFrom data.table fwrite
 
 
 

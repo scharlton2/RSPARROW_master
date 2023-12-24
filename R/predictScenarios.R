@@ -54,6 +54,7 @@
 #'       mode
 #'@param RSPARROW_errorOption yes/no control setting indicating where the RPSARROW_errorOption 
 #'                            should be applied
+#' @importFrom data.table fwrite
 
 
 

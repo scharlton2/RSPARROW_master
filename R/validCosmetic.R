@@ -8,6 +8,8 @@
 #'@param session active shiny session
 #'@param DF rhandsontable for cosmetic mapping settings in the shiny app
 #'@param rowNum rownumbers of invalid settings in the rhandsontables in the shiny app
+#' @importFrom magrittr %>%
+#' @importFrom rhandsontable hot_col hot_context_menu hot_to_r renderRHandsontable rhandsontable
 #' @importFrom shiny observe reactiveValues
 
 

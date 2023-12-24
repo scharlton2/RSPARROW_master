@@ -30,6 +30,7 @@
 #'@param filterClass numeric vector of classvar variable being plotted
 #'@return 4 panel diagnostic plot of "Observed vs Predicted Load","Observed 
 #'vs Predicted Yield","Residuals vs Predicted Load","Residuals vs Predicted Yield"
+#' @importFrom magrittr %>%
 #' @importFrom plotly subplot
 
 

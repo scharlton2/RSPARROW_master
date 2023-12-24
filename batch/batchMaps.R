@@ -74,13 +74,13 @@ if (length(res)!=0){
   suppressWarnings(suppressMessages(library(knitr)))
   suppressWarnings(suppressMessages(library(tools)))
   ##SRC## suppressWarnings(suppressMessages(library(gridExtra)))
-  suppressWarnings(suppressMessages(library(ggplot2)))
-  suppressWarnings(suppressMessages(library(gplots)))
-  suppressWarnings(suppressMessages(library(mapview)))
-  suppressWarnings(suppressMessages(library(leaflet)))
-  suppressWarnings(suppressMessages(library(leaflet.extras)))
-  suppressWarnings(suppressMessages(library(htmltools)))
-  suppressWarnings(suppressMessages(library(htmlwidgets)))
+  ##SRC## suppressWarnings(suppressMessages(library(ggplot2)))
+  ##SRC## suppressWarnings(suppressMessages(library(gplots)))
+  ##SRC## suppressWarnings(suppressMessages(library(mapview)))
+  ##SRC## suppressWarnings(suppressMessages(library(leaflet)))
+  ##SRC## suppressWarnings(suppressMessages(library(leaflet.extras)))
+  ##SRC## suppressWarnings(suppressMessages(library(htmltools)))
+  ##SRC## suppressWarnings(suppressMessages(library(htmlwidgets)))
   
   
   #start sink

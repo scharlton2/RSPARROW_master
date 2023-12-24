@@ -4,6 +4,7 @@
 #'Executed By: shinyMap2.R \cr
 #'@param id Shiny namespace designation
 #'@param input top level interactive user input in Shiny app
+#' @importFrom htmltools h5 HTML
 #' @importFrom shiny NS
 
 

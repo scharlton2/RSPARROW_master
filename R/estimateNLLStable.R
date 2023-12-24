@@ -45,6 +45,8 @@
 #'                          details see documentation Section 5.2.4.14.
 #'@param betavalues data.frame of model parameters from parameters.csv
 #'@param Csites.weights.list regression weights as proportional to incremental area size
+#' @importFrom data.table fwrite
+#' @importFrom stringr str_replace_all
 
 
 estimateNLLStable <- function(file.output.list,if_estimate,if_estimate_simulation,ifHess,if_sparrowEsts,

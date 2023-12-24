@@ -9,6 +9,7 @@
 #'                        output of external files.  Created by `generateInputList.R`
 #'@param batch_mode yes/no character string indicating whether RSPARROW is being run in batch 
 #'       mode
+#' @importFrom data.table fwrite
 
 
 

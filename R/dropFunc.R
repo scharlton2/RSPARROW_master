@@ -8,6 +8,7 @@
 #'@param category variable type from `unique(choices$category)` in the Rshiny app
 #'@param choices data.frame output of function createInteractiveChoices.R
 #' @importFrom shiny actionButton column NS
+#' @importFrom stringr str_split
 
 
 

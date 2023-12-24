@@ -10,6 +10,7 @@
 #'@param path_results path to results model subdirectory
 #'@param choices data.frame output of function createInteractiveChoices.R
 #'@return `out`  list object of all user input within the namespace of the type of map being 
+#' @importFrom stringr str_split
 
 
 

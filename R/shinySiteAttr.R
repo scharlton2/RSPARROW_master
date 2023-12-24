@@ -14,6 +14,7 @@
 #'                sub-section 5.1.2 for details)
 #'@param add_plotlyVars character vector indicating user selected variables to add to plot 
 #'                      hover text
+#' @importFrom htmltools h4 h5 HTML
 #' @importFrom shiny NS
 
 

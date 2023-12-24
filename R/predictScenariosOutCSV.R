@@ -22,6 +22,7 @@
 #'       reduction scenario
 #'@param data_names data.frame of variable metadata from data_Dictionary.csv file
 #'@param scenarioCoefficients user specified model coefficients for the scenario
+#' @importFrom data.table fwrite
 
 
 
